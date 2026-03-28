@@ -21,12 +21,18 @@ echo ""
 # ── Lean 4 (elan + lake) ──
 echo "[2/6] Installing Lean 4 via elan..."
 if ! command -v lean &>/dev/null; then
-    curl https://elan.lean-lang.org/install.sh -sSf | sh -s -- --default-toolchain leanprover-lean4-v4.16.0 -y
+    curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
     export PATH="$HOME/.elan/bin:$PATH"
     echo 'export PATH="$HOME/.elan/bin:$PATH"' >> ~/.bashrc
 else
+    export PATH="$HOME/.elan/bin:$PATH"
     echo "  Lean already installed: $(lean --version)"
 fi
+
+# Use the toolchain that matches Mathlib
+MATHLIB_TOOLCHAIN="leanprover/lean4:v4.29.0-rc8"
+echo "  Setting default toolchain to $MATHLIB_TOOLCHAIN (matches Mathlib)..."
+elan default "$MATHLIB_TOOLCHAIN"
 
 # ── Python env ──
 echo "[3/6] Setting up Python environment..."

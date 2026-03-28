@@ -40,10 +40,13 @@ LLM-assisted formal theorem proving infrastructure, targeting underexplored area
 - [x] Model download/serve scripts written
 - [x] Basic Lean 4 <-> LLM proving loop (`prover.py`) written
 - [x] Example continued fractions theorems created
-- [ ] Cluster environment actually set up (need to VPN in)
-- [ ] Proving model selected and downloaded
-- [ ] Pipeline tested end-to-end on B200 cluster
-- [ ] Continued fractions exploration started
+- [x] Cluster environment set up (Lean 4.29.0, vLLM 0.18.0, 8xB200)
+- [x] Proving models selected: Goedel-Prover-V2-32B + Kimina-Prover-72B (dual-model race)
+- [x] Zaremba's Conjecture formalized in Lean 4 (`lean4-proving/conjectures/zaremba.lean`)
+- [x] Pipeline tested end-to-end: 19/20 small cases proved, Lean-verified, 10-10 model split
+- [ ] Fix d=9 failure (witness search issue)
+- [ ] Extend to d=1..100+
+- [ ] Continued fractions deeper exploration
 
 ## Key Research Context (from Gemini deep research)
 - SOTA proving uses **Reinforcement Learning with Verifiable Rewards (RLVR)** — Lean compiler as binary reward signal
@@ -53,7 +56,7 @@ LLM-assisted formal theorem proving infrastructure, targeting underexplored area
 - Continued fractions / number theory are "highly amenable to MCTS exploration and Lean 4 formalization"
 
 ## Tech Stack
-- **Lean 4** (v4.16.0 via elan) for formal verification
+- **Lean 4** (v4.29.0-rc8 via elan, matching Mathlib) for formal verification
 - **Mathlib** for existing mathematical library
 - **vLLM or SGLang** for model serving (8-way tensor parallel on B200s)
 - **Python** for the proving harness

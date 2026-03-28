@@ -8,3 +8,5 @@ __pycache__/
 .lake/
 lake-packages/
 build/
+models/
+logs/
