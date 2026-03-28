@@ -51,25 +51,32 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>" 2>/dev/nul
 run_zaremba() {
     log "=== EXPERIMENT 1: Zaremba 8B Verification ==="
 
-    # Check if already running
-    if pgrep -f zaremba_verify > /dev/null 2>&1; then
+    # Check if already running (v1 or v2)
+    if pgrep -f "zaremba_v\?e\?r\?i\?f\?y" > /dev/null 2>&1; then
         log "Zaremba verification already running. Waiting for completion..."
-        while pgrep -f zaremba_verify > /dev/null 2>&1; do
+        while pgrep -f "zaremba_v" > /dev/null 2>&1; do
             sleep 60
-            # Show progress
-            for i in $(seq 0 7); do
-                LAST=$(tail -1 logs/gpu${i}_8B.log 2>/dev/null)
-                if [ -n "$LAST" ]; then
-                    echo "  GPU $i: $LAST"
-                fi
+            # Show progress from whichever log dir exists
+            for logdir in logs/v2 logs; do
+                for i in $(seq 0 7); do
+                    LAST=$(tail -1 ${logdir}/gpu${i}*.log 2>/dev/null | head -1)
+                    if [ -n "$LAST" ]; then
+                        echo "  GPU $i: $LAST"
+                    fi
+                done
+                break
             done
         done
     else
-        log "Launching Zaremba verification..."
+        log "Compiling v2 kernel..."
+        nvcc -O3 -arch=sm_100a -o zaremba_v2 scripts/zaremba_verify_v2.cu
+
+        log "Launching Zaremba v2 verification..."
+        mkdir -p logs/v2
         for i in $(seq 0 7); do
             START=$((i * 1000000000 + 1))
             END=$(((i + 1) * 1000000000))
-            CUDA_VISIBLE_DEVICES=$i ./zaremba_verify $START $END > logs/gpu${i}_8B.log 2>&1 &
+            CUDA_VISIBLE_DEVICES=$i ./zaremba_v2 $START $END > logs/v2/gpu${i}.log 2>&1 &
         done
         log "Waiting for all 8 GPUs to finish..."
         wait
@@ -77,14 +84,20 @@ run_zaremba() {
 
     log "Zaremba verification complete!"
 
-    # Collect results
+    # Collect results (check v2 logs first, then v1)
     TOTAL_FAILURES=0
-    TOTAL_RATE=0
     for i in $(seq 0 7); do
-        FAILURES=$(grep "Total failures:" logs/gpu${i}_8B.log 2>/dev/null | awk '{print $NF}' || echo "0")
-        TOTAL_FAILURES=$((TOTAL_FAILURES + FAILURES))
-        RATE=$(grep "d/sec" logs/gpu${i}_8B.log 2>/dev/null | tail -1 | grep -o '[0-9]* d/sec' | awk '{print $1}' || echo "0")
-        log "  GPU $i: failures=$FAILURES"
+        LOGFILE=""
+        if [ -f "logs/v2/gpu${i}.log" ]; then
+            LOGFILE="logs/v2/gpu${i}.log"
+        elif [ -f "logs/gpu${i}_8B.log" ]; then
+            LOGFILE="logs/gpu${i}_8B.log"
+        fi
+        if [ -n "$LOGFILE" ]; then
+            FAILURES=$(grep "Total failures:" "$LOGFILE" 2>/dev/null | awk '{print $NF}' || echo "0")
+            TOTAL_FAILURES=$((TOTAL_FAILURES + FAILURES))
+            log "  GPU $i ($LOGFILE): failures=$FAILURES"
+        fi
     done
 
     log "TOTAL FAILURES: $TOTAL_FAILURES"
@@ -103,6 +116,7 @@ run_zaremba() {
 
     # Copy logs to website data
     mkdir -p "$SITE_DIR/public/data/zaremba-8b/gpu_logs"
+    cp logs/v2/gpu*.log "$SITE_DIR/public/data/zaremba-8b/gpu_logs/" 2>/dev/null || true
     cp logs/gpu*_8B.log "$SITE_DIR/public/data/zaremba-8b/gpu_logs/" 2>/dev/null || true
     cp logs/race-results.log "$SITE_DIR/public/data/zaremba-8b/" 2>/dev/null || true
 
