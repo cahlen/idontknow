@@ -1,19 +1,16 @@
 /*
- * Zaremba Transfer Operator — Chebyshev Collocation
+ * Zaremba Transfer Operator v2 — fully GPU-accelerated
  *
- * Computes the Ruelle transfer operator L_s for the Gauss map restricted
- * to A = {1,...,5} using Chebyshev collocation (numerically stable).
+ * Phase 1: Hausdorff dimension δ (Chebyshev collocation, CPU — tiny matrix)
+ * Phase 2: Congruence spectral gaps (cuBLAS/cuSOLVER, multi-GPU)
  *
- * Phase 1: Hausdorff dimension δ via Bowen's equation λ_0(δ) = 1
- * Phase 2: Spectral gaps of congruence operators L_{δ,m}
+ * All heavy linear algebra on GPU:
+ *   - Matrix construction: GPU kernel
+ *   - Projection: cuBLAS dgemm
+ *   - Eigensolve: cuSOLVER Xgeev
+ *   - Parallelized across 8 GPUs by m
  *
- * Method: Chebyshev nodes x_j on [0,1], barycentric interpolation.
- * Matrix M[i][j] = Σ_{a∈A} (a+x_i)^{-2s} · L_j(1/(a+x_i))
- * where L_j is the j-th Lagrange cardinal function.
- *
- * N=35 gives 15 digits. N=50 gives 25+ digits.
- *
- * Compile: nvcc -O3 -arch=sm_100a -o transfer_op scripts/experiments/zaremba-transfer-operator/transfer_operator.cu -lm
+ * Compile: nvcc -O3 -arch=sm_100a -o transfer_op scripts/experiments/zaremba-transfer-operator/transfer_operator.cu -lcusolver -lcublas -lm
  * Run:     ./transfer_op [N] [phase] [max_m]
  */
 
@@ -23,382 +20,405 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
 #include <cusolverDn.h>
 #include <cublas_v2.h>
 
 #define BOUND 5
 #define MAX_N 200
 
-// Chebyshev nodes on [0,1]
+// ============================================================
+// Phase 1: Hausdorff dimension (CPU — matrix is only 40×40)
+// ============================================================
+
 void chebyshev_nodes(double *x, int N) {
-    for (int j = 0; j < N; j++) {
+    for (int j = 0; j < N; j++)
         x[j] = 0.5 * (1.0 + cos(M_PI * (2.0 * j + 1.0) / (2.0 * N)));
-    }
 }
 
-// Barycentric weights for Chebyshev nodes
 void barycentric_weights(double *w, int N) {
-    for (int j = 0; j < N; j++) {
+    for (int j = 0; j < N; j++)
         w[j] = pow(-1.0, j) * sin(M_PI * (2.0 * j + 1.0) / (2.0 * N));
-    }
 }
 
-// Build the N×N transfer operator matrix via Chebyshev collocation
-// M[i][j] = Σ_{a∈A} (a + x_i)^{-2s} * L_j(1/(a + x_i))
-void build_matrix(double s, int N, double *x, double *bw, double *M) {
+void build_matrix_cpu(double s, int N, double *x, double *bw, double *M) {
     memset(M, 0, N * N * sizeof(double));
-
     for (int a = 1; a <= BOUND; a++) {
         for (int i = 0; i < N; i++) {
-            double y = 1.0 / (a + x[i]);           // image point
-            double ws = pow(a + x[i], -2.0 * s);   // weight (a+x_i)^{-2s}
-
-            // Barycentric interpolation: compute L_j(y) for all j
-            // Check if y coincides with a node
-            int exact_match = -1;
-            for (int k = 0; k < N; k++) {
-                if (fabs(y - x[k]) < 1e-15) {
-                    exact_match = k;
-                    break;
-                }
-            }
-
-            if (exact_match >= 0) {
-                // y == x[exact_match], so L_j(y) = delta_{j, exact_match}
-                M[i + exact_match * N] += ws;
+            double y = 1.0 / (a + x[i]);
+            double ws = pow(a + x[i], -2.0 * s);
+            int exact = -1;
+            for (int k = 0; k < N; k++)
+                if (fabs(y - x[k]) < 1e-15) { exact = k; break; }
+            if (exact >= 0) {
+                M[i + exact * N] += ws;
             } else {
-                // Barycentric formula
                 double denom = 0.0;
                 double numer[MAX_N];
                 for (int j = 0; j < N; j++) {
                     numer[j] = bw[j] / (y - x[j]);
                     denom += numer[j];
                 }
-                for (int j = 0; j < N; j++) {
-                    M[i + j * N] += ws * numer[j] / denom;  // column-major
-                }
+                for (int j = 0; j < N; j++)
+                    M[i + j * N] += ws * numer[j] / denom;
             }
         }
     }
 }
 
-// Full eigenvalue computation using QR algorithm (Householder + Francis shifts)
-// For N ≤ 200, this is fine on CPU. Returns eigenvalues sorted by |λ|.
-// Since we just need the dominant eigenvalue, we use power iteration on GPU
-// as a fast path, and this as verification.
-
-// Power iteration on the ACTUAL matrix (works now because the matrix is well-conditioned)
-double power_iteration(double *M, int N, int max_iter) {
+double power_iteration_cpu(double *M, int N, int iters) {
     double *v = (double*)malloc(N * sizeof(double));
     double *w = (double*)malloc(N * sizeof(double));
-
-    // Initialize with all 1s (the Perron eigenvector should be positive)
     for (int i = 0; i < N; i++) v[i] = 1.0;
-
-    double lambda = 0.0;
-    for (int iter = 0; iter < max_iter; iter++) {
-        // w = M * v
+    double lam = 0.0;
+    for (int it = 0; it < iters; it++) {
         for (int i = 0; i < N; i++) {
-            double sum = 0.0;
-            for (int j = 0; j < N; j++) sum += M[i + j * N] * v[j];
-            w[i] = sum;
+            double s = 0; for (int j = 0; j < N; j++) s += M[i+j*N]*v[j]; w[i]=s;
         }
-
-        // Rayleigh quotient: lambda = v^T M v / v^T v
-        double num = 0.0, den = 0.0;
-        for (int i = 0; i < N; i++) { num += v[i] * w[i]; den += v[i] * v[i]; }
-        lambda = num / den;
-
-        // Normalize w
-        double norm = 0.0;
-        for (int i = 0; i < N; i++) norm += w[i] * w[i];
-        norm = sqrt(norm);
-        for (int i = 0; i < N; i++) v[i] = w[i] / norm;
+        double num=0,den=0;
+        for (int i=0;i<N;i++){num+=v[i]*w[i];den+=v[i]*v[i];}
+        lam=num/den;
+        double norm=0; for(int i=0;i<N;i++) norm+=w[i]*w[i]; norm=sqrt(norm);
+        for(int i=0;i<N;i++) v[i]=w[i]/norm;
     }
-
     free(v); free(w);
-    return lambda;
+    return lam;
 }
 
-// GPU eigenvalue solver using cuSOLVER (for large congruence matrices)
-// Returns top-k eigenvalue magnitudes sorted descending
-void gpu_eigenvalues(double *h_M, int N, double *eig_abs, int k) {
+double compute_hausdorff_dimension(int N) {
+    printf("=== Phase 1: Hausdorff Dimension (N=%d) ===\n\n", N);
+    double *x=(double*)malloc(N*sizeof(double));
+    double *bw=(double*)malloc(N*sizeof(double));
+    double *M=(double*)malloc(N*N*sizeof(double));
+    chebyshev_nodes(x,N); barycentric_weights(bw,N);
+
+    double s_lo=0.5, s_hi=1.0;
+    build_matrix_cpu(s_lo,N,x,bw,M); double l_lo=power_iteration_cpu(M,N,300);
+    build_matrix_cpu(s_hi,N,x,bw,M); double l_hi=power_iteration_cpu(M,N,300);
+    printf("λ_0(%.1f)=%.6f, λ_0(%.1f)=%.6f\n\n",s_lo,l_lo,s_hi,l_hi);
+
+    for(int it=0;it<55;it++){
+        double s=(s_lo+s_hi)/2;
+        build_matrix_cpu(s,N,x,bw,M);
+        double lam=power_iteration_cpu(M,N,300);
+        if(lam>1.0) s_lo=s; else s_hi=s;
+        if(it%10==0||s_hi-s_lo<1e-14)
+            printf("  iter %2d: δ≈%.15f  λ=%.15f  gap=%.2e\n",it,s,lam,s_hi-s_lo);
+        if(s_hi-s_lo<1e-15) break;
+    }
+    double delta=(s_lo+s_hi)/2;
+    printf("\n  *** δ = %.15f ***\n  *** 2δ = %.15f %s ***\n\n",
+           delta, 2*delta, 2*delta>1?"(>1 ✓)":"(≤1 ✗)");
+    free(x);free(bw);free(M);
+    return delta;
+}
+
+// ============================================================
+// Phase 2: Congruence spectral gaps (fully GPU)
+// ============================================================
+
+int is_squarefree(int m){for(int p=2;p*p<=m;p++)if(m%(p*p)==0)return 0;return 1;}
+
+// Find orbits of Gamma_A on (Z/mZ)^2
+int find_orbits(int m, int *orbit_id) {
+    int sd = m*m;
+    for(int j=0;j<sd;j++) orbit_id[j]=-1;
+    int norb=0;
+    int *q=(int*)malloc(sd*sizeof(int));
+    for(int seed=0;seed<sd;seed++){
+        if(orbit_id[seed]>=0) continue;
+        int qf=0,qb=0;
+        q[qb++]=seed; orbit_id[seed]=norb;
+        while(qf<qb){
+            int idx=q[qf++]; int r=idx/m, s=idx%m;
+            for(int a=1;a<=BOUND;a++){
+                int nr=s, ns=(a*s+r)%m, ni=nr*m+ns;
+                if(orbit_id[ni]<0){orbit_id[ni]=norb;q[qb++]=ni;}
+                nr=((a*r-s)%m+m)%m; ns=r; ni=nr*m+ns;
+                if(orbit_id[ni]<0){orbit_id[ni]=norb;q[qb++]=ni;}
+            }
+        }
+        norb++;
+    }
+    free(q);
+    return norb;
+}
+
+// Per-GPU worker for a single m value
+typedef struct {
+    int m;
+    int gpu_id;
+    int N_poly;
+    double delta;
+    double *x, *bw;  // Chebyshev data (shared, read-only)
+    // Results
+    double lam_triv, lam_non, gap;
+    int num_orbits;
+    int status;  // 0=ok, -1=skip, -2=error
+} WorkerArgs;
+
+void* congruence_worker(void *arg) {
+    WorkerArgs *w = (WorkerArgs*)arg;
+    int m = w->m;
+    int N = w->N_poly;
+    double delta = w->delta;
+    int sd = m * m;
+    int full_dim = N * sd;
+
+    if (full_dim > 30000) { w->status = -1; return NULL; }
+
+    cudaSetDevice(w->gpu_id);
+
+    // Find orbits on CPU (fast, small)
+    int *orbit_id = (int*)malloc(sd * sizeof(int));
+    w->num_orbits = find_orbits(m, orbit_id);
+
+    // Build full congruence matrix on CPU
+    size_t mat_bytes = (size_t)full_dim * full_dim * sizeof(double);
+    double *h_M = (double*)calloc((size_t)full_dim * full_dim, sizeof(double));
+    if (!h_M) { w->status = -2; free(orbit_id); return NULL; }
+
+    double *Ma = (double*)malloc(N * N * sizeof(double));
+    int *perm = (int*)malloc(sd * sizeof(int));
+
+    for (int a = 1; a <= BOUND; a++) {
+        // Build single-digit Chebyshev matrix
+        memset(Ma, 0, N * N * sizeof(double));
+        for (int i = 0; i < N; i++) {
+            double y = 1.0 / (a + w->x[i]);
+            double ws = pow(a + w->x[i], -2.0 * delta);
+            int exact = -1;
+            for (int k = 0; k < N; k++)
+                if (fabs(y - w->x[k]) < 1e-15) { exact = k; break; }
+            if (exact >= 0) { Ma[i + exact * N] = ws; }
+            else {
+                double den = 0; double num[MAX_N];
+                for (int j = 0; j < N; j++) { num[j] = w->bw[j]/(y-w->x[j]); den += num[j]; }
+                for (int j = 0; j < N; j++) Ma[i + j * N] = ws * num[j] / den;
+            }
+        }
+
+        // Build perm
+        for (int r = 0; r < m; r++)
+            for (int s = 0; s < m; s++)
+                perm[r*m+s] = s*m + ((a*s+r)%m);
+
+        // Kronecker: h_M += Ma ⊗ P_a
+        for (int i = 0; i < N; i++)
+            for (int k = 0; k < N; k++) {
+                double v = Ma[i + k * N];
+                if (fabs(v) < 1e-300) continue;
+                for (int j = 0; j < sd; j++) {
+                    int row = i*sd+j, col = k*sd+perm[j];
+                    h_M[row + (size_t)col * full_dim] += v;
+                }
+            }
+    }
+    free(Ma); free(perm);
+
+    // Build non-trivial projector Q_non on CPU (small: sd × sd)
+    double *Q_non = (double*)malloc((size_t)sd * sd * sizeof(double));
+    int *orb_size = (int*)calloc(w->num_orbits, sizeof(int));
+    for (int j = 0; j < sd; j++) orb_size[orbit_id[j]]++;
+    for (int i = 0; i < sd; i++)
+        for (int j = 0; j < sd; j++)
+            Q_non[i + (size_t)j * sd] = ((i==j)?1.0:0.0) -
+                ((orbit_id[i]==orbit_id[j]) ? 1.0/orb_size[orbit_id[i]] : 0.0);
+    free(orb_size); free(orbit_id);
+
+    // === ALL ON GPU FROM HERE ===
+
+    // Upload M and Q_non to GPU
+    double *d_M, *d_Qnon, *d_tmp, *d_Mnon;
+    cudaMalloc(&d_M, mat_bytes);
+    cudaMalloc(&d_tmp, mat_bytes);
+    cudaMalloc(&d_Mnon, mat_bytes);
+    cudaMemcpy(d_M, h_M, mat_bytes, cudaMemcpyHostToDevice);
+
+    // Build P_non = I_N ⊗ Q_non on GPU and do projection via cuBLAS
+    // Instead of building the full P_non, apply Q_non block-wise:
+    // M_non = (I⊗Q) * M * (I⊗Q)
+
+    // Upload Q_non
+    double *d_Q;
+    cudaMalloc(&d_Q, (size_t)sd * sd * sizeof(double));
+    cudaMemcpy(d_Q, Q_non, (size_t)sd * sd * sizeof(double), cudaMemcpyHostToDevice);
+    free(Q_non);
+
+    // Build full P_non = I_N ⊗ Q_non on GPU (full_dim × full_dim)
+    // P_non[(i*sd+j), (k*sd+l)] = delta_{ik} * Q_non[j,l]
+    double *d_Pnon;
+    cudaMalloc(&d_Pnon, mat_bytes);
+    cudaMemset(d_Pnon, 0, mat_bytes);
+
+    // Fill P_non block-diagonally: for each i, copy Q_non into the (i,i) block
+    for (int i = 0; i < N; i++) {
+        // Copy Q_non (sd×sd) into d_Pnon at block (i,i)
+        // Block starts at row i*sd, col i*sd
+        for (int col = 0; col < sd; col++) {
+            cudaMemcpy(d_Pnon + (i*sd) + (size_t)(i*sd + col) * full_dim,
+                       d_Q + (size_t)col * sd,
+                       sd * sizeof(double), cudaMemcpyDeviceToDevice);
+        }
+    }
+    cudaFree(d_Q);
+
+    // GPU projection: M_non = P_non * M * P_non using cuBLAS dgemm
+    cublasHandle_t cublas;
+    cublasCreate(&cublas);
+    double one = 1.0, zero = 0.0;
+
+    // tmp = M * P_non
+    cublasDgemm(cublas, CUBLAS_OP_N, CUBLAS_OP_N,
+                full_dim, full_dim, full_dim,
+                &one, d_M, full_dim, d_Pnon, full_dim,
+                &zero, d_tmp, full_dim);
+
+    // M_non = P_non * tmp
+    cublasDgemm(cublas, CUBLAS_OP_N, CUBLAS_OP_N,
+                full_dim, full_dim, full_dim,
+                &one, d_Pnon, full_dim, d_tmp, full_dim,
+                &zero, d_Mnon, full_dim);
+
+    cublasDestroy(cublas);
+    cudaFree(d_Pnon);
+    cudaFree(d_tmp);
+
+    // GPU eigensolve on full_M (trivial eigenvalue)
     cusolverDnHandle_t cusolver;
     cusolverDnCreate(&cusolver);
     cusolverDnParams_t params;
     cusolverDnCreateParams(&params);
 
-    double *d_M;
-    cudaMalloc(&d_M, (size_t)N * N * sizeof(double));
-    cudaMemcpy(d_M, h_M, (size_t)N * N * sizeof(double), cudaMemcpyHostToDevice);
+    double *d_W_full, *d_W_non;
+    cudaMalloc(&d_W_full, 2 * full_dim * sizeof(double));
+    cudaMalloc(&d_W_non, 2 * full_dim * sizeof(double));
 
-    // W holds eigenvalues as complex pairs (real, imag interleaved)
-    // For real nonsymmetric matrix, eigenvalues can be complex
-    // cusolverDnXgeev stores them as separate real/imag arrays
-    double *d_W;  // 2*N doubles: real part then imag part
-    cudaMalloc(&d_W, 2 * N * sizeof(double));
-
-    // Query workspace
-    size_t d_work_size = 0, h_work_size = 0;
-    cusolverDnXgeev_bufferSize(
-        cusolver, params,
+    size_t dwork_sz=0, hwork_sz=0;
+    cusolverDnXgeev_bufferSize(cusolver, params,
         CUSOLVER_EIG_MODE_NOVECTOR, CUSOLVER_EIG_MODE_NOVECTOR,
-        (int64_t)N,
-        CUDA_R_64F, d_M, (int64_t)N,
-        CUDA_C_64F, d_W,
-        CUDA_R_64F, NULL, (int64_t)N,
-        CUDA_R_64F, NULL, (int64_t)N,
-        CUDA_R_64F,
-        &d_work_size, &h_work_size
-    );
+        (int64_t)full_dim, CUDA_R_64F, d_M, (int64_t)full_dim,
+        CUDA_C_64F, d_W_full, CUDA_R_64F, NULL, (int64_t)full_dim,
+        CUDA_R_64F, NULL, (int64_t)full_dim, CUDA_R_64F,
+        &dwork_sz, &hwork_sz);
 
     void *d_work, *h_work;
-    cudaMalloc(&d_work, d_work_size);
-    h_work = malloc(h_work_size);
+    cudaMalloc(&d_work, dwork_sz);
+    h_work = malloc(hwork_sz > 0 ? hwork_sz : 1);
     int *d_info;
     cudaMalloc(&d_info, sizeof(int));
 
-    cusolverDnXgeev(
-        cusolver, params,
+    // Eigenvalues of full M
+    cusolverDnXgeev(cusolver, params,
         CUSOLVER_EIG_MODE_NOVECTOR, CUSOLVER_EIG_MODE_NOVECTOR,
-        (int64_t)N,
-        CUDA_R_64F, d_M, (int64_t)N,
-        CUDA_C_64F, d_W,
-        CUDA_R_64F, NULL, (int64_t)N,
-        CUDA_R_64F, NULL, (int64_t)N,
-        CUDA_R_64F,
-        d_work, d_work_size, h_work, h_work_size, d_info
-    );
+        (int64_t)full_dim, CUDA_R_64F, d_M, (int64_t)full_dim,
+        CUDA_C_64F, d_W_full, CUDA_R_64F, NULL, (int64_t)full_dim,
+        CUDA_R_64F, NULL, (int64_t)full_dim, CUDA_R_64F,
+        d_work, dwork_sz, h_work, hwork_sz, d_info);
     cudaDeviceSynchronize();
 
-    // Copy eigenvalues back — they're stored as complex doubles (re, im pairs)
-    double *h_W = (double*)malloc(2 * N * sizeof(double));
-    cudaMemcpy(h_W, d_W, 2 * N * sizeof(double), cudaMemcpyDeviceToHost);
+    // Eigenvalues of M_non
+    // Need fresh workspace size for M_non (same dim, should be same)
+    cusolverDnXgeev(cusolver, params,
+        CUSOLVER_EIG_MODE_NOVECTOR, CUSOLVER_EIG_MODE_NOVECTOR,
+        (int64_t)full_dim, CUDA_R_64F, d_Mnon, (int64_t)full_dim,
+        CUDA_C_64F, d_W_non, CUDA_R_64F, NULL, (int64_t)full_dim,
+        CUDA_R_64F, NULL, (int64_t)full_dim, CUDA_R_64F,
+        d_work, dwork_sz, h_work, hwork_sz, d_info);
+    cudaDeviceSynchronize();
 
-    // Compute magnitudes
-    double *abs_vals = (double*)malloc(N * sizeof(double));
-    for (int i = 0; i < N; i++) {
-        double re = h_W[2 * i];
-        double im = h_W[2 * i + 1];
-        abs_vals[i] = sqrt(re * re + im * im);
+    // Download eigenvalues
+    double *h_W_full = (double*)malloc(2*full_dim*sizeof(double));
+    double *h_W_non = (double*)malloc(2*full_dim*sizeof(double));
+    cudaMemcpy(h_W_full, d_W_full, 2*full_dim*sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_W_non, d_W_non, 2*full_dim*sizeof(double), cudaMemcpyDeviceToHost);
+
+    // Find max |eigenvalue| for each
+    double max_full = 0, max_non = 0;
+    for (int i = 0; i < full_dim; i++) {
+        double af = sqrt(h_W_full[2*i]*h_W_full[2*i] + h_W_full[2*i+1]*h_W_full[2*i+1]);
+        double an = sqrt(h_W_non[2*i]*h_W_non[2*i] + h_W_non[2*i+1]*h_W_non[2*i+1]);
+        if (af > max_full) max_full = af;
+        if (an > max_non) max_non = an;
     }
 
-    // Sort descending
-    for (int i = 0; i < N; i++)
-        for (int j = i + 1; j < N; j++)
-            if (abs_vals[j] > abs_vals[i]) {
-                double tmp = abs_vals[i]; abs_vals[i] = abs_vals[j]; abs_vals[j] = tmp;
-            }
+    w->lam_triv = max_full;
+    w->lam_non = max_non;
+    w->gap = max_full - max_non;
+    w->status = 0;
 
-    for (int i = 0; i < k && i < N; i++) eig_abs[i] = abs_vals[i];
-
-    free(h_W); free(abs_vals); free(h_work);
-    cudaFree(d_M); cudaFree(d_W); cudaFree(d_work); cudaFree(d_info);
+    // Cleanup
+    free(h_M); free(h_W_full); free(h_W_non); free(h_work);
+    cudaFree(d_M); cudaFree(d_Mnon); cudaFree(d_W_full); cudaFree(d_W_non);
+    cudaFree(d_work); cudaFree(d_info);
     cusolverDnDestroyParams(params);
     cusolverDnDestroy(cusolver);
-}
 
-// Compute second eigenvalue via deflation (CPU, for small matrices)
-double second_eigenvalue(double *M_orig, int N, double lambda0) {
-    double *M = (double*)malloc(N * N * sizeof(double));
-    double *v0 = (double*)malloc(N * sizeof(double));
-    double *w = (double*)malloc(N * sizeof(double));
-
-    memcpy(M, M_orig, N * N * sizeof(double));
-
-    // Get the dominant eigenvector
-    for (int i = 0; i < N; i++) v0[i] = 1.0;
-    for (int iter = 0; iter < 500; iter++) {
-        for (int i = 0; i < N; i++) {
-            double sum = 0.0;
-            for (int j = 0; j < N; j++) sum += M_orig[i + j * N] * v0[j];
-            w[i] = sum;
-        }
-        double norm = 0.0;
-        for (int i = 0; i < N; i++) norm += w[i] * w[i];
-        norm = sqrt(norm);
-        for (int i = 0; i < N; i++) v0[i] = w[i] / norm;
-    }
-
-    // Deflate: M' = M - lambda0 * v0 * v0^T
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < N; j++)
-            M[i + j * N] -= lambda0 * v0[i] * v0[j];
-
-    double lambda1 = power_iteration(M, N, 500);
-
-    free(M); free(v0); free(w);
-    return lambda1;
-}
-
-double compute_hausdorff_dimension(int N) {
-    printf("=== Phase 1: Hausdorff Dimension (Chebyshev, N=%d) ===\n\n", N);
-
-    double *x = (double*)malloc(N * sizeof(double));
-    double *bw = (double*)malloc(N * sizeof(double));
-    double *M = (double*)malloc(N * N * sizeof(double));
-
-    chebyshev_nodes(x, N);
-    barycentric_weights(bw, N);
-
-    // Bisection: find s where λ_0(s) = 1
-    double s_lo = 0.5, s_hi = 1.0;
-
-    build_matrix(s_lo, N, x, bw, M);
-    double lam_lo = power_iteration(M, N, 300);
-    printf("λ_0(%.3f) = %.15f\n", s_lo, lam_lo);
-
-    build_matrix(s_hi, N, x, bw, M);
-    double lam_hi = power_iteration(M, N, 300);
-    printf("λ_0(%.3f) = %.15f\n\n", s_hi, lam_hi);
-
-    if ((lam_lo - 1.0) * (lam_hi - 1.0) > 0) {
-        printf("ERROR: λ_0 does not cross 1 in [%.3f, %.3f]\n", s_lo, s_hi);
-        printf("λ_lo=%.6f, λ_hi=%.6f — both on same side of 1\n", lam_lo, lam_hi);
-        free(x); free(bw); free(M);
-        return -1.0;
-    }
-
-    printf("Bisecting for δ...\n");
-    for (int iter = 0; iter < 55; iter++) {
-        double s_mid = (s_lo + s_hi) / 2.0;
-        build_matrix(s_mid, N, x, bw, M);
-        double lam = power_iteration(M, N, 300);
-
-        if (lam > 1.0)
-            s_lo = s_mid;
-        else
-            s_hi = s_mid;
-
-        if (iter % 5 == 0 || s_hi - s_lo < 1e-14)
-            printf("  iter %2d: s = %.15f  λ_0 = %.15f  gap = %.2e\n",
-                   iter, s_mid, lam, s_hi - s_lo);
-
-        if (s_hi - s_lo < 1e-15) break;
-    }
-
-    double delta = (s_lo + s_hi) / 2.0;
-
-    // Compute spectral data at δ
-    build_matrix(delta, N, x, bw, M);
-    double lam0 = power_iteration(M, N, 500);
-    double lam1 = second_eigenvalue(M, N, lam0);
-
-    printf("\n========================================\n");
-    printf("  δ = %.15f\n", delta);
-    printf("  2δ = %.15f %s\n", 2 * delta, 2 * delta > 1 ? "(> 1 ✓)" : "(≤ 1 ✗)");
-    printf("  λ_0(δ) = %.15f (should be ≈ 1)\n", lam0);
-    printf("  λ_1(δ) = %.15f\n", lam1);
-    printf("  Spectral gap: %.15f\n", fabs(lam0) - fabs(lam1));
-    printf("  |λ_1/λ_0| = %.15f\n", fabs(lam1) / fabs(lam0));
-    printf("========================================\n");
-
-    free(x); free(bw); free(M);
-    return delta;
-}
-
-// Check if m is squarefree
-int is_squarefree(int m) {
-    for (int p = 2; p * p <= m; p++)
-        if (m % (p * p) == 0) return 0;
-    return 1;
-}
-
-// Build single-digit matrix M_a for congruence operator
-void build_single_digit_matrix(int a, double s, int N, double *x, double *bw, double *Ma) {
-    memset(Ma, 0, N * N * sizeof(double));
-    for (int i = 0; i < N; i++) {
-        double y = 1.0 / (a + x[i]);
-        double ws = pow(a + x[i], -2.0 * s);
-
-        int exact_match = -1;
-        for (int k = 0; k < N; k++) {
-            if (fabs(y - x[k]) < 1e-15) { exact_match = k; break; }
-        }
-
-        if (exact_match >= 0) {
-            Ma[i + exact_match * N] += ws;
-        } else {
-            double denom = 0.0;
-            double numer[MAX_N];
-            for (int j = 0; j < N; j++) {
-                numer[j] = bw[j] / (y - x[j]);
-                denom += numer[j];
-            }
-            for (int j = 0; j < N; j++) {
-                Ma[i + j * N] += ws * numer[j] / denom;
-            }
-        }
-    }
+    return NULL;
 }
 
 void compute_congruence_gaps(double delta, int N_poly, int max_m) {
-    printf("\n=== Phase 2: Congruence Spectral Gaps ===\n");
-    printf("δ = %.15f, polynomial N = %d, max m = %d\n\n", delta, N_poly, max_m);
+    printf("\n=== Phase 2: Congruence Spectral Gaps (multi-GPU) ===\n");
+    printf("δ = %.15f, N_poly = %d, max m = %d\n\n", delta, N_poly, max_m);
 
+    int device_count;
+    cudaGetDeviceCount(&device_count);
+    printf("GPUs: %d\n\n", device_count);
+
+    // Shared Chebyshev data
     double *x = (double*)malloc(N_poly * sizeof(double));
     double *bw = (double*)malloc(N_poly * sizeof(double));
     chebyshev_nodes(x, N_poly);
     barycentric_weights(bw, N_poly);
 
-    // For each square-free m, build L_{δ,m} and find spectral gap
-    printf("%4s  %8s  %12s  %12s  %12s  %12s\n",
-           "m", "dim", "|λ_0|", "|λ_1|", "gap", "gap/|λ_0|");
-    printf("----  --------  ------------  ------------  ------------  ------------\n");
+    printf("%4s  %8s  %6s  %12s  %12s  %12s  %12s\n",
+           "m", "dim", "orbits", "|λ_triv|", "|λ_non|", "gap", "gap/triv");
+    printf("----  --------  ------  ------------  ------------  ------------  ------------\n");
 
-    for (int m = 2; m <= max_m; m++) {
-        if (!is_squarefree(m)) continue;
+    // Collect square-free m values
+    int m_vals[500];
+    int n_m = 0;
+    for (int m = 2; m <= max_m && n_m < 500; m++)
+        if (is_squarefree(m)) m_vals[n_m++] = m;
 
-        int state_dim = m * m;
-        int full_dim = N_poly * state_dim;
+    // Process in batches of device_count (one m per GPU)
+    for (int batch = 0; batch < n_m; batch += device_count) {
+        int batch_size = device_count;
+        if (batch + batch_size > n_m) batch_size = n_m - batch;
 
-        if (full_dim > 5000) {
-            printf("%4d  %8d  (too large, skipping)\n", m, full_dim);
-            continue;
+        WorkerArgs args[8];
+        pthread_t threads[8];
+
+        // Launch workers
+        for (int i = 0; i < batch_size; i++) {
+            args[i].m = m_vals[batch + i];
+            args[i].gpu_id = i;
+            args[i].N_poly = N_poly;
+            args[i].delta = delta;
+            args[i].x = x;
+            args[i].bw = bw;
+            args[i].status = -1;
+            pthread_create(&threads[i], NULL, congruence_worker, &args[i]);
         }
 
-        // Build full congruence matrix via Kronecker structure
-        size_t mat_bytes = (size_t)full_dim * full_dim * sizeof(double);
-        double *full_M = (double*)calloc(full_dim * full_dim, sizeof(double));
-        if (!full_M) { printf("%4d  ALLOC FAIL\n", m); continue; }
+        // Wait and print results
+        for (int i = 0; i < batch_size; i++) {
+            pthread_join(threads[i], NULL);
+            int m = args[i].m;
+            int sd = m * m;
+            int fd = N_poly * sd;
 
-        double *Ma = (double*)malloc(N_poly * N_poly * sizeof(double));
-        int *perm = (int*)malloc(state_dim * sizeof(int));
-
-        for (int a = 1; a <= BOUND; a++) {
-            build_single_digit_matrix(a, delta, N_poly, x, bw, Ma);
-
-            // Build permutation: (r,s) → (s, (a*s+r) mod m)
-            for (int r = 0; r < m; r++)
-                for (int s = 0; s < m; s++)
-                    perm[r * m + s] = s * m + ((a * s + r) % m);
-
-            // Kronecker product: full_M += Ma ⊗ P_a
-            for (int i = 0; i < N_poly; i++) {
-                for (int k = 0; k < N_poly; k++) {
-                    double ma_val = Ma[i + k * N_poly];
-                    if (fabs(ma_val) < 1e-300) continue;
-                    for (int j = 0; j < state_dim; j++) {
-                        int l = perm[j];
-                        int row = i * state_dim + j;
-                        int col = k * state_dim + l;
-                        full_M[row + (size_t)col * full_dim] += ma_val;
-                    }
-                }
+            if (args[i].status == -1) {
+                printf("%4d  %8d  %6s  (skipped)\n", m, fd, "-");
+            } else if (args[i].status == -2) {
+                printf("%4d  %8d  %6s  (alloc fail)\n", m, fd, "-");
+            } else {
+                printf("%4d  %8d  %6d  %12.6f  %12.6f  %12.6f  %12.6f\n",
+                       m, fd, args[i].num_orbits,
+                       args[i].lam_triv, args[i].lam_non,
+                       args[i].gap, args[i].gap / args[i].lam_triv);
             }
         }
-
-        // Find eigenvalues on GPU
-        double eigs[5] = {0};
-        gpu_eigenvalues(full_M, full_dim, eigs, 5);
-        double lam0 = eigs[0];
-        double lam1 = eigs[1];
-        double gap = lam0 - lam1;
-
-        printf("%4d  %8d  %12.6f  %12.6f  %12.6f  %12.6f\n",
-               m, full_dim, fabs(lam0), fabs(lam1), gap, gap / fabs(lam0));
-
-        free(full_M); free(Ma); free(perm);
     }
 
     free(x); free(bw);
@@ -407,31 +427,25 @@ void compute_congruence_gaps(double delta, int N_poly, int max_m) {
 int main(int argc, char **argv) {
     int N = argc > 1 ? atoi(argv[1]) : 40;
     int phase = argc > 2 ? atoi(argv[2]) : 3;
-    int max_m = argc > 3 ? atoi(argv[3]) : 20;
+    int max_m = argc > 3 ? atoi(argv[3]) : 50;
 
     printf("========================================\n");
-    printf("  Zaremba Transfer Operator (Chebyshev)\n");
+    printf("  Zaremba Transfer Operator (GPU)\n");
     printf("========================================\n\n");
 
-    struct timespec t_start, t_end;
-    clock_gettime(CLOCK_MONOTONIC, &t_start);
+    struct timespec t0, t1;
+    clock_gettime(CLOCK_MONOTONIC, &t0);
 
     double delta = 0.0;
-
-    if (phase == 1 || phase == 3) {
+    if (phase == 1 || phase == 3)
         delta = compute_hausdorff_dimension(N);
-    }
-
     if (phase == 2 || phase == 3) {
-        if (delta <= 0) delta = 0.836829;  // fallback known value
-        int cong_N = N < 20 ? N : 20;  // smaller N for congruence (matrices get big)
-        compute_congruence_gaps(delta, cong_N, max_m);
+        if (delta <= 0) delta = 0.836829443681208;
+        compute_congruence_gaps(delta, N < 20 ? N : 20, max_m);
     }
 
-    clock_gettime(CLOCK_MONOTONIC, &t_end);
-    double elapsed = (t_end.tv_sec - t_start.tv_sec) +
-                    (t_end.tv_nsec - t_start.tv_nsec) / 1e9;
-
-    printf("\nTotal time: %.1fs\n", elapsed);
+    clock_gettime(CLOCK_MONOTONIC, &t1);
+    double elapsed = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
+    printf("\nTotal: %.1fs\n", elapsed);
     return 0;
 }

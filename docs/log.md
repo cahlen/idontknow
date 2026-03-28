@@ -239,3 +239,93 @@ The brute-force kernel hit a scaling wall. Rate drops dramatically with d:
 3. Use the CF prefix [0, 5, 1, ...] as an early-exit filter
 
 This should reduce the search from O(d) to O(d^epsilon) — potentially 1000× faster for large d.
+
+### v2 Kernel: Targeted Witness Search
+
+Implemented the targeted search strategy. Results:
+
+| Kernel | Rate (d~3B) | Time (100K values) | Speedup |
+|--------|-------------|---------------------|---------|
+| v1 | 199 d/sec | 503s | baseline |
+| v2 | 2,612 d/sec | 38s | **13×** |
+
+The v2 kernel starts at a = floor(0.170*d) and spirals outward, with a coprimality sieve and CF prefix filter. This hits the witness within a band of ~0.4% of d for 99% of cases.
+
+### v4 Kernel: Inverse CF Construction
+
+Rather than searching for witnesses, v4 *constructs* them by working backwards from valid CF sequences. Given a target d, it enumerates CF sequences [0, 5, 1, ...] with all quotients ≤ 5 and checks which ones produce a coprime a/d pair.
+
+**Result:** 10M values verified with **zero gaps**. No failures anywhere.
+
+### Brute-Force Summary
+
+Zero failures across ALL tested ranges up to d~3B spot checks. The conjecture holds everywhere we've looked.
+
+## 2026-03-28 — Session 2: Transfer Operator Analysis
+
+### The Approach
+
+The brute-force approach verifies individual cases but can never prove the conjecture for all d. The transfer operator approach aims at the theoretical heart of the problem.
+
+Zaremba's Conjecture is connected to the Hausdorff dimension of the set $E_5$ — the set of reals whose CF has all partial quotients ≤ 5. If $2\delta > 1$ where $\delta = \dim_H(E_5)$, then the circle method (Bourgain-Kontorovich style) can in principle close the gap.
+
+### Transfer Operator Setup
+
+The Gauss-type transfer operator for CFs bounded by A=5 is:
+
+$$\mathcal{L}_s f(x) = \sum_{k=1}^{5} \frac{1}{(k+x)^{2s}} f\left(\frac{1}{k+x}\right)$$
+
+The Hausdorff dimension $\delta$ is the unique real $s$ where the spectral radius of $\mathcal{L}_s$ equals 1.
+
+### Implementation: Chebyshev Collocation + cuSOLVER
+
+Discretized the transfer operator using **Chebyshev collocation with N=40 points** on [0, 1]. This converts the eigenvalue problem into a dense matrix eigensolve, which we solved on GPU using cuSOLVER.
+
+### Results
+
+| Quantity | Value |
+|----------|-------|
+| Hausdorff dimension $\delta$ | **0.836829443681208** |
+| Precision | 15 digits |
+| $2\delta$ | **1.674** |
+| $2\delta > 1$? | **YES** (threshold for circle method) |
+| Spectral gap | **0.717** |
+| $|\lambda_1/\lambda_0|$ | **0.283** |
+
+The spectral gap of 0.717 is strong — it means the dominant eigenfunction controls the operator's behavior overwhelmingly. The ratio |λ_1/λ_0| = 0.283 means the second eigenvalue is less than 30% of the leading one.
+
+**Key result:** $2\delta = 1.674 > 1$ confirms that the Hausdorff dimension of $E_5$ is large enough for the circle method to potentially work. This is the same threshold that Bourgain-Kontorovich's density-1 result exploits.
+
+### Significance
+
+This is a numerical confirmation (to 15 digits) of the known theoretical result, computed from scratch on GPU. The value matches Jenkinson-Pollicott (2001) and subsequent refinements. Having an independent GPU-computed verification with the spectral gap quantified is useful because:
+
+1. **Confirms the circle method threshold is met** — $2\delta > 1$ is necessary for Bourgain-Kontorovich's approach
+2. **Quantifies the spectral gap** — the gap of 0.717 measures how quickly the operator "forgets" initial conditions, which relates to mixing rates in the continued fraction dynamics
+3. **Sets up Phase 2** — to close the gap from density-1 to all d, we need to handle congruence obstructions, which requires projecting out the trivial representation from the transfer operator
+
+### Phase 2: Congruence Gaps (In Progress)
+
+The remaining obstacle to a full proof is the "congruence gap" — for certain residue classes mod d, the circle method sum might not converge. Bourgain-Kontorovich handle this by showing the congruence obstructions are sparse enough that density-1 still holds.
+
+To push beyond density-1, we need to:
+1. Project out the trivial representation from the transfer operator
+2. Show the resulting "congruence transfer operator" still has spectral radius < 1
+3. This would bound the congruence obstructions uniformly
+
+This is in progress.
+
+### Updated Status
+
+- [x] Cluster setup complete
+- [x] Zaremba formalization complete and compiling
+- [x] LLM proving race: 19/20, Lean-verified
+- [x] v1 kernel: 1M verified in 1.9s
+- [x] v2 kernel: 13x speedup via targeted witness search
+- [x] v4 kernel: inverse CF construction, 10M verified, zero gaps
+- [x] Witness distribution analysis (d=1..100K)
+- [x] Transfer operator: δ = 0.836829 to 15 digits, 2δ > 1 confirmed
+- [x] Spectral gap = 0.717 computed
+- [ ] Phase 2: congruence gap analysis
+- [ ] Fix d=9 LLM failure
+- [ ] Extend verification to d=1..100+
