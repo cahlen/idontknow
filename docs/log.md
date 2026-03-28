@@ -216,3 +216,26 @@ Wrote a CUDA kernel (`scripts/zaremba_verify.cu`) to parallelize verification ac
 If this completes with 0 failures: **Zaremba's Conjecture verified for all d ≤ 8,000,000,000 with A=5.**
 
 This would be (to our knowledge) the largest computational verification of Zaremba's Conjecture ever performed.
+
+### Brute-Force Scaling Wall (7 hours in)
+
+The brute-force kernel hit a scaling wall. Rate drops dramatically with d:
+
+| GPU | Range | Progress | Rate | Projected ETA |
+|-----|-------|----------|------|---------------|
+| 0 | 1-1B | 26% | 10,239 d/sec | ~20 hours |
+| 1 | 1B-2B | 3% | 1,223 d/sec | ~9 days |
+| 2 | 2B-3B | 1% | 603 d/sec | ~19 days |
+| 3 | 3B-4B | 1% | 397 d/sec | ~29 days |
+| 4-7 | 4B-8B | <1% | Even slower | Weeks+ |
+
+**Zero failures across all ranges tested.** The conjecture holds everywhere we've looked.
+
+**Root cause:** For each d, the kernel scans a ≈ d/7 to d/3 until it finds a coprime a with bounded CF quotients. For d ≈ 3B, that's scanning ~430M candidates, each requiring a gcd + CF computation. The search is O(d) per value of d.
+
+**The fix:** Our witness distribution analysis showed a ≈ 0.170*d for 99% of cases. Instead of scanning [d/7, d/3], we should:
+1. Start at a = floor(0.170 * d) and search outward in a narrow band
+2. Skip non-coprime candidates using a small-prime sieve
+3. Use the CF prefix [0, 5, 1, ...] as an early-exit filter
+
+This should reduce the search from O(d) to O(d^epsilon) — potentially 1000× faster for large d.
