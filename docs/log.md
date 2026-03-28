@@ -170,3 +170,49 @@ The 3 unproved sorries:
 - [ ] Fix d=9 (add witness enumeration or more search)
 - [ ] Extend to d=1..100
 - [ ] Continued fractions exploration started
+
+### Attempting Level 3: Prove the Full Conjecture
+
+#### LLM Proof Strategy Attempts
+
+Asked both Goedel-32B and Kimina-72B to propose novel proof strategies with full mathematical context (Bourgain-Kontorovich, Huang, semigroup formulation, Rickards-Stange).
+
+**Goedel-32B:** Spiraled into manual CF computation for 4000 tokens. Tried constructive approaches (find a for each d), correctly identified they don't generalize, but couldn't produce anything novel.
+
+**Kimina-72B:** Extended chain-of-thought reasoning. Explored semigroup, inductive, and Euclidean algorithm approaches. Correctly concluded that approach (b) — effective B-K + computational verification — is most viable. Produced a valid but trivial Lean 4 proof (coprime a/d exists in (0,1), without the CF bound condition).
+
+**Verdict:** Neither model can invent new mathematics. They correctly identify the landscape and known approaches, but cannot produce the novel insight needed to close the gap between density-1 and the full conjecture.
+
+#### Computational Verification: CPU Phase
+
+Verified d=1..1,000,000 on 112 CPU cores: **0 failures** in 751.7s.
+
+#### Witness Distribution Analysis (d=1..100,000)
+
+This is original mathematical data:
+
+- **99.7%** of smallest witnesses have CF starting with `[0, 5, 1, ...]`
+- **99.9%** hit max partial quotient of exactly 5 — the conjecture is tight
+- **Mean a/d = 0.1712**, concentrated in [0.1708, 0.1745] (99% interval)
+- This is close to 1/(5 + 1/(1+...)) — witnesses cluster near a specific CF prefix
+- CF length peaks at 12-13 digits (logarithmic in d)
+- Only d=1..5 can use the trivial witness a=1
+
+**Key insight:** The witness distribution is remarkably concentrated. Almost every d has its smallest witness at a ≈ 0.171*d, with CF starting [0, 5, 1, ...]. This tight clustering suggests deep structural regularity.
+
+#### CUDA-Accelerated Verification: GPU Phase
+
+Wrote a CUDA kernel (`scripts/zaremba_verify.cu`) to parallelize verification across the B200 GPUs.
+
+**Performance:**
+- CPU (112 cores, Python): 1,330 d/sec for d~1M → **751s for 1M**
+- GPU (1x B200, CUDA): 534,000 d/sec for d~1M → **1.9s for 1M**
+- **Speedup: ~400x per GPU, ~3200x total cluster vs CPU**
+
+**Optimization:** Analysis showed 99.9% of witnesses are in [d/7, d/3], so the kernel searches that range first before falling back to full search. Also fixed uint32 overflow for d > 4.3B.
+
+**Current run:** 8 GPUs × 1B each = **8 billion values** being verified in parallel. All 8 B200s at 100% utilization. ETA ~2 hours.
+
+If this completes with 0 failures: **Zaremba's Conjecture verified for all d ≤ 8,000,000,000 with A=5.**
+
+This would be (to our knowledge) the largest computational verification of Zaremba's Conjecture ever performed.
