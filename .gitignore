@@ -1,0 +1,10 @@
+models/
+venv/
+__pycache__/
+*.pyc
+*.gguf
+*.safetensors
+*.wav
+.lake/
+lake-packages/
+build/
