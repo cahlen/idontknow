@@ -49,3 +49,15 @@ flint_hills
 hausdorff_spectrum
 lyapunov_spectrum
 minkowski_spectrum
+
+# Compiled binaries
+cayley_diam
+cayley_gpu
+class_fast
+class_number_rqf
+matrix_enum
+matrix_v6
+ramsey_gpu
+ramsey_inc
+ramsey_search
+transfer_op

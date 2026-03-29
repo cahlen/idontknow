@@ -224,7 +224,12 @@ int main(int argc, char **argv) {
     // Split matrices into small chunks to prevent buffer overflow
     // With 30M matrices per GPU, frontier can exceed 2B at intermediate depths
     // Solution: process in multiple rounds of smaller chunks
-    int num_rounds = (max_d > 1000000000ULL) ? 8 : 1;  // 8 rounds for >1B
+    // Scale rounds with max_d to keep frontier under buffer limit
+    int num_rounds;
+    if (max_d <= 1000000000ULL) num_rounds = 1;
+    else if (max_d <= 10000000000ULL) num_rounds = 8;
+    else if (max_d <= 100000000000ULL) num_rounds = 64;
+    else num_rounds = 256;
     uint64 round_chunk = (total_depth12 + (ngpus * num_rounds) - 1) / (ngpus * num_rounds);
     printf("  Total matrices: %llu, rounds: %d, chunk: %llu, GPUs: %d\n\n",
            (unsigned long long)total_depth12, num_rounds, (unsigned long long)round_chunk, ngpus);
