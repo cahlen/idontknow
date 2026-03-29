@@ -1,0 +1,71 @@
+==========================================
+  Lyapunov Exponent Spectrum
+  Subsets of {1,...,20}: 1048575
+  Chebyshev order N = 40
+  Finite difference eps = 1.0e-06
+  Power iterations = 300
+==========================================
+
+  11264 / 1048575 subsets (1%) -- 1.8s elapsed, ~168.1s remaining  21504 / 1048575 subsets (2%) -- 3.3s elapsed, ~159.3s remaining  31744 / 1048575 subsets (3%) -- 4.9s elapsed, ~156.1s remaining  41984 / 1048575 subsets (4%) -- 6.4s elapsed, ~153.2s remaining  53248 / 1048575 subsets (5%) -- 8.1s elapsed, ~151.1s remaining  63488 / 1048575 subsets (6%) -- 9.7s elapsed, ~149.8s remaining  73728 / 1048575 subsets (7%) -- 11.2s elapsed, ~148.0s remaining  83968 / 1048575 subsets (8%) -- 12.7s elapsed, ~146.2s remaining  95232 / 1048575 subsets (9%) -- 14.4s elapsed, ~144.5s remaining  105472 / 1048575 subsets (10%) -- 16.0s elapsed, ~142.9s remaining  115712 / 1048575 subsets (11%) -- 17.6s elapsed, ~141.5s remaining  125952 / 1048575 subsets (12%) -- 19.1s elapsed, ~140.1s remaining  137216 / 1048575 subsets (13%) -- 20.8s elapsed, ~138.4s remaining  147456 / 1048575 subsets (14%) -- 22.4s elapsed, ~136.8s remaining  157696 / 1048575 subsets (15%) -- 23.9s elapsed, ~135.1s remaining  167936 / 1048575 subsets (16%) -- 25.5s elapsed, ~133.6s remaining  179200 / 1048575 subsets (17%) -- 27.2s elapsed, ~132.0s remaining  189440 / 1048575 subsets (18%) -- 28.8s elapsed, ~130.5s remaining  199680 / 1048575 subsets (19%) -- 30.6s elapsed, ~130.1s remaining  209920 / 1048575 subsets (20%) -- 33.8s elapsed, ~135.1s remaining  221184 / 1048575 subsets (21%) -- 37.4s elapsed, ~139.9s remaining  231424 / 1048575 subsets (22%) -- 40.7s elapsed, ~143.7s remaining  241664 / 1048575 subsets (23%) -- 44.0s elapsed, ~146.9s remaining  251904 / 1048575 subsets (24%) -- 47.3s elapsed, ~149.6s remaining  262144 / 1048575 subsets (25%) -- 50.7s elapsed, ~152.1s remaining  273408 / 1048575 subsets (26%) -- 54.1s elapsed, ~153.4s remaining  283648 / 1048575 subsets (27%) -- 57.3s elapsed, ~154.5s remaining  293888 / 1048575 subsets (28%) -- 60.5s elapsed, ~155.4s remaining  304128 / 1048575 subsets (29%) -- 63.7s elapsed, ~156.0s remaining  315392 / 1048575 subsets (30%) -- 67.3s elapsed, ~156.4s remaining  325632 / 1048575 subsets (31%) -- 70.6s elapsed, ~156.7s remaining  335872 / 1048575 subsets (32%) -- 73.8s elapsed, ~156.6s remaining  346112 / 1048575 subsets (33%) -- 77.0s elapsed, ~156.3s remaining  357376 / 1048575 subsets (34%) -- 80.6s elapsed, ~155.9s remaining  367616 / 1048575 subsets (35%) -- 83.9s elapsed, ~155.4s remaining  377856 / 1048575 subsets (36%) -- 87.2s elapsed, ~154.8s remaining  388096 / 1048575 subsets (37%) -- 90.6s elapsed, ~154.1s remaining  399360 / 1048575 subsets (38%) -- 94.2s elapsed, ~153.1s remaining  409600 / 1048575 subsets (39%) -- 97.4s elapsed, ~152.0s remaining  419840 / 1048575 subsets (40%) -- 100.7s elapsed, ~150.8s remaining  430080 / 1048575 subsets (41%) -- 104.0s elapsed, ~149.6s remaining  441344 / 1048575 subsets (42%) -- 107.6s elapsed, ~148.1s remaining  451584 / 1048575 subsets (43%) -- 111.0s elapsed, ~146.7s remaining  461824 / 1048575 subsets (44%) -- 114.3s elapsed, ~145.2s remaining  472064 / 1048575 subsets (45%) -- 117.6s elapsed, ~143.6s remaining  483328 / 1048575 subsets (46%) -- 121.3s elapsed, ~141.8s remaining  493568 / 1048575 subsets (47%) -- 124.6s elapsed, ~140.2s remaining  503808 / 1048575 subsets (48%) -- 128.0s elapsed, ~138.4s remaining  514048 / 1048575 subsets (49%) -- 131.4s elapsed, ~136.6s remaining  524288 / 1048575 subsets (50%) -- 134.9s elapsed, ~134.9s remaining  535552 / 1048575 subsets (51%) -- 138.3s elapsed, ~132.5s remaining  545792 / 1048575 subsets (52%) -- 141.5s elapsed, ~130.3s remaining  556032 / 1048575 subsets (53%) -- 144.7s elapsed, ~128.2s remaining  566272 / 1048575 subsets (54%) -- 147.9s elapsed, ~126.0s remaining  577536 / 1048575 subsets (55%) -- 151.5s elapsed, ~123.5s remaining  587776 / 1048575 subsets (56%) -- 154.7s elapsed, ~121.3s remaining  598016 / 1048575 subsets (57%) -- 158.0s elapsed, ~119.0s remaining  608256 / 1048575 subsets (58%) -- 161.2s elapsed, ~116.7s remaining  619520 / 1048575 subsets (59%) -- 164.8s elapsed, ~114.1s remaining  629760 / 1048575 subsets (60%) -- 168.1s elapsed, ~111.8s remaining  640000 / 1048575 subsets (61%) -- 171.4s elapsed, ~109.4s remaining  650240 / 1048575 subsets (62%) -- 174.7s elapsed, ~107.0s remaining  661504 / 1048575 subsets (63%) -- 178.4s elapsed, ~104.4s remaining  671744 / 1048575 subsets (64%) -- 181.6s elapsed, ~101.9s remaining  681984 / 1048575 subsets (65%) -- 184.8s elapsed, ~99.4s remaining  692224 / 1048575 subsets (66%) -- 188.1s elapsed, ~96.9s remaining  703488 / 1048575 subsets (67%) -- 191.8s elapsed, ~94.1s remaining  713728 / 1048575 subsets (68%) -- 195.1s elapsed, ~91.5s remaining  723968 / 1048575 subsets (69%) -- 198.5s elapsed, ~89.0s remaining  734208 / 1048575 subsets (70%) -- 201.7s elapsed, ~86.4s remaining  745472 / 1048575 subsets (71%) -- 205.4s elapsed, ~83.5s remaining  755712 / 1048575 subsets (72%) -- 208.8s elapsed, ~80.9s remaining  765952 / 1048575 subsets (73%) -- 212.1s elapsed, ~78.3s remaining  776192 / 1048575 subsets (74%) -- 215.5s elapsed, ~75.6s remaining  786432 / 1048575 subsets (75%) -- 219.0s elapsed, ~73.0s remaining  797696 / 1048575 subsets (76%) -- 222.5s elapsed, ~70.0s remaining  807936 / 1048575 subsets (77%) -- 225.7s elapsed, ~67.2s remaining  818176 / 1048575 subsets (78%) -- 229.1s elapsed, ~64.5s remaining  828416 / 1048575 subsets (79%) -- 232.3s elapsed, ~61.7s remaining  839680 / 1048575 subsets (80%) -- 236.0s elapsed, ~58.7s remaining  849920 / 1048575 subsets (81%) -- 239.3s elapsed, ~55.9s remaining  860160 / 1048575 subsets (82%) -- 242.6s elapsed, ~53.1s remaining  870400 / 1048575 subsets (83%) -- 245.9s elapsed, ~50.3s remaining  881664 / 1048575 subsets (84%) -- 249.6s elapsed, ~47.3s remaining  891904 / 1048575 subsets (85%) -- 252.9s elapsed, ~44.4s remaining  902144 / 1048575 subsets (86%) -- 256.3s elapsed, ~41.6s remaining  912384 / 1048575 subsets (87%) -- 259.7s elapsed, ~38.8s remaining  923648 / 1048575 subsets (88%) -- 263.4s elapsed, ~35.6s remaining  933888 / 1048575 subsets (89%) -- 266.7s elapsed, ~32.8s remaining  944128 / 1048575 subsets (90%) -- 270.1s elapsed, ~29.9s remaining  954368 / 1048575 subsets (91%) -- 273.4s elapsed, ~27.0s remaining  965632 / 1048575 subsets (92%) -- 277.1s elapsed, ~23.8s remaining  975872 / 1048575 subsets (93%) -- 280.5s elapsed, ~20.9s remaining  986112 / 1048575 subsets (94%) -- 284.0s elapsed, ~18.0s remaining  996352 / 1048575 subsets (95%) -- 287.3s elapsed, ~15.1s remaining  1007616 / 1048575 subsets (96%) -- 291.1s elapsed, ~11.8s remaining  1017856 / 1048575 subsets (97%) -- 294.5s elapsed, ~8.9s remaining  1028096 / 1048575 subsets (98%) -- 298.0s elapsed, ~5.9s remaining  1038336 / 1048575 subsets (99%) -- 301.4s elapsed, ~3.0s remaining  1048575 / 1048575 subsets (100%) -- 305.0s elapsed, ~0.0s remaining
+
+  Done: 1048575 subsets in 305.0 seconds
+  Output: scripts/experiments/lyapunov-spectrum/results/spectrum_n20.csv
+
+=== Verification ===
+  lambda({1})       = 0.962423649442101 (singleton expected ~0.962423650119207, diff = 6.77e-10)
+  lambda({2})       = 1.762747174227641 (singleton expected ~1.762747174039086, diff = 1.89e-10)
+  lambda({1,2})     = 1.200855543226353
+  spectral_radius({1,2}, s=1) = 0.561326919954468
+  lambda({1,...,5}) = 1.566832782351479
+  spectral_radius({1,...,5}, s=1) = 0.769020343332783
+  Monotonicity: lambda({1,2})=1.200856 < lambda({1,2,3})=1.362020 : PASS
+
+=== Lyapunov Exponent by Cardinality ===
+  |A|  count      min            mean           max
+  ---  -----  -------------  -------------  -------------
+    1     20  0.96242364944  4.33261130655  5.99644589983
+    2    190  1.01159096788  3.71086319304  5.94281587052
+    3   1140  1.06291886914  3.33494802970  5.88524903034
+    4   4845  1.11650633439  3.07532048930  5.82323167553
+    5  15504  1.17244758002  2.88298144803  5.75614946730
+    6  38760  1.23082753489  2.73396700609  5.68326026817
+    7  77520  1.29171534669  2.61480716439  5.60365738567
+    8  125970  1.35515509747  2.51722465365  5.51621892697
+    9  167960  1.42115236978  2.43580462922  5.41953658839
+   10  184756  1.48965466629  2.36683542877  5.31181326613
+   11  167960  1.53789720631  2.30767844133  5.19071195848
+   12  125970  1.58746362550  2.25640190098  5.05312625565
+   13  77520  1.63991687391  2.21155663146  4.89482001109
+   14  38760  1.69521997245  2.17203281169  4.70984013123
+   15  15504  1.75313481066  2.13696526190  4.48951956367
+   16   4845  1.80965940350  2.10566896349  4.22071120121
+   17   1140  1.86073629418  2.07759405666  3.88255251638
+   18    190  1.91305394057  2.05229374845  3.44061636381
+   19     20  1.96265763770  2.02940099113  2.83875028029
+   20      1  2.00861124755  2.00861124755  2.00861124755
+
+=== Spectral Radius at s=1 by Cardinality ===
+  |A|  count      min            mean           max
+  ---  -----  -------------  -------------  -------------
+    1     20  0.00248757758  0.04334470571  0.38196601125
+    2    190  0.00524243720  0.08749443684  0.56132691995
+    3   1140  0.00831001680  0.13227330985  0.66184320205
+    4   4845  0.01174664919  0.17756045785  0.72539793262
+    5  15504  0.01562302739  0.22326599374  0.76902034333
+    6  38760  0.02002907855  0.26932039990  0.80075501787
+    7  77520  0.02508096083  0.31566855222  0.82485567533
+    8  125970  0.03093134232  0.36226595544  0.84377148912
+    9  167960  0.03778490167  0.40907620313  0.85900858281
+   10  184756  0.04592241438  0.45606918216  0.87154271878
+   11  167960  0.05573949835  0.50321975980  0.88203330509
+   12  125970  0.06781151272  0.55050679896  0.89094174417
+   13  77520  0.08300758641  0.59791240469  0.89860044661
+   14  38760  0.10270278935  0.64542133814  0.90525490404
+   15  15504  0.12920146714  0.69302055483  0.91109032393
+   16   4845  0.16665825021  0.74069883653  0.91624904637
+   17   1140  0.22331275605  0.78844649501  0.92084225793
+   18    190  0.31771973004  0.83625513149  0.92495806662
+   19     20  0.49940481680  0.88411743991  0.92866719066
+   20      1  0.93202704470  0.93202704470  0.93202704470
+
+  Metadata: scripts/experiments/lyapunov-spectrum/results/metadata_n20.json
