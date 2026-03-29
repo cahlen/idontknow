@@ -44,3 +44,8 @@ zaremba_verify_v4
 
 # Other
 *.wav
+erdos_straus
+flint_hills
+hausdorff_spectrum
+lyapunov_spectrum
+minkowski_spectrum

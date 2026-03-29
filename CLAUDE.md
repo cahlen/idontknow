@@ -52,6 +52,9 @@ Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristi
 ### Kronecker Coefficients (Planned)
 GPU-accelerated computation to n=120 for geometric complexity theory.
 
+### Hausdorff Dimension Spectrum (In Progress — RTX 5090)
+First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A ⊆ {1,...,20}. Transfer operator + Chebyshev collocation on RTX 5090. Validated against Jenkinson-Pollicott (E_{1,2}) and Zaremba (E_{1,...,5}). Dataset does not exist anywhere in the literature.
+
 ## Publishing Pipeline
 Results from this repo are published to **bigcompute.science** (sibling repo):
 1. Run experiment here (CUDA kernel, LLM prover, etc.)
