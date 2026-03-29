@@ -1,0 +1,73 @@
+==========================================
+  Flint Hills Series: S_N = Σ 1/(n³sin²n)
+  N = 1000000000 (1e+09)
+==========================================
+
+=== Phase 1: Spike terms (quad-double precision) ===
+
+    k           p_k           q_k         sin(p_k)             term       log10
+  ---  ----------  ----------  ---------------  ---------------  ----------
+    0             3             1     1.411200e-01     1.859769e+00      0.2695
+    1            22             7    -8.851309e-03     1.198718e+00      0.0787
+    2           333           106    -8.821166e-03     3.480289e-04     -3.4584
+    3           355           113    -3.014435e-05     2.459818e+01      1.3909
+    4        103993         33102    -1.912934e-05     2.429897e-06     -5.6144
+    5        104348         33215    -1.101502e-05     7.253994e-06     -5.1394
+    6        208341         66317     8.114318e-06     1.679468e-06     -5.7748
+    7        312689         99532     2.900699e-06     3.887378e-06     -5.4103
+    8        833719        265381     2.312919e-06     3.225670e-07     -6.4914
+    9       1146408        364913    -5.877800e-07     1.921113e-06     -5.7164
+   10       4272943       1360120    -5.495795e-07     4.243827e-08     -7.3722
+   11       5419351       1725033    -3.820048e-08     4.305471e-06     -5.3660
+   12      80143857      25510582    -1.477285e-08     8.901453e-09     -8.0505
+   13     165707065      52746197    -8.654781e-09     2.934031e-09     -8.5325
+   14     245850922      78256779     6.118065e-09     1.797862e-09     -8.7452
+   15     411557987     131002976     2.536716e-09     2.229273e-09     -8.6518
+
+  Spike total: 2.765703802403641e+01 (16 convergents in range)
+
+  Phase 1 time: 0.170 seconds
+
+=== Phase 2: Bulk summation (double precision, Kahan) ===
+
+  N =       1000000: S_N = 30.3145461197 (bulk=2.6575080957 spike=27.6570380240 spike=91.2%)
+  N =      10000000: S_N = 30.3145461197 (bulk=2.6575080957 spike=27.6570380240 spike=91.2%)
+  N =     100000000: S_N = 30.3145461197 (bulk=2.6575080957 spike=27.6570380240 spike=91.2%)
+  10.0% — 0.0s elapsed, ~0.2s remaining      20.0% — 0.0s elapsed, ~0.1s remaining      30.0% — 0.1s elapsed, ~0.1s remaining      40.0% — 0.1s elapsed, ~0.1s remaining      50.0% — 0.1s elapsed, ~0.1s remaining      60.0% — 0.1s elapsed, ~0.1s remaining      70.0% — 0.1s elapsed, ~0.1s remaining      80.0% — 0.1s elapsed, ~0.0s remaining      90.0% — 0.2s elapsed, ~0.0s remaining      N =    1000000000: S_N = 30.3145461214 (bulk=2.6575080973 spike=27.6570380240 spike=91.2%)
+  100.0% — 0.2s elapsed, ~0.0s remaining    
+
+=== Final Result ===
+  S_1000000000 = 30.314546121377216
+  Bulk contribution:  2.657508097340805
+  Spike contribution: 27.657038024036410
+  Spike as % of total: 91.2336%
+  Total runtime: 0.3 seconds
+
+=== Spike Growth Rate Analysis ===
+  (If ratios < 1 consistently → spikes shrinking → evidence for convergence)
+
+    k           p_k          Delta_k         ratio     trend
+  ---  ----------  ---------------  ------------  --------
+    0             3     1.859769e+00  0.000000e+00       ---
+    1            22     1.198718e+00  6.445519e-01    SHRINK
+    2           333     3.480289e-04  2.903343e-04    SHRINK
+    3           355     2.459818e+01  7.067856e+04      GROW
+    4        103993     2.429897e-06  9.878361e-08    SHRINK
+    5        104348     7.253994e-06  2.985309e+00      GROW
+    6        208341     1.679468e-06  2.315232e-01    SHRINK
+    7        312689     3.887378e-06  2.314648e+00      GROW
+    8        833719     3.225670e-07  8.297804e-02    SHRINK
+    9       1146408     1.921113e-06  5.955701e+00      GROW
+   10       4272943     4.243827e-08  2.209046e-02    SHRINK
+   11       5419351     4.305471e-06  1.014526e+02      GROW
+   12      80143857     8.901453e-09  2.067475e-03    SHRINK
+   13     165707065     2.934031e-09  3.296126e-01    SHRINK
+   14     245850922     1.797862e-09  6.127616e-01    SHRINK
+   15     411557987     2.229273e-09  1.239958e+00      GROW
+
+=== Verification ===
+  sin(355) = -3.014435335948845e-05 (expected ~-3.014e-5)
+  S_N is strictly increasing: bulk terms all positive ✓
+  Kahan compensated summation used for bulk ✓
+
+  Metadata: scripts/experiments/flint-hills/results/metadata.json
