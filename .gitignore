@@ -12,3 +12,7 @@ models/
 logs/
 logs/
 transfer_op
+check_transitivity
+exp_sum
+minor_arc
+transfer_op
