@@ -7,10 +7,10 @@
   "q_range": [-10.0, 10.0],
   "q_step": 0.01,
   "num_q_values": 2001,
-  "f_alpha_max": -0.170582351615080,
-  "alpha_at_fmax": -0.699145959838976,
-  "alpha_support": [1000000000000000019884624838656.000000000000000, -1000000000000000019884624838656.000000000000000],
-  "gpu_time_seconds": 11.1,
+  "f_alpha_max": 0.986968567657053,
+  "alpha_at_fmax": 1.425803031624157,
+  "alpha_support": [0.746721800467132, 4.458709286597440],
+  "gpu_time_seconds": 4.9,
   "novel": true,
   "description": "First numerical computation of the multifractal singularity spectrum of Minkowski ?(x)"
 }

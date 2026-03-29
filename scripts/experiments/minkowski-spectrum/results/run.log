@@ -6,21 +6,22 @@
 ==========================================
 
   Launching 63 blocks x 32 threads (2001 q-values, each with bisection)...
-  GPU computation: 11.1 seconds
+  GPU computation: 4.9 seconds
 
   Output: scripts/experiments/minkowski-spectrum/results/spectrum.csv
 
 === Singularity Spectrum Summary ===
-  max f(α)   = -0.170582351615080 (should be ≤ 1)
-  at α       = -0.699145959838976
-  at q       = -6.2600
-  α_min      = 1000000000000000019884624838656.000000000000000
-  α_max      = -1000000000000000019884624838656.000000000000000
+  max f(α)   = 0.986968567657053 (should be ≤ 1)
+  at α       = 1.425803031624157
+  at q       = 0.0000
+  α_min      = 0.746721800467132
+  α_max      = 4.458709286597440
 
 === Verification ===
   τ(0) = 0.986968567657053 (should = dim_H(E_{1,...,50}))
-  τ(1) = 0.715670328557658 (should = 1 for the Minkowski measure)
-  f(α) at peak should be 1 (dimension of full support)
+  τ(1) = -0.000000000000001 (should = 0 for probability normalization)
+  f(α) at peak should ≈ τ(0) ≈ 0.986969 (dim of support with 50 digits)
+  α_min should ≈ 0.72 (golden ratio point: log2/(2·log(φ)))
 
-  GPU time: 11.1 seconds
+  GPU time: 4.9 seconds
   Metadata: scripts/experiments/minkowski-spectrum/results/metadata.json

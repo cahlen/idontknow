@@ -53,22 +53,26 @@ __device__ void d_barycentric_weights(double *w, int N) {
  * The 2^{-q} factor is the same for all a, so factor it out:
  * M = 2^{-q} * Σ_a (a+x_i)^{-2s} L_j(1/(a+x_i))
  *
- * But the eigenvalue equation λ(L_{q,s}) = 1 becomes:
- * 2^{-q} * λ(L_s) = 1, i.e., λ(L_s) = 2^q
- * where L_s is the standard CF transfer operator.
+ * The correct weighted operator for Minkowski multifractal analysis:
+ *   L_{q,s} f(x) = Σ_a 2^{-qa} (a+x)^{-2s} f(1/(a+x))
  *
- * So τ(q) = unique s where λ_0(s) = 2^q.
- * This is simpler: we can reuse the standard operator and just change the target!
+ * τ(q) = unique s where leading eigenvalue of L_{q,s} = 1.
+ * The 2^{-qa} factor weights each CF branch by the Minkowski measure mass.
+ *
+ * Checkpoints: τ(0) = dim_H(E_{1,...,A_max}), τ(1) = 0 (normalization).
  */
 
-__device__ void d_build_matrix(int A_max, double s,
+#define LOG2 0.6931471805599453
+
+__device__ void d_build_matrix(int A_max, double q, double s,
                                int N, double *x, double *bw, double *M) {
     for (int i = 0; i < N * N; i++) M[i] = 0.0;
 
     for (int a = 1; a <= A_max; a++) {
+        double mink_weight = exp(-q * a * LOG2);  /* 2^{-qa} */
         for (int i = 0; i < N; i++) {
             double y = 1.0 / (a + x[i]);
-            double ws = pow(a + x[i], -2.0 * s);
+            double ws = mink_weight * pow(a + x[i], -2.0 * s);
 
             int exact = -1;
             for (int k = 0; k < N; k++)
@@ -113,9 +117,10 @@ __device__ double d_power_iteration(double *M, int N, int iters) {
     return lam;
 }
 
-/* ---- Device: Find τ(q) = unique s where λ_0(s) = 2^q ----
- * Uses bisection, just like the Hausdorff dimension computation
- * but with target = 2^q instead of target = 1.
+/* ---- Device: Find τ(q) = unique s where λ_0(q,s) = 1 ----
+ * Uses bisection on the weighted operator L_{q,s}.
+ * λ_0(q,s) is decreasing in s for fixed q.
+ * τ(0) = dim_H(E_{1,...,A_max}), τ(1) = 0.
  */
 
 __device__ double d_compute_tau(double q, int A_max, int N) {
@@ -123,34 +128,26 @@ __device__ double d_compute_tau(double q, int A_max, int N) {
     d_chebyshev_nodes(x, N);
     d_barycentric_weights(bw, N);
 
-    double target = pow(2.0, q);
     double M[MAX_N * MAX_N];
 
-    /* Bisection: find s where λ_0(s) = target
-     * λ_0(s) is decreasing in s.
-     * For q > 0: target > 1, so τ(q) < dim_H (need smaller s where λ is bigger)
-     * For q < 0: target < 1, so τ(q) > dim_H
-     * For q = 0: target = 1, so τ(0) = dim_H(E_{1,...,A_max})
-     */
+    double s_lo = -20.0, s_hi = 20.0;
 
-    double s_lo = -5.0, s_hi = 5.0;
-
-    /* Verify bracket */
-    d_build_matrix(A_max, s_lo, N, x, bw, M);
+    /* Verify bracket: λ(q, s_lo) > 1 and λ(q, s_hi) < 1 */
+    d_build_matrix(A_max, q, s_lo, N, x, bw, M);
     double l_lo = d_power_iteration(M, N, POWER_ITERS);
-    d_build_matrix(A_max, s_hi, N, x, bw, M);
+    d_build_matrix(A_max, q, s_hi, N, x, bw, M);
     double l_hi = d_power_iteration(M, N, POWER_ITERS);
 
-    if (l_lo < target || l_hi > target) {
+    if (l_lo < 1.0 || l_hi > 1.0) {
         /* Can't bracket — return NaN */
         return 0.0 / 0.0;
     }
 
     for (int it = 0; it < BISECT_ITERS; it++) {
         double s = (s_lo + s_hi) * 0.5;
-        d_build_matrix(A_max, s, N, x, bw, M);
+        d_build_matrix(A_max, q, s, N, x, bw, M);
         double lam = d_power_iteration(M, N, POWER_ITERS);
-        if (lam > target) s_lo = s; else s_hi = s;
+        if (lam > 1.0) s_lo = s; else s_hi = s;
         if (s_hi - s_lo < 1e-15) break;
     }
     return (s_lo + s_hi) * 0.5;
@@ -227,17 +224,22 @@ int main(int argc, char **argv) {
     for (int i = 0; i < num_q; i++)
         h_q[i] = q_min + i * q_step;
 
-    /* α(q) = τ'(q) via central finite differences */
+    /* α(q) = -τ'(q) via central finite differences
+     * f(α) = qα + τ(q) = -qτ'(q) + τ(q)
+     * This gives positive α (Hölder exponents) and f peaking at τ(0).
+     * Skip NaN values from failed bisection brackets.
+     */
     for (int i = 0; i < num_q; i++) {
+        if (isnan(h_tau[i])) { h_alpha[i] = 0.0/0.0; h_f[i] = 0.0/0.0; continue; }
         double dtau;
-        if (i == 0)
-            dtau = (h_tau[1] - h_tau[0]) / q_step;
-        else if (i == num_q - 1)
-            dtau = (h_tau[num_q-1] - h_tau[num_q-2]) / q_step;
+        if (i == 0 || isnan(h_tau[i-1]))
+            dtau = (!isnan(h_tau[i+1])) ? (h_tau[i+1] - h_tau[i]) / q_step : 0.0/0.0;
+        else if (i == num_q - 1 || isnan(h_tau[i+1]))
+            dtau = (h_tau[i] - h_tau[i-1]) / q_step;
         else
             dtau = (h_tau[i+1] - h_tau[i-1]) / (2.0 * q_step);
-        h_alpha[i] = dtau;  /* α = τ'(q), NOT -τ'(q) for this convention */
-        h_f[i] = h_q[i] * h_alpha[i] - h_tau[i];  /* f = qα - τ */
+        h_alpha[i] = -dtau;           /* α = -τ'(q) > 0 since τ is decreasing */
+        h_f[i] = h_q[i] * h_alpha[i] + h_tau[i];  /* f = qα + τ */
     }
 
     /* Write CSV */
@@ -283,8 +285,9 @@ int main(int argc, char **argv) {
     int idx_q1 = (int)((1.0 - q_min) / q_step + 0.5);
     printf("\n=== Verification ===\n");
     printf("  τ(0) = %.15f (should = dim_H(E_{1,...,%d}))\n", h_tau[idx_q0], A_max);
-    printf("  τ(1) = %.15f (should = 1 for the Minkowski measure)\n", h_tau[idx_q1]);
-    printf("  f(α) at peak should be 1 (dimension of full support)\n");
+    printf("  τ(1) = %.15f (should = 0 for probability normalization)\n", h_tau[idx_q1]);
+    printf("  f(α) at peak should ≈ τ(0) ≈ %.6f (dim of support with %d digits)\n", h_tau[idx_q0], A_max);
+    printf("  α_min should ≈ 0.72 (golden ratio point: log2/(2·log(φ)))\n");
 
     printf("\n  GPU time: %.1f seconds\n", gpu_time);
 
