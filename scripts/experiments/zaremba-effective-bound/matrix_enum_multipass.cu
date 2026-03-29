@@ -102,7 +102,7 @@ void *process_chunk(void *arg) {
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
-    for (int depth = 0; depth < 30 && num > 0; depth++) {
+    for (int depth = 0; depth < 50 && num > 0; depth++) {
         cudaMemset(d_out_count, 0, sizeof(unsigned long long));
         int blocks = (num + BLOCK_SIZE - 1) / BLOCK_SIZE;
         expand_mark_compact<<<blocks, BLOCK_SIZE>>>(
@@ -221,34 +221,43 @@ int main(int argc, char **argv) {
         cudaMemcpy(gpu_bitsets[g], h_bitset, bitset_words * sizeof(uint32), cudaMemcpyHostToDevice);
     }
 
-    // Split matrices into chunks, one per GPU
-    uint64 chunk_size = (total_depth12 + ngpus - 1) / ngpus;
-    printf("  Total matrices: %llu, chunk: %llu, GPUs: %d\n\n",
-           (unsigned long long)total_depth12, (unsigned long long)chunk_size, ngpus);
+    // Split matrices into small chunks to prevent buffer overflow
+    // With 30M matrices per GPU, frontier can exceed 2B at intermediate depths
+    // Solution: process in multiple rounds of smaller chunks
+    int num_rounds = (max_d > 1000000000ULL) ? 8 : 1;  // 8 rounds for >1B
+    uint64 round_chunk = (total_depth12 + (ngpus * num_rounds) - 1) / (ngpus * num_rounds);
+    printf("  Total matrices: %llu, rounds: %d, chunk: %llu, GPUs: %d\n\n",
+           (unsigned long long)total_depth12, num_rounds, (unsigned long long)round_chunk, ngpus);
 
-    ChunkArgs args[8];
-    pthread_t threads[8];
-    for (int g = 0; g < ngpus; g++) {
-        uint64 start = g * chunk_size;
-        uint64 end = start + chunk_size;
-        if (end > total_depth12) end = total_depth12;
-        if (start >= total_depth12) { args[g].chunk_size = 0; continue; }
+    for (int round = 0; round < num_rounds; round++) {
+        printf("  Round %d/%d:\n", round+1, num_rounds);
+        ChunkArgs args[8];
+        pthread_t threads[8];
+        int active = 0;
+        for (int g = 0; g < ngpus; g++) {
+            uint64 slot = round * ngpus + g;
+            uint64 start = slot * round_chunk;
+            uint64 end = start + round_chunk;
+            if (end > total_depth12) end = total_depth12;
+            if (start >= total_depth12) { args[g].chunk_size = 0; continue; }
 
-        args[g].gpu_id = g;
-        args[g].chunk_data = h_matrices + start * 4;
-        args[g].chunk_size = end - start;
-        args[g].d_bitset = gpu_bitsets[g];
-        args[g].max_d = max_d;
-        args[g].bitset_words = bitset_words;
+            args[g].gpu_id = g;
+            args[g].chunk_data = h_matrices + start * 4;
+            args[g].chunk_size = end - start;
+            args[g].d_bitset = gpu_bitsets[g];
+            args[g].max_d = max_d;
+            args[g].bitset_words = bitset_words;
 
-        printf("  GPU %d: %llu matrices\n", g, (unsigned long long)args[g].chunk_size);
-        pthread_create(&threads[g], NULL, process_chunk, &args[g]);
-    }
+            printf("    GPU %d: %llu matrices\n", g, (unsigned long long)args[g].chunk_size);
+            pthread_create(&threads[g], NULL, process_chunk, &args[g]);
+            active++;
+        }
 
-    for (int g = 0; g < ngpus; g++) {
-        if (args[g].chunk_size > 0) {
-            pthread_join(threads[g], NULL);
-            printf("  GPU %d done: %.1fs\n", g, args[g].elapsed);
+        for (int g = 0; g < ngpus; g++) {
+            if (args[g].chunk_size > 0) {
+                pthread_join(threads[g], NULL);
+                printf("    GPU %d done: %.1fs\n", g, args[g].elapsed);
+            }
         }
     }
 

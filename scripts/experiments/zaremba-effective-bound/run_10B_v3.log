@@ -1,0 +1,169 @@
+Zaremba v6 Multi-Pass Verification
+Max d: 10000000000
+
+GPUs: 8
+
+=== Phase A: tree to depth 13 ===
+  depth  2: 25 live
+  depth  3: 125 live
+  depth  4: 625 live
+  depth  5: 3125 live
+  depth  6: 15625 live
+  depth  7: 78125 live
+  depth  8: 390625 live
+  depth  9: 1953125 live
+  depth 10: 9765625 live
+  depth 11: 48828125 live
+  depth 12: 244140625 live
+
+  Downloading 244140625 depth-12 matrices...
+  Phase A done: 4.3s
+
+=== Phase B: expand depth 12→40 in chunks ===
+  Total matrices: 244140625, rounds: 8, chunk: 3814698, GPUs: 8
+
+  Round 1/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 21.0s
+    GPU 1 done: 20.2s
+    GPU 2 done: 20.0s
+    GPU 3 done: 20.0s
+    GPU 4 done: 19.9s
+    GPU 5 done: 19.7s
+    GPU 6 done: 19.6s
+    GPU 7 done: 19.4s
+  Round 2/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 19.8s
+    GPU 1 done: 19.8s
+    GPU 2 done: 19.6s
+    GPU 3 done: 19.6s
+    GPU 4 done: 19.7s
+    GPU 5 done: 19.7s
+    GPU 6 done: 19.7s
+    GPU 7 done: 19.5s
+  Round 3/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 19.1s
+    GPU 1 done: 19.6s
+    GPU 2 done: 19.2s
+    GPU 3 done: 19.0s
+    GPU 4 done: 19.2s
+    GPU 5 done: 19.1s
+    GPU 6 done: 19.3s
+    GPU 7 done: 18.8s
+  Round 4/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 19.1s
+    GPU 1 done: 19.1s
+    GPU 2 done: 19.0s
+    GPU 3 done: 19.0s
+    GPU 4 done: 18.9s
+    GPU 5 done: 18.8s
+    GPU 6 done: 19.1s
+    GPU 7 done: 18.7s
+  Round 5/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 18.5s
+    GPU 1 done: 18.7s
+    GPU 2 done: 18.4s
+    GPU 3 done: 18.7s
+    GPU 4 done: 18.9s
+    GPU 5 done: 18.6s
+    GPU 6 done: 18.9s
+    GPU 7 done: 18.7s
+  Round 6/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 18.9s
+    GPU 1 done: 18.6s
+    GPU 2 done: 18.9s
+    GPU 3 done: 18.8s
+    GPU 4 done: 18.6s
+    GPU 5 done: 18.5s
+    GPU 6 done: 18.9s
+    GPU 7 done: 18.4s
+  Round 7/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814698 matrices
+    GPU 0 done: 18.8s
+    GPU 1 done: 18.7s
+    GPU 2 done: 18.5s
+    GPU 3 done: 18.6s
+    GPU 4 done: 19.1s
+    GPU 5 done: 18.5s
+    GPU 6 done: 18.3s
+    GPU 7 done: 18.7s
+  Round 8/8:
+    GPU 0: 3814698 matrices
+    GPU 1: 3814698 matrices
+    GPU 2: 3814698 matrices
+    GPU 3: 3814698 matrices
+    GPU 4: 3814698 matrices
+    GPU 5: 3814698 matrices
+    GPU 6: 3814698 matrices
+    GPU 7: 3814651 matrices
+    GPU 0 done: 18.5s
+    GPU 1 done: 18.1s
+    GPU 2 done: 17.9s
+    GPU 3 done: 18.1s
+    GPU 4 done: 18.2s
+    GPU 5 done: 17.4s
+    GPU 6 done: 17.3s
+    GPU 7 done: 17.2s
+
+  Merging bitsets...
+
+========================================
+Zaremba v6: d = 1 to 10000000000
+Uncovered: 0
+Time: 178.7s
+ALL d in [1, 10000000000] are Zaremba denominators
+========================================
