@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
     // Double buffer — need space for the expansion step (5x current live)
     // Peak is around depth 11-12 where we have ~50M live, expanding to 250M
     // Allocate 300M slots = 9.6 GB. Fits on B200.
-    uint64 buf_matrices = 2000000000ULL;  // 300M
+    uint64 buf_matrices = 2000000000ULL;  // 2B slots = 64GB per buffer
     if (buf_matrices > max_matrices) buf_matrices = max_matrices;
     uint64 buf_size = buf_matrices * 4 * sizeof(uint64);
     printf("Allocating %.1f GB per buffer (%llu slots)...\n",
@@ -192,7 +192,8 @@ int main(int argc, char **argv) {
     for (int depth = 1; depth < max_depth; depth++) {
         cudaMemset(d_out_count, 0, sizeof(unsigned long long));
 
-        int blocks = (num_matrices + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        uint64 blocks64 = (num_matrices + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        int blocks = (int)(blocks64 > 2147483647 ? 2147483647 : blocks64);
         expand_mark_compact<<<blocks, BLOCK_SIZE>>>(
             d_buf_a, num_matrices,
             d_buf_b, d_out_count,
