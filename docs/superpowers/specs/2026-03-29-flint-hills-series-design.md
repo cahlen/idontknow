@@ -19,11 +19,11 @@ S = Σ_{n=1}^{∞} 1 / (n³ sin²(n))
 
 ### Why It Matters Now
 
-Lopez Zapata (March 2026, arXiv:2603.09719) proved the sharp criterion:
+Lopez Zapata (March 2026, arXiv:2603.09719) established a near-complete criterion:
 
 > S converges **if and only if** the irrationality measure μ(π) ≤ 5/2.
 
-The best known bound is μ(π) ≤ 7.103 (Zeilberger-Zudilin, 2020). If we can demonstrate empirically that S converges, that is strong computational evidence for μ(π) ≤ 2.5 — an extraordinary improvement over the current bound.
+The direction S converges → μ(π) ≤ 5/2 is unconditional (Alekseyev 2011). The reverse direction (μ(π) ≤ 5/2 → S converges) is conditional on resolving Open Problem 5.6 in that paper (a Duffin-Schaeffer type quantitative estimate). The best known bound is μ(π) ≤ 7.103 (Zeilberger-Zudilin, 2020). If we can demonstrate empirically that S converges, that is strong computational evidence for μ(π) ≤ 2.5.
 
 ### Current Frontier
 
@@ -295,7 +295,7 @@ Where Delta_k = 1/(p_k³ sin²(p_k)). If the log ratios are consistently negativ
 
 1. **Argument reduction precision for largest convergent** — n = 6,167,950,454 requires reducing n mod 2π with no cancellation. Quad-double (212 bits) provides ~160 bits of precision after reduction, which is sufficient. If somehow insufficient, we can fall back to computing just that one term on CPU with MPFR for verification.
 
-2. **Accumulation error at 10^10 terms** — Kahan summation in double precision has O(ε) error per step regardless of N, so the accumulated error is ~10^{-16} × max_term. Since max_term ~ 10^13 (the 355 spike), accumulated error is ~10^{-3}. This is acceptable for the bulk, since we track the spike contribution separately at full precision.
+2. **Accumulation error at 10^10 terms** — Kahan summation in double precision has O(ε) error per step regardless of N, so the accumulated error is ~10^{-16} × max_bulk_term. Spike terms (including the dominant n=355 term of ~24.6) are computed separately in quad-double, so the bulk max term is O(1). Accumulated bulk error is ~10^{-16}, well within precision.
 
 3. **Hardware sin/cos precision at large n** — CUDA's `sincos()` loses precision for n > 10^8 due to internal argument reduction limitations. **Decision: use custom argument reduction for all n** (compute n mod 2π via pre-computed double-double π constant). This adds ~10 FP64 ops per term but ensures correctness everywhere. No split path needed.
 
