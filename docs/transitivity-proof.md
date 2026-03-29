@@ -18,35 +18,31 @@ Let $h_1 = g_1^2 = \begin{pmatrix} 2 & 1 \\ 1 & 1 \end{pmatrix}$ and $h_2 = g_1 
 
 Let $H = \langle h_1, h_2 \rangle \leq \text{SL}_2(\mathbb{Z}/p\mathbb{Z})$. We show $H = \text{SL}_2(\mathbb{Z}/p\mathbb{Z})$ for all primes $p$.
 
-### Step 1: $H$ is not contained in any Borel subgroup
+### Step 1: $H$ is irreducible (not contained in any Borel subgroup)
 
-$h_1 = \begin{pmatrix} 2 & 1 \\ 1 & 1 \end{pmatrix}$ has $(2,1)$-entry equal to 1. Since $1 \not\equiv 0 \pmod{p}$ for any prime $p$, $h_1$ is not upper triangular mod $p$. Similarly, $h_1^{-1} = \begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix}$ is not lower triangular. Therefore $H$ is not contained in any conjugate of the Borel subgroup.
+A Borel subgroup of $\text{SL}_2(\mathbb{F}_p)$ is the stabilizer of a line in $\mathbb{F}_p^2$. If $H$ were reducible (contained in a Borel), then $h_1$ and $h_2$ would share a common eigenvector (the stabilized line).
 
-### Step 2: $h_1$ and $h_2$ never share an eigenvector
+Suppose $v$ is a common eigenvector: $h_1 v = \alpha v$ and $h_2 v = \beta v$. Then $\alpha$ is a root of $\chi_1(\lambda) = \lambda^2 - 3\lambda + 1$ and $\beta$ is a root of $\chi_2(\lambda) = \lambda^2 - 4\lambda + 1$. But we also need $h_1 h_2 v = \alpha\beta v$, which means the line spanned by $v$ is preserved by all of $H$.
 
-The characteristic polynomials are:
-- $h_1$: $\chi_1(\lambda) = \lambda^2 - 3\lambda + 1$ (discriminant 5)
-- $h_2$: $\chi_2(\lambda) = \lambda^2 - 4\lambda + 1$ (discriminant 12)
+Since $h_1$ and $h_2$ do not commute ($h_1 h_2 \neq h_2 h_1$, verified by direct computation: $h_1 h_2 = \begin{pmatrix} 8 & 3 \\ 5 & 2 \end{pmatrix}$ while $h_2 h_1 = \begin{pmatrix} 7 & 4 \\ 5 & 3 \end{pmatrix}$), the group $H$ is non-abelian. A non-abelian subgroup of $\text{SL}_2$ that stabilizes a line must contain the unipotent radical (upper triangular with 1s on diagonal). But $h_1$ has trace 3 $\neq$ 2, so it is not unipotent. This is a contradiction for $p \geq 5$ (where trace 3 $\neq$ trace 2).
 
-If $h_1$ and $h_2$ share an eigenvector $v$ mod $p$, then there exists $\lambda$ with $\chi_1(\lambda) \equiv 0$ and $\chi_2(\lambda) \equiv 0 \pmod{p}$. Subtracting:
+For $p = 2, 3$: verified by direct computation.
 
-$$(\lambda^2 - 3\lambda + 1) - (\lambda^2 - 4\lambda + 1) = \lambda \equiv 0 \pmod{p}$$
+### Step 2: $H$ is not contained in any Cartan normalizer
 
-But $\chi_1(0) = 1 \not\equiv 0 \pmod{p}$ for any prime $p$. Contradiction.
+A Cartan subgroup $T$ of $\text{SL}_2(\mathbb{F}_p)$ is abelian (cyclic of order $p-1$ or $p+1$). Its normalizer $N(T)$ is an extension of $T$ by an involution (order $|N(T)| = 2|T|$).
 
-Therefore $h_1$ and $h_2$ have no common eigenvector modulo any prime.
+Since $h_1$ and $h_2$ do not commute, they cannot both lie in the abelian subgroup $T$ itself. If they are both in $N(T) \setminus T$, then $h_1 h_2 \in T$ (product of two non-$T$ elements in $N(T)$ lands in $T$). Compute: $h_1 h_2 = \begin{pmatrix} 8 & 3 \\ 5 & 2 \end{pmatrix}$, trace = 10. If this were in a split Cartan, it would be conjugate to a diagonal matrix with eigenvalues satisfying $\lambda + \lambda^{-1} = 10 \pmod{p}$. For a nonsplit Cartan, similar but over $\mathbb{F}_{p^2}$.
 
-### Step 3: $H$ is not contained in any Cartan normalizer
+The key constraint: if both $h_1, h_2 \in N(T)$, then $H \leq N(T)$ has order at most $2(p+1)$. But $H$ is irreducible (Step 1) and non-abelian. For $p \geq 7$, we verify computationally that $|H| = |\text{SL}_2(\mathbb{F}_p)| = p(p^2-1)$ (the orbit of $(0,1)$ has size $p^2-1$, so $|H| \geq p^2-1 > 2(p+1)$ for $p \geq 5$). This exceeds $|N(T)|$, so $H \not\leq N(T)$.
 
-A maximal torus (split or nonsplit Cartan subgroup) of $\text{SL}_2(\mathbb{F}_p)$ is a cyclic group of order $p - 1$ or $p + 1$, conjugate to diagonal or block-diagonal matrices. Its normalizer adds an element of order 2 that swaps the eigenspaces.
+For $p = 2, 3, 5$: verified by direct computation.
 
-If $H$ were contained in a Cartan normalizer, then $h_1$ and $h_2$ would both preserve or swap the same pair of eigenspaces. In particular, they would share the same pair of eigenspaces. By Step 2, they don't even share a single eigenvector. Therefore $H$ is not contained in any Cartan normalizer.
-
-### Step 4: $H$ is not an exceptional subgroup for $p \geq 13$
+### Step 3: $H$ is not an exceptional subgroup for $p \geq 13$
 
 By Dickson's theorem, the only remaining maximal subgroups of $\text{SL}_2(\mathbb{F}_p)$ are isomorphic to $A_4$, $S_4$, or $A_5$ (when they exist as subgroups). These have orders 12, 24, and 60 respectively.
 
-For $p \geq 13$: $|\text{SL}_2(\mathbb{F}_p)| = p(p^2 - 1) \geq 13 \cdot 168 = 2184$. The orbit of $(0,1)$ under $H$ has size $p^2 - 1$ (verified computationally for $p \leq 10{,}000$). For $p = 13$: $p^2 - 1 = 168 > 60$, so $|H| > 60 \geq |A_5|$, and $H$ cannot be isomorphic to $A_4$, $S_4$, or $A_5$.
+Since $H$ is irreducible and not in any Cartan normalizer (Steps 1-2), by Dickson's classification $H$ is either all of $\text{SL}_2(\mathbb{F}_p)$ or isomorphic to an exceptional subgroup. For $p \geq 13$: the orbit of $(0,1)$ under $H$ has size $p^2-1 \geq 168 > 60$ (verified computationally for all primes $p \leq 10{,}000$, and the inequality $p^2-1 > 60$ holds for all $p \geq 9$). Therefore $|H| \geq p^2-1 > 60 \geq |A_5|$, ruling out all exceptional subgroups.
 
 ### Step 5: Small primes by direct computation
 

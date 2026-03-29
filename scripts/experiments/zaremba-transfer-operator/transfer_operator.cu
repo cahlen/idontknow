@@ -133,7 +133,7 @@ int find_orbits(int m, int *orbit_id) {
             for(int a=1;a<=BOUND;a++){
                 int nr=s_val, ns=(a*s_val+r)%m, ni=nr*m+ns;
                 if(orbit_id[ni]<0){orbit_id[ni]=norb;q[qb++]=ni;}
-                nr=((a*r-s_val)%m+m)%m; ns=r; ni=nr*m+ns;
+                nr=((s_val-a*r)%m+m)%m; ns=r; ni=nr*m+ns;
                 if(orbit_id[ni]<0){orbit_id[ni]=norb;q[qb++]=ni;}
             }
         }
