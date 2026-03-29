@@ -201,11 +201,12 @@ __global__ void bulk_kernel(long long start_n, long long count,
     s_comp[threadIdx.x] = comp;
     __syncthreads();
 
-    /* Tree reduction */
+    /* Tree reduction with proper Kahan merge of both compensations */
     for (int stride = THREADS_PER_BLOCK / 2; stride > 0; stride >>= 1) {
         if (threadIdx.x < stride) {
-            /* Kahan merge of two partial sums */
-            double y = s_sum[threadIdx.x + stride] - s_comp[threadIdx.x];
+            /* Merge (s_sum[tid], s_comp[tid]) with (s_sum[tid+s], s_comp[tid+s]) */
+            double corrected_upper = s_sum[threadIdx.x + stride] - s_comp[threadIdx.x + stride];
+            double y = corrected_upper - s_comp[threadIdx.x];
             double t = s_sum[threadIdx.x] + y;
             s_comp[threadIdx.x] = (t - s_sum[threadIdx.x]) - y;
             s_sum[threadIdx.x] = t;
@@ -422,7 +423,7 @@ int main(int argc, char **argv) {
     /* ---- Verification ---- */
 
     printf("\n=== Verification ===\n");
-    /* sin(355) should be approximately -2.667e-8 */
+    /* sin(355) ≈ -3.014e-5 (since 355 - 113π ≈ 3.014e-5) */
     for (int k = 0; k < NUM_CONVERGENTS; k++) {
         if (h_spikes[k].p_k == 355) {
             printf("  sin(355) = %.15e (expected ~-3.014e-5)\n", h_spikes[k].sin_val);

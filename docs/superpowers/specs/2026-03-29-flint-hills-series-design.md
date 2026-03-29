@@ -35,12 +35,13 @@ The series has "spikes" — terms where n is close to a multiple of π, making s
 
 | Convergent p_k | q_k | Approx |sin(p_k)| | Term magnitude |
 |---|---|---|---|
-| 22 | 7 | 1.2e-3 | 2.7e+3 |
-| 333 | 106 | 3.1e-5 | 2.8e+7 |
-| 355 | 113 | 2.7e-8 | 3.0e+13 |
-| 103993 | 33102 | 5.8e-10 | 2.6e+4 |
-| 833719 | 265381 | 7.5e-9 | 3.1e-1 |
-| 80143857 | 25510582 | 6.2e-10 | 5.0e+0 |
+| 3 | 1 | 1.41e-1 | 1.86e+0 |
+| 22 | 7 | 8.85e-3 | 1.20e+0 |
+| 333 | 106 | 8.82e-3 | 3.48e-4 |
+| 355 | 113 | 3.01e-5 | 2.46e+1 |
+| 103993 | 33102 | 1.91e-5 | 2.43e-6 |
+| 833719 | 265381 | 2.31e-6 | 3.23e-7 |
+| 80143857 | 25510582 | computed at runtime | computed at runtime |
 | 6167950454 | 1963319607 | computed at runtime | computed at runtime |
 
 There are only ~19 convergent numerators below 10^10. These are the terms that determine convergence behavior.
@@ -266,7 +267,7 @@ Where Delta_k = 1/(p_k³ sin²(p_k)). If the log ratios are consistently negativ
 
 ### External Validation
 - **S_{10^5} must match** the published value from arXiv:2510.27041
-- **sin(355) = -2.667..×10^{-8}** is well-known and must match exactly
+- **sin(355) ≈ -3.014×10^{-5}** (since 355 - 113π ≈ 3.014e-5) must match
 - **Individual spike terms** can be verified against Wolfram Alpha for small convergents
 
 ### Cross-Precision Check

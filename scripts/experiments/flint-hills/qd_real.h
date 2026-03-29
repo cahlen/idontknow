@@ -74,13 +74,7 @@ __host__ __device__ inline qd_real qd_renorm(double c0, double c1, double c2,
 /* ---- Addition ---- */
 
 __host__ __device__ inline qd_real qd_add(qd_real a, qd_real b) {
-    /* Merge-sort-like addition of 8 components, then renormalize */
-    int ia = 0, ib = 0;
-    double u[8];
-    /* Interleave by magnitude (approximate — use indices) */
-    for (int i = 0; i < 4; i++) { u[2*i] = a.x[i]; u[2*i+1] = b.x[i]; }
-
-    /* Cascade two-sum from bottom */
+    /* Index-paired cascade addition, then renormalize */
     double s, e;
     double c[5] = {0, 0, 0, 0, 0};
 
