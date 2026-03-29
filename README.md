@@ -1,43 +1,76 @@
-# LLM-Assisted Lean 4 Theorem Proving
+# idontknow
 
-Infrastructure for running AI-assisted formal theorem proving on an 8xB200 cluster, with a focus on underexplored areas of mathematics like continued fractions.
+GPU-accelerated computational mathematics — exploring open conjectures and underexplored areas of math using CUDA kernels, LLM-assisted theorem proving, and heavy compute on NVIDIA hardware.
 
-## Quick Start (B200 Cluster)
+Results are published openly at [bigcompute.science](https://bigcompute.science).
 
-```bash
-git clone git@github.com:cahlen/idontknow.git
-cd idontknow
-chmod +x scripts/*.sh
-./scripts/setup-cluster.sh
-./scripts/download-model.sh <model_id>
-./scripts/serve-model.sh models/<model_name> --engine vllm --tp 8
-# In another terminal:
-python lean4-proving/prover.py --server http://localhost:8000 --file lean4-proving/examples/continued_fractions.lean
-```
+## What's Here
+
+This repository contains the computational engine behind bigcompute.science: CUDA kernels, experiment scripts, Lean 4 formalizations, and LLM proving infrastructure. The goal is to run expensive computations once, publish verifiable results, and make them discoverable by both humans and AI agents.
+
+### Active & Planned Experiments
+
+| Experiment | Method | Status |
+|---|---|---|
+| **Zaremba's Conjecture — 8B verification** | CUDA kernel (brute-force CF enumeration) | In progress |
+| **Zaremba transfer operator** | Chebyshev collocation + cuSOLVER eigensolve | Complete |
+| **Zaremba transitivity** | CUDA + algebraic proof (Dickson classification) | Complete |
+| **MCTS proof search benchmark** | LLM + Lean 4 + Monte Carlo Tree Search | Planned |
+| **Ramsey R(5,5) lower bound** | Simulated annealing + constraint satisfaction | Planned |
+| **Class numbers of real quadratic fields** | CUDA + BSGS + continued fractions | Planned |
+| **Kronecker coefficients to n=120** | CUDA + symmetric group representation theory | Planned |
+
+### Key Results So Far
+
+- **Zaremba brute-force:** 8 billion+ values verified, zero failures
+- **Spectral gaps:** Uniform ≥ 0.237 for all 1,214 square-free moduli m ≤ 1999
+- **Hausdorff dimension:** δ = 0.836829443681208 (15-digit precision)
+- **Transitivity:** Algebraically proved for ALL primes (not just computationally checked)
+- **LLM proving:** 19/20 small Zaremba cases formally proved in Lean 4 (dual-model race)
 
 ## Structure
 
 ```
 scripts/
-  setup-cluster.sh      # One-time cluster setup (Lean 4, Python, Mathlib)
-  download-model.sh     # Download a proving model from HF
-  serve-model.sh        # Serve model via vLLM or SGLang (8-way tensor parallel)
+  experiments/              # Per-experiment CUDA kernels and scripts
+    zaremba-transfer-operator/
+    zaremba-transitivity/
+    zaremba-effective-bound/
+    mcts-proof-search/
+    ramsey-r55/
+    class-numbers/
+    kronecker-coefficients/
+  zaremba_verify_v4.c       # Main brute-force verification kernel
+  setup-cluster.sh          # One-time B200 cluster setup
+  serve-model.sh            # vLLM/SGLang model serving
+  run-zaremba.sh            # Full proving pipeline runner
+  pipeline.sh               # Experiment orchestrator (run + publish)
+  watch-v4.sh               # Auto-publish daemon
+
 lean4-proving/
-  prover.py             # LLM <-> Lean 4 proving loop
-  examples/
-    continued_fractions.lean   # Test theorems for continued fractions
-gguf-pipeline.sh        # GGUF quantization pipeline (for HF contributions)
+  prover.py                 # LLM <-> Lean 4 proving loop
+  conjectures/zaremba.lean  # Formalized Zaremba theorems
+  examples/                 # Test theorems
+
+docs/                       # Research notes, logs, mathematical arguments
+gguf-pipeline.sh            # GGUF quantization for HF model contributions
 ```
-
-## Models to Evaluate
-
-Candidates identified from SOTA research (pending evaluation):
-- **Goedel-Prover** — SOTA formal proof generation, expert iteration trained
-- **BFS-Prover / Seed Prover 1.5** — 72.95% on MiniF2F, streamlined best-first search
-- **DeepSeek-Prover-V2** — strong open-weight Lean 4 prover
-- **Numina-Lean-Agent** — MCP-based Lean 4 interaction, solved Putnam 2025
 
 ## Hardware
 
-- **Cluster**: 8x NVIDIA B200 (~1.4TB VRAM total)
-- **Local**: NVIDIA RTX 5090 32GB / Intel Core Ultra 9 285K / 188GB RAM
+| Environment | GPUs | VRAM | Notes |
+|---|---|---|---|
+| **B200 Cluster** | 8x NVIDIA B200 | 1.43 TB (NVLink 5) | Primary compute |
+| **Local** | RTX 5090 | 32 GB | Development + smaller experiments |
+
+## Security
+
+This repository is designed to be safe for autonomous AI agent commits. See `.gitignore` for excluded patterns. **Never commit:**
+- Private keys, API tokens, passwords, or credentials
+- `.env` files or any file containing secrets
+- Model weights (`.gguf`, `.safetensors`) — these are downloaded, not stored
+
+## Related
+
+- **[bigcompute.science](https://github.com/cahlen/bigcompute.science)** — The publishing platform for experiment results
+- **[bigcompute.science (live)](https://bigcompute.science)** — Published results with agent-consumable formats

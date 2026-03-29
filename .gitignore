@@ -1,18 +1,46 @@
+# Secrets — NEVER commit these
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.secret
+*credentials*
+*token*
+!**/token*.lean
+!**/token*.py
+.netrc
+.npmrc
+.pypirc
+id_rsa*
+id_ed25519*
+*.gpg
+
+# Model weights — downloaded at runtime
 models/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.onnx
+
+# Build artifacts & caches
 venv/
 __pycache__/
 *.pyc
-*.gguf
-*.safetensors
-*.wav
 .lake/
 lake-packages/
 build/
-models/
 logs/
-logs/
+node_modules/
+
+# Compiled CUDA/C binaries
 transfer_op
 check_transitivity
 exp_sum
 minor_arc
-transfer_op
+zaremba_verify_v4
+
+# Other
+*.wav
