@@ -1,0 +1,16 @@
+{
+  "experiment": "lyapunov-exponent-spectrum",
+  "date": "2026-03-29",
+  "hardware": "RTX 5090 32GB",
+  "max_digit": 10,
+  "num_subsets": 1023,
+  "chebyshev_order": 40,
+  "finite_difference_eps": 1.0e-06,
+  "power_iterations": 300,
+  "method": "transfer_operator_chebyshev_collocation",
+  "formula": "lambda = -(log(lam(1+eps)) - log(lam(1))) / eps",
+  "precision_digits": 10,
+  "total_runtime_seconds": 0.5,
+  "novel": true,
+  "description": "First complete Lyapunov exponent spectrum for all subsets of {1,...,10}"
+}
