@@ -1,0 +1,26 @@
+==========================================
+  Minkowski ?(x) Singularity Spectrum
+  A_max = 50, Chebyshev N = 40
+  q range: [-10.0, 10.0], step 0.01 (2001 values)
+  Method: τ(q) = s where λ_0(s) = 2^q
+==========================================
+
+  Launching 63 blocks x 32 threads (2001 q-values, each with bisection)...
+  GPU computation: 11.1 seconds
+
+  Output: scripts/experiments/minkowski-spectrum/results/spectrum.csv
+
+=== Singularity Spectrum Summary ===
+  max f(α)   = -0.170582351615080 (should be ≤ 1)
+  at α       = -0.699145959838976
+  at q       = -6.2600
+  α_min      = 1000000000000000019884624838656.000000000000000
+  α_max      = -1000000000000000019884624838656.000000000000000
+
+=== Verification ===
+  τ(0) = 0.986968567657053 (should = dim_H(E_{1,...,50}))
+  τ(1) = 0.715670328557658 (should = 1 for the Minkowski measure)
+  f(α) at peak should be 1 (dimension of full support)
+
+  GPU time: 11.1 seconds
+  Metadata: scripts/experiments/minkowski-spectrum/results/metadata.json
