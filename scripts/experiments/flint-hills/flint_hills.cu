@@ -425,7 +425,7 @@ int main(int argc, char **argv) {
     /* sin(355) should be approximately -2.667e-8 */
     for (int k = 0; k < NUM_CONVERGENTS; k++) {
         if (h_spikes[k].p_k == 355) {
-            printf("  sin(355) = %.15e (expected ~-2.667e-8)\n", h_spikes[k].sin_val);
+            printf("  sin(355) = %.15e (expected ~-3.014e-5)\n", h_spikes[k].sin_val);
             break;
         }
     }

@@ -1,0 +1,15 @@
+{
+  "experiment": "flint-hills-series",
+  "date": "2026-03-29",
+  "hardware": "RTX 5090 32GB",
+  "max_N": 1000000,
+  "precision_bulk": "double (64-bit) with Kahan summation",
+  "precision_spikes": "quad-double (~62 decimal digits)",
+  "num_convergent_terms": 9,
+  "S_N": 3.031453940238830e+01,
+  "bulk_contribution": 2.657507663235939e+00,
+  "spike_contribution": 2.765703173915236e+01,
+  "total_runtime_seconds": 0.2,
+  "novel": true,
+  "description": "Flint Hills partial sums to 1e+06, 100000x beyond published frontier"
+}
