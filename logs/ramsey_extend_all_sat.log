@@ -1,0 +1,21 @@
+Ramsey R(5,5) — Exhaustive Extension of ALL 656 K₄₂ Colorings
+Date: 2026-03-30
+Method: 4-SAT encoding (42 variables, ~2318 clauses per coloring)
+Solver: Glucose3 (via python-sat)
+
+RESULT: 0 / 656 colorings have valid extensions.
+Time: 3.03 seconds (was estimated 3 hours via GPU brute force)
+
+Key insight: the 2^42 extension search is a 4-SAT instance.
+Each monochromatic K₄ in the base graph becomes one 4-clause.
+SAT solvers handle this trivially — the problem is massively
+overconstrained (~2318 constraints on 42 binary variables).
+
+Expected solutions per coloring: 2^42 × (15/16)^2318 ≈ 10^{-50}
+
+Conclusion: NONE of the 656 known (5,5)-good K₄₂ colorings
+(McKay-Radziszowski database) can be extended to K₄₃.
+This is the strongest computational evidence that R(5,5) = 43.
+
+Note: This does NOT prove R(5,5) = 43. A K₄₃ coloring could
+exist that is NOT an extension of any K₄₂ coloring in the database.
