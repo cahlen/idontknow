@@ -1,0 +1,41 @@
+=== ZAREMBA VERIFICATION ARTIFACT ===
+Date: 2026-03-29
+Claim: R(d) >= 1 for all 1 <= d <= 210,000,000,000
+
+--- Kernel ---
+Source: scripts/experiments/zaremba-effective-bound/matrix_enum_multipass.cu
+5d47ecb8104e0fca41228f556ad24e234d1999791e28c690d46dbb64dee32ec0  scripts/experiments/zaremba-effective-bound/matrix_enum_multipass.cu
+
+--- Build ---
+nvcc -O3 -arch=sm_100a -o matrix_v6 scripts/experiments/zaremba-effective-bound/matrix_enum_multipass.cu -lpthread
+
+--- Run ---
+./matrix_v6 210000000000
+
+--- Output (last 10 lines of log) ---
+    GPU 7 done: 20.9s
+
+  Merging bitsets...
+
+========================================
+Zaremba v6: d = 1 to 210000000000
+Uncovered: 0
+Time: 6962.2s
+ALL d in [1, 210000000000] are Zaremba denominators
+========================================
+
+--- Log checksum ---
+f34685ad264879fee51bf4dd6d631af7118ab5d68508ab658b6f27e7b86ff5b4  scripts/experiments/zaremba-effective-bound/run_210B.log
+
+--- Hardware ---
+8x NVIDIA B200 (183 GB VRAM each), NVLink 5 full mesh
+CUDA 13.0, Driver 580.126.09
+
+--- Reproduction ---
+Any system with >= 25 GB VRAM per GPU and CUDA >= 12.0 can verify.
+Single GPU: ./matrix_v6 1000000000 (1B in ~22s, sanity check)
+Full run: ./matrix_v6 210000000000 (~116 min on 8x B200)
+
+--- Expected output ---
+Uncovered: 0
+ALL d in [1, 210000000000] are Zaremba denominators
