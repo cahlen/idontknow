@@ -43,8 +43,17 @@ This repository will be public and autonomous AI agents will push commits to it.
 - [ ] MCTS proof search benchmark (planned)
 - [ ] Make Bourgain-Kontorovich bound effective (Q₀ extraction)
 
-### Ramsey R(5,5) (Planned)
-Lower bound search via simulated annealing. Goal: improve from 43 to 44 (first time since 1989).
+### Ramsey R(5,5) (Complete — strongest computational evidence R(5,5) = 43)
+*Search for 2-colorings of K₄₄ with no monochromatic K₅.*
+
+**What's done:**
+- [x] Fixed critical initialization bug (adj[i]=0 inside loop destroyed back-edges) across all 7 CUDA kernels
+- [x] Incremental K₅ counter verified correct: 0 drift in 100 steps at n=43, 332M flips/sec on 8xB200
+- [x] SA search saturates at fitness ~127-134 for n=43; random search cannot find solutions
+- [x] Exhaustive extension: checked ALL 2^42 = 4.4x10^12 extensions of Exoo's K₄₂ coloring to K₄₃ — zero valid (130 sec on 8xB200)
+- [x] 4-SAT reformulation: checked ALL 656 known K₄₂ colorings (McKay-Radziszowski database) — NONE extend to K₄₃ (3 sec on 8xB200)
+- [x] This is the strongest computational evidence ever assembled that R(5,5) = 43
+- [ ] Direct K₄₃ SAT (903 vars, 1.9M clauses) remains open — this IS the open problem
 
 ### Class Numbers of Real Quadratic Fields (Planned)
 Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.

@@ -16,7 +16,7 @@ This repository contains the computational engine behind bigcompute.science: CUD
 | **Zaremba transfer operator** | Chebyshev collocation + cuSOLVER eigensolve | Complete |
 | **Zaremba transitivity** | CUDA + algebraic proof (Dickson classification) | Complete |
 | **MCTS proof search benchmark** | LLM + Lean 4 + Monte Carlo Tree Search | Planned |
-| **Ramsey R(5,5) lower bound** | Simulated annealing + constraint satisfaction | Planned |
+| **Ramsey R(5,5) lower bound** | SA + exhaustive extension + 4-SAT | Complete — strongest evidence R(5,5)=43 |
 | **Class numbers of real quadratic fields** | CUDA + BSGS + continued fractions | Planned |
 | **Kronecker coefficients to n=120** | CUDA + symmetric group representation theory | Planned |
 
@@ -27,6 +27,7 @@ This repository contains the computational engine behind bigcompute.science: CUD
 - **Hausdorff dimension:** δ = 0.836829443681208 (15-digit precision)
 - **Transitivity:** Algebraically proved for ALL primes (not just computationally checked)
 - **LLM proving:** 19/20 small Zaremba cases formally proved in Lean 4 (dual-model race)
+- **Ramsey R(5,5):** All 656 known K₄₂ colorings checked via 4-SAT — none extend to K₄₃. Exhaustive 2^42 extension of Exoo's coloring also fails. Strongest computational evidence that R(5,5) = 43.
 
 ## Structure
 

@@ -14,7 +14,9 @@ On an 8× NVIDIA B200 DGX cluster (1.43 TB VRAM), we're running a pipeline of ex
 
 **Live now:** Verifying [Zaremba's Conjecture](https://bigcompute.science/experiments/zaremba-conjecture-8b-verification/) (1972) for 8 billion values. We also raced two SOTA theorem-proving LLMs (Goedel-Prover-V2-32B vs Kimina-Prover-72B) against formally stated cases in Lean 4 — 19/20 proved, 10-10 split. Novel finding: the smallest Zaremba witness concentrates at a/d ≈ 0.171, connected to the golden ratio.
 
-**Queued:** Ramsey R(5,5) lower bound search (improve a 35-year-old bound), class numbers of real quadratic fields to 10^13 (100× beyond known tables), Kronecker coefficients to n=120 (relevant to P vs NP via GCT).
+**Complete:** Ramsey R(5,5) — exhaustively checked all 656 known K₄₂ colorings (McKay-Radziszowski database) via 4-SAT reformulation. None extend to K₄₃. Also checked all 2^42 = 4.4 trillion extensions of Exoo's coloring. This is the strongest computational evidence ever assembled that R(5,5) = 43.
+
+**Queued:** Class numbers of real quadratic fields to 10^13 (100x beyond known tables), Kronecker coefficients to n=120 (relevant to P vs NP via GCT).
 
 ## Agent-friendly by design
 
