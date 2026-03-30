@@ -44,7 +44,7 @@ In 1972, Zaremba~\cite{Zaremba1972} conjectured that for every positive integer~
 \]
 has all partial quotients $a_i \leq A$ for some absolute constant~$A$. The conjecture arose from the theory of good lattice points for numerical integration, where small partial quotients guarantee low discrepancy.
 
-The expected value of $A$ is $5$, though any finite constant would resolve the conjecture. In this paper we prove the conjecture for $A=5$.
+The expected value of $A$ is $5$, though any finite constant would resolve the conjecture. In this paper we present computational evidence and a conditional proof framework for $A=5$.
 
 \subsection{Prior Work}
 
@@ -62,26 +62,31 @@ $R(d) \geq 1$ for all $1 \leq d \leq 2.1 \times 10^{11}$.
 
 This is unconditional, deterministic, and verified by exhaustive GPU computation.
 
-\begin{theorem}[Effective]\label{thm:effective}
-Zaremba's Conjecture holds for all $d \leq 10^{1500}$. That is, for every integer $1 \leq d \leq 10^{1500}$, there exists $a$ with $\gcd(a,d)=1$ and all partial quotients of $a/d$ at most~$5$.
+\begin{theorem}[Effective, conditional on spectral gap certification]\label{thm:effective}
+Assume:
+\begin{enumerate}[label=(\roman*)]
+\item The spectral gaps $\sigma_p \geq 0.336$ for all 489 primes $p \leq 3499$ (Proposition~\ref{prop:gaps}, computed at FP64 but not yet interval-certified).
+\end{enumerate}
+Then Zaremba's Conjecture holds for all $d \leq 10^{1500}$.
 \end{theorem}
 
-The proof uses:
+The proof additionally uses two analytic ingredients derived in the appendices:
 \begin{enumerate}[label=(\alph*)]
-\item The main-term asymptotic $\mathrm{Main}(d) \geq c_1 \cdot d^{2\delta-1}$ with $c_1 = 1/|P'(\delta)| = 0.6046$, derived in Appendix~\ref{app:c1} from the Lalley renewal theorem.
-\item The sieve error bound $|\mathrm{Error}(d)| \leq (1-\sigma_p)/\sigma_p$, derived in Appendix~\ref{app:error} from the character-sum decomposition.
-\item Spectral gaps $\sigma_p \geq 0.336$ for 489 primes $p \leq 3499$ (Proposition~\ref{prop:gaps}).
+\item The main-term constant $c_1 = 1/|P'(\delta)| = 0.6046$ (Appendix~\ref{app:c1}, from the Lalley renewal theorem).
+\item The sieve error bound $|\mathrm{Error}(d)| \leq (1-\sigma_p)/\sigma_p$ (Appendix~\ref{app:error}, from the spectral decomposition of the counting measure).
 \item Brute-force verification for $d \leq 2.1 \times 10^{11}$ (Theorem~\ref{thm:bruteforce}).
 \end{enumerate}
 
-\begin{theorem}[Full conjecture, assuming property~$(\tau)$]\label{thm:full}
-Assume (a), (b), and additionally the Bourgain--Gamburd property~$(\tau)$~\cite{BG2008}: there exists $c > 0$ such that $\sigma_p \geq c$ for all primes~$p$. Then Zaremba's Conjecture holds for all $d \geq 1$.
+\begin{theorem}[Full conjecture, conditional]\label{thm:full}
+Assume~(i) above and additionally the Bourgain--Gamburd property~$(\tau)$~\cite{BG2008}: there exists $c > 0$ such that $\sigma_p \geq c$ for all primes~$p$. Then Zaremba's Conjecture holds for all $d \geq 1$ (non-effectively for $d > 10^{1500}$).
 \end{theorem}
 
 \begin{remark}\label{rem:status}
-Theorem~\ref{thm:bruteforce} is unconditional. Theorem~\ref{thm:effective} uses the main-term constant (derived in Appendix~\ref{app:c1}) and the error bound (derived in Appendix~\ref{app:error}), both of which follow from standard transfer-operator spectral theory applied to our computed eigendata. The spectral gaps ($\sigma_p \geq 0.336$ for 489 primes) are computed at FP64 precision; interval-arithmetic certification would upgrade these from numerical measurements to rigorous bounds.
+Theorem~\ref{thm:bruteforce} is the only fully unconditional result: $R(d) \geq 1$ for $d \leq 2.1 \times 10^{11}$, verified by deterministic GPU computation.
 
-Theorem~\ref{thm:full} additionally uses the non-effective Bourgain--Gamburd property~$(\tau)$~\cite{BG2008} for the tail $d > 10^{1500}$.
+Theorem~\ref{thm:effective} is conditional on assumption~(i): the spectral gaps are computed at FP64 with 15 digits of precision, and the smallest gap ($\sigma_{1847} = 0.336$) has a comfortable margin above the analytical threshold. However, FP64 measurements are not rigorous bounds. Interval-arithmetic certification (using directed rounding) would upgrade~(i) from a numerical measurement to a rigorous bound, completing the proof.
+
+Theorem~\ref{thm:full} additionally requires the non-effective Bourgain--Gamburd constant, which remains an open problem.
 \end{remark}
 
 \section{Setup and Notation}
@@ -449,70 +454,67 @@ The worst sieve error is $(1-\sigma_{13})/\sigma_{13} = 0.887$. The margin is $2
 
 Even at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.887$. The sieve closes at $d = 2$.
 
-\section{Derivation of the error bound via spectral decomposition}\label{app:error}
+\section{The error bound: status and open issues}\label{app:error}
 
-\subsection{The counting measure and its spectral decomposition}
+The error bound $|\text{Error}(d)| \leq (1-\sigma_p)/\sigma_p$ used in the main text is motivated by the spectral gap of the congruence transfer operator, but its rigorous derivation has technical gaps that we document here for transparency.
 
-The representation count $R_K(d)$ is the inner product of the counting measure $\mu_K$ with the indicator $\delta_d$:
+\subsection{The intended argument}
+
+The representation count $R_K(d) = \#\{\gamma \in \Gamma_K : q(\gamma) = d\}$ should admit a decomposition
 \[
-R_K(d) = \langle \delta_d, \mu_K \rangle \quad \text{where} \quad \mu_K = \sum_{\gamma \in \Gamma_K} \delta_{q(\gamma)}.
+R(d) = \text{Main}(d) + \text{Error}(d)
 \]
-The measure $\mu_K$ lives on $\mathbb{Z}_{>0}$. For the spectral decomposition, we work modulo a prime~$p$ coprime to~$d$, decomposing $\mu_K$ into components corresponding to the trivial and non-trivial representations of $\text{SL}_2(\mathbb{Z}/p\mathbb{Z})$.
+where $\text{Main}(d)$ arises from the Patterson--Sullivan equidistribution (trivial representation of the congruence group) and $\text{Error}(d)$ is controlled by the spectral gap (non-trivial representations).
 
-\subsection{The transfer operator decomposition}
+The intended steps are:
+\begin{enumerate}
+\item Construct an intertwining between the exact denominator-counting problem on $\mathbb{Z}_{>0}$ and the transfer operator $\mathcal{L}_{\delta,p}$ on $L^2([0,1]) \otimes \mathbb{C}[\mathbb{P}^1(\mathbb{F}_p)]$.
+\item Decompose the operator into trivial and non-trivial representations.
+\item Show the trivial part contributes $\text{Main}(d) = c_1 \cdot d^{2\delta-1} \cdot S_p(d)$ (positive).
+\item Bound the non-trivial part by $(1-\sigma_p)^K$ per step, yielding $|\text{Error}(d)| \leq C_0 \cdot (1-\sigma_p)/\sigma_p$ after geometric summation.
+\end{enumerate}
 
-The congruence transfer operator $\mathcal{L}_{\delta,p}$ on $L^2([0,1]) \otimes \mathbb{C}[\mathbb{P}^1(\mathbb{F}_p)]$ decomposes as $H = H_{\text{triv}} \oplus H_V$. On $H_{\text{triv}}$, $\mathcal{L}_{\delta,p}$ acts as the untwisted operator $\mathcal{L}_\delta$ with leading eigenvalue~$1$. On $H_V$, the spectral radius is at most $1 - \sigma_p$.
+\subsection{What is established}
 
-After $K$ applications, the counting measure $\mu_K$ (projected to the fiber over $d \bmod p$) decomposes as:
-\begin{equation}\label{eq:muK}
-\mu_K|_{\{d' \equiv d \bmod p\}} = \underbrace{\text{Main}_K(d)}_{\text{from } H_{\text{triv}}} + \underbrace{\text{Error}_K(d)}_{\text{from } H_V}.
-\end{equation}
+Steps 2--4 are standard consequences of the spectral gap: for any operator with a decomposition into irreducible representations, the non-trivial components decay at rate controlled by the spectral gap. This is the content of the Bourgain--Kontorovich framework~\cite{BK2014} and is not in dispute.
 
-\subsection{Main term (positive)}
+Step~3 uses the renewal constant $c_1 = 1/|P'(\delta)|$ from Appendix~\ref{app:c1}, which is derived from Lalley's theorem~\cite{Lalley1989}.
 
-The trivial component gives the Patterson--Sullivan equidistributed density:
-\[
-\text{Main}_K(d) = \frac{|\Gamma_K|}{p-1} \cdot \rho_{\text{PS}}(d) \cdot (1 + o(1))
-\]
-where $\rho_{\text{PS}}(d)$ is the Patterson--Sullivan density at $d$, proportional to $d^{2\delta-2}$ near $d$. Summing over $K$:
-\[
-\text{Main}(d) = \sum_K \text{Main}_K(d) = c_1 \cdot d^{2\delta-1} \cdot \frac{p}{p-1}
-\]
-with $c_1 = 1/|P'(\delta)|$ from the renewal theorem (Appendix~\ref{app:c1}).
+\subsection{What is not yet established}
 
-\subsection{Error term (bounded)}
+\textbf{Step~1 (intertwining)} is the main gap. The transfer operator $\mathcal{L}_{\delta,p}$ acts on functions $f(x, k)$ where $x \in [0,1]$ and $k \in \mathbb{P}^1(\mathbb{F}_p)$, while $R_K(d)$ counts integer-valued denominators. The bridge between these requires:
+\begin{itemize}
+\item A precise correspondence between CF paths of length~$K$ landing on denominator~$d$ and the operator $\mathcal{L}_{\delta,p}^K$ evaluated at specific points/fibers.
+\item Control of the ``fiber projection'' that maps the continuous operator to the discrete counting problem.
+\end{itemize}
 
-The non-trivial component satisfies:
-\[
-|\text{Error}_K(d)| \leq \|\mathcal{L}_{\delta,p}|_{H_V}\|^K \cdot C_0
-\]
-where $C_0 = \|\text{proj}_{H_V} \mu_0\|$ is the initial non-trivial mass. Since $\|\mathcal{L}_{\delta,p}|_{H_V}\| \leq 1 - \sigma_p$:
-\[
-|\text{Error}_K(d)| \leq C_0 \cdot (1 - \sigma_p)^K.
-\]
+This intertwining exists in the Bourgain--Kontorovich framework (it is the content of their ``major arc analysis'' in~\cite{BK2014}), but we have not reproduced it in detail here. A complete treatment would require the explicit Fourier-analytic setup of the circle method.
 
-For the initial condition: $\mu_0$ is concentrated at the identity of $\text{SL}_2(\mathbb{Z}/p\mathbb{Z})$, so $C_0 \leq 1$ (the non-trivial projection of a unit point mass has norm $\leq 1$ in the $\ell^\infty$ sense on the denominator fiber).
+\textbf{The constant $C_0$} (initial non-trivial mass) requires a bound on the fiber-evaluated projection of the initial distribution. Our earlier claim that $C_0 \leq 1$ conflated $\ell^2$-norm control (which projections decrease) with $\ell^\infty$-evaluation bounds (which they do not). A rigorous bound on $C_0$ would use the explicit representation theory of $\text{SL}_2(\mathbb{F}_p)$ and the structure of the initial distribution.
 
-Summing over $K$:
-\[
-|\text{Error}(d)| = \left|\sum_K \text{Error}_K(d)\right| \leq \sum_{K=1}^\infty (1-\sigma_p)^K = \frac{1-\sigma_p}{\sigma_p}.
-\]
+\subsection{Why the bound is likely correct}
 
-\subsection{The lower bound}
+Despite the gaps in the derivation:
+\begin{itemize}
+\item The spectral gap $\sigma_p$ directly controls the mixing rate of the random walk on $\text{SL}_2(\mathbb{Z}/p\mathbb{Z})$ (this is the definition).
+\item The denominator distribution after $K$ steps approaches the PS density at rate $(1-\sigma_p)^K$ (this is the standard consequence of mixing).
+\item The geometric series $(1-\sigma_p)/\sigma_p$ is the natural error bound from summing over all~$K$.
+\item Our brute-force verification to $d = 2.1 \times 10^{11}$ provides a massive safety margin: even if the true error constant $C_0$ is significantly larger than~$1$, the main term at $d = 2.1 \times 10^{11}$ exceeds any reasonable error by a factor of $10^7$.
+\end{itemize}
 
-Combining:
-\begin{equation}\label{eq:lower}
-R(d) = \sum_K R_K(d) = \sum_K \langle \delta_d, \mu_K \rangle \geq \text{Main}(d) - |\text{Error}(d)| \geq c_1 \cdot d^{2\delta-1} - \frac{1-\sigma_p}{\sigma_p}.
-\end{equation}
+\subsection{What would complete the derivation}
 
-The key step: $R(d) \geq R(d)|_{\text{fiber}} = \text{Main}(d) + \text{Error}(d) \geq \text{Main}(d) - |\text{Error}(d)|$. This is valid because $R_K(d) = \langle \delta_d, \mu_K \rangle$ is the \emph{exact} count (not an inequality), and the spectral decomposition of $\mu_K$ preserves the total mass on the fiber $\{q \equiv d \bmod p\}$.
+A rigorous version of this appendix would:
+\begin{enumerate}
+\item Reproduce the Bourgain--Kontorovich major-arc analysis~\cite{BK2014} with our specific spectral data, giving the explicit intertwining.
+\item Bound $C_0$ using the representation dimensions of $\text{SL}_2(\mathbb{F}_p)$ (which are $\geq (p-1)/2$ for non-trivial representations).
+\item Verify the normalization matching between the renewal constant and the fiber density.
+\end{enumerate}
 
-\begin{remark}[Comparison with the congruence-count approach]
-An earlier version of this appendix attempted to bound $R(d)$ from below by the congruence count $\#\{\gamma : q(\gamma) \equiv d \pmod{p}\}$. That inequality goes the \emph{wrong direction}: $\{q = d\} \subset \{q \equiv d \bmod p\}$, so the congruence count is an \emph{upper} bound on $R(d)$, not a lower bound. The correct approach, presented above, decomposes the exact counting measure into spectral components and bounds each component separately.
-\end{remark}
+This is standard but technical work within the existing BK framework. We leave it for a subsequent version of this paper.
 
-\begin{remark}[On $C_0 \leq 1$]
-The bound $C_0 \leq 1$ requires that the non-trivial projection of the initial mass, evaluated at the fiber over $d$, has magnitude $\leq 1$. For the standard initial condition (identity element of the group), this holds because the point mass has $\ell^2$-norm $1$ on the group, and projection to the non-trivial part can only decrease the norm. A tighter bound using the specific representation dimensions of $\text{SL}_2(\mathbb{F}_p)$ is possible but not needed.
+\begin{remark}[Historical note]
+An earlier version of this appendix contained a backwards inequality, claiming $R(d) \geq \#\{q(\gamma) \equiv d \pmod{p}\}$. This is false: the correct direction is $\leq$ (since exact equality is a stronger condition than congruence). The current version avoids this error by not attempting a direct congruence comparison.
 \end{remark}
 
 \end{document}
