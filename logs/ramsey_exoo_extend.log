@@ -1,0 +1,24 @@
+Ramsey R(5,5) — Exhaustive Extension of Exoo's K₄₂ → K₄₃
+Date: 2026-03-30
+Hardware: 8× NVIDIA B200
+
+RESULT: Exoo's K₄₂ CANNOT be extended to K₄₃.
+
+Base graph: Exoo (1989) (5,5)-good coloring of K₄₂
+  - 42 vertices, 435 red edges, 426 blue edges
+  - Verified: 0 monochromatic K₅ (brute-force)
+  - 1,148 red K₄ + 1,170 blue K₄ = 2,318 constraints
+
+Extension search:
+  - Checked: 2^42 = 4,398,046,511,104 extensions (exhaustive)
+  - Rate: 3.39 × 10^10 extensions/sec
+  - Time: 129.6 seconds
+  - Solutions: 0
+
+Conclusion: No way to add a 43rd vertex to Exoo's K₄₂ without creating
+a monochromatic K₅. This specific coloring cannot prove R(5,5) ≥ 44.
+
+Next steps:
+1. Check McKay's full database of 656 (5,5)-good K₄₂ colorings
+2. If none extend: strong evidence R(5,5) = 43
+3. Alternative: search for K₄₃ colorings NOT derived from K₄₂ extension
