@@ -84,9 +84,9 @@ This is fundamentally different from the Bourgain--Kontorovich circle method: it
 
 \textbf{From norm balls to specific denominators.} The denominator $d = q(\gamma)$ satisfies $d \sim \|\gamma\|$. The counting function $N(d) := \#\{\gamma \in \Gamma : q(\gamma) \leq d\}$ satisfies $N(d) \sim c_\Gamma d^{2\delta}$ by~\eqref{eq:mow} (with $q = 1$). Differentiating (Tauberian):
 \[
-R(d) = N(d) - N(d-1) \sim 2\delta \cdot c_\Gamma \cdot d^{2\delta - 1} + O(d^{2\delta - 1 - \varepsilon}).
+R(d) = N(d) - N(d-1) \sim 2\delta \cdot c_\Gamma \cdot d^{2\delta - 1} + O(d^{2\delta - 1 - 2\varepsilon}).
 \]
-The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674 - \varepsilon})$.
+The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674 - 2\varepsilon})$.
 
 \textbf{Pointwise bound.} The MOW error (Theorem~11 of~\cite{MOW2019}) is $O(R^{2(\delta - \varepsilon)})$, which after Tauberian differentiation gives error $O(d^{2\delta-1-2\varepsilon})$. For $R(d) \geq 1$: we need $c_1 \cdot d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-2\varepsilon}$, i.e., $d^{2\varepsilon} > C_{\text{err}}/c_1$. This holds for all $d > D_0 := (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$.
 
@@ -133,7 +133,7 @@ MOW's Theorem~1~\cite{MOW2019} counts semigroup elements $\gamma$ in Euclidean n
 
 \textbf{(a) Norm $\leftrightarrow$ denominator.} For $\gamma = \begin{psmallmatrix} * & * \\ q_{k-1} & q_k \end{psmallmatrix} \in \Gamma$, the Euclidean norm $\|\gamma\| = \sqrt{p_{k-1}^2 + p_k^2 + q_{k-1}^2 + q_k^2}$ satisfies $q_k \leq \|\gamma\| \leq C_0 q_k$ for a constant $C_0$ depending only on $A$ (since the entries are comparable by the CF recurrence). So counting in $B_R$ is equivalent to counting with $q(\gamma) \leq C_0 R$, up to constant factors.
 
-\textbf{(b) From cumulative to individual counts.} The counting function $N(d) = \#\{\gamma : q(\gamma) \leq d\} = c_\Gamma d^{2\delta} + O(d^{2(\delta - \varepsilon)})$. For the individual count $R(d) = N(d) - N(d-1)$: the main term differentiates to $c_\Gamma \cdot 2\delta \cdot d^{2\delta-1}$, but the error does NOT automatically lose one power. Writing $R(d) = [c_\Gamma d^{2\delta} + E(d)] - [c_\Gamma(d-1)^{2\delta} + E(d-1)]$ where $|E(d)| \leq C d^{2\delta-\varepsilon}$:
+\textbf{(b) From cumulative to individual counts.} The counting function $N(d) = \#\{\gamma : q(\gamma) \leq d\} = c_\Gamma d^{2\delta} + O(d^{2(\delta - \varepsilon)})$. For the individual count $R(d) = N(d) - N(d-1)$: the main term differentiates to $c_\Gamma \cdot 2\delta \cdot d^{2\delta-1}$, but the error does NOT automatically lose one power. Writing $R(d) = [c_\Gamma d^{2\delta} + E(d)] - [c_\Gamma(d-1)^{2\delta} + E(d-1)]$ where $|E(d)| \leq C d^{2\delta-2\varepsilon}$ (matching the MOW Theorem~11 exponent $2(\delta-\varepsilon)$):
 \[
 R(d) = c_\Gamma \cdot 2\delta \cdot d^{2\delta-1} + O(d^{2\delta-2}) + [E(d) - E(d-1)].
 \]
