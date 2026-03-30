@@ -130,18 +130,21 @@ __global__ void compute_class_numbers(
             log_Q_curr = log_Q_curr + log((double)a + rq);
         }
     } else {
-        // d ≡ 1 mod 4: CF of (1+√d)/2
-        // Use INTEGER sqrt to avoid FP rounding issues
+        // d ≡ 1 mod 4: CF of (1+√d)/2 with reduced-state cycle detection
         uint64 isqrt_d = (uint64)sqrt((double)d);
         while (isqrt_d * isqrt_d > d) isqrt_d--;
         while ((isqrt_d+1)*(isqrt_d+1) <= d) isqrt_d++;
-        // a0 = floor((1 + isqrt_d) / 2)
-        int64 a0 = (int64)((1 + isqrt_d) / 2);
-        int64 P = 1, Q = 2, a = a0;
+
+        int64 P = 1, Q = 2;
+        int64 a = (P + (int64)isqrt_d) / Q;
         log_P_prev = 0.0;
-        log_P_curr = log((double)(a0 > 0 ? a0 : 1));
+        log_P_curr = log((double)(a > 0 ? a : 1));
         log_Q_prev = -1e30;
         log_Q_curr = 0.0;
+
+        // Cycle detection via reduced states
+        int64 first_P = -1, first_Q = -1;
+        double log_eps0 = 0.0;
 
         for (int step = 0; step < MAX_CF_STEPS; step++) {
             int64 P_new = a * Q - P;
@@ -150,13 +153,6 @@ __global__ void compute_class_numbers(
             int64 a_new = (P_new + (int64)isqrt_d) / Q_new;
             P = P_new; Q = Q_new; a = a_new;
 
-            // Period detection: P=1, Q=2 (no step>0 guard — handles period-1)
-            if (P == 1 && Q == 2) {
-                double diff = log_Q_curr + 0.5 * log((double)d) - log_P_curr;
-                regulator = log_P_curr + log(1.0 + exp(diff)) - log(2.0);
-                break;
-            }
-
             // Update log convergents
             double rp = exp(log_P_prev - log_P_curr);
             log_P_prev = log_P_curr;
@@ -164,6 +160,26 @@ __global__ void compute_class_numbers(
             double rq = (log_Q_prev > -1e20) ? exp(log_Q_prev - log_Q_curr) : 0.0;
             log_Q_prev = log_Q_curr;
             log_Q_curr = log_Q_curr + log((double)a + rq);
+
+            // Check if reduced: 0 < P <= isqrt_d, P > isqrt_d - Q, Q > 0
+            int is_reduced = (Q > 0 && P > 0 && P <= (int64)isqrt_d && P > (int64)isqrt_d - Q);
+            if (!is_reduced) continue;
+
+            // Compute log(ε) = log((2p - q + q√d) / 2)
+            double ratio_qp = exp(log_Q_curr - log_P_curr);
+            double log_2pmq = log_P_curr + log(2.0 - ratio_qp);
+            double diff = log_Q_curr + 0.5 * log((double)d) - log_2pmq;
+            double log_eps = log_2pmq + log(1.0 + exp(diff)) - log(2.0);
+
+            if (first_P < 0) {
+                // First reduced state: save it
+                first_P = P; first_Q = Q;
+                log_eps0 = log_eps;
+            } else if (P == first_P && Q == first_Q) {
+                // Cycle detected! R = log(ε_now) - log(ε_first)
+                regulator = log_eps - log_eps0;
+                break;
+            }
         }
     }
 
