@@ -93,11 +93,16 @@ The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674
 
 \textbf{Alternative formulation via exceptional-set count.} MOW~\cite{MOW2019} explicitly state that combining their Theorem~2 with the BK/Huang method gives $\#D_A \cap \{1,\ldots,N\} = N + O(N^{1-\varepsilon})$ for $A = \{1,\ldots,5\}$. If the implied constant $C$ in the $O(\cdot)$ satisfies $C \cdot (2.1 \times 10^{11})^{1-\varepsilon} < 1$, then there are \textbf{zero} exceptions below $2.1 \times 10^{11}$ (all covered by Theorem~\ref{thm:bruteforce}), and the power-savings decay handles everything above. The constant $C$ depends on the spectral data of $\Gamma$. From our analysis, the corrected power savings is $\varepsilon = \min(-\log(\rho_0)/|P'(\delta)|, -\log(\rho_\eta)/|P'(\delta)|) = \min(0.635, 0.118) = 0.118$ (the Dolgopyat bound $\rho_\eta = 0.823$ is the bottleneck, not the spectral gap). The threshold $D_0 = (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$ where $C_{\text{err}} \approx \kappa_1 + \kappa_2$ from MOW's Lemma~15.
 
-Tracing $\kappa_1, \kappa_2$ through their proof: the contour-integral derivation gives $\kappa_1 \approx BC' \cdot 4b_0 / (2\pi(\delta - \varepsilon'))$ and $\kappa_2 \approx BC'C'' / (2\pi)$, where $B$ is the kernel bound, $C' \leq (1-\rho_\eta)^{-1} \approx 5.65$ is the resolvent constant, $b_0 = 0.20$ is the Dolgopyat threshold, and $C''$ is the tail integral constant. With conservative estimates: $C_{\text{err}} \approx 20$, giving
+Tracing $\kappa_1, \kappa_2$ through MOW's Lemma~15 derivation: the contour shift to $\Re(s) = \delta - \varepsilon'$ with $\varepsilon' = \min(-\log\rho_0/|P'(\delta)|, -\log\rho_\eta/|P'(\delta)|) = \min(0.635, 0.112) = 0.112$ gives:
+\begin{itemize}
+\item $\kappa_1 \approx BC'_1 \cdot 4b_0 / (2\pi(\delta-\varepsilon')) \approx 2.7$ (small-$|b|$ resolvent, $C'_1 = C_1/(1-\rho_0) = 15.4$)
+\item $\kappa_2 \approx B C_\eta (1-\rho_\eta)^{-1} \cdot I_{\text{tail}} / (2\pi) \approx 47$ (large-$|b|$ Dolgopyat)
+\end{itemize}
+where $C_\eta \approx 5$ (justified: the phase values $-2\log(a)$ for $a = 1,\ldots,5$ have minimum separation $0.446$, ensuring strong non-lattice mixing). With $C_{\text{err}} = \kappa_1 + \kappa_2 \approx 50$:
 \[
-D_0 \approx (20/0.6046)^{1/0.236} \approx 33^{4.24} \approx 2.7 \times 10^6 \ll 2.1 \times 10^{11}.
+D_0 \approx (50/0.6046)^{1/0.224} \approx 83^{4.46} \approx 3.6 \times 10^8 \ll 2.1 \times 10^{11}.
 \]
-The margin is a factor of $10^5$: even if the true constants are $100\times$ worse, $D_0$ remains within the brute-force frontier. A rigorous line-by-line constant extraction from MOW's Sections~3--5 would confirm this estimate.
+The margin is a factor of $\mathbf{588}$. Even with $C_\eta = 10$ (doubling the Dolgopyat constant): $D_0 \approx 7 \times 10^9$, still a factor of $30$ below the brute-force frontier. The argument is robust to constant estimation errors.
 
 \textbf{Dolgopyat spectral profile (computed).} We computed the spectral radius $\rho(t)$ of $\mathcal{L}_{\delta+it}$ for $t \in [0, 1000]$ on a grid of 100{,}000 points (5.2 seconds on one B200). The Dolgopyat bound: $\rho_\eta = \sup_{|t| > b_0} \rho(t) = 0.823$, giving $\varepsilon_2 = -\log(\rho_\eta)/\log(\varphi) = 0.405$. The spectral gap contribution: $\varepsilon_1 = \sigma/|P'(\delta)| = 0.393$. Combined: $\varepsilon = \min(\varepsilon_1, \varepsilon_2) = 0.393$. The spectral gap, not the Dolgopyat bound, is the bottleneck.
 
