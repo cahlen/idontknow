@@ -29,7 +29,7 @@ Computational Evidence and a Proof Framework via Spectral Gaps}
 \begin{document}
 
 \begin{abstract}
-We give a computer-assisted proof of Zaremba's Conjecture ($A=5$) for all integers $d \leq 10^{1500}$, combining GPU brute-force verification, spectral gap computation, and a sieve-type covering. Specifically: (1)~GPU enumeration confirms $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (deterministic, reproducible). (2)~Spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ are computed at FP64 for 489 primes $p \leq 3499$, all satisfying $\sigma_p \geq 0.336$. (3)~A layered covering argument extends the result to $d \leq 10^{1500}$, using the Lalley renewal theorem (Appendix~A) to establish the main-term constant $c_1 = 1/|P'(\delta)| = 0.6046$ and a character-sum decomposition (Appendix~B) for the sieve error bound. Conditional on the non-effective Bourgain--Gamburd property~$(\tau)$, the result extends to all~$d$. The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision with guaranteed rounding. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM).
+We present a conditional computer-assisted argument for Zaremba's Conjecture ($A=5$) for all integers $d \leq 10^{1500}$, combining GPU brute-force verification, spectral gap computation, and a sieve-type covering. Specifically: (1)~GPU enumeration confirms $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (deterministic, reproducible). (2)~Spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ are computed at FP64 for 489 primes $p \leq 3499$, all satisfying $\sigma_p \geq 0.336$. (3)~A layered covering argument extends the result to $d \leq 10^{1500}$, using the Lalley renewal theorem (Appendix~A) to establish the main-term constant $c_1 = 1/|P'(\delta)| = 0.6046$ and a character-sum decomposition (Appendix~B) for the sieve error bound. Conditional on the non-effective Bourgain--Gamburd property~$(\tau)$, the result extends to all~$d$. The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision with guaranteed rounding. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM).
 \end{abstract}
 
 \maketitle
@@ -44,7 +44,7 @@ In 1972, Zaremba~\cite{Zaremba1972} conjectured that for every positive integer~
 \]
 has all partial quotients $a_i \leq A$ for some absolute constant~$A$. The conjecture arose from the theory of good lattice points for numerical integration, where small partial quotients guarantee low discrepancy.
 
-The expected value of $A$ is $5$, though any finite constant would resolve the conjecture. In this paper we prove the conjecture for $A=5$ and all $d \leq 10^{1500}$, using Huang's circle-method framework with MPFR-certified spectral gaps.
+The expected value of $A$ is $5$, though any finite constant would resolve the conjecture. In this paper we present computational evidence and a conditional proof framework for $A=5$ and $d \leq 10^{1500}$, using Huang's circle-method framework~\cite{Huang2015} with MPFR-certified spectral gaps.
 
 \subsection{Prior Work}
 
@@ -62,31 +62,28 @@ $R(d) \geq 1$ for all $1 \leq d \leq 2.1 \times 10^{11}$.
 
 This is unconditional, deterministic, and verified by exhaustive GPU computation.
 
-\begin{theorem}[Effective]\label{thm:effective}
-Zaremba's Conjecture holds for all $d \leq 10^{1500}$.
+\begin{theorem}[Effective, conditional on pointwise error control]\label{thm:effective}
+Assume:
+\begin{enumerate}[label=(\roman*)]
+\item The pointwise error bound: for each admissible $d$ in Huang's circle-method decomposition $R_{N,a}(d) = M_{N,a}(d) + E_{N,a}(d)$~\cite{Huang2015}, the error $|E_{N,a}(d)|$ is controlled by the spectral gaps $\sigma_p$ via the bound in Appendix~\ref{app:error}.
+\end{enumerate}
+Then Zaremba's Conjecture holds for all $d \leq 10^{1500}$.
 \end{theorem}
 
-The proof uses Huang's Theorem~1.13~\cite{Huang2015} for the pointwise main-term lower bound, our MPFR-certified spectral gaps for the pointwise error bound, and the layered covering argument for the primorial range.
-
-\begin{remark}[Why this is now unconditional]
-Huang~\cite{Huang2015} proved density one for $A = \{1,\ldots,5\}$ (Theorem~1.6). His proof has two key components:
+\begin{remark}[Status of assumption~(i)]
+Huang~\cite{Huang2015} proved density one for $A = \{1,\ldots,5\}$ (his Theorem~1.6). His framework has:
 \begin{itemize}
-\item \textbf{Theorem~1.13 (Main term, pointwise):} $M_N(d) \gg \#\Omega_N / (N \log\log N)$ for \emph{each} admissible $d \in [N/40, N/25]$. This is a pointwise lower bound, not an average.
-\item \textbf{Theorem~1.14 (Error term, $L^2$):} $\sum_d |E_N(d)|^2 \ll (\#\Omega_N)^2 / N \cdot e^{-c\sqrt{\log N}}$. This only controls the error on \emph{average}, which is why Huang gets density one rather than a pointwise result.
+\item \textbf{Theorem~1.13 (Main term, pointwise):} $M_{N,a}(d) \gg \#\Omega_N / (N \log\log N)$ for \emph{each} admissible $d \in [N/40, N/25]$.
+\item \textbf{Theorem~1.14 (Error term, $L^2$ only):} $\sum_d |E_{N,a}(d)|^2 \ll (\#\Omega_N)^2 / N \cdot e^{-c_0\sqrt{\log N}}$. This controls the error on \emph{average}, giving density one but not pointwise.
 \end{itemize}
-Our contribution upgrades the error from $L^2$ to pointwise: for each covering prime~$p$ with MPFR-certified gap $\sigma_p \geq 0.650$, the non-trivial contribution to $E_N(d)$ at a specific~$d$ is bounded by $(1-\sigma_p)^K$ where $K = \lfloor \log d / \log \varphi \rfloor$ (Appendix~\ref{app:error}). At $K = 48$ (corresponding to $d \approx 10^{10}$):
-\[
-|E_N(d)| \leq \sum_{p \leq 31} p \cdot (1-\sigma_p)^{48} \approx 3.2 \times 10^{-19},
-\]
-while $M_N(d) \gg d^{0.674} / \log\log d \approx 10^6$. The margin is $10^{25}$.
 
-For $d \leq 2.1 \times 10^{11}$: Theorem~\ref{thm:bruteforce} (brute force).
+Assumption~(i) asks that the $L^2$ error bound can be upgraded to \emph{pointwise} using our spectral gap data. Specifically, our MPFR-certified gaps ($\sigma_p \geq 0.650$ for covering primes) give exponential decay $(1-\sigma_p)^K$ per non-trivial representation per step. At $K = 48$ ($d \approx 10^{10}$), the per-prime error is $\sim 10^{-19}$, while the main term is $\sim 10^6$. However, the connection between our single-prime spectral decay and Huang's error term $E_{N,a}(d)$ in his specific circle-method decomposition requires a rigorous intertwining that has not yet been proved in this paper.
 
-For $2.1 \times 10^{11} < d \leq 10^{1500}$: Lemma~\ref{lem:covering} provides a certified covering prime, and the pointwise bound $M_N(d) \gg |E_N(d)|$ holds with astronomical margin.
+The gap: Huang's $E_{N,a}(d)$ involves the \emph{full} circle-method integral (major arcs at all moduli $q \leq Q$ plus minor arcs), while our bound controls the non-trivial contribution at a \emph{single} covering prime. Bridging these requires showing that the single-prime spectral decay dominates the multi-modulus circle-method error in the pointwise regime.
 
-Every $d$ is admissible for $A = \{1,\ldots,5\}$ because $\Gamma$ acts transitively at every prime (Theorem~\ref{thm:transitivity}), so there is no bad modulus ($B = 1$ in Huang's notation).
+Every $d$ is admissible for $A = \{1,\ldots,5\}$ (Theorem~\ref{thm:transitivity}: no local obstructions, bad modulus $B = 1$).
 
-The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision (77 decimal digits) with guaranteed rounding (\texttt{certify\_gaps\_mpfr.c}). All gaps $\sigma_p \geq 0.650$.
+The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision (\texttt{certify\_gaps\_mpfr.c}). All gaps $\sigma_p \geq 0.650$.
 \end{remark}
 
 The proof additionally uses two analytic ingredients derived in the appendices:
@@ -103,7 +100,7 @@ Assume~(i) above and additionally the Bourgain--Gamburd property~$(\tau)$~\cite{
 \begin{remark}\label{rem:status}
 Theorem~\ref{thm:bruteforce} is the only fully unconditional result: $R(d) \geq 1$ for $d \leq 2.1 \times 10^{11}$, verified by deterministic GPU computation.
 
-Theorem~\ref{thm:effective} uses Huang's pointwise main-term bound (his Theorem~1.13) together with our MPFR-certified spectral gaps to upgrade his $L^2$ error bound to a pointwise bound. The main term is pointwise by Huang's theorem; the error is pointwise by our spectral gap computation (the non-trivial representations decay exponentially at rate $(1-\sigma_p)^K$, and $\sigma_p \geq 0.650$ makes this negligible).
+Theorem~\ref{thm:effective} is conditional on assumption~(i): that our single-prime spectral-gap bound controls Huang's circle-method error $E_{N,a}(d)$ pointwise. Huang's Theorem~1.13 gives a pointwise main term; his Theorem~1.14 gives an $L^2$ error bound. Our MPFR-certified spectral gaps ($\sigma_p \geq 0.650$) provide exponential decay per prime, but the bridge from single-prime decay to Huang's full multi-modulus error term has not been formally proved here.
 
 Theorem~\ref{thm:full} additionally requires the non-effective Bourgain--Gamburd constant, which remains an open problem.
 \end{remark}
@@ -372,7 +369,7 @@ All source code is available at \url{https://github.com/cahlen/idontknow}. Key f
 
 \subsection{Effective vs.\ Non-Effective}
 
-Theorem~\ref{thm:effective} proves Zaremba's Conjecture for all $d \leq 10^{1500}$, covering any integer arising in applications (numerical integration, cryptography, pseudorandom number generation). The proof combines Huang's pointwise main-term bound~\cite{Huang2015} with our MPFR-certified spectral gaps for the pointwise error bound. The non-effective extension (Theorem~\ref{thm:full}) to all~$d$ via Bourgain--Gamburd is standard but prevents explicit computation of the threshold $Q_0(c)$.
+Theorem~\ref{thm:effective} gives a conditional effective framework for $d \leq 10^{1500}$, pending a formal proof that our single-prime spectral decay controls Huang's multi-modulus circle-method error pointwise. The non-effective extension (Theorem~\ref{thm:full}) to all~$d$ via Bourgain--Gamburd is standard but prevents explicit computation of $Q_0(c)$.
 
 \subsection{Comparison with Shkredov}
 
