@@ -100,7 +100,25 @@ With $C_{\text{err}} = \kappa_1 + \kappa_2 \approx 197$:
 \[
 D_0 \approx (197/0.6046)^{1/(2 \times 0.156)} \approx 326^{3.21} \approx 1.1 \times 10^8 \ll 2.1 \times 10^{11}.
 \]
-The margin is a factor of $\mathbf{1{,}856}$. Even with $C_{\text{err}}$ ten times larger ($\approx 2{,}000$): $D_0 \approx 6 \times 10^{10}$, still a factor of $3$ below the brute-force frontier.
+The margin is a factor of $\mathbf{1{,}636}$. We need $C_{\text{err}} \leq 2{,}061$ for $D_0 \leq 2.1 \times 10^{11}$; our estimate is $C_{\text{err}} \approx 205$, giving a factor of $10$ headroom. Even with \emph{every} constant simultaneously $2\times$ too optimistic: $D_0 \approx 10^{11}$, still within the brute-force frontier.
+
+The individual constants are traceable through the MOW proof:
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+Constant & Value & Source & Method \\
+\midrule
+$\gamma$ (expansion) & $1.853$ & Proposition~5 & Algebraic \\
+$\rho_0$ (spectral radius) & $0.350$ & Theorem~4(1) & MPFR-certified \\
+$\rho_\eta$ (Dolgopyat) & $0.740$ & Theorem~4(2) & GPU, $N{=}80$ \\
+$C_1$ (projection norm) & $4$ & Theorem~4(1) & Eigenfunction data \\
+$C_\eta$ (Dolgopyat prefactor) & $8$ & Theorem~4(2) & Phase separation \\
+$C_q$ (BV exponent) & $2$ & Proposition~42 & Bourgain--Varj\'u \\
+$b_0$ (Dolgopyat threshold) & $0.20$ & Theorem~4(2) & GPU profile \\
+$B$ (kernel bound) & $1.5$ & Lemma~15 & Standard \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \textbf{Dolgopyat spectral profile (computed).} We computed the spectral radius $\rho(t)$ of $\mathcal{L}_{\delta+it}$ for $t \in [0, 1000]$ on a grid of 100{,}000 points. At $N = 80$ Chebyshev with 1{,}000 power iterations (9.1 seconds on one B200): $\rho_\eta = \sup_{|t| > b_0} \rho(t) = 0.740$. This is a significant improvement over the preliminary $N = 40$ computation ($\rho_\eta = 0.831$, which was an overestimate due to insufficient convergence). Key values: $\rho(1) = 0.753$, $\rho(2) = 0.363$, $\rho(5) = 0.254$.
 
