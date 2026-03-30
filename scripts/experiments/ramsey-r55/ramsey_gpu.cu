@@ -89,8 +89,8 @@ __global__ void ramsey_sa(
 
     // Random initial coloring
     uint64 adj[MAX_N];
+    for (int i = 0; i < n; i++) adj[i] = 0;
     for (int i = 0; i < n; i++) {
-        adj[i] = 0;
         for (int j = i + 1; j < n; j++) {
             if (curand(&rng) % 2) {
                 adj[i] |= (1ULL << j);

@@ -97,8 +97,8 @@ __global__ void ramsey_sa_verified(
     uint64 mask = (n < 64) ? ((1ULL << n) - 1) : ~0ULL;
 
     // Random initial coloring
+    for (int i = 0; i < n; i++) adj[i] = 0;
     for (int i = 0; i < n; i++) {
-        adj[i] = 0;
         for (int j = i + 1; j < n; j++) {
             if (curand(&rng) % 2) {
                 adj[i] |= (1ULL << j);

@@ -77,6 +77,7 @@ __device__ uint32_t fitness(uint64_t *adj, int n) {
     // Build complement (blue) adjacency
     uint64_t comp[MAX_VERTICES];
     uint64_t mask = (n < 64) ? ((1ULL << n) - 1) : ~0ULL;
+    for (int i = 0; i < n; i++) adj[i] = 0;
     for (int i = 0; i < n; i++) {
         comp[i] = (~adj[i]) & mask & ~(1ULL << i);  // complement, exclude self-loop
     }
@@ -98,8 +99,8 @@ __global__ void sa_walkers(int n, uint64_t num_walkers, uint64_t max_steps,
 
     // Random initial coloring
     uint64_t adj[MAX_VERTICES];
+    for (int i = 0; i < n; i++) adj[i] = 0;
     for (int i = 0; i < n; i++) {
-        adj[i] = 0;
         for (int j = i + 1; j < n; j++) {
             if (curand(&rng) % 2) {
                 adj[i] |= (1ULL << j);
@@ -155,7 +156,8 @@ __global__ void sa_walkers(int n, uint64_t num_walkers, uint64_t max_steps,
 
     // If this walker found fitness 0, save the adjacency matrix
     if (current_fitness == 0) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) adj[i] = 0;
+    for (int i = 0; i < n; i++) {
             best_adj_out[idx * MAX_VERTICES + i] = adj[i];
         }
         printf("*** WALKER %lu FOUND RAMSEY-GOOD COLORING ON K_%d (fitness=0) ***\n", idx, n);
