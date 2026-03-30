@@ -214,56 +214,51 @@ __global__ void compute_class_numbers(
 }
 
 // =====================================================
-// CPU: Segmented sieve for fundamental discriminants
+// GPU: Squarefree sieve + fundamental discriminant extraction
 // =====================================================
-// A fundamental discriminant is either:
-//   d ≡ 1 (mod 4) and squarefree, or
-//   d = 4m where m ≡ 2,3 (mod 4) and m squarefree
-// For positive d (real quadratic fields): d > 0.
-
-uint32_t sieve_fundamental_discriminants(uint64 lo, uint64 hi, uint64 *out, uint32_t max_out) {
-    uint64 len = hi - lo;
-    if (len > 1000000000ULL) { fprintf(stderr, "Chunk too large\n"); return 0; }
-
-    // Mark squarefree using small primes
-    char *is_sqfree = (char*)calloc(len, 1);
-    memset(is_sqfree, 1, len);
-
-    // Sieve out multiples of p^2 for p up to sqrt(hi)
-    uint64 sqrt_hi = (uint64)sqrt((double)hi) + 1;
-    for (uint64 p = 2; p <= sqrt_hi; p++) {
-        uint64 p2 = p * p;
-        uint64 start = ((lo + p2 - 1) / p2) * p2;
-        for (uint64 m = start; m < hi; m += p2) {
-            is_sqfree[m - lo] = 0;
-        }
+__global__ void gpu_sieve_squarefree(
+    uint8_t *sieve, uint64 lo, uint64 len,
+    const int *primes, int num_primes)
+{
+    uint64 pos = (uint64)blockIdx.x * blockDim.x + threadIdx.x;
+    if (pos >= len) return;
+    uint64 d = lo + pos;
+    for (int i = 0; i < num_primes; i++) {
+        int p = primes[i];
+        uint64 p2 = (uint64)p * p;
+        if (p2 > d) break;
+        if (d % p2 == 0) { sieve[pos] = 0; return; }
     }
+}
 
-    // Extract fundamental discriminants
-    uint32_t count = 0;
-    for (uint64 d = lo; d < hi && count < max_out; d++) {
-        if (d < 5) continue;
-        uint64 idx = d - lo;
-
-        // Check if d is a fundamental discriminant
-        if (d % 4 == 1 && is_sqfree[idx]) {
-            out[count++] = d;
-        } else if (d % 4 == 0) {
-            uint64 m = d / 4;
-            if ((m % 4 == 2 || m % 4 == 3) && m >= lo && m < hi && is_sqfree[m - lo]) {
-                out[count++] = d;
-            } else if ((m % 4 == 2 || m % 4 == 3) && (m < lo || m >= hi)) {
-                // m outside sieve range — check squarefree directly (slow, rare)
+__global__ void gpu_extract_fundamental(
+    const uint8_t *sieve, uint64 lo, uint64 len,
+    uint64 *output, uint32_t *count, uint32_t max_out)
+{
+    uint64 pos = (uint64)blockIdx.x * blockDim.x + threadIdx.x;
+    if (pos >= len) return;
+    uint64 d = lo + pos;
+    if (d < 5) return;
+    int is_fund = 0;
+    if (d % 4 == 1 && sieve[pos]) {
+        is_fund = 1;
+    } else if (d % 4 == 0) {
+        uint64 m = d / 4;
+        if ((m % 4 == 2 || m % 4 == 3)) {
+            if (m >= lo && m < lo + len && sieve[m - lo]) is_fund = 1;
+            else if (m < lo) {
+                // Trial division for m outside sieve range
                 int sqf = 1;
                 for (uint64 p = 2; p * p <= m && sqf; p++)
                     if (m % (p*p) == 0) sqf = 0;
-                if (sqf) out[count++] = d;
+                if (sqf) is_fund = 1;
             }
         }
     }
-
-    free(is_sqfree);
-    return count;
+    if (is_fund) {
+        uint32_t idx = atomicAdd(count, 1);
+        if (idx < max_out) output[idx] = d;
+    }
 }
 
 // =====================================================
@@ -323,21 +318,50 @@ void *gpu_worker(void *arg) {
     cudaMemset(d_div7, 0, sizeof(uint64));
     cudaMemset(d_hist, 0, 1024 * sizeof(uint64));
 
-    uint64 *h_discriminants = (uint64*)malloc(max_per_chunk * sizeof(uint64));
+    // GPU sieve buffers
+    uint64 chunk_raw = CHUNK_SIZE * 3;
+    uint8_t *d_sieve;
+    uint32_t *d_sieve_count;
+    int *d_sieve_primes;
+    cudaMalloc(&d_sieve, chunk_raw);
+    cudaMalloc(&d_sieve_count, sizeof(uint32_t));
 
-    uint64 chunk_raw = CHUNK_SIZE * 3;  // raw integers per chunk (density ~1/3)
+    // Generate sieve primes on CPU (up to sqrt of max d)
+    uint64 sqrt_max = (uint64)sqrt((double)work->d_end) + 2;
+    int *h_sieve_primes = (int*)malloc(sqrt_max * sizeof(int));
+    int n_sieve_primes = 0;
+    {
+        char *isp = (char*)calloc(sqrt_max + 1, 1);
+        for (uint64 i = 2; i <= sqrt_max; i++) isp[i] = 1;
+        for (uint64 i = 2; i * i <= sqrt_max; i++)
+            if (isp[i]) for (uint64 j = i*i; j <= sqrt_max; j += i) isp[j] = 0;
+        for (uint64 i = 2; i <= sqrt_max; i++)
+            if (isp[i]) h_sieve_primes[n_sieve_primes++] = (int)i;
+        free(isp);
+    }
+    cudaMalloc(&d_sieve_primes, n_sieve_primes * sizeof(int));
+    cudaMemcpy(d_sieve_primes, h_sieve_primes, n_sieve_primes * sizeof(int), cudaMemcpyHostToDevice);
+    free(h_sieve_primes);
+
     uint64 chunks_done = 0;
 
     for (uint64 d_lo = work->d_start; d_lo < work->d_end; d_lo += chunk_raw) {
         uint64 d_hi = d_lo + chunk_raw;
         if (d_hi > work->d_end) d_hi = work->d_end;
+        uint64 len = d_hi - d_lo;
 
-        // Sieve on CPU
-        uint32_t count = sieve_fundamental_discriminants(d_lo, d_hi, h_discriminants, max_per_chunk);
+        // GPU Sieve: squarefree + fundamental discriminant extraction
+        cudaMemset(d_sieve, 1, len);
+        cudaMemset(d_sieve_count, 0, sizeof(uint32_t));
+        uint64 sieve_blocks = (len + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        gpu_sieve_squarefree<<<sieve_blocks, BLOCK_SIZE>>>(
+            d_sieve, d_lo, len, d_sieve_primes, n_sieve_primes);
+        gpu_extract_fundamental<<<sieve_blocks, BLOCK_SIZE>>>(
+            d_sieve, d_lo, len, d_discriminants, d_sieve_count, max_per_chunk);
+        uint32_t count;
+        cudaMemcpy(&count, d_sieve_count, sizeof(uint32_t), cudaMemcpyDeviceToHost);
         if (count == 0) continue;
-
-        // Upload to GPU
-        cudaMemcpy(d_discriminants, h_discriminants, count * sizeof(uint64), cudaMemcpyHostToDevice);
+        if (count > max_per_chunk) count = max_per_chunk;
 
         // Launch kernel
         int blocks = (count + BLOCK_SIZE - 1) / BLOCK_SIZE;
@@ -369,7 +393,7 @@ void *gpu_worker(void *arg) {
     cudaFree(d_discriminants); cudaFree(d_class_numbers);
     cudaFree(d_h1); cudaFree(d_total); cudaFree(d_div3); cudaFree(d_div5); cudaFree(d_div7);
     cudaFree(d_hist);
-    free(h_discriminants);
+    cudaFree(d_sieve); cudaFree(d_sieve_count); cudaFree(d_sieve_primes);
 
     printf("[GPU %d] done: %llu discriminants\n", work->gpu_id, work->total_processed);
     return NULL;
