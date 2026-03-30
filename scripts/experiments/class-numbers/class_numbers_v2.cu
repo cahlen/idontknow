@@ -285,6 +285,7 @@ int generate_primes(int *primes, int max_prime) {
 typedef struct {
     int gpu_id;
     uint64 d_start, d_end;
+    char output_path[256];  // binary output file path
     // Results
     uint64 total_processed;
     uint64 h1_count;
@@ -368,14 +369,34 @@ void *gpu_worker(void *arg) {
         compute_class_numbers<<<blocks, BLOCK_SIZE>>>(
             d_discriminants, count, d_class_numbers, NULL,
             d_h1, d_hist, d_total, d_div3, d_div5, d_div7);
+        cudaDeviceSynchronize();
+
+        // Write raw (d, h) pairs to binary file
+        if (work->output_path[0]) {
+            uint64 *h_disc = (uint64*)malloc(count * sizeof(uint64));
+            int *h_cls = (int*)malloc(count * sizeof(int));
+            cudaMemcpy(h_disc, d_discriminants, count * sizeof(uint64), cudaMemcpyDeviceToHost);
+            cudaMemcpy(h_cls, d_class_numbers, count * sizeof(int), cudaMemcpyDeviceToHost);
+
+            FILE *fout = fopen(work->output_path, "ab");  // append binary
+            if (fout) {
+                for (uint32_t i = 0; i < count; i++) {
+                    if (h_cls[i] > 0) {  // skip invalid
+                        fwrite(&h_disc[i], sizeof(uint64), 1, fout);
+                        fwrite(&h_cls[i], sizeof(int), 1, fout);
+                    }
+                }
+                fclose(fout);
+            }
+            free(h_disc); free(h_cls);
+        }
 
         chunks_done++;
-        if (chunks_done % 100 == 0) {
-            cudaDeviceSynchronize();
+        if (chunks_done % 20 == 0) {
             uint64 total;
             cudaMemcpy(&total, d_total, sizeof(uint64), cudaMemcpyDeviceToHost);
             double pct = 100.0 * (d_lo - work->d_start) / (double)(work->d_end - work->d_start);
-            printf("[GPU %d] %.1f%% | %llu discriminants processed | d ~ %.2e\n",
+            printf("[GPU %d] %.1f%% | %llu discriminants | d ~ %.2e\n",
                    work->gpu_id, pct, total, (double)d_lo);
             fflush(stdout);
         }
@@ -441,6 +462,9 @@ int main(int argc, char **argv) {
         works[g].d_end = D_start + (g + 1) * per_gpu;
         if (works[g].d_end > D_end) works[g].d_end = D_end;
         memset(works[g].h_hist, 0, sizeof(works[g].h_hist));
+        snprintf(works[g].output_path, 256,
+                 "data/class-numbers/raw_gpu%d_%llu_%llu.bin",
+                 g, works[g].d_start, works[g].d_end);
         pthread_create(&threads[g], NULL, gpu_worker, &works[g]);
     }
 
