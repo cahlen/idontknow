@@ -39,3 +39,7 @@ Full run: ./matrix_v6 210000000000 (~116 min on 8x B200)
 --- Expected output ---
 Uncovered: 0
 ALL d in [1, 210000000000] are Zaremba denominators
+
+--- 210B Run (final) ---
+Log: scripts/experiments/zaremba-effective-bound/run_210B.log
+f34685ad264879fee51bf4dd6d631af7118ab5d68508ab658b6f27e7b86ff5b4  scripts/experiments/zaremba-effective-bound/run_210B.log

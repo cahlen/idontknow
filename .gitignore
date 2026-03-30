@@ -61,3 +61,15 @@ ramsey_gpu
 ramsey_inc
 ramsey_search
 transfer_op
+
+# More compiled binaries
+certify_gaps
+compute_c1
+dolgopyat
+Q0_fk
+compute_Q0
+spectral_gaps_fast
+spectral_gaps_primes
+verify_gaps
+verify_v2
+verify_interval
