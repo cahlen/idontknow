@@ -1,77 +1,79 @@
 # idontknow
 
-GPU-accelerated computational mathematics — exploring open conjectures and underexplored areas of math using CUDA kernels, LLM-assisted theorem proving, and heavy compute on NVIDIA hardware.
+GPU-accelerated computational mathematics — exploring open conjectures with custom CUDA kernels, interval arithmetic, and heavy compute on NVIDIA B200 + RTX 5090.
 
-Results are published openly at [bigcompute.science](https://bigcompute.science).
+Results published openly at [bigcompute.science](https://bigcompute.science). Raw data on [Hugging Face](https://huggingface.co/cahlen).
 
-## What's Here
+## Experiments
 
-This repository contains the computational engine behind bigcompute.science: CUDA kernels, experiment scripts, Lean 4 formalizations, and LLM proving infrastructure. The goal is to run expensive computations once, publish verifiable results, and make them discoverable by both humans and AI agents.
-
-### Active & Planned Experiments
-
-| Experiment | Method | Status |
-|---|---|---|
-| **Zaremba's Conjecture — 210B verification + proof** | CUDA brute-force + F-K sieve + spectral gaps | Effective for d ≤ 10^1500 |
-| **Zaremba transfer operator** | Chebyshev collocation + cuSOLVER eigensolve | Complete |
-| **Zaremba transitivity** | CUDA + algebraic proof (Dickson classification) | Complete |
-| **MCTS proof search benchmark** | LLM + Lean 4 + Monte Carlo Tree Search | Planned |
-| **Ramsey R(5,5) lower bound** | SA + exhaustive extension + 4-SAT | Complete — strongest evidence R(5,5)=43 |
-| **Class numbers of real quadratic fields** | CUDA + BSGS + continued fractions | Planned |
-| **Kronecker coefficients to n=120** | CUDA + symmetric group representation theory | Planned |
-
-### Key Results So Far
-
-- **Zaremba proof:** Effective for all d ≤ 10^1500 via layered F-K sieve with 489 verified spectral gaps. Brute force to 2.1×10^11, zero failures. [Proof document](docs/zaremba-proof.md) | [Paper](paper/zaremba-proof.tex)
-- **Spectral gaps:** σ_p ≥ 0.336 for all 489 primes p ≤ 3500 (FP64/cuBLAS)
-- **Hausdorff dimension:** δ = 0.836829443681208 (15-digit precision)
-- **Transitivity:** Algebraically proved for ALL primes (not just computationally checked)
-- **LLM proving:** 19/20 small Zaremba cases formally proved in Lean 4 (dual-model race)
-- **Ramsey R(5,5):** All 656 known K₄₂ colorings checked via 4-SAT — none extend to K₄₃. Exhaustive 2^42 extension of Exoo's coloring also fails. Strongest computational evidence that R(5,5) = 43.
+| Experiment | Method | Key Result | Status |
+|---|---|---|---|
+| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof for all d ≥ 1. D₀ ≈ 3.4×10¹⁰. 15-page paper ready for arXiv. | [Paper](paper/zaremba-proof.pdf) |
+| **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest evidence R(5,5) = 43. | Complete |
+| **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 2.74B discriminants for d ∈ [10⁹, 10¹⁰]. Cohen-Lenstra convergence is non-monotone. | In progress |
+| **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | First complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
+| **Lyapunov Spectrum** | Transfer operator eigenvalue computation | All 1,048,575 subsets | Complete |
+| **Minkowski ?(x)** | Multifractal analysis | First numerical singularity spectrum f(α) | Complete |
+| **Flint Hills Series** | Quad-double CUDA arithmetic | Partial sums to 10¹⁰ | Complete |
+| **LLM Theorem Proving** | Goedel-Prover + Kimina-Prover → Lean 4 | 19/20 formal proofs | Complete |
+| **Kronecker Coefficients** | GPU-accelerated representation theory | To n=120 for geometric complexity theory | Planned |
 
 ## Structure
 
 ```
-scripts/
-  experiments/              # Per-experiment CUDA kernels and scripts
-    zaremba-transfer-operator/
-    zaremba-transitivity/
-    zaremba-effective-bound/
-    mcts-proof-search/
-    ramsey-r55/
-    class-numbers/
-    kronecker-coefficients/
-  zaremba_verify_v4.c       # Main brute-force verification kernel
-  setup-cluster.sh          # One-time B200 cluster setup
-  serve-model.sh            # vLLM/SGLang model serving
-  run-zaremba.sh            # Full proving pipeline runner
-  pipeline.sh               # Experiment orchestrator (run + publish)
-  watch-v4.sh               # Auto-publish daemon
-
-lean4-proving/
-  prover.py                 # LLM <-> Lean 4 proving loop
-  conjectures/zaremba.lean  # Formalized Zaremba theorems
-  examples/                 # Test theorems
-
-docs/                       # Research notes, logs, mathematical arguments
-gguf-pipeline.sh            # GGUF quantization for HF model contributions
+paper/                          # Zaremba proof paper (LaTeX + PDF)
+scripts/experiments/
+  zaremba-effective-bound/      # Brute force, spectral gaps, Dolgopyat, arb certification
+  ramsey-r55/                   # SA kernels, extension search, 4-SAT, Exoo data
+  class-numbers/                # GPU sieve, regulator, L-function, Cohen-Lenstra stats
+  hausdorff-dimension-spectrum/ # Transfer operator eigenvalue computation
+  lyapunov-exponent-spectrum/   # Lyapunov exponent computation
+  minkowski-spectrum/           # Multifractal singularity spectrum
+  flint-hills/                  # Quad-double partial sums
+  mcts-proof-search/            # LLM + MCTS for theorem proving
+lean4-proving/                  # Lean 4 formalizations + LLM proving loop
+data/                           # Raw computation output (large files on HF)
+logs/                           # Computation logs
+docs/                           # Research notes
 ```
 
 ## Hardware
 
-| Environment | GPUs | VRAM | Notes |
+| Environment | GPUs | VRAM | Role |
 |---|---|---|---|
-| **B200 Cluster** | 8x NVIDIA B200 | 1.43 TB (NVLink 5) | Primary compute |
+| **B200 Cluster** | 8× NVIDIA B200 | 1.43 TB (NVLink 5) | Primary compute |
 | **Local** | RTX 5090 | 32 GB | Development + smaller experiments |
 
-## Security
+## Key Technical Details
 
-This repository is designed to be safe for autonomous AI agent commits. See `.gitignore` for excluded patterns. **Never commit:**
-- Private keys, API tokens, passwords, or credentials
-- `.env` files or any file containing secrets
-- Model weights (`.gguf`, `.safetensors`) — these are downloaded, not stored
+### Zaremba Proof
+- Brute force: 210B denominators verified, zero failures (6962s on 8×B200)
+- Spectral gaps: MPFR 256-bit certified (σ_p ≥ 0.651 for 11 covering primes)
+- Dolgopyat bound: ρ_η ≤ 0.771 via arb ball arithmetic (FLINT, 70 certified digits)
+- All 8 constants interval-certified via arb/MPFR
+- MOW theorem matching verified against actual paper (Crelle 2019)
+
+### Ramsey R(5,5)
+- Fixed critical initialization bug (adj[i]=0 inside loop destroyed back-edges)
+- Exhaustive: 2⁴² = 4.4T extensions of Exoo's K₄₂ → zero valid (130s on 8×B200)
+- 4-SAT: all 656 K₄₂ colorings checked in 3 seconds (Glucose3)
+- Direct K₄₃ SAT (903 vars, 1.9M clauses) remains open
+
+### Class Numbers
+- GPU sieve + CF regulator + Euler product — all on-device, 1.5M disc/sec
+- Regulator: CF of √(d/4) for d≡0 mod 4, CF of (1+√d)/2 with reduced-state cycle detection for d≡1 mod 4
+- Validated: exact match with PARI/GP on 1000 discriminants
+- Finding: Cohen-Lenstra h=1 convergence is non-monotone (42% at d~10⁴ → 17% at d~10¹⁰)
+
+## Data Preservation
+
+All raw data from GPU computations is preserved:
+- **Small data** (< 100MB): committed to `data/` in this repo
+- **Large data** (> 100MB): uploaded to [Hugging Face](https://huggingface.co/cahlen) as datasets
+- All computations logged with timestamps, parameters, and aggregate statistics
 
 ## Related
 
-- **[bigcompute.science](https://github.com/cahlen/bigcompute.science)** — The publishing platform for experiment results
-- **[bigcompute.science (live)](https://bigcompute.science)** — Published results with agent-consumable formats
+- **[bigcompute.science](https://bigcompute.science)** — Publishing platform for results
+- **[bigcompute.science repo](https://github.com/cahlen/bigcompute.science)** — Website source (Astro + KaTeX)
+- **[/llms.txt](https://bigcompute.science/llms.txt)** — Agent-consumable structured data
