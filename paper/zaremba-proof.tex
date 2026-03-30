@@ -17,8 +17,8 @@
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\diam}{diam}
 
-\title[Zaremba's Conjecture]{Zaremba's Conjecture for $A=5$: \\
-A Computer-Assisted Proof via Spectral Gaps and the Frolenkov--Kan Sieve}
+\title[Zaremba's Conjecture]{Zaremba's Conjecture for $A=5$ and $d \leq 10^{1500}$: \\
+An Effective Computer-Assisted Proof via Spectral Gaps and the Frolenkov--Kan Sieve}
 
 \author{Cahlen Humphreys}
 \address{Enfuse.io, Irvine, CA}
@@ -29,7 +29,7 @@ A Computer-Assisted Proof via Spectral Gaps and the Frolenkov--Kan Sieve}
 \begin{document}
 
 \begin{abstract}
-We prove Zaremba's Conjecture (1972) for the bound $A=5$: for every integer $d \geq 1$, there exists $a$ with $\gcd(a,d)=1$ such that all partial quotients of $a/d$ are at most~$5$. The proof is effective for all $d \leq 10^{1500}$ and extends to all $d$ via the non-effective property~$(\tau)$ of Bourgain--Gamburd. The effective part combines three ingredients: (1)~GPU-accelerated brute-force verification for $d \leq 2.1 \times 10^{11}$, (2)~spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ computed at FP64 precision for 489 primes $p \leq 3499$, and (3)~a layered covering argument using the Frolenkov--Kan sieve. The spectral gaps satisfy $\sigma_p \geq 0.336$ for all verified primes, with the Frolenkov--Kan error bound $(1-\sigma_p)/\sigma_p < 1$ for each covering prime. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM) and are fully reproducible.
+We give a computer-assisted proof that Zaremba's Conjecture (1972) holds with bound $A=5$ for all integers $d \leq 10^{1500}$: there exists $a$ with $\gcd(a,d)=1$ such that all partial quotients of $a/d$ are at most~$5$. The proof is fully effective and constructive. Conditional on the (non-effective) Bourgain--Gamburd property~$(\tau)$, the result extends to all~$d$. The effective part combines three ingredients: (1)~GPU-accelerated brute-force verification for $d \leq 2.1 \times 10^{11}$, (2)~spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ computed at FP64 precision for 489 primes $p \leq 3499$, and (3)~a layered covering argument using the Frolenkov--Kan sieve. The spectral gaps satisfy $\sigma_p \geq 0.336$ for all verified primes, with the Frolenkov--Kan error bound $(1-\sigma_p)/\sigma_p < 1$ for each covering prime. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM) and are fully reproducible.
 \end{abstract}
 
 \maketitle
@@ -56,11 +56,19 @@ Independently and contemporaneously, Shkredov~\cite{Shkredov2026} proved that fo
 
 \subsection{Main Result}
 
-\begin{theorem}\label{thm:main}
-For every integer $d \geq 1$, there exists $a$ with $\gcd(a,d)=1$ such that $a/d = [0; a_1, \ldots, a_k]$ with $a_i \leq 5$ for all~$i$.
+\begin{theorem}[Effective]\label{thm:effective}
+For every integer $1 \leq d \leq 10^{1500}$, there exists $a$ with $\gcd(a,d)=1$ such that $a/d = [0; a_1, \ldots, a_k]$ with $a_i \leq 5$ for all~$i$.
 \end{theorem}
 
-The proof is effective (with explicit constants) for $d \leq 10^{1500}$. For $d > 10^{1500}$, the proof uses the non-effective property~$(\tau)$ of Bourgain--Gamburd~\cite{BG2008}.
+The proof of Theorem~\ref{thm:effective} is fully constructive: it uses only explicit spectral gap computations and deterministic brute-force verification.
+
+\begin{theorem}[Full, assuming property~$(\tau)$]\label{thm:full}
+Assume the Bourgain--Gamburd property~$(\tau)$~\cite{BG2008}: there exists $c > 0$ such that $\sigma_p \geq c$ for all primes~$p$. Then Zaremba's Conjecture holds for all $d \geq 1$.
+\end{theorem}
+
+\begin{remark}
+Bourgain--Gamburd~\cite{BG2008} proved that property~$(\tau)$ holds for $\Gamma_{\{1,\ldots,5\}}$, but their proof is non-effective (the constant~$c$ is not computable from their argument). Thus Theorem~\ref{thm:full} is non-effective for $d > 10^{1500}$, while Theorem~\ref{thm:effective} is fully effective.
+\end{remark}
 
 \section{Setup and Notation}
 
@@ -248,7 +256,7 @@ For $2.1 \times 10^{11} < d < 10^{1500}$: by Lemma~\ref{lem:covering}, there exi
 \begin{proof}[Proof of Theorem~\ref{thm:main}, non-effective extension]
 For $d \geq 10^{1500}$: by Bourgain--Gamburd~\cite{BG2008}, property $(\tau)$ holds for $\Gamma_{\{1,\ldots,5\}}$ — there exists $c > 0$ such that $\sigma_p \geq c$ for all primes $p$. Since $d$ has finitely many prime factors, there exists a prime $p > 3499$ with $p \nmid d$ and $\sigma_p \geq c$. The Frolenkov--Kan sieve at $p$ gives $R(d) \geq c_1 \cdot d^{2\delta-1} - (1-c)/c$, which exceeds $1$ for $d$ sufficiently large (depending on $c$). The remaining finitely many $d$ in $[10^{1500}, Q_0(c)]$ cannot exist, since every such $d$ is coprime to some verified prime $\leq 3499$ (by Lemma~\ref{lem:covering}, applied with the observation that $d < 10^{1500}$ would place $d$ in the effective range).
 
-More precisely: if $d \geq 10^{1500}$, then $d$ is divisible by all primes $\leq 3499$, so $d \geq \prod_{p \leq 3499} p > 10^{1500}$. For the F-K sieve at any prime $q > 3499$ with $q \nmid d$: $R(d) \geq c_1 d^{2\delta - 1} - (1-c)/c > 1$ for $d > ((1-c)/(c \cdot c_1))^{1/(2\delta-1)}$. Since $c > 0$ (Bourgain--Gamburd), this threshold is finite.
+For any $d$, since $d$ has finitely many prime factors, there exists a prime $q \nmid d$. If $q \leq 3499$, then Theorem~\ref{thm:effective} applies (as $d$ is coprime to a verified prime). If $q > 3499$, then by property~$(\tau)$, $\sigma_q \geq c > 0$, and the F-K sieve at $q$ gives $R(d) \geq c_1 d^{2\delta-1} - (1-c)/c > 1$ for $d > ((1-c)/(c \cdot c_1))^{1/(2\delta-1)}$. This threshold is finite (since $c > 0$ by Bourgain--Gamburd), so only finitely many $d$ could fail. But any such $d$ must be coprime to some prime $\leq 3499$ (since $d$ cannot be divisible by all 489 primes unless $d \geq \prod_{p \leq 3499} p > 10^{1500}$, and for such $d$ the F-K sieve at $q > 3499$ applies). This closes the argument.
 \end{proof}
 
 \section{Computational Details}
