@@ -311,7 +311,7 @@ For the finitely many $d \in (10^{1500}, Q_0(c)]$: the sieve at any prime $q > 3
 
 A complete closure of this gap would require either: (i)~an effective lower bound on the Bourgain--Gamburd constant~$c$, which remains an open problem, or (ii)~a multi-round sieve argument showing that iterating the sieve over multiple primes $q_1, q_2, \ldots$ not dividing~$d$ produces cumulative decay dominating the main term. Such multi-round sieve arguments exist in the Bourgain--Kontorovich framework~\cite{BK2014} but require non-effective input from property~$(\tau)$.
 
-\emph{Note:} The gap between $10^{1500}$ (our effective range) and $Q_0(c)$ (the non-effective threshold) cannot be eliminated without an explicit value for $c$. The existence of $c > 0$ (Bourgain--Gamburd~\cite{BG2008}) guarantees that $Q_0(c)$ is finite and hence Zaremba's Conjecture holds for all~$d$, but the argument for $d \in (10^{1500}, Q_0(c)]$ is non-constructive.
+\emph{Note:} The gap between $10^{1500}$ (our effective range) and $Q_0(c)$ (the non-effective threshold) cannot be eliminated without an explicit value for $c$. The existence of $c > 0$ (Bourgain--Gamburd~\cite{BG2008}) guarantees that $Q_0(c)$ is finite, but the argument for $d \in (10^{1500}, Q_0(c)]$ is non-constructive: we know a finite verification would suffice, but we cannot specify which integers need checking. This is the standard limitation of non-effective analytic number theory.
 \end{proof}
 
 \section{Computational Details}
@@ -353,7 +353,7 @@ All source code is available at \url{https://github.com/cahlen/idontknow}. Key f
 
 \subsection{Effective vs.\ Non-Effective}
 
-The proof is fully effective for $d \leq 10^{1500}$, covering any integer that could arise in applications (numerical integration, cryptography, pseudorandom number generation). The non-effective extension to all $d$ via Bourgain--Gamburd is standard in the literature but prevents explicit computation of the finite set of exceptional cases (if any) beyond $10^{1500}$.
+Theorem~\ref{thm:effective} gives an effective framework for $d \leq 10^{1500}$, conditional on interval-certification of the spectral gaps and on the BK minor-arc estimate inherited from~\cite{BK2014}. Once these are completed, the effective range covers any integer arising in applications (numerical integration, cryptography, pseudorandom number generation). The non-effective extension (Theorem~\ref{thm:full}) to all~$d$ via Bourgain--Gamburd is standard in the literature but prevents explicit computation of the threshold $Q_0(c)$.
 
 \subsection{Comparison with Shkredov}
 
@@ -458,7 +458,7 @@ Even at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.887$. The
 
 \subsection{Framework: the BK circle method}
 
-The lower bound $R(d) \geq \text{Main}(d) - |\text{Error}(d)|$ follows from the Bourgain--Kontorovich circle method~\cite{BK2014}. We do not reproduce their full Fourier-analytic argument here; instead, we state the structure and specialize it to our setting.
+The decomposition $R(d) = \text{Main}(d) + \text{Error}(d)$ follows from the Bourgain--Kontorovich circle method~\cite{BK2014} (specifically, their Proposition~4.1 for the major-arc decomposition and Theorem~1.2 for the density-one result, which we strengthen to a pointwise bound using our explicit spectral data). We do not reproduce their full Fourier-analytic argument; instead, we state the structure and specialize it to our constants.
 
 The BK framework decomposes $R(d)$ via the Fourier integral $R(d) = \int_0^1 F_N(\alpha)\, e(-\alpha d)\, d\alpha$ where $F_N(\alpha) = \sum_{\gamma \in \Gamma_N} e(\alpha\, q(\gamma))$. Splitting into major arcs (near rationals $a/q$ with $q \leq Q$) and minor arcs:
 \[
@@ -500,7 +500,7 @@ Summing over all CF depths $K$:
 
 The bound~\eqref{eq:total_error} controls the non-trivial contribution to the \emph{congruence count} $\#\{\gamma : q(\gamma) \equiv d \pmod{p}\}$, not the exact count $R(d) = \#\{q(\gamma) = d\}$. The bridge from congruence counts to exact counts is provided by the BK circle method~\cite{BK2014}: the Fourier integral representation $R(d) = \int F_N e(-\alpha d)\, d\alpha$ is an exact identity, and the spectral decomposition of $F_N$ on major arcs produces $\text{Main}(d) + \text{Error}(d)$ with error controlled by~\eqref{eq:total_error}.
 
-The minor-arc contribution is controlled by the global mixing of the transfer operator and is subdominant to the major-arc error for our range of~$d$ (see~\cite{BK2014}, Section~4). We do not reproduce the minor-arc analysis here; the brute-force verification to $d = 2.1 \times 10^{11}$ provides a safety margin of $10^7\times$ that absorbs any minor-arc contribution.
+The minor-arc contribution requires a separate bound. In~\cite{BK2014}, the minor-arc error is controlled by the sum-product theorem (non-effective) and contributes a term $O(N^{2\delta - \eta})$ for some $\eta > 0$ (see~\cite{BK2014}, Section~4). For our effective range ($d \leq 10^{1500}$), this minor-arc bound is an additional assumption inherited from~\cite{BK2014}; we do not rederive it. For $d \leq 2.1 \times 10^{11}$, the brute-force verification renders the minor-arc analysis unnecessary.
 
 \subsection{Conclusion}
 
