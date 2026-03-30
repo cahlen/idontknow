@@ -105,69 +105,42 @@ __global__ void compute_class_numbers(
     int64 m = 0, D = 1;
     int64 a = (int64)a0;
 
-    // Regulator: R(d) = log(epsilon_d) accumulated incrementally
-    // log(epsilon_d) = sum of log(a_k + tail_correction) over one period
-    // Simplified: R = sum_{k=0}^{period-1} log(a_k + x_k) where x_k in (0,1)
-    // We approximate x_k ≈ 0 for large a_k (error < 1/a_k^2)
-    // For a_k = 1, we use the exact formula with the next CF coefficient
+    // Track log(P) and log(Q) for convergents P_k/Q_k
+    // P_{-1}=1, P_0=a0, Q_{-1}=0, Q_0=1
+    // Recurrence: P_{k+1} = a_{k+1}*P_k + P_{k-1}
+    // In log space: log(P_{k+1}) = log(P_k) + log(a + exp(log(P_{k-1})-log(P_k)))
+    double log_P_prev = 0.0;           // log(1)
+    double log_P_curr = log((double)a0);
+    double log_Q_prev = -1e30;         // log(0) ≈ -inf
+    double log_Q_curr = 0.0;           // log(1)
 
-    double log_reg = 0.0;
-    // Actually, track convergents P_{k-1}, Q_{k-1}, P_k, Q_k
-    // But they overflow. Instead, track log(P_k) and log(Q_k).
-    double log_P_prev = 0.0;  // log(P_{-1}) = log(1) = 0
-    double log_P_curr = log((double)a0);  // log(P_0) = log(a0)
-
-    int period = 0;
     for (int step = 0; step < MAX_CF_STEPS; step++) {
         m = D * a - m;
         D = (d - m * m) / D;
+        if (D == 0) break;
         a = ((int64)a0 + m) / D;
 
-        // Update log(P) using: P_{k+1} = a_{k+1} * P_k + P_{k-1}
-        // log(P_{k+1}) = log(P_k) + log(a_{k+1} + exp(log(P_{k-1}) - log(P_k)))
-        double ratio = exp(log_P_prev - log_P_curr);
-        double log_P_next = log_P_curr + log((double)a + ratio);
+        // Update log(P): P_{k+1} = a*P_k + P_{k-1}
+        double ratio_P = exp(log_P_prev - log_P_curr);
+        double log_P_next = log_P_curr + log((double)a + ratio_P);
         log_P_prev = log_P_curr;
         log_P_curr = log_P_next;
 
-        period++;
-        if (D == 1) break;
+        // Update log(Q): Q_{k+1} = a*Q_k + Q_{k-1}
+        double ratio_Q = (log_Q_prev > -1e20) ? exp(log_Q_prev - log_Q_curr) : 0.0;
+        double log_Q_next = log_Q_curr + log((double)a + ratio_Q);
+        log_Q_prev = log_Q_curr;
+        log_Q_curr = log_Q_next;
+
+        // Period ends when a == 2*a0 (standard CF period detection)
+        if (a == 2 * (int64)a0) break;
     }
 
-    // Regulator = log(P_period + Q_period * sqrt(d))
-    // For the fundamental unit: epsilon = P + Q*sqrt(d)
-    // When period is odd, we get epsilon^2 and need to halve the regulator
-    // R(d) ≈ log_P_curr + log(1 + sqrt(d) * exp(log_Q - log_P))
-    // But we don't track Q separately... approximate:
-    // R(d) ≈ log_P_curr (good approximation since P >> Q*sqrt(d) usually... no)
-    // Actually: epsilon_d = P + Q*sqrt(d) where P^2 - d*Q^2 = ±1
-    // log(epsilon) = log(P) + log(1 + Q*sqrt(d)/P) ≈ log(P) for large P
-    // But Q*sqrt(d)/P ≈ 1 for the fundamental solution! So:
-    // log(epsilon) ≈ log(P) + log(2) = log(2P)
-    // More precisely: log(epsilon) = log(P + sqrt(P^2 ± 1)) ≈ log(2P) for large P
+    // R = log(P + Q*sqrt(d)) = log(P) + log(1 + exp(log(Q) + 0.5*log(d) - log(P)))
+    double diff = log_Q_curr + 0.5 * log((double)d) - log_P_curr;
+    double regulator = log_P_curr + log(1.0 + exp(diff));
 
-    double regulator;
-    if (period % 2 == 0) {
-        // Even period: fundamental unit directly
-        regulator = log_P_curr + log(2.0);
-    } else {
-        // Odd period: we computed epsilon^2, need to double the CF period
-        // Actually for odd period, the fundamental solution to x^2 - dy^2 = 1
-        // requires going through 2 periods. Our CF stopped at period 1.
-        // R(d) = 2 * (half-period log)
-        // But we already ran a full period... the sign of Pell is -1.
-        // For the +1 solution: double the period.
-        // Simpler: R = log_P_curr + log(2) gives log(epsilon) where epsilon^2-d*Q^2 = -1
-        // The class number formula uses the fundamental unit, which for d with
-        // odd period is the one with epsilon^2 - d*Q^2 = +1.
-        // So R = 2 * (log_P_curr + log(2)) / 2? No...
-        // Let's just use R = log_P_curr + log(2) as the regulator.
-        // The factor of 2 will be absorbed by the class number formula.
-        regulator = log_P_curr + log(2.0);
-        // TODO: handle odd period correctly. For now this gives h(d) ≈ correct.
-    }
-
-    if (regulator < 0.1) regulator = 0.1;  // safety floor
+    if (regulator < 0.01) regulator = 0.01;
 
     // ===== PHASE 2: L(1, chi_d) via Euler product =====
     double L1 = 1.0;
