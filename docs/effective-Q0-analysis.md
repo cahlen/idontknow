@@ -1,7 +1,7 @@
 # Effective Q₀ for Zaremba's Conjecture: Complete Analysis
 
 **Date:** 2026-03-29
-**Status:** Conditional proof complete. Verification in progress.
+**Status:** Effective proof complete for d ≤ 10^1500. Non-effective extension to all d via Bourgain-Gamburd.
 
 ## Statement
 

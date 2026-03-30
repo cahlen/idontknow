@@ -12,7 +12,7 @@ This repository contains the computational engine behind bigcompute.science: CUD
 
 | Experiment | Method | Status |
 |---|---|---|
-| **Zaremba's Conjecture — 8B verification** | CUDA kernel (brute-force CF enumeration) | In progress |
+| **Zaremba's Conjecture — 210B verification + proof** | CUDA brute-force + F-K sieve + spectral gaps | Effective for d ≤ 10^1500 |
 | **Zaremba transfer operator** | Chebyshev collocation + cuSOLVER eigensolve | Complete |
 | **Zaremba transitivity** | CUDA + algebraic proof (Dickson classification) | Complete |
 | **MCTS proof search benchmark** | LLM + Lean 4 + Monte Carlo Tree Search | Planned |
@@ -22,8 +22,8 @@ This repository contains the computational engine behind bigcompute.science: CUD
 
 ### Key Results So Far
 
-- **Zaremba brute-force:** 8 billion+ values verified, zero failures
-- **Spectral gaps:** Uniform ≥ 0.237 for all 1,214 square-free moduli m ≤ 1999
+- **Zaremba proof:** Effective for all d ≤ 10^1500 via layered F-K sieve with 489 verified spectral gaps. Brute force to 2.1×10^11, zero failures. [Proof document](docs/zaremba-proof.md) | [Paper](paper/zaremba-proof.tex)
+- **Spectral gaps:** σ_p ≥ 0.336 for all 489 primes p ≤ 3500 (FP64/cuBLAS)
 - **Hausdorff dimension:** δ = 0.836829443681208 (15-digit precision)
 - **Transitivity:** Algebraically proved for ALL primes (not just computationally checked)
 - **LLM proving:** 19/20 small Zaremba cases formally proved in Lean 4 (dual-model race)
