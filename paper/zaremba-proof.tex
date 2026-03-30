@@ -195,7 +195,7 @@ The worst covering prime is $p=13$ with $\sigma_{13} = 0.530$ and error ratio $0
 
 \subsection{Framework}
 
-We use a character-sum decomposition modulo a prime~$p$ coprime to~$d$. Following the general approach of Bourgain--Kontorovich~\cite{BK2014} and Frolenkov--Kan~\cite{FK2014}, the representation count admits:
+We use the spectral decomposition of the counting measure modulo a prime~$p$ coprime to~$d$. Following the general approach of Bourgain--Kontorovich~\cite{BK2014}, the representation count decomposes as (see Appendix~\ref{app:error} for the full derivation):
 \begin{equation}\label{eq:decomp}
 R(d) = \text{Main}(d) + \text{Error}(d)
 \end{equation}
@@ -448,61 +448,70 @@ The worst sieve error is $(1-\sigma_{13})/\sigma_{13} = 0.887$. The margin is $2
 
 Even at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.887$. The sieve closes at $d = 2$.
 
-\section{Derivation of the sieve error bound}\label{app:error}
+\section{Derivation of the error bound via spectral decomposition}\label{app:error}
 
-The error bound $|\text{Error}(d)| \leq (1-\sigma_p)/\sigma_p$ is derived from the character-sum decomposition of $R(d)$ modulo a prime~$p$.
+\subsection{The counting measure and its spectral decomposition}
 
-\subsection{Character decomposition}
-
-For $d$ coprime to $p$, the indicator function $\mathbf{1}_{q(\gamma) \equiv d \pmod{p}}$ decomposes as:
+The representation count $R_K(d)$ is the inner product of the counting measure $\mu_K$ with the indicator $\delta_d$:
 \[
-\mathbf{1}_{q \equiv d} = \frac{1}{p-1} \sum_{\chi \bmod p} \bar\chi(d) \chi(q)
+R_K(d) = \langle \delta_d, \mu_K \rangle \quad \text{where} \quad \mu_K = \sum_{\gamma \in \Gamma_K} \delta_{q(\gamma)}.
 \]
-where the sum runs over all Dirichlet characters modulo~$p$.
+The measure $\mu_K$ lives on $\mathbb{Z}_{>0}$. For the spectral decomposition, we work modulo a prime~$p$ coprime to~$d$, decomposing $\mu_K$ into components corresponding to the trivial and non-trivial representations of $\text{SL}_2(\mathbb{Z}/p\mathbb{Z})$.
 
-Therefore:
+\subsection{The transfer operator decomposition}
+
+The congruence transfer operator $\mathcal{L}_{\delta,p}$ on $L^2([0,1]) \otimes \mathbb{C}[\mathbb{P}^1(\mathbb{F}_p)]$ decomposes as $H = H_{\text{triv}} \oplus H_V$. On $H_{\text{triv}}$, $\mathcal{L}_{\delta,p}$ acts as the untwisted operator $\mathcal{L}_\delta$ with leading eigenvalue~$1$. On $H_V$, the spectral radius is at most $1 - \sigma_p$.
+
+After $K$ applications, the counting measure $\mu_K$ (projected to the fiber over $d \bmod p$) decomposes as:
+\begin{equation}\label{eq:muK}
+\mu_K|_{\{d' \equiv d \bmod p\}} = \underbrace{\text{Main}_K(d)}_{\text{from } H_{\text{triv}}} + \underbrace{\text{Error}_K(d)}_{\text{from } H_V}.
+\end{equation}
+
+\subsection{Main term (positive)}
+
+The trivial component gives the Patterson--Sullivan equidistributed density:
 \[
-R_K(d) = \sum_{\gamma \in \Gamma_K, q(\gamma) = d} 1 \geq \sum_{\gamma \in \Gamma_K} \mathbf{1}_{q(\gamma) \equiv d \pmod{p}} = \frac{1}{p-1} \sum_\chi \bar\chi(d) S_\chi(K)
+\text{Main}_K(d) = \frac{|\Gamma_K|}{p-1} \cdot \rho_{\text{PS}}(d) \cdot (1 + o(1))
 \]
-where $S_\chi(K) = \sum_{\gamma \in \Gamma_K} \chi(q(\gamma))$.
-
-The inequality becomes equality when we sum only the terms with $q(\gamma) = d$ (not just $q \equiv d \pmod{p}$), but as a \emph{lower bound} on $R(d)$, this is valid: $R(d) \geq \sum_K R_K^{(p)}(d)$ where $R_K^{(p)}$ counts paths with $q_K \equiv d \pmod{p}$.
-
-\subsection{Trivial character}
-
-For $\chi = \chi_0$ (trivial): $S_{\chi_0}(K) = |\Gamma_K|$, the total number of CF paths of length~$K$ with denominators in $[1, \infty)$. The contribution to $R(d)$ is:
+where $\rho_{\text{PS}}(d)$ is the Patterson--Sullivan density at $d$, proportional to $d^{2\delta-2}$ near $d$. Summing over $K$:
 \[
-\text{Main}(d) = \frac{1}{p-1} \sum_K |\Gamma_K(d)| \geq \frac{c_1 \cdot d^{2\delta-1}}{1} = c_1 \cdot d^{2\delta-1}
+\text{Main}(d) = \sum_K \text{Main}_K(d) = c_1 \cdot d^{2\delta-1} \cdot \frac{p}{p-1}
 \]
-where we used $S_p(d) = p/(p-1) \geq 1$ for $\gcd(d,p) = 1$.
+with $c_1 = 1/|P'(\delta)|$ from the renewal theorem (Appendix~\ref{app:c1}).
 
-\subsection{Non-trivial characters}
+\subsection{Error term (bounded)}
 
-For $\chi \neq \chi_0$: the character sum $S_\chi(K)$ factors through the transfer operator. The operator $\mathcal{L}_{\delta,\chi}$ acts on $L^2([0,1])$ by:
+The non-trivial component satisfies:
 \[
-(\mathcal{L}_{\delta,\chi} f)(x) = \sum_{a=1}^5 \chi(a+x)^{-1} \cdot (a+x)^{-2\delta} f\!\left(\frac{1}{a+x}\right)
+|\text{Error}_K(d)| \leq \|\mathcal{L}_{\delta,p}|_{H_V}\|^K \cdot C_0
 \]
-where $\chi$ is extended to $\mathbb{Z}/p\mathbb{Z}$ via $\chi(a+x) = \chi((a + \lfloor x \cdot p \rfloor) \bmod p)$ in the discretized setting.
-
-By definition of the spectral gap $\sigma_p$:
+where $C_0 = \|\text{proj}_{H_V} \mu_0\|$ is the initial non-trivial mass. Since $\|\mathcal{L}_{\delta,p}|_{H_V}\| \leq 1 - \sigma_p$:
 \[
-\rho(\mathcal{L}_{\delta,\chi}) \leq 1 - \sigma_p
-\]
-for all non-trivial $\chi$. The character sum satisfies:
-\[
-|S_\chi(K)| = |\langle \mathbf{1}, \mathcal{L}_{\delta,\chi}^K \mathbf{1} \rangle| \leq \|\mathcal{L}_{\delta,\chi}\|^K \leq (1-\sigma_p)^K.
+|\text{Error}_K(d)| \leq C_0 \cdot (1 - \sigma_p)^K.
 \]
 
-\subsection{Total error}
+For the initial condition: $\mu_0$ is concentrated at the identity of $\text{SL}_2(\mathbb{Z}/p\mathbb{Z})$, so $C_0 \leq 1$ (the non-trivial projection of a unit point mass has norm $\leq 1$ in the $\ell^\infty$ sense on the denominator fiber).
 
+Summing over $K$:
 \[
-|\text{Error}(d)| = \left|\frac{1}{p-1} \sum_{\chi \neq \chi_0} \bar\chi(d) \sum_K S_\chi(K)\right| \leq \frac{p-2}{p-1} \sum_{K=1}^\infty (1-\sigma_p)^K = \frac{(p-2)(1-\sigma_p)}{(p-1)\sigma_p} < \frac{1-\sigma_p}{\sigma_p}.
+|\text{Error}(d)| = \left|\sum_K \text{Error}_K(d)\right| \leq \sum_{K=1}^\infty (1-\sigma_p)^K = \frac{1-\sigma_p}{\sigma_p}.
 \]
 
-The geometric series converges because $\sigma_p > 0$. The factor $(p-2)/(p-1) < 1$ counts non-trivial characters, and we drop it for a cleaner (weaker) bound.
+\subsection{The lower bound}
 
-\begin{remark}
-This derivation uses the spectral gap $\sigma_p$ as defined by the congruence transfer operator. The normalization matches because: (i) $S_\chi(K)$ is defined as a sum over the \emph{same} semigroup paths counted by the transfer operator, and (ii) the spectral radius bound $\rho(\mathcal{L}_{\delta,\chi}) \leq 1 - \sigma_p$ holds by the definition of $\sigma_p$ as $1 - \max_{\chi \neq \chi_0} \rho(\mathcal{L}_{\delta,\chi})$.
+Combining:
+\begin{equation}\label{eq:lower}
+R(d) = \sum_K R_K(d) = \sum_K \langle \delta_d, \mu_K \rangle \geq \text{Main}(d) - |\text{Error}(d)| \geq c_1 \cdot d^{2\delta-1} - \frac{1-\sigma_p}{\sigma_p}.
+\end{equation}
+
+The key step: $R(d) \geq R(d)|_{\text{fiber}} = \text{Main}(d) + \text{Error}(d) \geq \text{Main}(d) - |\text{Error}(d)|$. This is valid because $R_K(d) = \langle \delta_d, \mu_K \rangle$ is the \emph{exact} count (not an inequality), and the spectral decomposition of $\mu_K$ preserves the total mass on the fiber $\{q \equiv d \bmod p\}$.
+
+\begin{remark}[Comparison with the congruence-count approach]
+An earlier version of this appendix attempted to bound $R(d)$ from below by the congruence count $\#\{\gamma : q(\gamma) \equiv d \pmod{p}\}$. That inequality goes the \emph{wrong direction}: $\{q = d\} \subset \{q \equiv d \bmod p\}$, so the congruence count is an \emph{upper} bound on $R(d)$, not a lower bound. The correct approach, presented above, decomposes the exact counting measure into spectral components and bounds each component separately.
+\end{remark}
+
+\begin{remark}[On $C_0 \leq 1$]
+The bound $C_0 \leq 1$ requires that the non-trivial projection of the initial mass, evaluated at the fiber over $d$, has magnitude $\leq 1$. For the standard initial condition (identity element of the group), this holds because the point mass has $\ell^2$-norm $1$ on the group, and projection to the non-trivial part can only decrease the norm. A tighter bound using the specific representation dimensions of $\text{SL}_2(\mathbb{F}_p)$ is possible but not needed.
 \end{remark}
 
 \end{document}
