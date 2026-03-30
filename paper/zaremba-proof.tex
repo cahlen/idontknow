@@ -65,13 +65,13 @@ This is unconditional, deterministic, and verified by exhaustive GPU computation
 \begin{theorem}[Conditional framework]\label{thm:effective}
 Assume:
 \begin{enumerate}[label=(\roman*)]
-\item The Magee--Oh--Winter norm-ball counting theorem~\cite{MOW2019} for $\Gamma_{\{1,\ldots,5\}}$ yields, after Tauberian differentiation (Remark~\ref{rem:bridge1}), an individual-denominator asymptotic $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-\varepsilon})$ with $\varepsilon > 0$.
-\item The power-saving exponent $\varepsilon$ and error constant $C_{\text{err}}$ are bounded by the values in our constant-extraction table (Section~5), giving threshold $D_0 = (C_{\text{err}}/c_1)^{1/(2\varepsilon)} \leq 2.1 \times 10^{11}$.
+\item The Magee--Oh--Winter norm-ball counting theorem~\cite{MOW2019} for $\Gamma_{\{1,\ldots,5\}}$ yields, after Tauberian differentiation (Remark~\ref{rem:bridge1}), an individual-denominator asymptotic $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$ with $\varepsilon > 0$ (the factor $2\varepsilon$ arises because the MOW norm-ball error is $O(R^{2\delta-2\varepsilon})$).
+\item The power-saving exponent $\varepsilon$ and error constant $C_{\text{err}}$ are bounded by the values in our constant-extraction table (Remark~\ref{rem:mow}), giving threshold $D_0 = (C_{\text{err}}/c_1)^{1/(2\varepsilon)} \leq 2.1 \times 10^{11}$.
 \end{enumerate}
 Then Zaremba's Conjecture holds for all $d \geq 1$.
 \end{theorem}
 
-Our constant extraction (Section~5) gives $C_{\text{err}} \approx 205$, $\varepsilon \approx 0.156$, $D_0 \approx 1.3 \times 10^8$. The margin versus the brute-force frontier is $1{,}636\times$. We need $C_{\text{err}} \leq 2{,}061$ for $D_0 \leq 2.1 \times 10^{11}$; our estimate has $10\times$ headroom.
+Our constant extraction (Remark~\ref{rem:mow}) gives $C_{\text{err}} \approx 205$, $\varepsilon \approx 0.156$, $D_0 \approx 1.3 \times 10^8$. The margin versus the brute-force frontier is $1{,}636\times$. We need $C_{\text{err}} \leq 2{,}061$ for $D_0 \leq 2.1 \times 10^{11}$; our estimate has $10\times$ headroom.
 
 \begin{remark}[The Magee--Oh--Winter approach]\label{rem:mow}
 The key input is the uniform congruence counting theorem of Magee, Oh, and Winter~\cite{MOW2019} (Crelle's Journal, 2019). For Schottky semigroups $\Gamma$ of $\SL_2(\mathbb{Z})$ — which explicitly includes the continued fractions semigroup $\Gamma_{\{1,\ldots,5\}}$ — they prove:
@@ -159,7 +159,7 @@ Theorem~\ref{thm:effective} subsumes the earlier ``Theorem~3'' (full conjecture 
 \begin{remark}\label{rem:status}
 Theorem~\ref{thm:bruteforce} is the only fully unconditional result.
 
-Theorem~\ref{thm:effective} is conditional on two assumptions: (i)~the Tauberian step from MOW norm-ball counts to individual denominators, and (ii)~the constant bound $C_{\text{err}} \leq 2{,}061$ (our estimate: $C_{\text{err}} \approx 205$, headroom $10\times$). Our constant extraction (Section~5) traces every constant through the MOW proof; the margin of $1{,}636\times$ makes the argument robust to estimation errors.
+Theorem~\ref{thm:effective} is conditional on two assumptions: (i)~the Tauberian step from MOW norm-ball counts to individual denominators, and (ii)~the constant bound $C_{\text{err}} \leq 2{,}061$ (our estimate: $C_{\text{err}} \approx 205$, headroom $10\times$). Our constant extraction (Remark~\ref{rem:mow}) traces every constant through the MOW proof; the margin of $1{,}636\times$ makes the argument robust to estimation errors.
 \end{remark}
 
 \section{Setup and Notation}
@@ -269,7 +269,9 @@ $p$ & $\sigma_p$ (MPFR, 256-bit) & $(1-\sigma_p)/\sigma_p$ \\
 
 The worst covering prime is $p=29$ with $\sigma_{29} = 0.651$ and error ratio $0.537$. All gaps are MPFR-certified at 256-bit precision (77 decimal digits) with guaranteed rounding.
 
-\section{The Sieve Argument}
+\section{Supplementary: The BK/Sieve Perspective}
+
+\emph{Note: The following section presents an independent perspective on the error bound via the Bourgain--Kontorovich circle method and single-prime sieve. This is NOT part of the main proof of Theorem~\ref{thm:effective} (which uses the MOW framework from Remark~\ref{rem:mow}). It is retained as supplementary material for comparison and because it motivated the spectral gap computations.}
 
 \subsection{Framework}
 
@@ -509,7 +511,9 @@ At the brute-force frontier $d = 2.1 \times 10^{11}$:
 \]
 The worst covering error (MPFR-certified) is $(1-\sigma_{29})/\sigma_{29} = 0.537$. At $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.537$.
 
-\section{Derivation of the error bound}\label{app:error}
+\section{Supplementary: BK circle-method error bound}\label{app:error}
+
+\emph{Note: This appendix presents the BK/circle-method approach to the error bound, which was the original framework before the MOW upgrade. The main proof (Theorem~\ref{thm:effective}) now uses the MOW power-saving framework from Remark~\ref{rem:mow}. This appendix is retained for completeness.}
 
 \subsection{Framework: the BK circle method}
 
