@@ -29,7 +29,7 @@ Computational Evidence and a Proof Framework via Spectral Gaps}
 \begin{document}
 
 \begin{abstract}
-We prove Zaremba's Conjecture ($A=5$) for all integers $d \leq 10^{1500}$ using a computer-assisted argument combining GPU brute-force verification, spectral gap computation, and a sieve-type covering. Specifically: (1)~GPU enumeration confirms $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (deterministic, reproducible). (2)~Spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ are computed at FP64 for 489 primes $p \leq 3499$, all satisfying $\sigma_p \geq 0.336$. (3)~A layered covering argument extends the result to $d \leq 10^{1500}$, using the Lalley renewal theorem (Appendix~A) to establish the main-term constant $c_1 = 1/|P'(\delta)| = 0.6046$ and a character-sum decomposition (Appendix~B) for the sieve error bound. Conditional on the non-effective Bourgain--Gamburd property~$(\tau)$, the result extends to all~$d$. The spectral gaps are computed numerically (FP64) and await interval-arithmetic certification for full rigor. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM).
+We present a computer-assisted argument for Zaremba's Conjecture ($A=5$) for all integers $d \leq 10^{1500}$, combining GPU brute-force verification, spectral gap computation, and a sieve-type covering. Specifically: (1)~GPU enumeration confirms $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (deterministic, reproducible). (2)~Spectral gaps of the congruence transfer operator $\mathcal{L}_{\delta,p}$ are computed at FP64 for 489 primes $p \leq 3499$, all satisfying $\sigma_p \geq 0.336$. (3)~A layered covering argument extends the result to $d \leq 10^{1500}$, using the Lalley renewal theorem (Appendix~A) to establish the main-term constant $c_1 = 1/|P'(\delta)| = 0.6046$ and a character-sum decomposition (Appendix~B) for the sieve error bound. Conditional on the non-effective Bourgain--Gamburd property~$(\tau)$, the result extends to all~$d$. The spectral gaps are computed numerically (FP64) and await interval-arithmetic certification for full rigor. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster (1.43\,TB VRAM).
 \end{abstract}
 
 \maketitle
@@ -286,9 +286,9 @@ Assume (a) and (b) from the theorem statement.
 
 \emph{Case $2.1 \times 10^{11} < d \leq 10^{1500}$:} By Lemma~\ref{lem:covering}, there exists a prime $p \leq 3499$ with $\gcd(d,p) = 1$. By Proposition~\ref{prop:gaps}, $\sigma_p \geq 0.336$. By assumptions~(a) and~(b):
 \[
-R(d) \geq c_1 \cdot d^{2\delta-1} - \frac{1-\sigma_p}{\sigma_p} \geq 0.45 \cdot d^{0.674} - \frac{1-0.336}{0.336} = 0.45 \cdot d^{0.674} - 1.976.
+R(d) \geq c_1 \cdot d^{2\delta-1} - \frac{1-\sigma_p}{\sigma_p} \geq 0.6046 \cdot d^{0.674} - \frac{1-0.336}{0.336} = 0.6046 \cdot d^{0.674} - 1.976.
 \]
-For $d \geq 2.1 \times 10^{11}$: $0.45 \cdot (2.1 \times 10^{11})^{0.674} > 0.45 \times 3.6 \times 10^7 > 10^7 \gg 1.976$. So $R(d) > 1$.
+For $d \geq 2.1 \times 10^{11}$: $0.6046 \cdot (2.1 \times 10^{11})^{0.674} > 2.5 \times 10^7 \gg 1.976$. So $R(d) > 1$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:full}]
@@ -304,7 +304,7 @@ Since $2\delta - 1 > 0$, this exceeds~$1$ for all $d > Q_0(c) := ((1-c)/(c \cdot
 
 For the finitely many $d \in (10^{1500}, Q_0(c)]$: the sieve at any prime $q > 3499$ with $q \nmid d$ gives $R(d) \geq c_1 d^{2\delta-1} - (1-c)/c$, which is positive iff $d > Q_0(c)$. Since $d \leq Q_0(c)$ by assumption, this does not immediately close.
 
-However, we can iterate: for each such $d$, apply the sieve at a different prime $q' \nmid d$ with $q' > q$. The set of primes not dividing $d$ is infinite (since $d$ is finite), and the sieve bound improves with each additional prime (effectively raising the number of sieve rounds). After sufficiently many rounds (depending on the structure of~$d$), the cumulative sieve error is dominated by the main term. This argument is standard in the Bourgain--Kontorovich framework but depends on $c$ non-effectively.
+A complete closure of this gap would require either: (i)~an effective lower bound on the Bourgain--Gamburd constant~$c$, which remains an open problem, or (ii)~a multi-round sieve argument showing that iterating the sieve over multiple primes $q_1, q_2, \ldots$ not dividing~$d$ produces cumulative decay dominating the main term. Such multi-round sieve arguments exist in the Bourgain--Kontorovich framework~\cite{BK2014} but require non-effective input from property~$(\tau)$.
 
 \emph{Note:} The gap between $10^{1500}$ (our effective range) and $Q_0(c)$ (the non-effective threshold) cannot be eliminated without an explicit value for $c$. The existence of $c > 0$ (Bourgain--Gamburd~\cite{BG2008}) guarantees that $Q_0(c)$ is finite and hence Zaremba's Conjecture holds for all~$d$, but the argument for $d \in (10^{1500}, Q_0(c)]$ is non-constructive.
 \end{proof}
