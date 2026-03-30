@@ -13,6 +13,15 @@ This is NOT just a Lean 4 proving repo — Lean is one tool among many. The core
 - Interested in using AI to explore areas of math that don't get a spotlight — continued fractions, number theory, combinatorics
 - NOT interested in video generation models
 
+## Data Preservation — CRITICAL
+
+Any raw data processed on the GPU cluster MUST be preserved and documented:
+- **Small data** (< 100MB): commit directly to the `data/` directory in this repo with a descriptive log file
+- **Large data** (> 100MB): upload to a corresponding Hugging Face dataset repo (https://huggingface.co/cahlen) with a README documenting the computation parameters, hardware, date, and how to reproduce
+- **All computations** must have their output logged to a file (never just stdout) with timestamps, parameters, and aggregate statistics
+- **Intermediate results** (e.g., per-chunk statistics) should be saved incrementally so partial runs are not lost
+- **Log files** go in `logs/` or `data/<experiment>/` with descriptive names like `run_1e9_1e10.log`
+
 ## Security — CRITICAL
 
 This repository will be public and autonomous AI agents will push commits to it. **Nothing secret can ever be committed.**
