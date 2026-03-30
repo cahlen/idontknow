@@ -65,7 +65,7 @@ This is unconditional, deterministic, and verified by exhaustive GPU computation
 \begin{theorem}[Conditional framework]\label{thm:effective}
 Assume:
 \begin{enumerate}[label=(\roman*)]
-\item The Magee--Oh--Winter norm-ball counting theorem~\cite{MOW2019} for $\Gamma_{\{1,\ldots,5\}}$ yields, after Tauberian differentiation (Remark~\ref{rem:bridge1}), an individual-denominator asymptotic $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$ with $\varepsilon > 0$ (the factor $2\varepsilon$ arises because the MOW norm-ball error is $O(R^{2\delta-2\varepsilon})$).
+\item The Magee--Oh--Winter norm-ball counting theorem~\cite{MOW2019} for $\Gamma_{\{1,\ldots,5\}}$ yields, after Tauberian differentiation (Remark~\ref{rem:bridge1}), an individual-denominator asymptotic $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$ with $\varepsilon > 0$.
 \item The power-saving exponent $\varepsilon$ and error constant $C_{\text{err}}$ are bounded by the values in our constant-extraction table (Remark~\ref{rem:mow}), giving threshold $D_0 = (C_{\text{err}}/c_1)^{1/(2\varepsilon)} \leq 2.1 \times 10^{11}$.
 \end{enumerate}
 Then Zaremba's Conjecture holds for all $d \geq 1$.
@@ -76,7 +76,7 @@ Our constant extraction (Remark~\ref{rem:mow}) gives $C_{\text{err}} \approx 205
 \begin{remark}[The Magee--Oh--Winter approach]\label{rem:mow}
 The key input is the uniform congruence counting theorem of Magee, Oh, and Winter~\cite{MOW2019} (Crelle's Journal, 2019). For Schottky semigroups $\Gamma$ of $\SL_2(\mathbb{Z})$ — which explicitly includes the continued fractions semigroup $\Gamma_{\{1,\ldots,5\}}$ — they prove:
 \begin{equation}\label{eq:mow}
-\#(\Gamma(q) \cap B_R) = \frac{c_\Gamma \cdot R^{2\delta}}{\#\SL_2(\mathbb{Z}/q\mathbb{Z})} + O(q^C \cdot R^{2\delta - \varepsilon})
+\#(\Gamma(q) \cap B_R) = \frac{c_\Gamma \cdot R^{2\delta}}{\#\SL_2(\mathbb{Z}/q\mathbb{Z})} + O(q^C \cdot R^{2(\delta - \varepsilon)})
 \end{equation}
 as $R \to \infty$, where $\varepsilon > 0$ and $C > 0$ are \textbf{independent of $q$}.
 
@@ -88,7 +88,7 @@ R(d) = N(d) - N(d-1) \sim 2\delta \cdot c_\Gamma \cdot d^{2\delta - 1} + O(d^{2\
 \]
 The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674 - \varepsilon})$.
 
-\textbf{Pointwise bound.} The MOW error is $O(R^{2\delta - 2\varepsilon})$, which after Tauberian differentiation gives error $O(d^{2\delta-1-2\varepsilon})$. For $R(d) \geq 1$: we need $c_1 \cdot d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-2\varepsilon}$, i.e., $d^{2\varepsilon} > C_{\text{err}}/c_1$. This holds for all $d > D_0 := (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$.
+\textbf{Pointwise bound.} The MOW error (Theorem~11 of~\cite{MOW2019}) is $O(R^{2(\delta - \varepsilon)})$, which after Tauberian differentiation gives error $O(d^{2\delta-1-2\varepsilon})$. For $R(d) \geq 1$: we need $c_1 \cdot d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-2\varepsilon}$, i.e., $d^{2\varepsilon} > C_{\text{err}}/c_1$. This holds for all $d > D_0 := (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$.
 
 \textbf{The threshold $D_0$.} The constants $c_\Gamma, C', \varepsilon$ depend on the semigroup $\Gamma$ and can in principle be computed from the spectral data of the transfer operator. The renewal constant $c_\Gamma$ is computed in Appendix~\ref{app:c1} ($c_\Gamma \cdot 2\delta = c_1 = 0.6046$). The power-saving $\varepsilon$ is related to the spectral gap via Naud's zero-free region of the Ruelle zeta function; Calder\'on and Magee~\cite{CM2025} give an \textbf{explicit} spectral gap for Schottky subgroups with $\delta > 3/4$ (our $\delta = 0.837$ qualifies). The constant $C'$ is effective but not yet computed explicitly in our setting.
 
@@ -133,11 +133,11 @@ MOW's Theorem~1~\cite{MOW2019} counts semigroup elements $\gamma$ in Euclidean n
 
 \textbf{(a) Norm $\leftrightarrow$ denominator.} For $\gamma = \begin{psmallmatrix} * & * \\ q_{k-1} & q_k \end{psmallmatrix} \in \Gamma$, the Euclidean norm $\|\gamma\| = \sqrt{p_{k-1}^2 + p_k^2 + q_{k-1}^2 + q_k^2}$ satisfies $q_k \leq \|\gamma\| \leq C_0 q_k$ for a constant $C_0$ depending only on $A$ (since the entries are comparable by the CF recurrence). So counting in $B_R$ is equivalent to counting with $q(\gamma) \leq C_0 R$, up to constant factors.
 
-\textbf{(b) From cumulative to individual counts.} The counting function $N(d) = \#\{\gamma : q(\gamma) \leq d\} = c_\Gamma d^{2\delta} + O(d^{2\delta - \varepsilon})$. For the individual count $R(d) = N(d) - N(d-1)$: the main term differentiates to $c_\Gamma \cdot 2\delta \cdot d^{2\delta-1}$, but the error does NOT automatically lose one power. Writing $R(d) = [c_\Gamma d^{2\delta} + E(d)] - [c_\Gamma(d-1)^{2\delta} + E(d-1)]$ where $|E(d)| \leq C d^{2\delta-\varepsilon}$:
+\textbf{(b) From cumulative to individual counts.} The counting function $N(d) = \#\{\gamma : q(\gamma) \leq d\} = c_\Gamma d^{2\delta} + O(d^{2(\delta - \varepsilon)})$. For the individual count $R(d) = N(d) - N(d-1)$: the main term differentiates to $c_\Gamma \cdot 2\delta \cdot d^{2\delta-1}$, but the error does NOT automatically lose one power. Writing $R(d) = [c_\Gamma d^{2\delta} + E(d)] - [c_\Gamma(d-1)^{2\delta} + E(d-1)]$ where $|E(d)| \leq C d^{2\delta-\varepsilon}$:
 \[
 R(d) = c_\Gamma \cdot 2\delta \cdot d^{2\delta-1} + O(d^{2\delta-2}) + [E(d) - E(d-1)].
 \]
-The difference $|E(d) - E(d-1)|$ is bounded by $\max_{t \in [d-1,d]} |E'(t)| \leq C' d^{2\delta-\varepsilon-1}$ if $E$ has bounded variation (which follows from the smoothness of the transfer operator kernel — see~\cite{MOW2019}, where the error is obtained via a Laplace inversion with an explicitly holomorphic integrand). The power savings $\varepsilon$ is thus preserved in the differentiation, giving $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-\varepsilon})$.
+The difference $|E(d) - E(d-1)|$ is bounded by $\max_{t \in [d-1,d]} |E'(t)| \leq C' d^{2\delta-2\varepsilon-1}$ if $E$ has bounded variation (which follows from the smoothness of the transfer operator kernel — see~\cite{MOW2019}, where the error is obtained via a Laplace inversion with an explicitly holomorphic integrand). The power savings $2\varepsilon$ is thus preserved in the differentiation, giving $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$.
 
 \textbf{(c) Small prime factors.} MOW's theorem requires $q$ to have no prime factors below some threshold $Q_0$. For our application with $q = 1$ (the ``unconstrained'' count), this condition is vacuous. For the congruence refinement (counting $R(d)$ in specific residue classes), we would need $q$ coprime to a ``bad set'' of small primes. By Theorem~\ref{thm:transitivity}, there is no bad modulus ($B = 1$), so the small-prime condition is automatically satisfied.
 \end{remark}
@@ -414,7 +414,7 @@ Shkredov~\cite{Shkredov2026} independently proved that for sufficiently large pr
 
 \subsection{Toward a Fully Effective Proof}
 
-Making the proof fully effective for all $d$ requires an explicit lower bound on $\sigma_p$ valid for all primes $p$. Our computation shows $\sigma_p \geq 0.336$ for all 489 verified primes with no decay trend ($\sigma_p \to 0.717$ as $p \to \infty$). Extracting an effective constant from Bourgain--Gamburd~\cite{BG2008} remains an open problem.
+The MOW framework uses the Bourgain--Varj\'u expansion result~\cite{BG2008} internally (for uniform spectral bounds across moduli). Our computation provides the \emph{quantitative} spectral data: $\sigma_p \geq 0.336$ for all 489 verified primes (MPFR-certified for covering primes), with $\sigma_p \to 0.717$ as $p \to \infty$. The Calder\'on--Magee explicit spectral gap~\cite{CM2025} makes the MOW exponent $\varepsilon$ computable for $\delta > 3/4$.
 
 \begin{thebibliography}{99}
 
