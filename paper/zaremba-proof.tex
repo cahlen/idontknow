@@ -62,10 +62,11 @@ $R(d) \geq 1$ for all $1 \leq d \leq 2.1 \times 10^{11}$.
 
 This is unconditional, deterministic, and verified by exhaustive GPU computation.
 
-\begin{theorem}[Effective, conditional on spectral gap certification]\label{thm:effective}
+\begin{theorem}[Effective, conditional]\label{thm:effective}
 Assume:
 \begin{enumerate}[label=(\roman*)]
 \item The spectral gaps $\sigma_p \geq 0.336$ for all 489 primes $p \leq 3499$ (Proposition~\ref{prop:gaps}, computed at FP64 but not yet interval-certified).
+\item The Bourgain--Kontorovich major-arc decomposition (Proposition~4.1 of~\cite{BK2014}) and minor-arc estimate (Section~4 of~\cite{BK2014}) apply to the semigroup $\Gamma_{\{1,\ldots,5\}}$ with the spectral data from~(i).
 \end{enumerate}
 Then Zaremba's Conjecture holds for all $d \leq 10^{1500}$.
 \end{theorem}
@@ -84,7 +85,7 @@ Assume~(i) above and additionally the Bourgain--Gamburd property~$(\tau)$~\cite{
 \begin{remark}\label{rem:status}
 Theorem~\ref{thm:bruteforce} is the only fully unconditional result: $R(d) \geq 1$ for $d \leq 2.1 \times 10^{11}$, verified by deterministic GPU computation.
 
-Theorem~\ref{thm:effective} is conditional on assumption~(i): the spectral gaps are computed at FP64 with 15 digits of precision, and the smallest gap ($\sigma_{1847} = 0.336$) has a comfortable margin above the analytical threshold. However, FP64 measurements are not rigorous bounds. Interval-arithmetic certification (using directed rounding) would upgrade~(i) from a numerical measurement to a rigorous bound, completing the proof.
+Theorem~\ref{thm:effective} is conditional on assumptions~(i) and~(ii). Assumption~(i) requires interval-arithmetic certification of the spectral gaps (currently FP64 measurements with 15 digits, smallest gap $\sigma_{1847} = 0.336$). Assumption~(ii) requires that the BK circle-method framework~\cite{BK2014} applies with our spectral constants; this is the standard published machinery but we do not rederive it here.
 
 Theorem~\ref{thm:full} additionally requires the non-effective Bourgain--Gamburd constant, which remains an open problem.
 \end{remark}
@@ -509,7 +510,7 @@ Combining the main term (Appendix~\ref{app:c1}) and the error bound~\eqref{eq:to
 R(d) \geq c_1 \cdot d^{2\delta - 1} - \frac{1 - \sigma_p}{\sigma_p} - O(\text{minor arc}).
 \]
 
-For $d \geq 2$ coprime to a covering prime $p$ with $\sigma_p \geq 0.530$: the main term $c_1 \cdot 2^{0.674} = 0.964$ exceeds the error $0.887$ (at $p = 13$, the worst covering prime). The minor-arc contribution is negligible for $d > 2$ and is absorbed by brute force for $d \leq 2.1 \times 10^{11}$.
+For $d \geq 2$ coprime to a covering prime $p$ with $\sigma_p \geq 0.530$: the main term $c_1 \cdot 2^{0.674} = 0.964$ exceeds the major-arc error $0.887$ (at $p = 13$, the worst covering prime). For $d \leq 2.1 \times 10^{11}$, the minor-arc contribution is rendered moot by brute force. For $d > 2.1 \times 10^{11}$, the minor-arc bound inherited from~\cite{BK2014} (see Section~B.3) is required.
 
 \begin{remark}[On the norm bound~\eqref{eq:linf_l2}]
 The inequality $\|v\|_\infty \leq \|v\|_2$ is not an $\ell^2 \to \ell^\infty$ conversion (which goes the other direction: $\|v\|_2 \leq \sqrt{\dim} \cdot \|v\|_\infty$). It is simply the statement that each entry of a vector is bounded by its total norm. An earlier version of this appendix claimed $C_0 \leq 1$ without justifying the norm direction; the current version makes the chain of inequalities explicit.
