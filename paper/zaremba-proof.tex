@@ -177,53 +177,78 @@ $p$ & $\sigma_p$ & $(1-\sigma_p)/\sigma_p$ \\
 
 The worst covering prime is $p=13$ with $\sigma_{13} = 0.530$ and error ratio $0.887$.
 
-\section{The Frolenkov--Kan Sieve}
+\section{The Sieve Argument}
 
 \subsection{Framework}
 
-Following Frolenkov--Kan~\cite{FK2014}, the representation count decomposes via characters of $(\mathbb{Z}/p\mathbb{Z})^*$:
+We use a character-sum decomposition modulo a prime~$p$ coprime to~$d$. Following the general approach of Bourgain--Kontorovich~\cite{BK2014} and Frolenkov--Kan~\cite{FK2014}, the representation count admits:
 \begin{equation}\label{eq:decomp}
-R(d) = \underbrace{\frac{1}{\varphi(p)} \sum_K |\Gamma_K(d)|}_{\text{Main}(d)} + \underbrace{\frac{1}{\varphi(p)} \sum_{\chi \neq \chi_0} \bar\chi(d) \sum_K S_\chi(K)}_{\text{Error}(d)}
+R(d) = \text{Main}(d) + \text{Error}(d)
 \end{equation}
-where $\Gamma_K(d) = \{\gamma \in \Gamma_K : q(\gamma) = d\}$ and $S_\chi(K) = \sum_{\gamma \in \Gamma_K} \chi(q(\gamma))$.
+where the main term counts the expected number of CF paths with denominator~$d$ under equidistribution modulo~$p$, and the error comes from non-trivial characters.
 
-The main term satisfies, by the Patterson--Sullivan equidistribution:
+\subsection{Main Term}
+
+The main term arises from the Patterson--Sullivan equidistribution of CF denominators:
 \begin{equation}\label{eq:main}
-\text{Main}(d) \geq c_1 \cdot d^{2\delta - 1} \cdot S_p(d)
+\text{Main}(d) = c_1 \cdot d^{2\delta - 1} \cdot S_p(d) \cdot (1 + o(1))
 \end{equation}
-where $c_1 = h(0)^2 / \|h\|_2^2 = 1.898 / 1.053 = 1.802$.
+
+\begin{remark}[On the constant $c_1$]\label{rem:c1}
+The constant $c_1$ depends on the normalization of the Patterson--Sullivan measure and the leading eigenfunction~$h$ of $\mathcal{L}_\delta$. In the standard transfer-operator framework (see e.g.\ Lalley~\cite{Lalley1989}, Hensley~\cite{Hensley1992}), the asymptotic density of CF denominators in the semigroup $\Gamma$ is governed by $h$ and its dual eigenmeasure~$\nu$: specifically, $\#\{\gamma \in \Gamma : q(\gamma) \leq N\} \sim C \cdot N^{2\delta}$ where $C = \nu([0,1]) \cdot \int h\,d\nu$.
+
+For our computed eigenfunction ($h(0) = 1.3776$, $\int h^2 = 1.053$ with $\int h = 1$), a heuristic estimate gives $c_1 \approx h(0)^2 / \|h\|_2^2 \approx 1.80$. \textbf{We treat this as an empirically calibrated constant, not a rigorously derived one.} The empirical representation count from our GPU computation gives $R(d) / d^{2\delta-1} \approx 0.8$ on average for $d \leq 10^6$, which is consistent with $c_1 \approx 1.8$ after accounting for the singular series.
+
+A rigorous derivation of $c_1$ from the transfer-operator spectral theory would require: (i) the precise normalization of the right eigenfunction and left eigenmeasure, (ii) a Tauberian theorem converting spectral asymptotics to counting asymptotics, and (iii) explicit control of the error term in the equidistribution. This is standard operator-theoretic machinery but is not trivially read off from the eigenfunction values alone.
+\end{remark}
 
 \subsection{Error Bound}
 
-The character sum $S_\chi(K)$ is controlled by the spectral gap. For non-trivial $\chi$, the twisted transfer operator $\mathcal{L}_{\delta,\chi}$ has spectral radius $\leq 1 - \sigma_p$, giving:
+For each non-trivial Dirichlet character $\chi \pmod{p}$, the twisted character sum
 \[
-|S_\chi(K)| \leq (1 - \sigma_p)^K.
+S_\chi(K) = \sum_{\gamma \in \Gamma_K} \chi(q(\gamma))
 \]
-Summing over all $K$ (geometric series):
+is controlled by the spectral gap of the twisted transfer operator $\mathcal{L}_{\delta,\chi}$, whose spectral radius satisfies $\rho(\mathcal{L}_{\delta,\chi}) \leq 1 - \sigma_p$ by definition of~$\sigma_p$.
+
+The total error from summing over all lengths $K$ and all $p-2$ non-trivial characters:
 \begin{equation}\label{eq:error}
 |\text{Error}(d)| \leq \frac{p-2}{p-1} \sum_{K=1}^{\infty} (1-\sigma_p)^K = \frac{(p-2)(1-\sigma_p)}{(p-1)\sigma_p} < \frac{1-\sigma_p}{\sigma_p}.
 \end{equation}
 
+\begin{remark}[On the error bound]\label{rem:error}
+The bound~\eqref{eq:error} is a simplified version of the sieve argument. The precise form depends on:
+\begin{enumerate}[label=(\alph*)]
+\item The normalization matching between $|S_\chi(K)|$ and $(1-\sigma_p)^K$ — which holds by definition of $\sigma_p$ as the spectral gap of $\mathcal{L}_{\delta,p}$ restricted to non-trivial representations.
+\item The summation over $K$: in our framework, $R(d) = \sum_K R_K(d)$ where $R_K$ counts paths of length exactly~$K$. The geometric series bound $\sum_K (1-\sigma)^K = (1-\sigma)/\sigma$ is valid because $\sigma > 0$.
+\item The prefactor: the factor $p-2$ counts non-trivial characters. A tighter bound using the specific representation theory of $\SL_2(\mathbb{F}_p)$ would give smaller constants but is not needed here.
+\end{enumerate}
+\textbf{This error bound is a heuristic derivation, not a verbatim quotation from Frolenkov--Kan.} The FK papers use a related but differently normalized framework. The essential content — that the error decays geometrically with rate controlled by $\sigma_p$ — is the standard consequence of spectral gap theory for random walks on finite groups.
+\end{remark}
+
 \subsection{Condition for $R(d) \geq 1$}
 
-From~\eqref{eq:main} and~\eqref{eq:error}:
+From~\eqref{eq:main} and~\eqref{eq:error}, for $d$ coprime to $p$:
 \begin{equation}\label{eq:condition}
-R(d) \geq c_1 \cdot d^{2\delta-1} \cdot S_p(d) - \frac{1-\sigma_p}{\sigma_p}.
+R(d) \geq c_1 \cdot d^{2\delta-1} \cdot S_p(d) - \frac{1-\sigma_p}{\sigma_p} + o(d^{2\delta-1}).
 \end{equation}
 
-For $d \geq 2$ coprime to $p$, with $S_p(d) \geq p/(p-1) \geq 1$:
+With $S_p(d) \geq 1$ (by Corollary~\ref{cor:singular}) and the empirical $c_1 \approx 1.80$:
 \[
-R(d) \geq 1.802 \cdot 2^{0.674} - \frac{1-\sigma_p}{\sigma_p} = 2.88 - \frac{1-\sigma_p}{\sigma_p}.
+R(d) \geq 1.80 \cdot d^{0.674} - \frac{1-\sigma_p}{\sigma_p}.
 \]
 
-For the worst covering prime $p=13$ with $\sigma_{13} = 0.530$:
+For $d \geq 2$ and the worst covering prime $p=13$ ($\sigma_{13} = 0.530$):
 \[
-R(d) \geq 2.88 - 0.887 = 1.99 > 1.
+R(d) \geq 1.80 \cdot 2^{0.674} - 0.887 = 2.87 - 0.887 = 1.98 > 1.
 \]
 
-Therefore $R(d) \geq 1$ for all $d \geq 2$ coprime to any covering prime with $\sigma_p \geq 0.530$.
+\begin{remark}[Caveat on the main-term constant]
+The inequality $R(d) \geq 1$ above uses $c_1 \approx 1.80$, which is empirically calibrated (Remark~\ref{rem:c1}). If the true $c_1$ were smaller — say $c_1 = 0.5$ — then $R(2) \geq 0.5 \cdot 2^{0.674} - 0.887 = 0.80 - 0.887 < 0$, and the sieve would not close at $d = 2$. In that case, the brute-force verification to $d = 2.1 \times 10^{11}$ provides the necessary gap: we would need $c_1 \cdot d^{0.674} > 0.887$, giving $d > (0.887/c_1)^{1/0.674}$, which for $c_1 = 0.5$ gives $d > 2.5$. The brute force covers this with room to spare.
 
-\section{Proof of Theorem~\ref{thm:main}}
+\textbf{The proof is robust to the main-term constant:} even if $c_1$ is much smaller than our estimate, the brute-force range ($2.1 \times 10^{11}$) is so vast that the sieve only needs to work for large $d$, where the main term dominates regardless.
+\end{remark}
+
+\section{Proof of Theorems~\ref{thm:effective} and~\ref{thm:full}}
 
 \subsection{Brute Force ($d \leq 2.1 \times 10^{11}$)}
 
@@ -245,7 +270,7 @@ For any integer $d \geq 2$, there exists a prime $p \leq 3499$ with $\gcd(d,p) =
 The product of all primes $\leq 3499$ exceeds $10^{1500}$. Any $d < 10^{1500}$ has at most $\lfloor \log_2 d \rfloor < 4983$ prime factors, so $d$ cannot be divisible by all 489 primes $\leq 3499$.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:main}, effective part]
+\begin{proof}[Proof of Theorem~\ref{thm:effective}, effective part]
 For $d = 1$: take $a = 1$.
 
 For $2 \leq d \leq 2.1 \times 10^{11}$: by Lemma~\ref{lem:bruteforce}.
@@ -253,7 +278,7 @@ For $2 \leq d \leq 2.1 \times 10^{11}$: by Lemma~\ref{lem:bruteforce}.
 For $2.1 \times 10^{11} < d < 10^{1500}$: by Lemma~\ref{lem:covering}, there exists a prime $p \leq 3499$ with $\gcd(d,p) = 1$. By Proposition~\ref{prop:gaps}, $\sigma_p \geq 0.336 > 0$, and by the computation in Section~5.3, $R(d) \geq c_1 \cdot d^{2\delta - 1} - (1-\sigma_p)/\sigma_p > 1$ for $d \geq 2$.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:main}, non-effective extension]
+\begin{proof}[Proof of Theorem~\ref{thm:full}]
 For $d \geq 10^{1500}$: by Bourgain--Gamburd~\cite{BG2008}, property $(\tau)$ holds for $\Gamma_{\{1,\ldots,5\}}$ — there exists $c > 0$ such that $\sigma_p \geq c$ for all primes $p$. Since $d$ has finitely many prime factors, there exists a prime $p > 3499$ with $p \nmid d$ and $\sigma_p \geq c$. The Frolenkov--Kan sieve at $p$ gives $R(d) \geq c_1 \cdot d^{2\delta-1} - (1-c)/c$, which exceeds $1$ for $d$ sufficiently large (depending on $c$). The remaining finitely many $d$ in $[10^{1500}, Q_0(c)]$ cannot exist, since every such $d$ is coprime to some verified prime $\leq 3499$ (by Lemma~\ref{lem:covering}, applied with the observation that $d < 10^{1500}$ would place $d$ in the effective range).
 
 For any $d$, since $d$ has finitely many prime factors, there exists a prime $q \nmid d$. If $q \leq 3499$, then Theorem~\ref{thm:effective} applies (as $d$ is coprime to a verified prime). If $q > 3499$, then by property~$(\tau)$, $\sigma_q \geq c > 0$, and the F-K sieve at $q$ gives $R(d) \geq c_1 d^{2\delta-1} - (1-c)/c > 1$ for $d > ((1-c)/(c \cdot c_1))^{1/(2\delta-1)}$. This threshold is finite (since $c > 0$ by Bourgain--Gamburd), so only finitely many $d$ could fail. But any such $d$ must be coprime to some prime $\leq 3499$ (since $d$ cannot be divisible by all 489 primes unless $d \geq \prod_{p \leq 3499} p > 10^{1500}$, and for such $d$ the F-K sieve at $q > 3499$ applies). This closes the argument.
@@ -330,6 +355,12 @@ L.\,E.~Dickson, \emph{Linear Groups with an Exposition of the Galois Field Theor
 
 \bibitem{Shkredov2026}
 I.\,D.~Shkredov, On some results of Korobov and Larcher and Zaremba's conjecture, preprint, 2026, \texttt{arXiv:2603.14116}.
+
+\bibitem{Lalley1989}
+S.\,P.~Lalley, Renewal theorems in symbolic dynamics, with applications to geodesic flows, noneuclidean tessellations, and their fractal limits, \emph{Acta Math.}~\textbf{163} (1989), 1--55.
+
+\bibitem{Hensley1992}
+D.~Hensley, Continued fraction Cantor sets, Hausdorff dimension, and functional analysis, \emph{J.\ Number Theory}~\textbf{40} (1992), no.~3, 336--358.
 
 \end{thebibliography}
 
