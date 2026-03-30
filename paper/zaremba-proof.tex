@@ -236,15 +236,16 @@ From~\eqref{eq:main} and~\eqref{eq:error}, for $d$ coprime to $p$:
 R(d) \geq c_1 \cdot d^{2\delta-1} \cdot S_p(d) - \frac{1-\sigma_p}{\sigma_p} + o(d^{2\delta-1}).
 \end{equation}
 
-With $S_p(d) \geq 1$ (by Corollary~\ref{cor:singular}) and the empirical $c_1 \approx 1.80$:
+With $S_p(d) \geq 1$ (by Corollary~\ref{cor:singular}) and $c_1 = 0.6046$ (Appendix~\ref{app:c1}):
 \[
-R(d) \geq 1.80 \cdot d^{0.674} - \frac{1-\sigma_p}{\sigma_p}.
+R(d) \geq 0.6046 \cdot d^{0.674} - \frac{1-\sigma_p}{\sigma_p}.
 \]
 
 For $d \geq 2$ and the worst covering prime $p=13$ ($\sigma_{13} = 0.530$):
 \[
-R(d) \geq 1.80 \cdot 2^{0.674} - 0.887 = 2.87 - 0.887 = 1.98 > 1.
+R(d) \geq 0.6046 \cdot 2^{0.674} - 0.887 = 0.964 - 0.887 = 0.077 > 0.
 \]
+The margin at $d = 2$ is thin (0.077) but positive. It grows rapidly: at $d = 10$, $\text{Main} = 2.86 \gg 0.887$.
 
 \begin{remark}[Robustness]
 With the derived constant $c_1 = 0.6046$ (Appendix~\ref{app:c1}), the sieve closes at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.887 = \text{Error}(p=13)$. This margin is tight at $d = 2$ but grows rapidly: at $d = 100$, $\text{Main} = 13.4 \gg 0.887$. The brute-force verification provides a safety margin of $10^7 \times$ at the frontier $d = 2.1 \times 10^{11}$.
