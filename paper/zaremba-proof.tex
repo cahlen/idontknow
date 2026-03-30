@@ -29,7 +29,7 @@ Computational Evidence and a Proof Framework via Spectral Gaps}
 \begin{document}
 
 \begin{abstract}
-We present a conditional computer-assisted argument for Zaremba's Conjecture ($A=5$) for all integers $d \geq 1$. The approach combines: (1)~GPU brute-force verification confirming $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (unconditional); (2)~MPFR-certified spectral gaps ($\sigma_p \geq 0.650$ for 11 covering primes at 256-bit precision); and (3)~the Magee--Oh--Winter uniform congruence counting theorem, which gives a \emph{pointwise} power-saving error $O(d^{2\delta-1-\varepsilon})$ via Dolgopyat-type transfer operator methods, avoiding the circle-method minor-arc barrier entirely. The conjecture follows for all $d$ once the threshold $D_0 = (C/c_\Gamma)^{1/\varepsilon}$ from the MOW theorem is shown to lie below our brute-force frontier. The explicit spectral gap theorem of Calder\'on--Magee (JEMS, 2025) applies to our semigroup ($\delta = 0.837 > 3/4$) and makes $\varepsilon$ in principle computable. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster.
+We present a conditional computer-assisted argument for Zaremba's Conjecture ($A=5$) for all integers $d \geq 1$. The approach combines: (1)~GPU brute-force verification confirming $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$ (unconditional); (2)~MPFR-certified spectral gaps ($\sigma_p \geq 0.650$ for 11 covering primes at 256-bit precision); and (3)~the Magee--Oh--Winter uniform congruence counting theorem~\cite{MOW2019}, which gives power-saving error in norm-ball counts via Dolgopyat-type transfer operator methods. After Tauberian differentiation (an assumption we justify but do not fully prove), this yields individual-denominator asymptotics $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$. The conjecture follows once the threshold $D_0 = (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$ lies below our brute-force frontier. The explicit spectral gap theorem of Calder\'on--Magee (JEMS, 2025) applies to our semigroup ($\delta = 0.837 > 3/4$) and makes $\varepsilon$ in principle computable. All computations were performed on an 8$\times$ NVIDIA B200 DGX cluster.
 \end{abstract}
 
 \maketitle
@@ -88,7 +88,7 @@ R(d) = N(d) - N(d-1) \sim 2\delta \cdot c_\Gamma \cdot d^{2\delta - 1} + O(d^{2\
 \]
 The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674 - \varepsilon})$.
 
-\textbf{Pointwise bound.} For $R(d) \geq 1$: we need $c_\Gamma \cdot 2\delta \cdot d^{2\delta-1} > C' \cdot d^{2\delta-1-\varepsilon}$, i.e., $d^\varepsilon > C'/c_\Gamma$. This holds for all $d > D_0 := (C'/c_\Gamma)^{1/\varepsilon}$.
+\textbf{Pointwise bound.} The MOW error is $O(R^{2\delta - 2\varepsilon})$, which after Tauberian differentiation gives error $O(d^{2\delta-1-2\varepsilon})$. For $R(d) \geq 1$: we need $c_1 \cdot d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-2\varepsilon}$, i.e., $d^{2\varepsilon} > C_{\text{err}}/c_1$. This holds for all $d > D_0 := (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$.
 
 \textbf{The threshold $D_0$.} The constants $c_\Gamma, C', \varepsilon$ depend on the semigroup $\Gamma$ and can in principle be computed from the spectral data of the transfer operator. The renewal constant $c_\Gamma$ is computed in Appendix~\ref{app:c1} ($c_\Gamma \cdot 2\delta = c_1 = 0.6046$). The power-saving $\varepsilon$ is related to the spectral gap via Naud's zero-free region of the Ruelle zeta function; Calder\'on and Magee~\cite{CM2025} give an \textbf{explicit} spectral gap for Schottky subgroups with $\delta > 3/4$ (our $\delta = 0.837$ qualifies). The constant $C'$ is effective but not yet computed explicitly in our setting.
 
@@ -329,7 +329,7 @@ The margin at $d = 2$ is comfortable (0.427). At $d = 10$: $\text{Main} = 2.86 \
 With the derived constant $c_1 = 0.6046$ (Appendix~\ref{app:c1}), the sieve closes at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.537 = \text{Error}(p=29)$. The brute-force verification provides a safety margin of $10^7 \times$ at the frontier $d = 2.1 \times 10^{11}$.
 \end{remark}
 
-\section{Proof of Theorems~\ref{thm:effective} and~\ref{thm:full}}
+\section{Proof of Theorem~\ref{thm:effective}}
 
 \subsection{Brute Force ($d \leq 2.1 \times 10^{11}$)}
 
@@ -360,7 +360,7 @@ Assume (i) and (ii).
 
 \emph{Case $d \leq 2.1 \times 10^{11}$:} By Theorem~\ref{thm:bruteforce}.
 
-\emph{Case $d > 2.1 \times 10^{11}$:} By assumption~(i), $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-\varepsilon})$ with $\varepsilon > 0$. The main term $c_1 d^{2\delta-1}$ grows as $d^{0.674}$; the error decays as $d^{0.674-\varepsilon}$. For $R(d) \geq 1$: need $c_1 d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-\varepsilon}$, i.e., $d > D_0 := (C_{\text{err}}/c_1)^{1/\varepsilon}$.
+\emph{Case $d > 2.1 \times 10^{11}$:} By assumption~(i), $R(d) = c_1 d^{2\delta-1} + O(d^{2\delta-1-2\varepsilon})$ with $\varepsilon > 0$. For $R(d) \geq 1$: need $c_1 d^{2\delta-1} > C_{\text{err}} \cdot d^{2\delta-1-2\varepsilon}$, i.e., $d^{2\varepsilon} > C_{\text{err}}/c_1$, i.e., $d > D_0 := (C_{\text{err}}/c_1)^{1/(2\varepsilon)}$.
 
 By assumption~(ii): $D_0 \leq 2.1 \times 10^{11}$. Since $d > 2.1 \times 10^{11} \geq D_0$: $R(d) \geq 1$.
 \end{proof}
@@ -507,9 +507,7 @@ At the brute-force frontier $d = 2.1 \times 10^{11}$:
 \[
 \text{Main}(d) = c_1 \cdot d^{2\delta-1} = 0.6046 \times (2.1 \times 10^{11})^{0.674} = 2.56 \times 10^7.
 \]
-The worst sieve error is $(1-\sigma_{13})/\sigma_{13} = 0.887$. The margin is $2.9 \times 10^7$, a factor of $\mathbf{2.9 \times 10^7}$.
-
-Even at $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.887$. The sieve closes at $d = 2$.
+The worst covering error (MPFR-certified) is $(1-\sigma_{29})/\sigma_{29} = 0.537$. At $d = 2$: $\text{Main}(2) = 0.6046 \times 2^{0.674} = 0.964 > 0.537$.
 
 \section{Derivation of the error bound}\label{app:error}
 
@@ -566,7 +564,7 @@ Combining the main term (Appendix~\ref{app:c1}) and the error bound~\eqref{eq:to
 R(d) \geq c_1 \cdot d^{2\delta - 1} - \frac{1 - \sigma_p}{\sigma_p} - O(\text{minor arc}).
 \]
 
-For $d \geq 2$ coprime to a covering prime $p$ with $\sigma_p \geq 0.530$: the main term $c_1 \cdot 2^{0.674} = 0.964$ exceeds the major-arc error $0.887$ (at $p = 13$, the worst covering prime). For $d \leq 2.1 \times 10^{11}$, the minor-arc contribution is rendered moot by brute force. For $d > 2.1 \times 10^{11}$, the minor-arc bound inherited from~\cite{BK2014} (see Section~B.3) is required.
+For $d \geq 2$ coprime to a covering prime $p$ with $\sigma_p \geq 0.651$ (MPFR-certified): the main term $c_1 \cdot 2^{0.674} = 0.964$ exceeds the error $(1-\sigma_{29})/\sigma_{29} = 0.537$ (at $p = 29$, the worst MPFR-certified covering prime).
 
 \begin{remark}[On the norm bound~\eqref{eq:linf_l2}]
 The inequality $\|v\|_\infty \leq \|v\|_2$ is not an $\ell^2 \to \ell^\infty$ conversion (which goes the other direction: $\|v\|_2 \leq \sqrt{\dim} \cdot \|v\|_\infty$). It is simply the statement that each entry of a vector is bounded by its total norm. An earlier version of this appendix claimed $C_0 \leq 1$ without justifying the norm direction; the current version makes the chain of inequalities explicit.
