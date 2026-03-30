@@ -62,15 +62,17 @@ $R(d) \geq 1$ for all $1 \leq d \leq 2.1 \times 10^{11}$.
 
 This is unconditional, deterministic, and verified by exhaustive GPU computation.
 
-\begin{theorem}[Effective, conditional on BK applicability]\label{thm:effective}
+\begin{theorem}[Effective, conditional on circle-method applicability]\label{thm:effective}
 Assume:
 \begin{enumerate}[label=(\roman*)]
-\item The Bourgain--Kontorovich major-arc decomposition (Proposition~4.1 of~\cite{BK2014}) and minor-arc estimate (Section~4 of~\cite{BK2014}) apply to the semigroup $\Gamma_{\{1,\ldots,5\}}$ with our spectral data.
+\item The Bourgain--Kontorovich--Huang circle-method machinery~\cite{BK2014,Huang2015} — specifically, the major-arc decomposition of $F_N$ and the minor-arc estimate — applies to $\Gamma_{\{1,\ldots,5\}}$ with our spectral data in the quantitative form needed to produce a pointwise lower bound $R(d) \geq \text{Main}(d) - |\text{Error}(d)|$ (rather than merely a density-one result).
 \end{enumerate}
 Then Zaremba's Conjecture holds for all $d \leq 10^{1500}$.
 \end{theorem}
 
-The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision (77 decimal digits) with guaranteed rounding, using the \texttt{certify\_gaps\_mpfr.c} kernel. All gaps $\sigma_p \geq 0.650$.
+\begin{remark}
+Huang~\cite{Huang2015} proved density one for $A = 5$ (which BK's original threshold $\delta_0 = 307/312$ did not cover). Our contribution is the explicit spectral data that would upgrade density-one to pointwise, \emph{if} the circle-method error terms can be made explicit with our constants. The spectral gaps for the 11 covering primes are certified at 256-bit MPFR precision (77 decimal digits) with guaranteed rounding (\texttt{certify\_gaps\_mpfr.c}). All gaps $\sigma_p \geq 0.650$.
+\end{remark}
 
 The proof additionally uses two analytic ingredients derived in the appendices:
 \begin{enumerate}[label=(\alph*)]
@@ -86,7 +88,7 @@ Assume~(i) above and additionally the Bourgain--Gamburd property~$(\tau)$~\cite{
 \begin{remark}\label{rem:status}
 Theorem~\ref{thm:bruteforce} is the only fully unconditional result: $R(d) \geq 1$ for $d \leq 2.1 \times 10^{11}$, verified by deterministic GPU computation.
 
-Theorem~\ref{thm:effective} is conditional on assumption~(i): that the BK circle-method framework~\cite{BK2014} applies with our spectral constants. The spectral gaps themselves are now certified: 256-bit MPFR computation with guaranteed rounding confirms $\sigma_p \geq 0.650$ for all 11 covering primes. The BK framework requires transitivity (Theorem~\ref{thm:transitivity}), $2\delta > 1$ (Proposition~\ref{prop:delta}), and property~$(\tau)$ — all of which are satisfied.
+Theorem~\ref{thm:effective} is conditional on assumption~(i): that the BK/Huang circle-method machinery produces a pointwise lower bound (not just density-one) with our explicit spectral constants. Note that BK's original threshold $\delta_0 = 307/312$ does not cover $A = 5$; Huang~\cite{Huang2015} extended the density-one result to $A = 5$. Our spectral gaps are now MPFR-certified (256-bit, guaranteed rounding), so the remaining question is purely about making the BK/Huang error terms quantitatively explicit — a substantial but standard analytic task.
 
 Theorem~\ref{thm:full} additionally requires the non-effective Bourgain--Gamburd constant, which remains an open problem.
 \end{remark}
