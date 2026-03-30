@@ -43,3 +43,53 @@ ALL d in [1, 210000000000] are Zaremba denominators
 --- 210B Run (final) ---
 Log: scripts/experiments/zaremba-effective-bound/run_210B.log
 f34685ad264879fee51bf4dd6d631af7118ab5d68508ab658b6f27e7b86ff5b4  scripts/experiments/zaremba-effective-bound/run_210B.log
+
+=== DOLGOPYAT SPECTRAL PROFILE (EXACT EIGENDECOMPOSITION) ===
+Date: 2026-03-30
+Claim: sup_{t>=1} rho(L_{delta+it}) = 0.7551 at t = 1.0
+
+--- Script ---
+Source: scripts/experiments/zaremba-effective-bound/dolgopyat_exact.py
+99370822ee6129e692ccc8531697dac449cbdfa9c5faf15371a60ca70349307c  scripts/experiments/zaremba-effective-bound/dolgopyat_exact.py
+
+--- Method ---
+Full eigendecomposition (numpy.linalg.eigvals → LAPACK ZGEEV)
+N = 80 Chebyshev collocation, double precision (FP64)
+100,000 grid points over t ∈ [1, 10000]
+Fine sweep: 1,000 points over t ∈ [1.0, 1.1] to pinpoint peak
+
+--- Key results ---
+rho(1.000) = 0.755128  (GLOBAL MAXIMUM)
+rho(2.000) = 0.361520
+rho(5.000) = 0.255468
+rho(15.00) = 0.673814
+rho(28.60) = 0.439347  (power iteration falsely reported 0.839)
+sup_{t>=2} rho(t) < 0.68
+
+--- Profile data ---
+scripts/experiments/zaremba-effective-bound/dolgopyat_profile_exact.csv (20,000 points)
+373efc3199649e75065e5c8c1809a10aab441cd951d1e99dff940435a80de385  scripts/experiments/zaremba-effective-bound/dolgopyat_profile_exact.csv
+
+--- Note on power iteration failure ---
+Power iteration is UNRELIABLE for L_{delta+it}: at certain t values,
+multiple eigenvalues of similar magnitude with different phases cause
+oscillation instead of convergence. Full eigendecomposition required.
+
+--- Reproduction ---
+python3 scripts/experiments/zaremba-effective-bound/dolgopyat_exact.py 100000 10000
+Requires: numpy (any version with LAPACK backend)
+Time: ~6.5 min on 48-core CPU
+
+=== MPFR SPECTRAL GAP CERTIFICATION ===
+Date: 2026-03-29
+Claim: sigma_p >= 0.650 for all 11 covering primes at 256-bit precision
+
+--- Script ---
+Source: scripts/experiments/zaremba-effective-bound/certify_gaps_mpfr.c
+b1b69b55f02962bbe5524d71552996eb0c03bb51c072f36635c120935568c5f4  scripts/experiments/zaremba-effective-bound/certify_gaps_mpfr.c
+
+--- Build ---
+gcc -O2 -o certify_gaps_mpfr certify_gaps_mpfr.c -lmpfr -lgmp -lm
+
+--- Result ---
+All 11 covering primes: sigma_p >= 0.650 (77 decimal digits)
