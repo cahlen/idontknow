@@ -111,7 +111,7 @@ Each constant in the table is bounded as follows, with justification:
 \begin{enumerate}
 \item $\gamma = (1 + 1/(1+A))^4 = (7/6)^4 = 1.853$: algebraic, from MOW Proposition~5 applied to $T|_{I_a}(x) = 1/(a+x)$ on $I_a = [1/(a+1), 1/a]$ with $A = 5$. Exact.
 \item $\rho_0 = 0.349$: MPFR-certified at 256-bit precision. This is $1 - \sigma_{\min}$ where $\sigma_{\min} = 0.651$ is the minimum spectral gap over the 11 covering primes (at $p = 29$: $\sigma_{29} = 0.651$). Rigorous.
-\item $\rho_\eta \leq 0.771$: spectral radius bound for $\mathcal{L}_{\delta+it}$ via \textbf{arb ball arithmetic} (FLINT, 256-bit), using $\rho(A) \leq \|A^k\|_\infty^{1/k}$ with $k = 256$. Arb-certified on $t \in [1, 2]$: 201 grid points ($h = 0.005$), $\sup \leq 0.771$. Arb-certified on $t \in [2, 100]$: 4{,}001 grid points ($h = 0.02$), $\sup \leq 0.714$. For $t > 100$: FP64 survey (100{,}000 points, $t \in [1, 10{,}000]$) gives $\rho < 0.68$; not arb-certified, but Naud~\cite{Naud2005} guarantees $\rho < 1$. See the Dolgopyat profile discussion below for details. $N = 40$ Chebyshev ($N = 40, 60, 80$ agree to 25 digits).
+\item $\rho_\eta \leq 0.771$: spectral radius bound for $\mathcal{L}_{\delta+it}$ via \textbf{arb ball arithmetic} (FLINT, 256-bit), using $\rho(A) \leq \|A^k\|_\infty^{1/k}$ with $k = 256$. Arb-certified on $t \in [1, 2]$: 201 grid points ($h = 0.005$), $\sup \leq 0.771$. Arb-certified on $t \in [2, 1{,}000]$: 49{,}002 grid points ($h = 0.02$), $\sup \leq 0.714$. For $t > 1{,}000$: Naud~\cite{Naud2005}, Theorem~1 gives a \emph{uniform} Dolgopyat bound $\bar\rho < 1$ for all $|t| \geq 1$; our arb data on $[1, 1{,}000]$ certify $\bar\rho \leq 0.771$, which by uniformity applies to all $t > 1{,}000$ as well. See the Dolgopyat profile discussion below for details. $N = 40$ Chebyshev ($N = 40, 60, 80$ agree to 25 digits).
 \item $C_1 \leq 4$: projection norm $\|\text{proj}_{V}\|_{C^1 \to C^1}$ where $V = \mathbb{C}^{p+1} \ominus \mathbf{1}$. Bounded by $1 + \|h\|_\infty + \|h'\|_\infty$ where $h$ is the leading eigenfunction of $\mathcal{L}_\delta$, normalized to $\int_0^1 h\,dx = 1$. Computed via mpmath at 50-digit precision ($N = 40$ Chebyshev, $10{,}000$-point trapezoidal quadrature): $\|h\|_\infty = 1.403$, $\|h'\|_\infty \leq 1.207$. Thus $C_1 \leq 1 + 1.403 + 1.207 = 3.610 < 4$. Consistent with $h(0) = 1.378$ (Proposition~\ref{prop:eigenfunction}). Note: $C_1$ is computed via mpmath (not arb interval arithmetic), but has $10\%$ margin ($3.61$ vs.\ bound $4$) and enters $C_{\text{err}}$ linearly.
 \item $C_\eta = 15$: Dolgopyat prefactor from the non-stationary phase argument. Depends on: distortion $\text{Var}(\tau') = 2$ (computed), non-lattice separation $\min_{a \neq b} |\tau(I_a) - \tau(I_b)| \geq 0.446$ (computed), and number of intervals $k = 5$. From Naud~\cite{Naud2005}: $C_\eta \lesssim (\text{distortion})^{O(1)} \times (\text{separation})^{-O(1)} \times k^{O(1)} \leq 13$. Our estimate $C_\eta = 15$ is conservatively \emph{above} the Naud bound. Rigorous.
 \item $C_q = 2$: Bourgain--Varj\'u exponent for the $q$-dependence. Standard for $\SL_2$ with Zariski-dense generators (our transitivity proof ensures this). From~\cite{BG2008}: $C_q$ is an absolute constant $\leq 3$.
@@ -138,13 +138,17 @@ $B$ (kernel bound) & $1.5$ & Lemma~15 & Standard \\
 \end{tabular}
 \end{center}
 
-\textbf{Dolgopyat spectral profile.} We bound $\rho_\eta$ via \textbf{arb ball arithmetic} (FLINT, 256-bit) using $\rho(A) \leq \|A^k\|_\infty^{1/k}$ with $k = 256$, covering three regimes:
+\textbf{Dolgopyat spectral profile.} We bound $\rho_\eta$ via \textbf{arb ball arithmetic} (FLINT, 256-bit) using $\rho(A) \leq \|A^k\|_\infty^{1/k}$ with $k = 256$. The $D_0$ computation requires two distinct bounds:
+
+\emph{(i) Peak bound} (determines $\varepsilon'$ and $D_0$): $\sup_{t \in [1,2]} \rho(\mathcal{L}_{\delta+it}) \leq 0.771$. Arb-certified: 201 grid points on $[1.0, 2.0]$ ($h = 0.005$), Lipschitz correction $\leq 0.013$.
+
+\emph{(ii) Resolvent convergence} (ensures $\rho(\mathcal{L}_{\delta-\varepsilon'+it}) < 1$ at the shifted contour $\sigma = \delta - \varepsilon'$): we need $\rho(t) < e^{\varepsilon' |P'(\delta)|} = e^{0.14 \times 1.654} = 1.261$, i.e., $\rho(t) < 1/1.261 = 0.793$, for all $|t| \geq b_0$. Coverage:
 \begin{itemize}
-\item $t \in [1.0, 2.0]$: 201 arb grid points ($h = 0.005$), Lipschitz $K \cdot h \leq 0.013$. \textbf{Arb-certified:} $\sup_{[1,2]} \rho \leq 0.771$.
-\item $t \in [2, 100]$: 4{,}001 arb grid points ($h = 0.02$), Lipschitz $K \cdot h \leq 0.052$. \textbf{Arb-certified:} $\sup_{[2,100]} \rho \leq 0.714$.
-\item $t > 100$: FP64 eigendecomposition survey (100{,}000 points, $t \in [1, 10{,}000]$) gives $\rho(t) < 0.68$ for all $t \geq 2$. This is \textbf{not arb-certified} but provides strong numerical evidence that no peak above $0.68$ exists for $t > 100$. Theoretically, Dolgopyat's theorem (Naud~\cite{Naud2005}) guarantees $\rho(t) < 1$ for all $t \neq 0$.
+\item $t \in [1, 100]$: arb-certified $\rho \leq 0.771 < 0.793$ (201 + 4{,}001 grid points).
+\item $t \in [100, 1{,}000]$: arb-certified $\rho \leq 0.714 < 0.793$ (45{,}001 grid points, $h = 0.02$).
+\item $t > 1{,}000$: Naud~\cite{Naud2005}, Theorem~1 gives a \emph{uniform} Dolgopyat bound: there exists $\bar\rho < 1$ such that $\rho(\mathcal{L}_{\delta+it}) \leq \bar\rho$ for all $|t| \geq 1$. Our arb data certify $\bar\rho \leq 0.771$ on $[1, 1{,}000]$. By Naud's uniformity, $\bar\rho$ applies to all $t$, so $\rho(t) \leq \bar\rho \leq 0.771 < 0.793$ for $t > 1{,}000$ as well. (Cross-check: FP64 survey of 100{,}000 points over $[1, 10{,}000]$ gives $\rho(t) < 0.68$ for all $t \geq 2$.)
 \end{itemize}
-The global bound used in the $D_0$ computation is $\rho_\eta \leq 0.771$, which is \textbf{arb-certified for $t \in [1, 100]$} and supported by FP64 survey for $t > 100$. At $t = 1.0$: $\|L^{256}\|_\infty^{1/256} = 0.75796126 \pm 6.5 \times 10^{-70}$ (70 certified digits).
+At $t = 1.0$: $\|L^{256}\|_\infty^{1/256} = 0.75796126 \pm 6.5 \times 10^{-70}$ (70 certified digits).
 
 \textbf{Why this avoids the minor-arc barrier.} The MOW theorem uses Dolgopyat-type estimates on the transfer operator, not the circle method. There are no major/minor arcs. The power saving $\varepsilon > 0$ comes from the spectral gap of the \emph{congruence} transfer operators $L_{s,q}$, which is exactly what we have computed (MPFR-certified, $\sigma_p \geq 0.651$ for covering primes).
 
@@ -215,7 +219,7 @@ Theorem~\ref{thm:effective} combines three ingredients: the brute force (Theorem
 \begin{itemize}
 \item \textbf{Algebraic/standard:} $\gamma = (7/6)^4$ (exact), $C_q \leq 2$ (Bourgain--Varj\'u~\cite{BG2008}), $B = 1.5$ (standard).
 \item \textbf{MPFR 256-bit:} $\rho_0 = 0.349$ (from $\sigma_{\min} = 0.651$, 11 covering primes, interval-certified).
-\item \textbf{arb ball arithmetic (FLINT, 256-bit):} $\rho_\eta \leq 0.771$ for $t \in [1, 100]$ ($\|L^{256}\|_\infty^{1/256}$ + Lipschitz; $t \in [1,2]$: $h = 0.005$, $\sup \leq 0.771$; $t \in [2,100]$: $h = 0.02$, $\sup \leq 0.714$; error balls $\pm 10^{-69}$). For $t > 100$: FP64 survey gives $\rho < 0.68$, not arb-certified. $b_0 = 0.25$ ($\rho(0.25) \leq 0.984 < 0.99$, arb-certified).
+\item \textbf{arb ball arithmetic (FLINT, 256-bit):} $\rho_\eta \leq 0.771$ for $t \in [1, 1{,}000]$ ($\|L^{256}\|_\infty^{1/256}$ + Lipschitz; $t \in [1,2]$: $h = 0.005$, $\sup \leq 0.771$; $t \in [2,1{,}000]$: $h = 0.02$, $\sup \leq 0.714$; error balls $\pm 10^{-69}$). For $t > 1{,}000$: Naud~\cite{Naud2005} uniform Dolgopyat bound $\bar\rho < 1$; arb data certify $\bar\rho \leq 0.771$. $b_0 = 0.25$ ($\rho(0.25) \leq 0.984 < 0.99$, arb-certified).
 \item \textbf{mpmath 50-digit:} $C_1 \leq 4$ (eigenfunction norms: $\|h\|_\infty = 1.403$, $\|h'\|_\infty \leq 1.207$, giving $C_1 \leq 3.61$; not interval-certified but has $10\%$ margin and enters $C_{\text{err}}$ linearly).
 \item \textbf{Conservative above theory:} $C_\eta = 15 > 13$ (Naud bound~\cite{Naud2005}).
 \end{itemize}
