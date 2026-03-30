@@ -102,19 +102,41 @@ Top-10 tightest:
 
 ## What Remains
 
-### To make the proof unconditional:
+### The universal spectral gap
 
 The single missing ingredient: **$\sigma_p \geq 0.277$ for ALL primes $p$.**
 
-1. **Finite verification (in progress):** Computing $\sigma_p$ at FP64 for all primes $p \leq 3{,}500$. Combined with the perturbation bound for $p > 3{,}500$, this covers all primes. Expected completion: ~1 hour.
+**Finite verification (complete):** All 489 primes $p \leq 3{,}500$ verified at FP64 with $\sigma_p \geq 0.336$. Zero failures.
 
-2. **Perturbation bound for $p > P_0$:** For large $p$, the congruence spectral gap approaches the untwisted gap $\sigma_0 = 0.717$. The correction from the permutation part is $O(1/\sqrt{p})$. For $p > 3{,}500$: correction $< 0.717 - 0.277 = 0.44$, so $\sigma_p > 0.277$.
+**The open problem:** Proving $\sigma_p \geq 0.277$ for ALL $p > 3{,}500$ without enumerating each prime.
 
-3. **The $O(1/\sqrt{p})$ bound needs rigorous constants.** From the flat gap data: $|\lambda_2^{\text{flat}}| \leq 2.18\sqrt{p}$. The weighted-to-flat relationship and the Kloosterman/Weil bound ($|K(a,b;p)| \leq 2\sqrt{p}$) should close this.
+### What we tried for $p > 3{,}500$
 
-### What this would constitute:
+1. **Trace method (Hilbert-Schmidt / dimension).** The key structural result: $\mathrm{tr}(P_a^{-1}P_b|_V) = 0$ for $a \neq b$ (since $g_a^{-1}g_b$ has exactly 1 fixed point on $\mathbb{P}^1$). This gives $\mathrm{tr}(L^*L|_{H_V}) = p \cdot \sum_a \|M_a\|_{\mathrm{HS}}^2$, and the RMS bound $\sqrt{H/N_C} = 0.685$. But this bounds the ROOT MEAN SQUARE of singular values, not the spectral radius. **The HS/dim ratio is NOT a valid spectral radius bound.**
 
-If step 1 passes (all $\sigma_p \geq 0.277$ for $p \leq 3{,}500$) and step 2 is made rigorous, this is a **computer-assisted proof of Zaremba's Conjecture**, similar in spirit to the Hales proof of Kepler's conjecture or the Appel-Haken proof of the four-color theorem.
+2. **Operator norm decomposition.** $T^*T = (\sum_a M_a^*M_a) \otimes I_V + \text{off-diagonal}$. The diagonal part has $\|\sum M_a^*M_a\|_{\mathrm{op}} = 1.344$, and the off-diagonal bound via triangle inequality gives $\sum_{a \neq b} \|M_a\| \|M_b\| = 7.35$. Total: $\|T\| \leq \sqrt{8.69} \approx 2.95$. **Too loose — the bound exceeds 1.**
+
+3. **Kloosterman/Weil bound.** The flat spectral gap satisfies $|\lambda_2^{\mathrm{flat}}| \leq 2.18\sqrt{p}$ empirically (9,592 primes). The Weil bound for Kloosterman sums gives $|K(a,b;p)| \leq 2\sqrt{p}$, which should imply $|\lambda_2^{\mathrm{flat}}| \leq C\sqrt{p}$. But connecting the flat bound to the WEIGHTED spectral gap requires an argument that standard operator inequalities cannot provide — **the coupling between the Chebyshev basis and the permutation action defeats all known decoupling methods.**
+
+### Why this is hard
+
+The operator $L_{\delta,p}|_{H_V} = \sum_{a=1}^5 M_a \otimes P_a|_V$ is a sum of 5 rank-$N_C$ terms in a tensor product space. The individual terms are large (each has norm close to $\|M_a\|$), but the SUM has small spectral radius due to cancellation from the different permutations $P_a$. Capturing this cancellation rigorously requires either:
+
+- **Explicit Kloosterman sheaf theory** (Deligne's proof applied to the specific Hecke operator for our generators), or
+- **A new perturbation bound** for Kronecker-structured operators with unitary factors, or
+- **Property ($\tau$) with effective constants** from Bourgain-Gamburd (their proof uses compactness and is inherently non-effective).
+
+This is a **genuine open mathematical problem**, not a computational one.
+
+### What this constitutes
+
+The conjecture is **proved for $d \leq 10^{11}$** (unconditional, by computation).
+
+For $d > 10^{11}$: the conjecture holds **conditional on $\sigma_p \geq 0.277$ for all primes $p$**, which is:
+- Verified computationally for 489 primes with zero exceptions
+- Verified at lower precision for 9,592 primes with zero exceptions
+- Strongly supported by the monotone convergence $\sigma_p \to 0.717$ as $p \to \infty$
+- Implied abstractly by Bourgain-Gamburd's property ($\tau$), but with non-effective constants
 
 The computation-dependent parts:
 - Brute-force verification to $10^{11}$: deterministic, reproducible, bit-exact
