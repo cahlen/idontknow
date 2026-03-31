@@ -13,9 +13,9 @@ Results published openly at [bigcompute.science](https://bigcompute.science). Ra
 | **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof framework for all d ≥ 1. D₀ ≈ 3.4×10¹⁰. Not yet peer-reviewed. | [Paper](paper/zaremba-proof.pdf) |
 | **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
 | **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 2.74B discriminants for d ∈ [10⁹, 10¹⁰]. Cohen-Lenstra convergence is non-monotone. | In progress |
-| **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | First complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
+| **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | To our knowledge, first complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
 | **Lyapunov Spectrum** | Transfer operator eigenvalue computation | All 1,048,575 subsets | Complete |
-| **Minkowski ?(x)** | Multifractal analysis | First numerical singularity spectrum f(α) | Complete |
+| **Minkowski ?(x)** | Multifractal analysis | To our knowledge, first numerical singularity spectrum f(α) | Complete |
 | **Flint Hills Series** | Quad-double CUDA arithmetic | Partial sums to 10¹⁰ | Complete |
 | **LLM Theorem Proving** | Goedel-Prover + Kimina-Prover → Lean 4 | 19/20 formal proofs | Complete |
 | **Kronecker Coefficients** | GPU-accelerated representation theory | To n=120 for geometric complexity theory | Planned |
