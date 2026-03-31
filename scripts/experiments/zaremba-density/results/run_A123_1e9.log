@@ -1,0 +1,10 @@
+========================================
+Zaremba Density Computation
+========================================
+Range: d = 1 to 1000000000
+Digit set A = {1,2,3}
+Max CF length: 200
+Bitset: 0.13 GB
+
+Enumerating CFs...
+  Tree a1=1...
