@@ -1,0 +1,7 @@
+digit_set: 1,2,3,4
+max_d: 1000000
+covered: 999998
+density: 0.9999980000
+uncovered: 2
+enum_time: 10.8
+total_time: 10.8
