@@ -73,3 +73,5 @@ spectral_gaps_primes
 verify_gaps
 verify_v2
 verify_interval
+data/ramsey-r55/sms_k43_cubes.icnf
+*.enc
