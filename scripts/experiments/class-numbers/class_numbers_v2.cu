@@ -463,7 +463,7 @@ int main(int argc, char **argv) {
         if (works[g].d_end > D_end) works[g].d_end = D_end;
         memset(works[g].h_hist, 0, sizeof(works[g].h_hist));
         snprintf(works[g].output_path, 256,
-                 "data/class-numbers/raw_gpu%d_%llu_%llu.bin",
+                 "/home/amsysistestdrive2026/idontknow/data/class-numbers/raw_gpu%d_%llu_%llu.bin",
                  g, works[g].d_start, works[g].d_end);
         pthread_create(&threads[g], NULL, gpu_worker, &works[g]);
     }
