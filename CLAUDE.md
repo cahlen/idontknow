@@ -62,7 +62,8 @@ This repository will be public and autonomous AI agents will push commits to it.
 - [x] Exhaustive extension: checked ALL 2^42 = 4.4x10^12 extensions of Exoo's K₄₂ coloring to K₄₃ — zero valid (130 sec on 8xB200)
 - [x] 4-SAT reformulation: checked ALL 656 known K₄₂ colorings (McKay-Radziszowski database) — NONE extend to K₄₃ (3 sec on 8xB200)
 - [x] This is the strongest computational evidence ever assembled that R(5,5) = 43
-- [ ] Direct K₄₃ SAT (903 vars, 1.9M clauses) remains open — this IS the open problem
+- [x] Direct K₄₃ SAT (903 vars, 1.9M clauses) — naive CDCL intractable (98 solvers, 2 hours, no progress). Needs degree constraints (R(4,5)=25 → 18≤deg_red≤24), full symmetry breaking, flag algebra cutting planes.
+- [ ] Mathematically-informed K₄₃ SAT encoding (degree bounds, Turán density, BreakID symmetry breaking)
 
 ### Class Numbers of Real Quadratic Fields (Planned)
 Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.
