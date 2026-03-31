@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite it as below."
+title: "bigcompute: GPU-Accelerated Computational Mathematics"
+type: software
+authors:
+  - family-names: Humphreys
+    given-names: Cahlen
+repository-code: "https://github.com/cahlen/idontknow"
+url: "https://bigcompute.science"
+abstract: "GPU-accelerated infrastructure for exploring open conjectures in number theory and combinatorics. CUDA kernels for Zaremba's conjecture, Ramsey R(5,5), class numbers of real quadratic fields, Kronecker coefficients, Hausdorff dimension spectra, and Ramanujan Machine formula discovery. All results published openly with full reproduction instructions."
+keywords:
+  - computational mathematics
+  - number theory
+  - GPU computing
+  - CUDA
+  - Zaremba conjecture
+  - Ramsey theory
+  - class numbers
+  - continued fractions
+  - Kronecker coefficients
+  - Hausdorff dimension
+license: MIT
+date-released: "2026-03-31"
+references:
+  - type: dataset
+    title: "Class Numbers of Real Quadratic Fields"
+    authors:
+      - family-names: Humphreys
+        given-names: Cahlen
+    url: "https://huggingface.co/datasets/cahlen/class-numbers-real-quadratic"
+  - type: dataset
+    title: "Kronecker Coefficients (S_20 and S_30)"
+    authors:
+      - family-names: Humphreys
+        given-names: Cahlen
+    url: "https://huggingface.co/datasets/cahlen/kronecker-coefficients"
+  - type: dataset
+    title: "Continued Fraction Spectra"
+    authors:
+      - family-names: Humphreys
+        given-names: Cahlen
+    url: "https://huggingface.co/datasets/cahlen/continued-fraction-spectra"
