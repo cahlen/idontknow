@@ -1,0 +1,10 @@
+========================================
+Zaremba Density (GPU)
+Range: d = 1 to 10000000000
+Digits: {1,2,3,4}
+========================================
+
+Prefixes (depth 4): 10000000
+Bitset: 1.25 GB
+
+Launching 10000000 GPU threads...
