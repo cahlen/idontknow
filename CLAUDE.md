@@ -48,7 +48,7 @@ This repository will be public and autonomous AI agents will push commits to it.
 - [x] Transitivity: algebraic argument for all primes via Dickson classification (AI-assisted, not peer-reviewed)
 - [x] LLM proving: 19/20 small cases formally verified in Lean 4 (dual-model race, Goedel-Prover + Kimina-Prover)
 - [x] Witness distribution: a/d ≈ 0.171 concentration, golden ratio connection
-- [ ] Fix d=9 failure (witness search issue)
+- [x] Fix d=9 failure: sweet-spot band [0.165d, 0.185d] collapsed for small d; added full search for d < 50
 - [ ] MCTS proof search benchmark (planned)
 - [ ] Make Bourgain-Kontorovich bound effective (Q₀ extraction)
 
