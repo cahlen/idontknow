@@ -75,6 +75,18 @@ __global__ void verify_zaremba_v3(uint64 start_d, uint64 count,
         return;
     }
 
+    // Small d: full search (sweet-spot band collapses for d < ~50)
+    // e.g. d=9: band [0.160*9, 0.190*9] = [1,1], misses witness a=2
+    if (d < 50) {
+        for (uint64 a = 1 + (uint64)tid; a < d; a += BLOCK_SIZE) {
+            if (found) return;
+            if (dev_gcd(a, d) != 1) continue;
+            if (cf_bounded(a, d)) { found = 1; return; }
+        }
+        __syncthreads();
+        return;
+    }
+
     // Phase 1: Targeted search around 0.170*d
     // Search band: [0.160d, 0.190d] — wider than v2 to be safe
     uint64 lo = (uint64)(0.160 * (double)d);

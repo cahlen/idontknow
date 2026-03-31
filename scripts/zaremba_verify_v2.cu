@@ -67,6 +67,15 @@ __device__ uint64 find_witness_v2(uint64 d) {
     if (d == 0) return 0;
     if (d <= BOUND) return 1;
 
+    // Small d: full search (sweet-spot band collapses for d < ~50)
+    if (d < 50) {
+        for (uint64 a = 1; a < d; a++) {
+            if (dev_gcd(a, d) != 1) continue;
+            if (cf_bounded(a, d)) return a;
+        }
+        return 0;
+    }
+
     // Phase 1: Targeted search around a = 0.170 * d
     // The sweet spot is [0.1708d, 0.1745d] for 99% of cases
     // We search [0.168d, 0.180d] for some margin
