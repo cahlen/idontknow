@@ -82,13 +82,13 @@ while true; do
             echo "Time: $(date -Iseconds)"
 
             if [ $exit_code -eq 10 ]; then
-                echo "RESULT: *** SAT *** — R(5,5) > 43 !!!"
-                echo "THIS WOULD BE A MAJOR MATHEMATICAL RESULT"
+                echo "RESULT: *** SAT *** — R(5,5) > 43 (if verified)"
+                echo "IMPORTANT: This needs independent verification before any claim"
                 echo "Solution in: $logfile"
             elif [ $exit_code -eq 20 ]; then
-                echo "RESULT: UNSAT — No valid 2-coloring of K43 exists"
-                echo "This proves R(5,5) ≤ 43 (given R(5,5) ≥ 43, this means R(5,5) = 43)"
-                echo "THIS WOULD RESOLVE THE OPEN PROBLEM"
+                echo "RESULT: UNSAT — No valid 2-coloring of K43 found by this solver"
+                echo "Note: UNSAT from a single solver is computational evidence, not a proof"
+                echo "Needs independent verification (proof certificate or multiple solvers)"
             else
                 echo "RESULT: UNKNOWN (timeout/error)"
                 echo "Last 5 lines:"

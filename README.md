@@ -2,14 +2,16 @@
 
 GPU-accelerated computational mathematics — exploring open conjectures with custom CUDA kernels, interval arithmetic, and heavy compute on NVIDIA B200 + RTX 5090.
 
+**This work is produced through human–AI collaboration.** CUDA kernels, mathematical arguments, documentation, and analysis are developed jointly by [Cahlen Humphreys](https://github.com/cahlen) and AI agents (Claude). No results have been independently peer-reviewed. All claims are grounded in computational evidence and reproducible code — not formal proof unless explicitly stated. Everything is open for independent verification.
+
 Results published openly at [bigcompute.science](https://bigcompute.science). Raw data on [Hugging Face](https://huggingface.co/cahlen).
 
 ## Experiments
 
 | Experiment | Method | Key Result | Status |
 |---|---|---|---|
-| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof for all d ≥ 1. D₀ ≈ 3.4×10¹⁰. 15-page paper ready for arXiv. | [Paper](paper/zaremba-proof.pdf) |
-| **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest evidence R(5,5) = 43. | Complete |
+| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof framework for all d ≥ 1. D₀ ≈ 3.4×10¹⁰. Not yet peer-reviewed. | [Paper](paper/zaremba-proof.pdf) |
+| **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
 | **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 2.74B discriminants for d ∈ [10⁹, 10¹⁰]. Cohen-Lenstra convergence is non-monotone. | In progress |
 | **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | First complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
 | **Lyapunov Spectrum** | Transfer operator eigenvalue computation | All 1,048,575 subsets | Complete |
@@ -46,12 +48,13 @@ docs/                           # Research notes
 
 ## Key Technical Details
 
-### Zaremba Proof
+### Zaremba Computer-Assisted Proof Framework (not yet peer-reviewed)
 - Brute force: 210B denominators verified, zero failures (6962s on 8×B200)
 - Spectral gaps: MPFR 256-bit certified (σ_p ≥ 0.651 for 11 covering primes)
 - Dolgopyat bound: ρ_η ≤ 0.771 via arb ball arithmetic (FLINT, 70 certified digits)
 - All 8 constants interval-certified via arb/MPFR
 - MOW theorem matching verified against actual paper (Crelle 2019)
+- Transitivity argument via Dickson's classification (AI-assisted, not independently verified)
 
 ### Ramsey R(5,5)
 - Fixed critical initialization bug (adj[i]=0 inside loop destroyed back-edges)
