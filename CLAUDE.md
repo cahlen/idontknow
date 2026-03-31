@@ -94,3 +94,13 @@ Results from this repo are published to **bigcompute.science** (sibling repo):
 - Inference-time scaling matters more than model size — small models + massive search beat large models
 - Best search: Best-First Tree Search (Seed Prover), AlphaZero MCTS (AlphaProof), Particle Filter Monte Carlo
 - Continued fractions / number theory are highly amenable to MCTS exploration and formal verification
+
+### Ramanujan Machine (In Progress — GPU formula discovery)
+*Discover new continued fraction formulas for mathematical constants.*
+
+**What's done:**
+- [x] CGBN (CUDA big number) library installed
+- [x] Experiment page and methodology designed
+- [ ] CUDA kernel for polynomial CF evaluation
+- [ ] GPU PSLQ implementation
+- [ ] Degree 4-6 polynomial sweep (target: 10^9+ CFs)
