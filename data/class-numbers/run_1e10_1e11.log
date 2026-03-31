@@ -1,0 +1,78 @@
+========================================
+Class Numbers of Real Quadratic Fields v2
+Range: [10000000000, 100000000000)
+========================================
+
+Primes: 9592 (up to 99991)
+GPUs: 8
+
+[GPU 0] 26.4% | 911890950 discriminants processed | d ~ 1.30e+10
+[GPU 1] 26.4% | 911890445 discriminants processed | d ~ 2.42e+10
+[GPU 2] 26.4% | 911890708 discriminants processed | d ~ 3.55e+10
+[GPU 0] 53.1% | 1823781424 discriminants processed | d ~ 1.60e+10
+[GPU 3] 26.4% | 911890675 discriminants processed | d ~ 4.67e+10
+[GPU 4] 26.4% | 911890806 discriminants processed | d ~ 5.80e+10
+[GPU 5] 26.4% | 911890558 discriminants processed | d ~ 6.92e+10
+[GPU 6] 26.4% | 911890609 discriminants processed | d ~ 8.05e+10
+[GPU 7] 26.4% | 911890584 discriminants processed | d ~ 9.17e+10
+[GPU 1] 53.1% | 1823781208 discriminants processed | d ~ 2.72e+10
+[GPU 2] 53.1% | 1823781465 discriminants processed | d ~ 3.85e+10
+[GPU 0] 79.7% | 2735672103 discriminants processed | d ~ 1.90e+10
+[GPU 3] 53.1% | 1823781482 discriminants processed | d ~ 4.97e+10
+[GPU 1] 79.7% | 2735671867 discriminants processed | d ~ 3.02e+10
+[GPU 4] 53.1% | 1823781263 discriminants processed | d ~ 6.10e+10
+[GPU 5] 53.1% | 1823781157 discriminants processed | d ~ 7.22e+10
+[GPU 0] done: 3419590186 discriminants
+[GPU 6] 53.1% | 1823781297 discriminants processed | d ~ 8.35e+10
+[GPU 2] 79.7% | 2735672072 discriminants processed | d ~ 4.15e+10
+[GPU 7] 53.1% | 1823781220 discriminants processed | d ~ 9.47e+10
+[GPU 1] done: 3419589749 discriminants
+[GPU 3] 79.7% | 2735671950 discriminants processed | d ~ 5.27e+10
+[GPU 4] 79.7% | 2735672004 discriminants processed | d ~ 6.40e+10
+[GPU 2] done: 3419589887 discriminants
+[GPU 5] 79.7% | 2735671723 discriminants processed | d ~ 7.52e+10
+[GPU 3] done: 3419590131 discriminants
+[GPU 6] 79.7% | 2735672056 discriminants processed | d ~ 8.65e+10
+[GPU 7] 79.7% | 2735671851 discriminants processed | d ~ 9.77e+10
+[GPU 4] done: 3419590012 discriminants
+[GPU 5] done: 3419589801 discriminants
+[GPU 6] done: 3419590147 discriminants
+[GPU 7] done: 3419589856 discriminants
+
+========================================
+RESULTS
+========================================
+Range: [10000000000, 100000000000)
+Fundamental discriminants: 27356719769
+Time: 59527.0s (459568 disc/sec)
+
+Cohen-Lenstra statistics:
+  h(d) = 1: 4200077712 (15.3530%)
+  C-L predicted h=1: ~75.446%
+  3 | h(d): 4236039985 (15.4845%)
+  5 | h(d): 1344446247 (4.9145%)
+  7 | h(d): 644853112 (2.3572%)
+
+Class number distribution (first 20):
+  h= 1: 4200077712 (15.353%)
+  h= 2: 5818676343 (21.270%)
+  h= 3: 682630115 (2.495%)
+  h= 4: 5448096312 (19.915%)
+  h= 5: 209364046 (0.765%)
+  h= 6: 942194701 (3.444%)
+  h= 7: 99860622 (0.365%)
+  h= 8: 3192852073 (11.671%)
+  h= 9: 84413405 (0.309%)
+  h=10: 289734856 (1.059%)
+  h=11: 38150091 (0.139%)
+  h=12: 878716422 (3.212%)
+  h=13: 26909717 (0.098%)
+  h=14: 138293485 (0.506%)
+  h=15: 34021052 (0.124%)
+  h=16: 1408886746 (5.150%)
+  h=17: 15434284 (0.056%)
+  h=18: 116340607 (0.425%)
+  h=19: 12277507 (0.045%)
+  h=20: 271092751 (0.991%)
+
+========================================
