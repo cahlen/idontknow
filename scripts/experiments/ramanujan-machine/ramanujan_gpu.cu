@@ -108,18 +108,118 @@ __device__ int check_convergence(const int *p_coeffs, const int *q_coeffs,
     return 1;
 }
 
-/* ── PSLQ-lite matching ────────────────────────────────── */
+/* ── Compound constant matching ────────────────────────── */
 
-// Simple matching: check if CF value equals a simple expression
-// involving known constants: c0 + c1*val = c2*const, with small c_i
+// Pre-computed compound expressions involving known constants.
+// These are the expressions that actually appear in Ramanujan-type CF formulas.
+__constant__ double d_compounds[] = {
+    // Reciprocals: 1/K
+    0.31830988618379067,  // 1/pi
+    0.36787944117144233,  // 1/e
+    1.44269504088896341,  // 1/ln(2)
+    // Products of pi
+    1.27323954473516269,  // 4/pi (Brouncker, Wallis)
+    0.78539816339744831,  // pi/4
+    1.57079632679489662,  // pi/2
+    1.04719755119659775,  // pi/3
+    0.52359877559829887,  // pi/6
+    9.86960440108935862,  // pi^2
+    1.64493406684822644,  // pi^2/6 (Basel = zeta(2))
+    2.46740110027233966,  // pi^2/4
+    0.82246703342411322,  // pi^2/12
+    // Products of e
+    0.69314718055994531,  // ln(2)
+    1.38629436111989061,  // 2*ln(2)
+    2.30258509299404568,  // ln(10)
+    // Cross-products
+    8.53973422267356706,  // e*pi
+    0.86525597943226508,  // e/pi
+    1.15572734979092172,  // pi/e
+    2.17758609030360229,  // pi*ln(2)
+    // Roots and powers
+    1.77245385090551603,  // sqrt(pi)
+    0.56418958354775629,  // 1/sqrt(pi)
+    1.12837916709551258,  // 2/sqrt(pi)
+    1.64872127070012815,  // sqrt(e)
+    0.60653065971263342,  // 1/sqrt(e)  = e^(-1/2)
+    2.50662827463100051,  // sqrt(2*pi)
+    0.39894228040143268,  // 1/sqrt(2*pi)
+    // Other famous
+    0.11503837898205527,  // 1/(e*pi)
+    1.73205080756887729,  // sqrt(3)
+    2.23606797749978969,  // sqrt(5)
+    0.0,  // sentinel
+};
+
+__constant__ char d_compound_names[][24] = {
+    "1/pi", "1/e", "1/ln(2)",
+    "4/pi", "pi/4", "pi/2", "pi/3", "pi/6",
+    "pi^2", "pi^2/6", "pi^2/4", "pi^2/12",
+    "ln(2)", "2*ln(2)", "ln(10)",
+    "e*pi", "e/pi", "pi/e", "pi*ln(2)",
+    "sqrt(pi)", "1/sqrt(pi)", "2/sqrt(pi)",
+    "sqrt(e)", "1/sqrt(e)", "sqrt(2pi)", "1/sqrt(2pi)",
+    "1/(e*pi)", "sqrt(3)", "sqrt(5)",
+};
+
+#define NUM_COMPOUNDS 29
+
+// Host-side name arrays (device __constant__ arrays can't be read from host)
+static const char* h_const_names[] = {
+    "pi", "e", "ln(2)", "gamma", "Catalan",
+    "zeta(3)", "Gauss", "Lemniscate", "sqrt(2)", "phi"
+};
+
+static const char* h_compound_names[] = {
+    "1/pi", "1/e", "1/ln(2)",
+    "4/pi", "pi/4", "pi/2", "pi/3", "pi/6",
+    "pi^2", "pi^2/6", "pi^2/4", "pi^2/12",
+    "ln(2)", "2*ln(2)", "ln(10)",
+    "e*pi", "e/pi", "pi/e", "pi*ln(2)",
+    "sqrt(pi)", "1/sqrt(pi)", "2/sqrt(pi)",
+    "sqrt(e)", "1/sqrt(e)", "sqrt(2pi)", "1/sqrt(2pi)",
+    "1/(e*pi)", "sqrt(3)", "sqrt(5)",
+};
+
+// Helper: get constant name from match_const index (host-side)
+static const char* get_const_name(int mc) {
+    if (mc >= 100) return h_compound_names[mc - 100];
+    return h_const_names[mc];
+}
+
 __device__ int match_constant(double val, int *match_const, int *match_c0,
                               int *match_c1, int *match_c2)
 {
+    // Phase 1: Check compound expressions with small integer multiples
+    // val = (c0 + c2 * K) / c1  for K in compounds
+    for (int ci = 0; ci < NUM_COMPOUNDS; ci++) {
+        double K = d_compounds[ci];
+        if (K == 0.0) continue;
+
+        for (int c1 = 1; c1 <= 6; c1++) {
+            for (int c2 = -6; c2 <= 6; c2++) {
+                if (c2 == 0) continue;
+                for (int c0 = -6; c0 <= 6; c0++) {
+                    double expected = ((double)c0 + (double)c2 * K) / (double)c1;
+                    if (fabs(expected) < 1e-15 || fabs(expected) > 1e15) continue;
+                    double reldiff = fabs(val - expected) / (fabs(expected) + 1e-300);
+                    if (reldiff < 1e-11) {
+                        *match_const = 100 + ci;  // 100+ = compound index
+                        *match_c0 = c0;
+                        *match_c1 = c1;
+                        *match_c2 = c2;
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // Phase 2: Check base constants with linear combinations
     for (int ci = 0; ci < NUM_CONSTANTS; ci++) {
         double K = d_constants[ci];
         if (K == 0.0) continue;
 
-        // Try: val = (c2/c1) * K + c0/c1  for small integers
         for (int c1 = 1; c1 <= 8; c1++) {
             for (int c2 = -8; c2 <= 8; c2++) {
                 if (c2 == 0) continue;
@@ -312,11 +412,11 @@ int main(int argc, char **argv) {
                     printf(") → %.15g", h->value);
 
                     if (h->match_c2 == -999) {
-                        printf(" = %s^(%d/%d)", d_const_names[h->match_const],
+                        printf(" = %s^(%d/%d)", get_const_name(h->match_const),
                                h->match_c0, h->match_c1);
                     } else {
                         printf(" = (%d + %d*%s)/%d", h->match_c0, h->match_c2,
-                               d_const_names[h->match_const], h->match_c1);
+                               get_const_name(h->match_const), h->match_c1);
                     }
                     printf("\n");
 
@@ -326,7 +426,7 @@ int main(int argc, char **argv) {
                         fprintf(fout, ")\",\"(");
                         for (int j = 0; j <= h->deg; j++) fprintf(fout, "%s%d", j?",":"", h->q_coeffs[j]);
                         fprintf(fout, ")\",%.*g,%s,%d,%d,%d\n",
-                                17, h->value, d_const_names[h->match_const],
+                                17, h->value, get_const_name(h->match_const),
                                 h->match_c0, h->match_c1, h->match_c2);
                     }
                 }
