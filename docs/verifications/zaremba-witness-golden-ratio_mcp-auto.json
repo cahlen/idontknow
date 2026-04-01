@@ -1,0 +1,15 @@
+{
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "OEIS"
+  ],
+  "papers_found": [],
+  "oeis_matches": [
+    "Golden ratio sequences found but no direct match to witness concentration"
+  ],
+  "assessment": "The concentration of optimal witnesses at a/d ~ 1/(5+phi) is a novel computational observation. No direct precedent in literature. The golden ratio connection is suggestive but unexplained theoretically.",
+  "certification_recommendation": "bronze"
+}

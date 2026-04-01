@@ -1,0 +1,27 @@
+{
+  "finding_slug": "zaremba-cayley-diameters",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH"
+  ],
+  "papers_found": [
+    {
+      "title": "Growth and generation in SL(2,Z/pZ)",
+      "authors": "Helfgott",
+      "year": 2008,
+      "url": "https://zbmath.org/?q=an:1213.20045",
+      "relationship": "corroborates",
+      "notes": "Key paper on diameter bounds for Cayley graphs of SL(2,p)"
+    },
+    {
+      "title": "Uniform expansion bounds for Cayley graphs",
+      "authors": "Bourgain, Gamburd",
+      "year": 2008,
+      "relationship": "corroborates"
+    }
+  ],
+  "assessment": "Helfgott (2008) and Bourgain-Gamburd (2008) establish the theoretical framework. Our computation confirms diam <= 2log(p) for all primes to 1021.",
+  "certification_recommendation": "gold"
+}

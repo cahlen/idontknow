@@ -1,0 +1,20 @@
+{
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH"
+  ],
+  "papers_found": [
+    {
+      "title": "Linear groups with an exposition of the Galois field theory",
+      "authors": "Dickson",
+      "year": 1901,
+      "relationship": "corroborates",
+      "notes": "Classical textbook. Our argument uses Dickson's classification."
+    }
+  ],
+  "assessment": "Uses Dickson's classical classification (1901). AI-assisted application to Zaremba semigroups is novel. Not peer-reviewed.",
+  "certification_recommendation": "silver"
+}

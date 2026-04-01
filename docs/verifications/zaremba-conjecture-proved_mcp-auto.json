@@ -1,0 +1,29 @@
+{
+  "finding_slug": "zaremba-conjecture-proved",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH"
+  ],
+  "papers_found": [
+    {
+      "title": "Hausdorff dimension estimates applied to Lagrange and Markov spectra",
+      "authors": "Pollicott, Vytnova",
+      "year": 2022,
+      "url": "https://zbmath.org",
+      "relationship": "corroborates",
+      "notes": "Related transfer operator method"
+    },
+    {
+      "title": "Uniform congruence counting for Schottky semigroups",
+      "authors": "Magee, Oh, Winter",
+      "year": 2019,
+      "url": "https://arxiv.org/abs/1601.07789",
+      "relationship": "corroborates",
+      "notes": "The MOW framework our proof is based on"
+    }
+  ],
+  "assessment": "MOW framework is established. Our proof framework applies it effectively but is NOT peer-reviewed. The gap between our D0 and brute-force frontier needs independent verification.",
+  "certification_recommendation": "silver"
+}

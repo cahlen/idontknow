@@ -1,0 +1,21 @@
+{
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH"
+  ],
+  "papers_found": [
+    {
+      "title": "Generalization of Selberg's 3/16 theorem",
+      "authors": "Bourgain, Gamburd, Sarnak",
+      "year": 2011,
+      "url": "https://arxiv.org/abs/0811.2235",
+      "relationship": "corroborates",
+      "notes": "Property (tau) framework that our computation confirms"
+    }
+  ],
+  "assessment": "Property (tau) is theoretically established by BGS. Our computation confirms it at unprecedented scale (1214 moduli). zbMATH API didn't return results for specialized search terms.",
+  "certification_recommendation": "silver"
+}

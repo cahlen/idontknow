@@ -1,0 +1,35 @@
+{
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH"
+  ],
+  "papers_found": [
+    {
+      "title": "Continued fractions, Cantor sets, Hausdorff dimension, and transfer operators",
+      "authors": "Hensley",
+      "year": 2012,
+      "url": "https://zbmath.org",
+      "relationship": "corroborates"
+    },
+    {
+      "title": "Computing the dimension of dynamically defined sets",
+      "authors": "Jenkinson, Pollicott",
+      "year": 2001,
+      "url": "https://zbmath.org",
+      "relationship": "corroborates",
+      "notes": "Methods we use to compute dim_H"
+    },
+    {
+      "title": "Rigorous effective bounds on Hausdorff dimension of E_2",
+      "year": 2016,
+      "url": "https://arxiv.org/abs/1611.09276",
+      "relationship": "corroborates",
+      "notes": "100-digit computation of dim_H(E_2), validates our method"
+    }
+  ],
+  "assessment": "Hausdorff dimension computation methods are well-established (Hensley, Jenkinson-Pollicott). Our complete spectrum of all 2^20-1 subsets is novel. Digit 1 dominance is a new computational observation.",
+  "certification_recommendation": "gold"
+}

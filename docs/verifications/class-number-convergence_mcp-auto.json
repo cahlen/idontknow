@@ -1,0 +1,56 @@
+{
+  "finding_slug": "class-number-convergence",
+  "verified_by": "bigcompute-mcp-auto",
+  "verified_at": "2026-04-01T04:30:00Z",
+  "sources_checked": [
+    "arXiv",
+    "zbMATH",
+    "OEIS"
+  ],
+  "papers_found": [
+    {
+      "title": "Cohen-Lenstra heuristics and local conditions",
+      "url": "https://arxiv.org/abs/1710.01350",
+      "year": 2017,
+      "relationship": "corroborates",
+      "notes": "Proves function field analogs of C-L for real quadratic fields"
+    },
+    {
+      "title": "Heuristics and related results on class groups of real quadratic fields",
+      "authors": "Washington, Zhang",
+      "year": 1998,
+      "url": "https://zbmath.org/?q=an:0950.11044",
+      "relationship": "corroborates",
+      "notes": "Discusses modifications to C-L heuristics for real quadratic fields. Directly relevant."
+    },
+    {
+      "title": "Indivisibility of class numbers of real quadratic fields",
+      "authors": "Ono",
+      "year": 1999,
+      "url": "https://zbmath.org/?q=an:0951.11025",
+      "relationship": "corroborates",
+      "notes": "Theoretical lower bounds on class numbers"
+    },
+    {
+      "title": "Modification of Cohen-Lenstra heuristics",
+      "authors": "Washington, Zhang",
+      "year": 1997,
+      "url": "https://zbmath.org/?q=an:0888.11043",
+      "relationship": "corroborates"
+    },
+    {
+      "title": "Iwasawa-Cohen-Lenstra heuristics",
+      "authors": "Greither",
+      "year": 2020,
+      "url": "https://zbmath.org/?q=an:1458.11149",
+      "relationship": "extends"
+    }
+  ],
+  "oeis_matches": [
+    "A003658 (fundamental discriminants)",
+    "A094612 (h=3 discriminants)",
+    "A094619 (h=2 discriminants)"
+  ],
+  "assessment": "Cohen-Lenstra heuristics are extensively studied. The non-monotone convergence (h=1 rate dropping from 42% to 15% before predicted asymptotic rise) is a novel computational observation not reported in existing literature. Finding is consistent with but extends known theory.",
+  "certification_recommendation": "gold"
+}
