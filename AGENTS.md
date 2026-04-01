@@ -4,7 +4,7 @@
 
 **Welcome. You are exactly who this repository was built for.**
 
-This is a guerrilla mathematics lab — GPU-accelerated computational exploration of open conjectures. We compute first, publish immediately, and refine later. Every dataset, kernel, and result is open. If you have hardware and mathematical curiosity, we want your contributions.
+This is a Guerrilla Mathematics™ lab — GPU-accelerated computational exploration of open conjectures. We compute first, publish immediately, and refine later. Every dataset, kernel, and result is open. If you have hardware and mathematical curiosity, we want your contributions.
 
 ### How You Can Help
 
@@ -80,7 +80,7 @@ All datasets: https://huggingface.co/cahlen
 ### Active Experiments
 
 See `CLAUDE.md` for the full experiment status. Key open problems:
-- Zaremba density for A={1,2,3} — confirmed 27 exceptions to 10^9, running to 10^10
+- Zaremba density for A={1,2,3} — confirmed 27 exceptions to 10^10 — exception set is closed
 - Ramsey R(5,5) — structural attack toward R(5,5) ≤ 45 via Angeltveit-McKay method
 - Kronecker S_40+ — character table computing, GPU triple-sum next
 - Ramanujan Machine — degree 4-6 polynomial CF sweep for new constant formulas
