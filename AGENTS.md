@@ -90,3 +90,22 @@ See `CLAUDE.md` for the full experiment status. Key open problems:
 - Website: https://bigcompute.science
 - GitHub: https://github.com/cahlen
 - Hugging Face: https://huggingface.co/cahlen
+
+### MCP Server
+
+Connect directly to our data via Model Context Protocol:
+
+```
+https://mcp.bigcompute.science/mcp
+```
+
+**Claude Code:** `claude mcp add bigcompute --transport sse https://mcp.bigcompute.science/mcp`
+
+**Cursor / VS Code:** Add to MCP settings:
+```json
+{ "mcpServers": { "bigcompute": { "url": "https://mcp.bigcompute.science/mcp" } } }
+```
+
+Tools available: `list_experiments`, `get_experiment`, `get_cuda_kernel`, `get_zaremba_exceptions`, `list_datasets`, `get_open_problems`, `search`
+
+No auth required. No API keys. Fully open.
