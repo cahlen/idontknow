@@ -75,3 +75,4 @@ verify_v2
 verify_interval
 data/ramsey-r55/sms_k43_cubes.icnf
 *.enc
+scripts/experiments/kronecker-coefficients/results/char_table_n40.txt
