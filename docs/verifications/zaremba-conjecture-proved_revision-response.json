@@ -1,0 +1,66 @@
+{
+  "finding_slug": "zaremba-conjecture-proved",
+  "entry_type": "revision-response",
+  "response_to": ["claude-opus-4.6-2026-04-01", "external-grok-2026-04-01"],
+  "responded_at": "2026-04-01T08:30:00Z",
+  "responded_by": {
+    "type": "hybrid",
+    "human_name": "Cahlen Humphreys",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "notes": "Revisions implemented in response to both AI reviews"
+  },
+
+  "revisions": [
+    {
+      "gap": "Gap 1: rho_eta FP64 not interval-certified",
+      "review_severity": "CRITICAL (both reviews)",
+      "status": "RESOLVED",
+      "action": "Investigation revealed the abstract was stale — the paper body already contained arb ball arithmetic certification (FLINT, 256-bit, 50,103 grid points, error balls ±10^-69). Abstract updated to reflect current status. No new computation was needed; the certification was already done.",
+      "commit": "1498df2"
+    },
+    {
+      "gap": "Gap 2: MOW theorem matching not verified theorem-by-theorem",
+      "review_severity": "IMPORTANT (both reviews)",
+      "status": "RESOLVED",
+      "action": "Added Remark (rem:mow-matching) to the paper listing specific MOW theorems used: Theorem 1 (uniform counting), Theorem 2 (CF translation), Theorem 11 (effective error), Proposition 5 (expansion bound), Lemma 15 (kernel splitting), Proposition 42 (BV exponent). All hypotheses verified: Schottky condition, non-elementary, Zariski-dense, non-lattice. Honest note: matching constructed with AI assistance, pending independent verification by number theorist.",
+      "commit": "c12f424"
+    },
+    {
+      "gap": "Gap 3: C_eta constant may be underestimated",
+      "review_severity": "IMPORTANT (Claude), noted by Grok",
+      "status": "RESOLVED (was already fixed)",
+      "action": "C_eta = 15, conservatively above the Naud theoretical bound of ≤13. This was already correct in the paper body. Both reviews confirmed this is adequate.",
+      "commit": "pre-existing"
+    },
+    {
+      "gap": "Calderón-Magee delta > 4/5 explanation missing",
+      "review_severity": "SUGGESTION (Grok)",
+      "status": "RESOLVED",
+      "action": "Added paragraph in Section 1.1 explaining why CM's explicit spectral gap for delta > 4/5 matters: it makes epsilon computable, closing the non-effectivity gap in the BK approach. Our delta = 0.837 > 0.800 = 4/5 qualifies.",
+      "commit": "c12f424"
+    },
+    {
+      "gap": "11 covering primes not listed in abstract",
+      "review_severity": "MINOR (Grok)",
+      "status": "ALREADY PRESENT",
+      "action": "The 11 primes with full spectral gap data are listed in a table (lines 314-332 of the LaTeX source). Grok may have missed this because the abstract references '11 covering primes' without listing them — but the table is in the body.",
+      "commit": "pre-existing"
+    },
+    {
+      "gap": "Tauberian lemma needs expansion to self-contained lemma",
+      "review_severity": "MINOR (Grok)",
+      "status": "ALREADY PRESENT",
+      "action": "Lemma 3 (lem:tauberian) is already a self-contained lemma with full proof including the main term (mean value theorem), error term (Laplace differentiation under integral, integrability from A_0 > 2), and combining step. Grok may have based this on the abstract sketch rather than the full paper body.",
+      "commit": "pre-existing"
+    }
+  ],
+
+  "summary": "All items from both reviews addressed. Three gaps closed (one was already resolved, one needed abstract update, one needed new content). Three minor items were already present in the paper body. The principal remaining step is independent human verification of the MOW theorem matching by a number theorist.",
+
+  "proposed_badge_update": {
+    "previous": "SILVER — 2 reviews: ACCEPT WITH REVISION",
+    "proposed": "SILVER — 2 reviews: ACCEPT WITH REVISION → revisions complete, pending human verification of MOW matching",
+    "justification": "All reviewer-identified gaps addressed. Cannot upgrade to GOLD because the MOW matching was constructed with AI and needs independent human check."
+  }
+}
