@@ -1,0 +1,72 @@
+{
+  "finding_slug": "zaremba-conjecture-proved",
+  "review_id": "claude-opus-4.6-2026-04-01",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-01T05:30:00Z",
+  "mcp_tools_used": [
+    "search_arxiv",
+    "search_zbmath",
+    "get_finding"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Computer-assisted proof of Zaremba's Conjecture for all d >= 1",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The paper provides a FRAMEWORK for a proof, not a complete proof. The title 'computer-assisted proof' is accurate only if all constants are rigorously certified. The plan document identifies 6 gaps: (1) rho_eta is FP64 not interval-certified, (2) MOW theorem matching not verified, (3) CM2025 bridge not explicit, (4) Tauberian lemma imprecise, (5) constants C1/C_eta/b0 not bounded, (6) editorial. Gap 1 is the most critical \u2014 the entire D0 bound depends on rho_eta.",
+      "sources": [
+        {
+          "type": "arXiv",
+          "reference": "Magee-Oh-Winter (2019) arXiv:1601.07789 \u2014 the MOW framework our proof uses",
+          "relationship": "supports framework"
+        },
+        {
+          "type": "internal",
+          "reference": "Plan file identifies 6 open gaps in the proof",
+          "relationship": "qualifies"
+        }
+      ],
+      "concerns": "The proof has known certification gaps. Calling it a 'proof' is premature until gaps are closed."
+    },
+    {
+      "claim": "D0 ~ 3.4 x 10^10, brute-force verified to 2.1 x 10^11",
+      "verdict": "VERIFIED (conditional on gap closure)",
+      "evidence": "D0 depends on certified rho_eta. With rho_eta <= 0.756 (mpmath, not interval arithmetic), D0 ~ 3.4e10. The brute-force verification to 2.1e11 provides a 6x margin. If rho_eta is interval-certified to <= 0.80, D0 would still be < 2.1e11.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "zaremba_verify_v4.c verified 2.1e11 denominators with zero failures",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "rho_eta certification is FP64, not interval arithmetic. This is the critical gap."
+    },
+    {
+      "claim": "Paper ready for arXiv",
+      "verdict": "DISPUTED",
+      "evidence": "The plan identifies 6 gaps. Until at minimum gap 1 (rho_eta interval certification) and gap 2 (MOW theorem matching) are resolved, the paper should not be submitted as a proof.",
+      "sources": [
+        {
+          "type": "internal",
+          "reference": "Plan: moonlit-nibbling-cook.md",
+          "relationship": "contradicts readiness"
+        }
+      ],
+      "concerns": "Submit as 'proof framework' or 'conditional proof' until gaps are closed."
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a complete proof. The most critical is rho_eta interval certification. The paper should be reframed as a 'proof framework with identified gaps' until these are resolved.",
+  "recommendations": [
+    "CRITICAL: Close gap 1 (rho_eta interval certification) before claiming 'proof'.",
+    "CRITICAL: Close gap 2 (MOW theorem matching) \u2014 verify specific theorem numbers.",
+    "IMPORTANT: Retitle from 'proof' to 'proof framework' or 'conditional proof' in all references.",
+    "MINOR: Fix C_eta from 8 to theoretical bound ~13 (identified in plan)."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "MOW framework is peer-reviewed. Brute-force verification is solid. But the proof itself has known gaps, preventing gold certification."
+}

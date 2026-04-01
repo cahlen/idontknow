@@ -1,0 +1,44 @@
+{
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "review_id": "claude-opus-4.6-2026-04-01",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-01T05:30:00Z",
+  "mcp_tools_used": [
+    "search_arxiv",
+    "search_zbmath",
+    "get_finding"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Gamma_{1,...,5} acts transitively on (Z/pZ)* for all primes p",
+      "verdict": "VERIFIED (argument sound, not formalized)",
+      "evidence": "The argument proceeds by Dickson's classification (1901): the image of Gamma in PGL(2,p) must be one of: cyclic, dihedral, A4, S4, A5, Borel, Cartan normalizer, or PSL(2,p)/PGL(2,p). Each non-transitive case is eliminated: not Borel (matrix [[1,1],[1,2]] has nonzero (2,1) entry), not Cartan (specific matrices don't share eigenvectors), not exceptional for p>=13 (order bounds). Small primes p<13 verified by BFS computation. This is a valid mathematical argument using a 125-year-old classification theorem.",
+      "sources": [
+        {
+          "type": "textbook",
+          "reference": "Dickson (1901) 'Linear groups with an exposition of the Galois field theory'",
+          "relationship": "supports"
+        },
+        {
+          "type": "computation",
+          "reference": "BFS verification for p < 13",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "The argument is correct but was AI-assisted and not formalized in Lean or independently verified. For a classification-based argument, this is acceptable \u2014 the reasoning is checkable by a number theorist in 30 minutes."
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Sound application of Dickson's classical classification. The argument is short, verifiable, and correct. Small primes cross-checked computationally. The only reservation is that it hasn't been independently peer-reviewed, but the math is straightforward enough that a reviewer could verify it quickly.",
+  "recommendations": [
+    "SUGGESTION: Formalize the small-prime BFS verification output for reproducibility.",
+    "SUGGESTION: State explicitly which generators produce which matrix types for the Dickson elimination."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Dickson's theorem is unassailable (125 years old, textbook result). Application is sound. Silver because the specific argument hasn't been independently reviewed and is not formalized."
+}

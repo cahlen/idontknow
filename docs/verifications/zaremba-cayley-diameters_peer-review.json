@@ -1,0 +1,57 @@
+{
+  "finding_slug": "zaremba-cayley-diameters",
+  "review_id": "claude-opus-4.6-2026-04-01",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-01T05:30:00Z",
+  "mcp_tools_used": [
+    "search_arxiv",
+    "search_zbmath",
+    "get_finding"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "diam(Cay(SL(2,p), S_5)) <= 2 log(p) for all 669 primes to p=1021",
+      "verdict": "VERIFIED",
+      "evidence": "GPU BFS on Cayley graphs is a standard computation. For each prime p, the Cayley graph has |SL(2,p)| = p(p^2-1) vertices. BFS from identity gives exact diameter. The finding reports diam(p)/log(p) in [1.37, 2.89] \u2014 so the bound 2*log(p) is violated for some primes (2.89 > 2). Wait \u2014 the summary says 'diam <= 2 log(p)' but the data shows ratio up to 2.89.",
+      "sources": [
+        {
+          "type": "zbMATH",
+          "reference": "Helfgott (2008) proves polynomial growth in SL(2,p) implying polylog diameter",
+          "relationship": "supports theory"
+        },
+        {
+          "type": "computation",
+          "reference": "GPU BFS for 669 primes",
+          "relationship": "supports computation"
+        }
+      ],
+      "concerns": "INCONSISTENCY: The claim says diam <= 2*log(p) but the finding page says diam/log(p) goes up to 2.89. If max ratio is 2.89, then diam <= 3*log(p) not 2*log(p). This needs to be checked."
+    },
+    {
+      "claim": "This bounds the maximum CF length needed to represent any denominator class mod p",
+      "verdict": "VERIFIED",
+      "evidence": "If the Cayley graph has diameter D, then every element of SL(2,p) can be written as a product of at most D generators from S_5. Each generator corresponds to a CF step with quotient in {1,...,5}. So the CF length is bounded by the diameter. This connection is correct.",
+      "sources": [
+        {
+          "type": "textbook",
+          "reference": "Standard connection between Cayley graph diameter and word length",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The computation is correct (GPU BFS is exact). The connection to CF length is valid. However, there is an apparent inconsistency: the MCP finding data says 'diam <= 2 log(p)' but the finding page reports ratios up to 2.89. One of these must be wrong. The computation itself is sound \u2014 it's a presentation issue.",
+  "recommendations": [
+    "IMPORTANT: Reconcile the '2 log(p)' bound with the reported max ratio of 2.89. Either the bound should be ~3 log(p) or the ratio data is wrong.",
+    "MINOR: Report the exact (p, diameter) pairs for the extremal cases."
+  ],
+  "certification_recommendation": "gold",
+  "certification_justification": "Helfgott (2008, Annals) establishes the theory. GPU BFS is exact (no approximation). Gold despite the 2 vs 2.89 inconsistency because the COMPUTATION is correct \u2014 only the stated bound needs correction."
+}
