@@ -194,20 +194,32 @@ def main():
     print(f"Partitions: {num_parts}, Classes: {num_classes}")
     print(f"Table: {num_parts} × {num_classes} = {num_parts * num_classes:,} entries\n")
 
-    char_table = np.zeros((num_parts, num_classes), dtype=np.int64)
+    # Use Python ints (arbitrary precision) — np.int64 overflows for n >= 35
+    char_list = [[0] * num_classes for _ in range(num_parts)]
     total = num_parts * num_classes
     done = 0
     step = max(1, total // 20)
 
     for i, lam in enumerate(partitions):
         for c, rho in enumerate(cycle_types):
-            char_table[i, c] = mn_character(lam, rho)
+            char_list[i][c] = mn_character(lam, rho)
             done += 1
             if done % step == 0:
                 print(f"  {done:,}/{total:,} ({100*done//total}%)", flush=True)
 
     t1 = time.time()
     print(f"\nCharacter table: {t1 - t0:.1f}s")
+
+    # Check if values fit in int64
+    max_abs = max(abs(char_list[i][c]) for i in range(num_parts) for c in range(num_classes))
+    fits_int64 = max_abs < (2**63 - 1)
+    print(f"Max |chi|: {max_abs} ({'fits int64' if fits_int64 else 'EXCEEDS int64 — using int128/bigint'})")
+
+    if fits_int64:
+        char_table = np.array(char_list, dtype=np.int64)
+    else:
+        # Use object dtype for validation, save as text for GPU (which will need int128)
+        char_table = np.array(char_list, dtype=object)
 
     print("\nValidation:")
     validate(char_table, partitions, cycle_types, n)
@@ -216,8 +228,17 @@ def main():
     os.makedirs("scripts/experiments/kronecker-coefficients/results", exist_ok=True)
     suffix = f"_h{max_height}" if max_height < n else ""
 
-    bin_path = f"scripts/experiments/kronecker-coefficients/results/char_table_n{n}{suffix}.bin"
-    char_table.tofile(bin_path)
+    if fits_int64:
+        bin_path = f"scripts/experiments/kronecker-coefficients/results/char_table_n{n}{suffix}.bin"
+        char_table.tofile(bin_path)
+        print(f"\nSaved: {bin_path} ({os.path.getsize(bin_path):,} bytes)")
+    else:
+        # Save as text — each value on its own, row-major
+        bin_path = f"scripts/experiments/kronecker-coefficients/results/char_table_n{n}{suffix}.txt"
+        with open(bin_path, 'w') as f:
+            for i in range(num_parts):
+                f.write(' '.join(str(char_list[i][c]) for c in range(num_classes)) + '\n')
+        print(f"\nSaved: {bin_path} ({os.path.getsize(bin_path):,} bytes) [TEXT — values exceed int64]")
 
     z_inv = np.array([1.0 / z_rho(ct) for ct in cycle_types], dtype=np.float64)
     z_path = f"scripts/experiments/kronecker-coefficients/results/z_inv_n{n}{suffix}.bin"
@@ -230,10 +251,11 @@ def main():
         for i, p in enumerate(partitions):
             f.write(f"{i}\t{p}\n")
 
-    print(f"\nSaved: {bin_path} ({os.path.getsize(bin_path):,} bytes)")
     print(f"Saved: {z_path}")
     print(f"Saved: {txt_path}")
-    print(f"\nGPU: {num_parts}³/6 ≈ {num_parts**3//6:,} Kronecker triples")
+    print(f"\nGPU: {num_parts}**3/6 = {num_parts**3//6:,} Kronecker triples")
+    if not fits_int64:
+        print("NOTE: GPU kernel needs int128 or double-double for this n. Standard int64 kernel will NOT work.")
 
 
 if __name__ == "__main__":
