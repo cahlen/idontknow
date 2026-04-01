@@ -52,7 +52,7 @@ docs/                           # Research notes
 - Brute force: 210B denominators verified, zero failures (6962s on 8×B200)
 - Spectral gaps: MPFR 256-bit certified (σ_p ≥ 0.651 for 11 covering primes)
 - Dolgopyat bound: ρ_η ≤ 0.771 via arb ball arithmetic (FLINT, 70 certified digits)
-- All 8 constants interval-certified via arb/MPFR
+- 7 of 8 constants interval-certified via arb/MPFR; C1 bounded by mpmath
 - MOW theorem matching verified against actual paper (Crelle 2019)
 - Transitivity argument via Dickson's classification (AI-assisted, not independently verified)
 
