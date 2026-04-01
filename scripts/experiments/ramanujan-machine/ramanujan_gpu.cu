@@ -190,6 +190,10 @@ static const char* get_const_name(int mc) {
 __device__ int match_constant(double val, int *match_const, int *match_c0,
                               int *match_c1, int *match_c2)
 {
+    // Reject trivial zero values — these match everything
+    double absval = val < 0.0 ? -val : val;
+    if (absval < 1e-8) return 0;
+
     // Phase 1: Check compound expressions with small integer multiples
     // val = (c0 + c2 * K) / c1  for K in compounds
     for (int ci = 0; ci < NUM_COMPOUNDS; ci++) {
@@ -309,6 +313,10 @@ __global__ void search_kernel(
     double value;
     if (!check_convergence(p_coeffs, q_coeffs, deg, cf_depth, &value)) return;
 
+    // Skip trivial values
+    if (value == 0.0 || value != value || value > 1e15 || value < -1e15) return;
+    if (value > -1e-10 && value < 1e-10) return;
+
     // Try to match against known constants
     int mc, c0, c1, c2;
     if (match_constant(value, &mc, &c0, &c1, &c2)) {
@@ -405,6 +413,8 @@ int main(int argc, char **argv) {
 
                 for (int i = total_hits; i < h_hit_count && i < max_hits; i++) {
                     Hit *h = &h_hits[i];
+                    // Skip degenerate zero-value matches on host side
+                    if (h->value > -1e-8 && h->value < 1e-8) continue;
                     printf("  HIT: P=(");
                     for (int j = 0; j <= h->deg; j++) printf("%s%d", j?",":"", h->p_coeffs[j]);
                     printf(") Q=(");
