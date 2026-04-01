@@ -101,6 +101,9 @@ Results from this repo are published to **bigcompute.science** (sibling repo):
 **What's done:**
 - [x] CGBN (CUDA big number) library installed
 - [x] Experiment page and methodology designed
-- [ ] CUDA kernel for polynomial CF evaluation
-- [ ] GPU PSLQ implementation
-- [ ] Degree 4-6 polynomial sweep (target: 10^9+ CFs)
+- [x] CUDA kernel v3: 10 base constants + 29 compound expressions + zero-value filter
+- [x] Degree 1-3 complete: 42B+ candidates, zero transcendental hits
+- [x] Degree 2 exhausted at range [-20,20]: only sqrt(2) and sqrt(5)
+- [x] Degree 4 range [-5,5] running (9.8B candidates)
+- [ ] Degree 4-6 full sweep with high-precision PSLQ verification
+- [ ] GPU PSLQ implementation for eliminating double-precision false positives
