@@ -3,8 +3,8 @@
   "review_id": "external-chatgpt-2026-04-01",
   "reviewer": {
     "type": "ai-model",
-    "model": "ChatGPT (GPT-4o or similar)",
-    "model_provider": "OpenAI",
+    "model": "Grok",
+    "model_provider": "xAI",
     "model_version": "unknown — external submission",
     "human_name": "Submitted by cahlen via conversation paste",
     "notes": "Reviewer accessed the public GitHub repo (cahlen/idontknow) directly and analyzed the full LaTeX source and verification manifest."
