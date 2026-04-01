@@ -1,0 +1,201 @@
+========================================
+Class Numbers of Real Quadratic Fields v2
+Range: [10000000000, 100000000000)
+========================================
+
+Primes: 9592 (up to 99991)
+GPUs: 5
+
+[GPU 0] 3.2% | 182378299 discriminants | d ~ 1.06e+10
+[GPU 1] 3.2% | 182378067 discriminants | d ~ 2.86e+10
+[GPU 0] 6.5% | 364756458 discriminants | d ~ 1.12e+10
+[GPU 2] 3.2% | 182378179 discriminants | d ~ 4.66e+10
+[GPU 3] 3.2% | 182378148 discriminants | d ~ 6.46e+10
+[GPU 4] 3.2% | 182378190 discriminants | d ~ 8.26e+10
+[GPU 0] 9.8% | 547134623 discriminants | d ~ 1.18e+10
+[GPU 1] 6.5% | 364756182 discriminants | d ~ 2.92e+10
+[GPU 0] 13.2% | 729512773 discriminants | d ~ 1.24e+10
+[GPU 2] 6.5% | 364756334 discriminants | d ~ 4.72e+10
+[GPU 3] 6.5% | 364756307 discriminants | d ~ 6.52e+10
+[GPU 0] 16.5% | 911890950 discriminants | d ~ 1.30e+10
+[GPU 1] 9.8% | 547134270 discriminants | d ~ 2.98e+10
+[GPU 4] 6.5% | 364756353 discriminants | d ~ 8.32e+10
+[GPU 0] 19.8% | 1094268983 discriminants | d ~ 1.36e+10
+[GPU 2] 9.8% | 547134477 discriminants | d ~ 4.78e+10
+[GPU 1] 13.2% | 729512285 discriminants | d ~ 3.04e+10
+[GPU 0] 23.2% | 1276646973 discriminants | d ~ 1.42e+10
+[GPU 3] 9.8% | 547134378 discriminants | d ~ 6.58e+10
+[GPU 4] 9.8% | 547134491 discriminants | d ~ 8.38e+10
+[GPU 0] 26.5% | 1459025065 discriminants | d ~ 1.48e+10
+[GPU 2] 13.2% | 729512561 discriminants | d ~ 4.84e+10
+[GPU 1] 16.5% | 911890522 discriminants | d ~ 3.10e+10
+[GPU 0] 29.8% | 1641403320 discriminants | d ~ 1.54e+10
+[GPU 3] 13.2% | 729512566 discriminants | d ~ 6.64e+10
+[GPU 1] 19.8% | 1094268696 discriminants | d ~ 3.16e+10
+[GPU 2] 16.5% | 911890791 discriminants | d ~ 4.90e+10
+[GPU 0] 33.2% | 1823781424 discriminants | d ~ 1.60e+10
+[GPU 4] 13.2% | 729512649 discriminants | d ~ 8.44e+10
+[GPU 0] 36.5% | 2006159528 discriminants | d ~ 1.66e+10
+[GPU 1] 23.2% | 1276646753 discriminants | d ~ 3.22e+10
+[GPU 3] 16.5% | 911890665 discriminants | d ~ 6.70e+10
+[GPU 2] 19.8% | 1094268963 discriminants | d ~ 4.96e+10
+[GPU 0] 39.8% | 2188537648 discriminants | d ~ 1.72e+10
+[GPU 1] 26.5% | 1459024880 discriminants | d ~ 3.28e+10
+[GPU 4] 16.5% | 911890739 discriminants | d ~ 8.50e+10
+[GPU 0] 43.2% | 2370915794 discriminants | d ~ 1.78e+10
+[GPU 3] 19.8% | 1094268840 discriminants | d ~ 6.76e+10
+[GPU 2] 23.2% | 1276647081 discriminants | d ~ 5.02e+10
+[GPU 1] 29.8% | 1641403078 discriminants | d ~ 3.34e+10
+[GPU 0] 46.5% | 2553293991 discriminants | d ~ 1.84e+10
+[GPU 4] 19.8% | 1094268925 discriminants | d ~ 8.56e+10
+[GPU 0] 49.8% | 2735672103 discriminants | d ~ 1.90e+10
+[GPU 2] 26.5% | 1459025081 discriminants | d ~ 5.08e+10
+[GPU 1] 33.2% | 1823781124 discriminants | d ~ 3.40e+10
+[GPU 3] 23.2% | 1276646983 discriminants | d ~ 6.82e+10
+[GPU 0] 53.2% | 2918050223 discriminants | d ~ 1.96e+10
+[GPU 1] 36.5% | 2006159238 discriminants | d ~ 3.46e+10
+[GPU 2] 29.8% | 1641403188 discriminants | d ~ 5.14e+10
+[GPU 4] 23.2% | 1276647201 discriminants | d ~ 8.62e+10
+[GPU 0] 56.5% | 3100428330 discriminants | d ~ 2.02e+10
+[GPU 3] 26.5% | 1459025073 discriminants | d ~ 6.88e+10
+[GPU 1] 39.8% | 2188537354 discriminants | d ~ 3.52e+10
+[GPU 0] 59.8% | 3282806554 discriminants | d ~ 2.08e+10
+[GPU 2] 33.2% | 1823781306 discriminants | d ~ 5.20e+10
+[GPU 4] 26.5% | 1459025224 discriminants | d ~ 8.68e+10
+[GPU 3] 29.8% | 1641403114 discriminants | d ~ 6.94e+10
+[GPU 0] 63.2% | 3465184733 discriminants | d ~ 2.14e+10
+[GPU 1] 43.2% | 2370915542 discriminants | d ~ 3.58e+10
+[GPU 2] 36.5% | 2006159442 discriminants | d ~ 5.26e+10
+[GPU 0] 66.5% | 3647562802 discriminants | d ~ 2.20e+10
+[GPU 1] 46.5% | 2553293715 discriminants | d ~ 3.64e+10
+[GPU 3] 33.2% | 1823781350 discriminants | d ~ 7.00e+10
+[GPU 4] 29.8% | 1641403455 discriminants | d ~ 8.74e+10
+[GPU 0] 69.8% | 3829940891 discriminants | d ~ 2.26e+10
+[GPU 2] 39.8% | 2188537607 discriminants | d ~ 5.32e+10
+[GPU 1] 49.8% | 2735671753 discriminants | d ~ 3.70e+10
+[GPU 0] 73.2% | 4012318857 discriminants | d ~ 2.32e+10
+[GPU 3] 36.5% | 2006159455 discriminants | d ~ 7.06e+10
+[GPU 4] 33.2% | 1823781588 discriminants | d ~ 8.80e+10
+[GPU 2] 43.2% | 2370915709 discriminants | d ~ 5.38e+10
+[GPU 1] 53.2% | 2918049984 discriminants | d ~ 3.76e+10
+[GPU 0] 76.5% | 4194697069 discriminants | d ~ 2.38e+10
+[GPU 3] 39.8% | 2188537582 discriminants | d ~ 7.12e+10
+[GPU 0] 79.8% | 4377075268 discriminants | d ~ 2.44e+10
+[GPU 1] 56.5% | 3100428195 discriminants | d ~ 3.82e+10
+[GPU 2] 46.5% | 2553293933 discriminants | d ~ 5.44e+10
+[GPU 4] 36.5% | 2006159757 discriminants | d ~ 8.86e+10
+[GPU 0] 83.2% | 4559453451 discriminants | d ~ 2.50e+10
+[GPU 1] 59.8% | 3282806279 discriminants | d ~ 3.88e+10
+[GPU 3] 43.2% | 2370915676 discriminants | d ~ 7.18e+10
+[GPU 2] 49.8% | 2735672130 discriminants | d ~ 5.50e+10
+[GPU 0] 86.5% | 4741831605 discriminants | d ~ 2.56e+10
+[GPU 4] 39.8% | 2188537892 discriminants | d ~ 8.92e+10
+[GPU 1] 63.2% | 3465184435 discriminants | d ~ 3.94e+10
+[GPU 0] 89.8% | 4924209650 discriminants | d ~ 2.62e+10
+[GPU 2] 53.2% | 2918050182 discriminants | d ~ 5.56e+10
+[GPU 3] 46.5% | 2553293615 discriminants | d ~ 7.24e+10
+[GPU 1] 66.5% | 3647562569 discriminants | d ~ 4.00e+10
+[GPU 0] 93.2% | 5106587854 discriminants | d ~ 2.68e+10
+[GPU 4] 43.2% | 2370916065 discriminants | d ~ 8.98e+10
+[GPU 2] 56.5% | 3100428431 discriminants | d ~ 5.62e+10
+[GPU 3] 49.8% | 2735671777 discriminants | d ~ 7.30e+10
+[GPU 0] 96.5% | 5288965971 discriminants | d ~ 2.74e+10
+[GPU 1] 69.8% | 3829940655 discriminants | d ~ 4.06e+10
+[GPU 4] 46.5% | 2553294127 discriminants | d ~ 9.04e+10
+[GPU 2] 59.8% | 3282806598 discriminants | d ~ 5.68e+10
+[GPU 0] 99.8% | 5471344184 discriminants | d ~ 2.80e+10
+[GPU 0] done: 5471344184 discriminants
+[GPU 1] 73.2% | 4012318747 discriminants | d ~ 4.12e+10
+[GPU 3] 53.2% | 2918049810 discriminants | d ~ 7.36e+10
+[GPU 2] 63.2% | 3465184822 discriminants | d ~ 5.74e+10
+[GPU 1] 76.5% | 4194696850 discriminants | d ~ 4.18e+10
+[GPU 4] 49.8% | 2735672294 discriminants | d ~ 9.10e+10
+[GPU 3] 56.5% | 3100428073 discriminants | d ~ 7.42e+10
+[GPU 1] 79.8% | 4377075063 discriminants | d ~ 4.24e+10
+[GPU 2] 66.5% | 3647562936 discriminants | d ~ 5.80e+10
+[GPU 4] 53.2% | 2918050377 discriminants | d ~ 9.16e+10
+[GPU 3] 59.8% | 3282806212 discriminants | d ~ 7.48e+10
+[GPU 1] 83.2% | 4559453088 discriminants | d ~ 4.30e+10
+[GPU 2] 69.8% | 3829941049 discriminants | d ~ 5.86e+10
+[GPU 4] 56.5% | 3100428432 discriminants | d ~ 9.22e+10
+[GPU 1] 86.5% | 4741831150 discriminants | d ~ 4.36e+10
+[GPU 3] 63.2% | 3465184350 discriminants | d ~ 7.54e+10
+[GPU 2] 73.2% | 4012319113 discriminants | d ~ 5.92e+10
+[GPU 1] 89.8% | 4924209202 discriminants | d ~ 4.42e+10
+[GPU 4] 59.8% | 3282806767 discriminants | d ~ 9.28e+10
+[GPU 3] 66.5% | 3647562480 discriminants | d ~ 7.60e+10
+[GPU 2] 76.5% | 4194697250 discriminants | d ~ 5.98e+10
+[GPU 1] 93.2% | 5106587299 discriminants | d ~ 4.48e+10
+[GPU 3] 69.8% | 3829940622 discriminants | d ~ 7.66e+10
+[GPU 2] 79.8% | 4377075252 discriminants | d ~ 6.04e+10
+[GPU 4] 63.2% | 3465184733 discriminants | d ~ 9.34e+10
+[GPU 1] 96.5% | 5288965436 discriminants | d ~ 4.54e+10
+[GPU 2] 83.2% | 4559453393 discriminants | d ~ 6.10e+10
+[GPU 3] 73.2% | 4012318759 discriminants | d ~ 7.72e+10
+[GPU 1] 99.8% | 5471343639 discriminants | d ~ 4.60e+10
+[GPU 1] done: 5471343639 discriminants
+[GPU 4] 66.5% | 3647562955 discriminants | d ~ 9.40e+10
+[GPU 2] 86.5% | 4741831558 discriminants | d ~ 6.16e+10
+[GPU 3] 76.5% | 4194696892 discriminants | d ~ 7.78e+10
+[GPU 4] 69.8% | 3829941083 discriminants | d ~ 9.46e+10
+[GPU 2] 89.8% | 4924209795 discriminants | d ~ 6.22e+10
+[GPU 3] 79.8% | 4377074992 discriminants | d ~ 7.84e+10
+[GPU 4] 73.2% | 4012319134 discriminants | d ~ 9.52e+10
+[GPU 2] 93.2% | 5106587901 discriminants | d ~ 6.28e+10
+[GPU 3] 83.2% | 4559453157 discriminants | d ~ 7.90e+10
+[GPU 4] 76.5% | 4194697294 discriminants | d ~ 9.58e+10
+[GPU 2] 96.5% | 5288966083 discriminants | d ~ 6.34e+10
+[GPU 3] 86.5% | 4741831178 discriminants | d ~ 7.96e+10
+[GPU 2] 99.8% | 5471344134 discriminants | d ~ 6.40e+10
+[GPU 2] done: 5471344134 discriminants
+[GPU 4] 79.8% | 4377075529 discriminants | d ~ 9.64e+10
+[GPU 3] 89.8% | 4924209267 discriminants | d ~ 8.02e+10
+[GPU 4] 83.2% | 4559453575 discriminants | d ~ 9.70e+10
+[GPU 3] 93.2% | 5106587362 discriminants | d ~ 8.08e+10
+[GPU 4] 86.5% | 4741831632 discriminants | d ~ 9.76e+10
+[GPU 3] 96.5% | 5288965490 discriminants | d ~ 8.14e+10
+[GPU 4] 89.8% | 4924209812 discriminants | d ~ 9.82e+10
+[GPU 3] 99.8% | 5471343640 discriminants | d ~ 8.20e+10
+[GPU 3] done: 5471343640 discriminants
+[GPU 4] 93.2% | 5106587879 discriminants | d ~ 9.88e+10
+[GPU 4] 96.5% | 5288966119 discriminants | d ~ 9.94e+10
+[GPU 4] 99.8% | 5471344172 discriminants | d ~ 1.00e+11
+[GPU 4] done: 5471344172 discriminants
+
+========================================
+RESULTS
+========================================
+Range: [10000000000, 100000000000)
+Fundamental discriminants: 27356719769
+Time: 90666.0s (301731 disc/sec)
+
+Cohen-Lenstra statistics:
+  h(d) = 1: 4200077712 (15.3530%)
+  C-L predicted h=1: ~75.446%
+  3 | h(d): 4236039985 (15.4845%)
+  5 | h(d): 1344446247 (4.9145%)
+  7 | h(d): 644853112 (2.3572%)
+
+Class number distribution (first 20):
+  h= 1: 4200077712 (15.353%)
+  h= 2: 5818676343 (21.270%)
+  h= 3: 682630115 (2.495%)
+  h= 4: 5448096312 (19.915%)
+  h= 5: 209364046 (0.765%)
+  h= 6: 942194701 (3.444%)
+  h= 7: 99860622 (0.365%)
+  h= 8: 3192852073 (11.671%)
+  h= 9: 84413405 (0.309%)
+  h=10: 289734856 (1.059%)
+  h=11: 38150091 (0.139%)
+  h=12: 878716422 (3.212%)
+  h=13: 26909717 (0.098%)
+  h=14: 138293485 (0.506%)
+  h=15: 34021052 (0.124%)
+  h=16: 1408886746 (5.150%)
+  h=17: 15434284 (0.056%)
+  h=18: 116340607 (0.425%)
+  h=19: 12277507 (0.045%)
+  h=20: 271092751 (0.991%)
+
+========================================
