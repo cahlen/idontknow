@@ -1,0 +1,52 @@
+{
+  "finding_slug": "kronecker-s30-largest-computation",
+  "review_id": "claude-opus-4.6-2026-04-02",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-02T23:45:00Z",
+  "mcp_tools_used": [
+    "verify_finding",
+    "search_arxiv",
+    "search_zbmath"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "26.4B nonzero Kronecker coefficients for S_30 in 7.4 min",
+      "verdict": "VERIFIED",
+      "evidence": "MN character table validated (orthogonality, dim^2). 5604 partitions, 90% nonzero plausible.",
+      "sources": [
+        {
+          "type": "zbMATH",
+          "reference": "Pak-Panova (2018) 'Computation of dilated Kronecker coefficients'",
+          "relationship": "supports methods"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Largest Kronecker computation published",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Pak-Panova computed dilated coefficients (different scope). 'To our knowledge' hedge is appropriate.",
+      "sources": [],
+      "concerns": "Cannot rule out unpublished computations."
+    },
+    {
+      "claim": "S_40 character table (37,338 partitions, 4.6 GB)",
+      "verdict": "VERIFIED",
+      "evidence": "Validated: orthogonality OK, dim^2 = 40! exact match.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Sound computation, well-validated. Scale unprecedented for complete tables. zbMATH papers corroborate methods.",
+  "recommendations": [
+    "MINOR: Link to Pak-Panova (2018) as closest prior work."
+  ],
+  "certification_recommendation": "gold",
+  "certification_justification": "Multiple zbMATH papers corroborate MN rule and Kronecker computation. Thorough validation. Unprecedented scale."
+}

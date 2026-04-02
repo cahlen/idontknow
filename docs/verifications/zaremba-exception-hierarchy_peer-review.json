@@ -1,0 +1,50 @@
+{
+  "finding_slug": "zaremba-exception-hierarchy",
+  "review_id": "claude-opus-4.6-2026-04-02",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-02T23:45:00Z",
+  "mcp_tools_used": [
+    "verify_finding",
+    "search_arxiv",
+    "lookup_oeis"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "27 exceptions decompose: 25 resolved by digit 4, 2 need digit 5",
+      "verdict": "VERIFIED",
+      "evidence": "Direct deterministic computation. Reproducible.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "d=54 and d=150 both divisible by 6 with prime power factors",
+      "verdict": "VERIFIED",
+      "evidence": "54=2x3^3, 150=2x3x5^2. Correct but significance unclear.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "CF identity [0;...,a] = [0;...,a-1,1] explains some resolutions",
+      "verdict": "VERIFIED",
+      "evidence": "Classical CF identity (Hardy & Wright).",
+      "sources": [
+        {
+          "type": "mathematical",
+          "reference": "Hardy & Wright Ch. 10",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Clean computational finding. 27->2->0 hierarchy is novel. CF splitting correctly applied.",
+  "recommendations": [],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Novel observation from own data. No direct literature precedent for this decomposition."
+}

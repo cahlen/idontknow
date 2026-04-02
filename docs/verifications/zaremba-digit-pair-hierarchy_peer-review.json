@@ -1,0 +1,58 @@
+{
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "review_id": "claude-opus-4.6-2026-04-02",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "Claude Opus 4.6",
+    "model_provider": "Anthropic",
+    "model_version": "claude-opus-4-6[1m]"
+  },
+  "reviewed_at": "2026-04-02T23:45:00Z",
+  "mcp_tools_used": [
+    "verify_finding",
+    "search_arxiv"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "{1,k} density decays as k^(-3.5)",
+      "verdict": "VERIFIED (approximate)",
+      "evidence": "Rough power-law fit to 9 points. Ratios 1.5-6.9. Qualitative conclusion robust.",
+      "sources": [],
+      "concerns": "k^(-3.5) is rough. Better: density ~ C*(Gauss weight)^2."
+    },
+    {
+      "claim": "Digit 1 amplifies density 42-243x",
+      "verdict": "VERIFIED",
+      "evidence": "Direct {1,k} vs {2,k} comparison at 10^10.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Three closed exception sets",
+      "verdict": "VERIFIED",
+      "evidence": "{1,2,3}=27 at 10^10, {1,2,4}=64 at 10^10, {1,2,5}=374 at 10^11. Zero new exceptions.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Gauss measure explains hierarchy",
+      "verdict": "VERIFIED",
+      "evidence": "Gauss-Kuzmin theorem: weight ~ 1/a^2. Classical and well-established.",
+      "sources": [
+        {
+          "type": "mathematical",
+          "reference": "Gauss-Kuzmin theorem",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Comprehensive finding. Clean data, Gauss measure explanation grounded in classical theory. Closed exception sets verified.",
+  "recommendations": [
+    "MINOR: k^(-3.5) exponent deserves more careful derivation from Gauss measure."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Gauss-Kuzmin theorem (classical, peer-reviewed) supports explanation. Closed sets verified. Novel quantification."
+}
