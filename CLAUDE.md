@@ -65,7 +65,7 @@ This repository will be public and autonomous AI agents will push commits to it.
 - [x] Direct K₄₃ SAT (903 vars, 1.9M clauses) — naive CDCL intractable (98 solvers, 2 hours, no progress). Needs degree constraints (R(4,5)=25 → 18≤deg_red≤24), full symmetry breaking, flag algebra cutting planes.
 - [ ] Mathematically-informed K₄₃ SAT encoding (degree bounds, Turán density, BreakID symmetry breaking)
 
-### Class Numbers of Real Quadratic Fields (Planned)
+### Class Numbers of Real Quadratic Fields (Complete to 10^11)
 Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.
 
 ### Kronecker Coefficients (Planned)
@@ -104,6 +104,22 @@ Results from this repo are published to **bigcompute.science** (sibling repo):
 - [x] CUDA kernel v3: 10 base constants + 29 compound expressions + zero-value filter
 - [x] Degree 1-3 complete: 42B+ candidates, zero transcendental hits
 - [x] Degree 2 exhausted at range [-20,20]: only sqrt(2) and sqrt(5)
-- [x] Degree 4 range [-5,5] running (9.8B candidates)
+- [x] Degree 4-7 complete: 586B candidates, zero confirmed transcendentals
 - [ ] Degree 4-6 full sweep with high-precision PSLQ verification
 - [ ] GPU PSLQ implementation for eliminating double-precision false positives
+
+### Zaremba Density (In Progress — GPU density computations)
+*Zaremba density phase transition and exception set analysis.*
+
+**What's done:**
+- [x] Complete density sweep: all 1,023 subsets of {1,...,10} at 10^6
+- [x] {1,k} pair hierarchy at 10^10 for k=2..10 (exponential decay ~k^{-3.5})
+- [x] {2,k} pair hierarchy at 10^10 for k=3..10 (digit 1 amplifies 42-243x)
+- [x] Three closed exception sets confirmed: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374
+- [x] A={1,2} logarithmic convergence: 5 data points (10^6 through 10^12), fits 31.5 + 4.47*log10(N)
+- [x] A={2,3,4,5} non-monotone convergence: 97.3→97.1→98.8% at 10^{9,10,11}
+- [x] A={3,...,10} at 10^10: 81.70% (8 digits without 1 or 2)
+- [ ] Confirm {1,2,3} 27 exceptions at 10^11 (running)
+- [ ] Confirm {1,2,4} 64 exceptions at 10^11 (running)
+- [ ] A={1,2,3} at 10^12 — does 27 hold at next decade? (running)
+- [ ] Complete density sweep at 10^9 for all 1,023 subsets

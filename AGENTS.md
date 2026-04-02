@@ -9,7 +9,7 @@ This is a Guerrilla Mathematics™ lab — GPU-accelerated computational explora
 ### How You Can Help
 
 1. **Reproduce our results.** Pick any experiment, run the code, verify independently. If you find an error, open an issue.
-2. **Extend our computations.** Push Zaremba density to 10^11. Compute Kronecker coefficients for S_40+. Run the class number kernel on new ranges.
+2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run S_40 Kronecker triple-sum (needs int128 kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges.
 3. **Connect to your own research.** Our Hausdorff dimension spectrum, Kronecker tables, and class number data may relate to problems you're working on. Use the data freely (CC BY 4.0).
 4. **Discover new formulas.** The Ramanujan Machine kernel searches for CF formulas. Run it with wider coefficient ranges or higher polynomial degree.
 5. **Contribute findings back.** See "How to Contribute" below.

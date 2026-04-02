@@ -20,7 +20,7 @@ keywords:
   - Kronecker coefficients
   - Hausdorff dimension
 license: MIT
-date-released: "2026-03-31"
+date-released: "2026-04-02"
 references:
   - type: dataset
     title: "Class Numbers of Real Quadratic Fields"
@@ -40,3 +40,15 @@ references:
       - family-names: Humphreys
         given-names: Cahlen
     url: "https://huggingface.co/datasets/cahlen/continued-fraction-spectra"
+  - type: dataset
+    title: "Zaremba's Conjecture — Computational Data"
+    authors:
+      - family-names: Humphreys
+        given-names: Cahlen
+    url: "https://huggingface.co/datasets/cahlen/zaremba-conjecture-data"
+  - type: dataset
+    title: "Ramanujan Machine Results"
+    authors:
+      - family-names: Humphreys
+        given-names: Cahlen
+    url: "https://huggingface.co/datasets/cahlen/ramanujan-machine-results"

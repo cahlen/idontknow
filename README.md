@@ -10,15 +10,17 @@ Results published openly at [bigcompute.science](https://bigcompute.science). Ra
 
 | Experiment | Method | Key Result | Status |
 |---|---|---|---|
-| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof framework for all d ≥ 1. D₀ ≈ 3.4×10¹⁰. Not yet peer-reviewed. | [Paper](paper/zaremba-proof.pdf) |
+| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof framework for all d ≥ 1. D₀ ≈ 3.4×10¹⁰.  Not yet peer-reviewed. AI-audited by Claude Opus 4.6 + Grok (xAI). | [Paper](paper/zaremba-proof.pdf) |
 | **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
-| **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 2.74B discriminants for d ∈ [10⁹, 10¹⁰]. Cohen-Lenstra convergence is non-monotone. | In progress |
+| **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 30B discriminants for d ∈ [10⁹, 10¹¹]. h=1 rate falls to 0 (genus theory). Odd-part convergence to C-L extremely slow. | In progress |
 | **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | To our knowledge, first complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
 | **Lyapunov Spectrum** | Transfer operator eigenvalue computation | All 1,048,575 subsets | Complete |
 | **Minkowski ?(x)** | Multifractal analysis | To our knowledge, first numerical singularity spectrum f(α) | Complete |
 | **Flint Hills Series** | Quad-double CUDA arithmetic | Partial sums to 10¹⁰ | Complete |
 | **LLM Theorem Proving** | Goedel-Prover + Kimina-Prover → Lean 4 | 19/20 formal proofs | Complete |
-| **Kronecker Coefficients** | GPU-accelerated representation theory | To n=120 for geometric complexity theory | Planned |
+| **Kronecker Coefficients** | GPU MN rule + slab-parallel triple-sum | S_20, S_30 (26.4B nonzero), S_40 char table done. Triple-sum needs int128. | In progress |
+| **Ramanujan Machine** | GPU polynomial CF evaluation + constant matching | 586B candidates through deg 7, zero transcendental formulas | In progress |
+| **Zaremba Density** | GPU inverse-CF construction + bitset | Phase transition, 3 closed exception sets, {1,k} hierarchy, A={1,2} log convergence | In progress |
 
 ## Structure
 
@@ -32,6 +34,10 @@ scripts/experiments/
   lyapunov-exponent-spectrum/   # Lyapunov exponent computation
   minkowski-spectrum/           # Multifractal singularity spectrum
   flint-hills/                  # Quad-double partial sums
+  ramanujan-machine/            # Polynomial CF formula discovery (586B candidates)
+  zaremba-density/              # Zaremba density computations + phase transition
+  ramanujan-machine/            # Polynomial CF formula discovery
+  zaremba-density/              # Zaremba density computations
   mcts-proof-search/            # LLM + MCTS for theorem proving
 lean4-proving/                  # Lean 4 formalizations + LLM proving loop
 data/                           # Raw computation output (large files on HF)
