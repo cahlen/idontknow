@@ -76,3 +76,75 @@ verify_interval
 data/ramsey-r55/sms_k43_cubes.icnf
 *.enc
 scripts/experiments/kronecker-coefficients/results/char_table_n40.txt
+
+# Compiled binaries — rebuild from source
+*.o
+cayley_diam
+cayley_gpu
+certify_gaps
+certify_rho_cuda
+check_transitivity
+class_fast
+class_number_rqf
+class_v2
+compute_Q0
+compute_c1
+count_reps
+dolgopyat
+dolgopyat_exact
+exp_sum
+extract_ef
+flat_gap
+hausdorff_spectrum
+kronecker
+kronecker_dump
+kronecker_gpu
+kronecker_gpu_fast
+matrix_enum
+matrix_v6
+minor_arc
+Q0_fk
+ramanujan_gpu
+ramsey_extend
+ramsey_extend_all
+ramsey_full
+ramsey_global
+ramsey_gpu
+ramsey_inc
+ramsey_inc2
+ramsey_search
+ramsey_v2
+sieve_test
+spectral_gaps_fast
+spectral_gaps_primes
+transfer_op
+verify_gaps
+verify_interval
+verify_v2
+zaremba_density
+zaremba_density_gpu
+zaremba_v2
+zaremba_v3
+zaremba_v4
+zaremba_verify
+
+# Python virtual environment
+venv/
+
+# Model weights — download at runtime
+models/
+
+# Lean dependencies — downloaded by lake build
+lean4-proving/mathlib4/
+
+# Temp/encrypted artifacts
+temp*.enc
+
+# Large character tables — on HF
+scripts/experiments/kronecker-coefficients/results/char_table_n40.txt
+scripts/experiments/kronecker-coefficients/results/char_table_n45.txt
+
+# OS artifacts
+.DS_Store
+*.swp
+*~
