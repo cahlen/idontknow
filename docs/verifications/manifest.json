@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T20:39:41Z",
+  "generated_at": "2026-04-03T20:56:47Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
@@ -39,7 +39,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Cohen-Lenstra heuristics are extensively studied. ",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "gold",
           "claims": {
             "total": 0,
@@ -79,7 +79,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T05:00:00Z",
-          "overall_verdict": "",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "gold",
           "claims": {
             "total": 0,
@@ -167,7 +167,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Hausdorff dimension computation methods are well-e",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "gold",
           "claims": {
             "total": 0,
@@ -403,7 +403,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Helfgott (2008) and Bourgain-Gamburd (2008) establ",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "gold",
           "claims": {
             "total": 0,
@@ -517,7 +517,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "MOW framework is established. Our proof framework ",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "silver",
           "claims": {
             "total": 0,
@@ -620,7 +620,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Bourgain-Kontorovich (2014) proves density 1 for A",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "gold",
           "claims": {
             "total": 0,
@@ -824,7 +824,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Growth exponent R(d) ~ d^(2delta-1) is predicted b",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "bronze",
           "claims": {
             "total": 0,
@@ -898,7 +898,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Property (tau) is theoretically established by BGS",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "silver",
           "claims": {
             "total": 0,
@@ -972,7 +972,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "Uses Dickson's classical classification (1901). AI",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "silver",
           "claims": {
             "total": 0,
@@ -1068,7 +1068,7 @@
             "provider": "unknown"
           },
           "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "The concentration of optimal witnesses at a/d ~ 1/",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "bronze",
           "claims": {
             "total": 0,

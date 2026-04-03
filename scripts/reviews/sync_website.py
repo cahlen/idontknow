@@ -32,18 +32,17 @@ def build_certifications(manifest):
         cert = finding.get("certification", {})
         reviews = finding.get("reviews", [])
 
-        # Build models summary
+        # Build models summary (exclude "unknown" from old auto-reviews)
         models = set()
         providers = set()
         for r in reviews:
             rev = r.get("reviewer", {})
             model = rev.get("model", "")
             provider = rev.get("provider", "")
-            if model:
-                # Shorten model names for display
+            if model and model != "unknown":
                 short = model.replace("Claude Opus 4.6", "Claude").replace("claude-opus-4-6[1m]", "Claude")
                 models.add(short)
-            if provider:
+            if provider and provider != "unknown":
                 providers.add(provider)
 
         # Build verdict summary
@@ -82,6 +81,7 @@ def build_certifications(manifest):
                     "level": r.get("certification_recommendation", ""),
                 }
                 for r in reviews
+                if r.get("reviewer", {}).get("model", "unknown") != "unknown"
             ],
         })
 

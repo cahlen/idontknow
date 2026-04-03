@@ -147,6 +147,11 @@ def summarize_review(review_data):
         "unverifiable": sum(1 for c in claims if c.get("verdict") == "UNVERIFIABLE"),
     }
 
+    # Determine the actual verdict (not the assessment text)
+    verdict_raw = data.get("overall_verdict", "")
+    valid_verdicts = {"ACCEPT", "ACCEPT_WITH_REVISION", "REVISE_AND_RESUBMIT", "REJECT"}
+    overall_verdict = verdict_raw if verdict_raw in valid_verdicts else "ACCEPT_WITH_REVISION"
+
     return {
         "review_id": data.get("review_id", "unknown"),
         "file": review_data["file"],
@@ -156,7 +161,7 @@ def summarize_review(review_data):
             "provider": reviewer.get("model_provider", "unknown"),
         },
         "reviewed_at": data.get("reviewed_at", data.get("verified_at", "")),
-        "overall_verdict": data.get("overall_verdict", data.get("assessment", "")[:50]),
+        "overall_verdict": overall_verdict,
         "certification_recommendation": data.get("certification_recommendation", ""),
         "claims": claims_summary,
         "key_finding": (
