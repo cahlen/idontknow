@@ -320,10 +320,18 @@ New results:
         return []
 
 
-# ── Phase 5: Review ──────────────────────────────────────────
+# ── Phase 5: Review (multi-model) ────────────────────────────
 
-def run_reviews(slugs, models=None, dry_run=False):
-    """Run peer reviews on findings using available API keys."""
+# Models to use for peer review, in order. Each needs its API key.
+REVIEW_MODELS = [
+    {"model": "o3-pro",  "provider": "openai",  "key_env": "OPENAI_API_KEY", "api_base": "https://api.openai.com/v1"},
+    {"model": "gpt-4.1", "provider": "openai",  "key_env": "OPENAI_API_KEY", "api_base": "https://api.openai.com/v1"},
+    {"model": "o3",      "provider": "openai",  "key_env": "OPENAI_API_KEY", "api_base": "https://api.openai.com/v1"},
+]
+
+
+def run_reviews(slugs, models_override=None, dry_run=False):
+    """Run peer reviews on findings using multiple models."""
     if not slugs:
         return
 
@@ -332,48 +340,191 @@ def run_reviews(slugs, models=None, dry_run=False):
         log("Review script not found", "WARN")
         return
 
-    # Determine available models
-    available = []
-    if os.environ.get("OPENAI_API_KEY"):
-        available.extend(models or ["gpt-4.1"])
-    if os.environ.get("ANTHROPIC_API_KEY"):
-        pass  # Claude reviews handled differently (self-review less useful)
+    # Use override list or default multi-model list
+    if models_override:
+        review_configs = [{"model": m, "provider": "openai", "key_env": "OPENAI_API_KEY",
+                           "api_base": "https://api.openai.com/v1"} for m in models_override]
+    else:
+        review_configs = REVIEW_MODELS
 
-    if not available:
-        log("No API keys set for reviews — skipping", "WARN")
-        return
-
+    reviewed_any = False
     for slug in slugs:
-        for model in available:
-            log(f"Reviewing {slug} with {model}...")
+        for cfg in review_configs:
+            api_key = os.environ.get(cfg["key_env"], "")
+            if not api_key:
+                continue
+
+            log(f"Reviewing {slug} with {cfg['model']} ({cfg['provider']})...")
             if dry_run:
-                log(f"  [DRY RUN] Would call run_review.py --slug {slug} --model {model}")
+                log(f"  [DRY RUN] Would review")
                 continue
 
             env = os.environ.copy()
-            env["API_KEY"] = os.environ.get("OPENAI_API_KEY", "")
+            env["API_KEY"] = api_key
             try:
-                subprocess.run(
+                result = subprocess.run(
                     [sys.executable, str(review_script), "--slug", slug,
-                     "--model", model, "--provider", "openai", "--skip-existing"],
+                     "--model", cfg["model"], "--provider", cfg["provider"],
+                     "--api-base", cfg["api_base"], "--skip-existing"],
                     env=env, timeout=600, capture_output=True, text=True,
                 )
+                if "Saved:" in result.stdout:
+                    reviewed_any = True
+                    log(f"  Review saved")
+                elif "already reviewed" in result.stdout:
+                    log(f"  Already reviewed by {cfg['model']}, skipping")
             except subprocess.TimeoutExpired:
-                log(f"  Review timed out for {slug}/{model}", "WARN")
+                log(f"  Review timed out for {slug}/{cfg['model']}", "WARN")
 
-    # Aggregate
-    if not dry_run:
-        log("Aggregating reviews...")
-        subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "reviews" / "aggregate.py")],
-                       capture_output=True, timeout=30)
-        subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "reviews" / "sync_website.py")],
-                       capture_output=True, timeout=30)
-        # Copy manifest to MCP
-        manifest = REPO_ROOT / "docs" / "verifications" / "manifest.json"
-        mcp_dest = WEBSITE_ROOT / "workers" / "mcp" / "src" / "generated" / "manifest.json"
-        if manifest.exists() and mcp_dest.parent.exists():
-            import shutil
-            shutil.copy2(manifest, mcp_dest)
+    # Aggregate all reviews
+    if reviewed_any and not dry_run:
+        aggregate_reviews()
+
+
+def aggregate_reviews():
+    """Run aggregate + sync + copy manifest."""
+    log("Aggregating reviews...")
+    subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "reviews" / "aggregate.py")],
+                   capture_output=True, timeout=30)
+    subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "reviews" / "sync_website.py")],
+                   capture_output=True, timeout=30)
+    manifest = REPO_ROOT / "docs" / "verifications" / "manifest.json"
+    mcp_dest = WEBSITE_ROOT / "workers" / "mcp" / "src" / "generated" / "manifest.json"
+    if manifest.exists() and mcp_dest.parent.exists():
+        shutil.copy2(manifest, mcp_dest)
+
+
+# ── Phase 6: Remediate ───────────────────────────────────────
+
+def remediate(slugs, dry_run=False):
+    """Use Claude to read reviews, identify fixable issues, and fix them."""
+    if not slugs:
+        return
+
+    claude_cli = shutil.which("claude")
+    if not claude_cli:
+        log("claude CLI not found — cannot remediate.", "WARN")
+        return
+
+    # Read the latest reviews for these slugs
+    verifications_dir = REPO_ROOT / "docs" / "verifications"
+    for slug in slugs:
+        review_files = sorted(verifications_dir.glob(f"{slug}*review*.json"))
+        if not review_files:
+            continue
+
+        # Collect all DISPUTED and NEEDS_CLARIFICATION claims
+        issues = []
+        for rf in review_files:
+            try:
+                with open(rf) as f:
+                    review = json.load(f)
+                for claim in review.get("claim_reviews", []):
+                    verdict = claim.get("verdict", "")
+                    if verdict in ("DISPUTED", "NEEDS_CLARIFICATION"):
+                        issues.append({
+                            "from": review.get("reviewer", {}).get("model", "unknown"),
+                            "verdict": verdict,
+                            "claim": claim.get("claim", "")[:100],
+                            "concern": claim.get("concerns", "")[:200],
+                        })
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+        if not issues:
+            log(f"No disputed/unclear claims for {slug}")
+            continue
+
+        log(f"Remediating {slug}: {len(issues)} issue(s)")
+
+        if dry_run:
+            for iss in issues:
+                log(f"  [{iss['verdict']}] ({iss['from']}) {iss['claim'][:60]}")
+            continue
+
+        # Read the finding
+        finding_files = list((WEBSITE_ROOT / "src" / "content" / "findings").glob(f"*{slug}*"))
+        finding_text = finding_files[0].read_text() if finding_files else ""
+
+        prompt = f"""You are fixing issues in a bigcompute.science finding identified by peer reviewers.
+
+Finding slug: {slug}
+Finding text (first 3000 chars):
+{finding_text[:3000]}
+
+Issues identified by reviewers:
+{json.dumps(issues, indent=2)}
+
+For EACH issue, determine:
+1. FIXABLE: factual error, overclaim, or missing context → provide the exact text edit
+2. ACKNOWLEDGED: deep mathematical gap → explain why it can't be fixed now
+3. DISAGREE: reviewer was wrong → explain why
+
+Respond with JSON only (no markdown):
+{{"remediations": [
+  {{"claim": "...", "action": "fix|acknowledge|disagree", "description": "what to do",
+   "old_text": "exact text to find in the finding (if fix)", "new_text": "replacement text (if fix)"}}
+]}}"""
+
+        try:
+            result = subprocess.run(
+                [claude_cli, "-p", prompt],
+                capture_output=True, text=True, timeout=120,
+            )
+            text = result.stdout.strip()
+
+            # Extract JSON
+            if "{" in text:
+                start = text.index("{")
+                depth = 0
+                for i in range(start, len(text)):
+                    if text[i] == "{": depth += 1
+                    elif text[i] == "}": depth -= 1
+                    if depth == 0:
+                        text = text[start:i+1]
+                        break
+
+            plan = json.loads(text)
+            remediations = plan.get("remediations", [])
+
+            for rem in remediations:
+                action = rem.get("action", "")
+                desc = rem.get("description", "")[:80]
+
+                if action == "fix" and rem.get("old_text") and rem.get("new_text") and finding_files:
+                    # Apply the fix
+                    content = finding_files[0].read_text()
+                    if rem["old_text"] in content:
+                        content = content.replace(rem["old_text"], rem["new_text"], 1)
+                        finding_files[0].write_text(content)
+                        log(f"  FIXED: {desc}")
+                    else:
+                        log(f"  SKIP (text not found): {desc}", "WARN")
+                elif action == "acknowledge":
+                    log(f"  ACKNOWLEDGED: {desc}")
+                elif action == "disagree":
+                    log(f"  DISAGREE: {desc}")
+
+            # Update remediation JSONs
+            rem_dir = verifications_dir / "remediations" / slug
+            rem_dir.mkdir(parents=True, exist_ok=True)
+            for rem in remediations:
+                if rem.get("action") == "fix":
+                    issue_id = rem.get("claim", "unknown")[:40].lower().replace(" ", "-").replace("/", "-")
+                    rem_file = rem_dir / f"{issue_id}.json"
+                    with open(rem_file, "w") as f:
+                        json.dump({
+                            "issue_id": issue_id,
+                            "finding_slug": slug,
+                            "severity": "important",
+                            "description": rem.get("description", ""),
+                            "status": "resolved",
+                            "action_taken": f"Auto-fixed by research agent: {rem.get('description', '')}",
+                            "resolved_at": datetime.now(timezone.utc).isoformat(),
+                        }, f, indent=2)
+
+        except (json.JSONDecodeError, Exception) as e:
+            log(f"Remediation failed for {slug}: {e}", "ERROR")
 
 
 # ── Phase 7: Deploy ──────────────────────────────────────────
@@ -605,12 +756,21 @@ def tick(args, state):
             status = "INTERESTING" if a.get("interesting") else "routine"
             log(f"  [{status}] {a.get('log_file', '?')}: {a.get('summary', '?')}")
 
-    # Phase 5: Review (new or updated findings)
+    # Phase 5: Review (new or updated findings — multiple models)
+    finding_slugs = []
     if not phase or phase == "review":
         finding_slugs = [a["slug"] for a in analyses if a.get("slug") and a.get("type") in ("new", "update")]
         if finding_slugs:
             models = args.models.split(",") if args.models else None
             run_reviews(finding_slugs, models, dry_run)
+
+    # Phase 6: Remediate (fix issues found by reviewers)
+    if not phase or phase == "remediate":
+        if finding_slugs:
+            remediate(finding_slugs, dry_run)
+            # Re-aggregate after fixes
+            if not dry_run:
+                aggregate_reviews()
 
     # Phase 7: Deploy
     if not phase or phase == "deploy":
@@ -643,7 +803,7 @@ def main():
     parser = argparse.ArgumentParser(description="Autonomous research agent for bigcompute.science")
     parser.add_argument("--once", action="store_true", help="Run once and exit")
     parser.add_argument("--interval", default="10m", help="Loop interval (default: 10m)")
-    parser.add_argument("--phase", choices=["monitor", "harvest", "analyze", "review", "deploy", "plan"],
+    parser.add_argument("--phase", choices=["monitor", "harvest", "analyze", "review", "remediate", "deploy", "plan"],
                         help="Run specific phase only")
     parser.add_argument("--models", help="Comma-separated review models (default: gpt-4.1)")
     parser.add_argument("--dry-run", action="store_true", help="Report only, no changes")
