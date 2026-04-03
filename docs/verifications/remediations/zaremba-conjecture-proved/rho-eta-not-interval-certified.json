@@ -1,0 +1,12 @@
+{
+  "issue_id": "rho-eta-not-interval-certified",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": ["claude-opus-4.6-2026-04-01", "external-chatgpt-2026-04-01", "gpt-5.2-openai-2026-04-02", "o3-pro-openai-2026-04-03"],
+  "severity": "critical",
+  "description": "rho_eta <= 0.771 computed in FP64/mpmath, not interval-certified with arb/MPFR. The entire D0 bound depends on this value. All four reviewers flagged this as the most critical gap.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

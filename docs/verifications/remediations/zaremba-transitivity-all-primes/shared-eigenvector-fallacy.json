@@ -1,0 +1,12 @@
+{
+  "issue_id": "shared-eigenvector-fallacy",
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "severity": "critical",
+  "description": "The proof assumes a shared eigenvector forces a shared eigenvalue, which is false: a vector can be an eigenvector for two matrices with different eigenvalues. The Cartan-normalizer exclusion is therefore unsubstantiated.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

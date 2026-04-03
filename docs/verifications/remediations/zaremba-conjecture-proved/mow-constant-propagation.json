@@ -1,0 +1,12 @@
+{
+  "issue_id": "mow-constant-propagation",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": ["claude-opus-4.6-2026-04-01", "external-chatgpt-2026-04-01", "gpt-5.2-openai-2026-04-02", "o3-pro-openai-2026-04-03"],
+  "severity": "critical",
+  "description": "MOW (Magee-Oh-Winter 2019) theorem matching not verified: the original paper does not supply explicit constants, and Calderon-Magee (2025) gives explicit gap only for untwisted operators. No detailed constant-tracking appendix shows how epsilon and D0 are derived from published theorems.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

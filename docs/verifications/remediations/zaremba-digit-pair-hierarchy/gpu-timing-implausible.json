@@ -1,0 +1,12 @@
+{
+  "issue_id": "gpu-timing-implausible",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "severity": "critical",
+  "description": "Claimed 10-15s per {1,k} pair at 10^10 on a single B200 is inconsistent with hardware capabilities. Even idealized kernel performing one modular inversion per 3 GPU cycles would need >10 minutes for 10^10 inputs. Published benchmarks (Berkel & Fassler 2023) show 10^9 checks in 30s on 8xA100.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

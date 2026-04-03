@@ -1,0 +1,12 @@
+{
+  "issue_id": "property-tau-non-effective",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "severity": "critical",
+  "description": "Layer 4 invokes Bourgain-Gamburd property (tau) with an unspecified uniform constant c and gives no quantitative lower bound on d required for the sieve error term to be overpowered. The statement is non-effective and cannot be checked.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

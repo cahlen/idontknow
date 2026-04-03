@@ -1,0 +1,12 @@
+{
+  "issue_id": "digit-value-metric-ad-hoc",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "severity": "important",
+  "description": "The 'digit 2 is 6.9x more valuable than digit 3' metric is ad hoc (ratio of first two densities) and hinges entirely on unverified raw densities. No formal definition of 'value' is provided.",
+  "status": "open",
+  "action_taken": "",
+  "resolved_by": null,
+  "resolved_at": null,
+  "commits": []
+}

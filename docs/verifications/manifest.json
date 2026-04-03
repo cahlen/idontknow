@@ -1,0 +1,1129 @@
+{
+  "generated_at": "2026-04-03T20:39:41Z",
+  "generator": "scripts/reviews/aggregate.py",
+  "schema_version": 3,
+  "stats": {
+    "total_findings": 15,
+    "total_reviews": 41,
+    "total_remediations": 10,
+    "remediations_resolved": 0,
+    "unique_models": 4,
+    "unique_providers": 3,
+    "models": [
+      "Claude Opus 4.6",
+      "GPT-5.2",
+      "Grok",
+      "o3-pro"
+    ],
+    "providers": [
+      "Anthropic",
+      "OpenAI",
+      "xAI"
+    ]
+  },
+  "findings": {
+    "class-number-convergence": {
+      "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "class-number-convergence_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Cohen-Lenstra heuristics are extensively studied. ",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Cohen-Lenstra heuristics are extensively studied. The non-monotone convergence (h=1 rate dropping from 42% to 15% before predicted asymptotic rise) is a novel computational observation not reported in"
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "class-number-convergence_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:55:49Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 7,
+            "verified": 4,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The mathematical interpretation\u2014namely that Pr(h=1) decreases to 0 and that the Cohen\u2013Lenstra constant applies only to the odd part\u2014is correct and well-grounded in genus theory. The empirical figures "
+        },
+        {
+          "review_id": "unknown",
+          "file": "class-number-convergence_peer-review.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T05:00:00Z",
+          "overall_verdict": "",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational results are sound and the genus theory explanation is strong. The main concern is the characterization: (1) 'non-monotone' is inferred not observed \u2014 the data is monotonically decrea"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:55:49Z"
+    },
+    "gpu-matrix-enumeration-175x": {
+      "title": "GPU Matrix Enumeration: 175\u00d7 Faster Zaremba Verification via Batched 2\u00d72 Multiply",
+      "certification": {
+        "level": "bronze",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "gpu-matrix-enumeration-175x_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:42:14Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 3,
+            "unverifiable": 1
+          },
+          "key_finding": "The mathematical foundation (CF\u2013matrix equivalence) is sound and the GPU algorithm is conceptually correct. Reported runtimes are plausible for Blackwell-class hardware, but the manuscript lacks suffi"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-02",
+          "file": "gpu-matrix-enumeration-175x_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-02T23:45:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 2,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Engineering finding. 175x speedup is real. Matrix-CF equivalence is classical. Correctly scoped."
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:42:14Z"
+    },
+    "hausdorff-digit-one-dominance": {
+      "title": "Digit 1 Dominance: Five Digits With 1 Beat Fourteen Digits Without",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "hausdorff-digit-one-dominance_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Hausdorff dimension computation methods are well-e",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Hausdorff dimension computation methods are well-established (Hensley, Jenkinson-Pollicott). Our complete spectrum of all 2^20-1 subsets is novel. Digit 1 dominance is a new computational observation."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "hausdorff-digit-one-dominance_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:49:03Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 8,
+            "verified": 2,
+            "disputed": 3,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "The qualitative conclusion that including digit 1 dramatically inflates the Hausdorff dimension of restricted continued-fraction sets is sound and numerically well-supported. However, several quantita"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "hausdorff-digit-one-dominance_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 3,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Excellent computation with strong theoretical grounding. The transfer operator method is peer-reviewed (Jenkinson-Pollicott, Hensley). The dim_H(E_2) benchmark validates accuracy. Digit 1 dominance is"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:49:03Z"
+    },
+    "kronecker-s30-largest-computation": {
+      "title": "Kronecker Coefficients: Complete S_30 Table \u2014 26.4 Billion Nonzero Triples in 7 Minutes",
+      "certification": {
+        "level": "silver",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "kronecker-s30-largest-computation_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:58:04Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 3,
+            "unverifiable": 0
+          },
+          "key_finding": "The computation is mathematically standard and the performance claims are credible for a modern B200 GPU. However, validation of the n=30 character table and independent cross-checks of the huge outpu"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-02",
+          "file": "kronecker-s30-largest-computation_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-02T23:45:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 3,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Sound computation, well-validated. Scale unprecedented for complete tables. zbMATH papers corroborate methods."
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:58:04Z"
+    },
+    "kronecker-s40-character-table": {
+      "title": "Kronecker S_40: Complete Character Table and Targeted Coefficients \u2014 94.9% Nonzero",
+      "certification": {
+        "level": "silver",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "kronecker-s40-character-table_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T20:09:44Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 9,
+            "verified": 5,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "Most mathematical statements and computational numbers are sound and align with established representation-theoretic results. Performance claims are plausible for the hardware described. However, the "
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-03",
+          "file": "kronecker-s40-character-table_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-03T06:30:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Sound computation with rigorous validation. The character table is verified by multiple internal consistency checks. Targeted Kronecker coefficients confirm known theorems (hook multiplicity-freeness)"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T20:09:44Z"
+    },
+    "zaremba-A12-logarithmic-convergence": {
+      "title": "A={1,2} Density Fits Logarithmic Growth: 30 + 4.65\u00b7log\u2081\u2080(N), Testable at 10^12",
+      "certification": {
+        "level": "bronze",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-A12-logarithmic-convergence_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T20:04:56Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 8,
+            "verified": 2,
+            "disputed": 2,
+            "needs_clarification": 3,
+            "unverifiable": 1
+          },
+          "key_finding": "The computations for {1,2} up to 10^10 are plausible and internally consistent, and the reported densities align with earlier small-scale experiments.  The paper\u2019s main weakness is over-interpreting t"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-A12-logarithmic-convergence_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T07:45:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 2,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational data (three density values) is correct and reproducible. The logarithmic fit is real but under-determined \u2014 three points can fit many models. The key issue: the finding conflates the"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T20:04:56Z"
+    },
+    "zaremba-cayley-diameters": {
+      "title": "Cayley Graph Diameters of Zaremba's Semigroup: diam(p)/log(p) \u2192 1.45 for Primes to 1021",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-cayley-diameters_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Helfgott (2008) and Bourgain-Gamburd (2008) establ",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Helfgott (2008) and Bourgain-Gamburd (2008) establish the theoretical framework. Our computation confirms diam <= 2log(p) for all primes to 1021."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-cayley-diameters_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:50:28Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 7,
+            "verified": 3,
+            "disputed": 1,
+            "needs_clarification": 3,
+            "unverifiable": 0
+          },
+          "key_finding": "The computations plausibly demonstrate logarithmic growth of Cayley diameters for \u0393_{1,\u2026,5} in SL\u2082(\u2124/p\u2124) up to p=1021, in line with theoretical expectations. However, key numerical details (prime coun"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-cayley-diameters_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 2,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The computation is correct (GPU BFS is exact). The connection to CF length is valid. However, there is an apparent inconsistency: the MCP finding data says 'diam <= 2 log(p)' but the finding page repo"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:50:28Z"
+    },
+    "zaremba-conjecture-proved": {
+      "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed)",
+      "certification": {
+        "level": "bronze",
+        "review_count": 5,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "external-chatgpt-2026-04-01",
+          "file": "zaremba-conjecture-proved_external-review-1.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Grok",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-04-01T08:00:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Strong preprint/framework that provides the best computational evidence for Zaremba A=5. With the three gaps closed (all fixable with existing tools in the repo), it would constitute a genuine compute"
+        },
+        {
+          "review_id": "gpt-5.2-openai-2026-04-02",
+          "file": "zaremba-conjecture-proved_external-review-2.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "GPT-5.2",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-02T00:00:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "GPT-5.2 provided the most detailed line-by-line review yet. Found one real proof error (transitivity |H| bound \u2014 fixed), one valid concern (c1 FP64 \u2014 acknowledged with tolerance analysis), one false a"
+        },
+        {
+          "review_id": "unknown",
+          "file": "zaremba-conjecture-proved_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "MOW framework is established. Our proof framework ",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "MOW framework is established. Our proof framework applies it effectively but is NOT peer-reviewed. The gap between our D0 and brute-force frontier needs independent verification."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-conjecture-proved_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:52:39Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 1,
+            "disputed": 2,
+            "needs_clarification": 3,
+            "unverifiable": 1
+          },
+          "key_finding": "The project contains interesting large-scale computations and plausible numerical evidence, but the logical chain from raw data to a fully rigorous proof is incomplete. Key analytic steps\u2014rigorous tra"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-conjecture-proved_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 3,
+            "verified": 0,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a co"
+        }
+      ],
+      "remediations": [
+        {
+          "issue_id": "mow-constant-propagation",
+          "severity": "critical",
+          "description": "MOW (Magee-Oh-Winter 2019) theorem matching not verified: the original paper does not supply explicit constants, and Calderon-Magee (2025) gives explicit gap only for untwisted operators. No detailed constant-tracking appendix shows how epsilon and D0 are derived from published theorems.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "proof-title-premature",
+          "severity": "critical",
+          "description": "Title says 'proof' but multiple gaps remain (not just one). Should be retitled 'proof framework' or 'conditional proof' until gaps are closed. o3-pro identified multiple unresolved issues beyond the claimed 'one specialist gap'.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "property-tau-non-effective",
+          "severity": "critical",
+          "description": "Layer 4 invokes Bourgain-Gamburd property (tau) with an unspecified uniform constant c and gives no quantitative lower bound on d required for the sieve error term to be overpowered. The statement is non-effective and cannot be checked.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "rho-eta-not-interval-certified",
+          "severity": "critical",
+          "description": "rho_eta <= 0.771 computed in FP64/mpmath, not interval-certified with arb/MPFR. The entire D0 bound depends on this value. All four reviewers flagged this as the most critical gap.",
+          "status": "open",
+          "resolved_commit": ""
+        }
+      ],
+      "issues_found": 4,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:52:39Z"
+    },
+    "zaremba-density-phase-transition": {
+      "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-density-phase-transition_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Bourgain-Kontorovich (2014) proves density 1 for A",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Bourgain-Kontorovich (2014) proves density 1 for A=50 non-effectively. Our claim that A=3 suffices with exactly 27 exceptions is a much stronger computational result. No contradiction with literature."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-density-phase-transition_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T20:01:13Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 9,
+            "verified": 2,
+            "disputed": 2,
+            "needs_clarification": 3,
+            "unverifiable": 2
+          },
+          "key_finding": "The computational data are substantial and largely plausible, and the code is openly available, warranting publication as an experimental result.  However several extrapolations are presented as factu"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-density-phase-transition_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "gold",
+          "claims": {
+            "total": 5,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational results are correct and significant. The 27 exceptions are genuine, the density sweep is comprehensive, and digit 1 dominance is a real phenomenon. However, the 'phase transition at "
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T20:01:13Z"
+    },
+    "zaremba-digit-pair-hierarchy": {
+      "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 7x More Than Digit 3",
+      "certification": {
+        "level": "bronze",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-digit-pair-hierarchy_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T20:06:40Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 8,
+            "verified": 1,
+            "disputed": 3,
+            "needs_clarification": 3,
+            "unverifiable": 1
+          },
+          "key_finding": "Several numerical trends match known thermodynamic-formalism estimates, but the core density data and the dramatic runtime claims lack methodological detail and independent verification. The finite-ex"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-02",
+          "file": "zaremba-digit-pair-hierarchy_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-02T23:45:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Comprehensive finding. Clean data, Gauss measure explanation grounded in classical theory. Closed exception sets verified."
+        }
+      ],
+      "remediations": [
+        {
+          "issue_id": "closed-exception-sets-unproved",
+          "severity": "critical",
+          "description": "Four 'closed' exception sets ({1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1834) are declared closed based on finite search up to 10^11, but no completeness certificate or branch-and-bound argument is provided. Current literature establishes only 'full density' not finite-exception results. Should be rephrased as conjectural.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "digit-value-metric-ad-hoc",
+          "severity": "important",
+          "description": "The 'digit 2 is 6.9x more valuable than digit 3' metric is ad hoc (ratio of first two densities) and hinges entirely on unverified raw densities. No formal definition of 'value' is provided.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "gpu-timing-implausible",
+          "severity": "critical",
+          "description": "Claimed 10-15s per {1,k} pair at 10^10 on a single B200 is inconsistent with hardware capabilities. Even idealized kernel performing one modular inversion per 3 GPU cycles would need >10 minutes for 10^10 inputs. Published benchmarks (Berkel & Fassler 2023) show 10^9 checks in 30s on 8xA100.",
+          "status": "open",
+          "resolved_commit": ""
+        }
+      ],
+      "issues_found": 3,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T20:06:40Z"
+    },
+    "zaremba-exception-hierarchy": {
+      "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
+      "certification": {
+        "level": "bronze",
+        "review_count": 2,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-exception-hierarchy_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T20:03:34Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 4,
+            "unverifiable": 1
+          },
+          "key_finding": "The mathematical portions concerning continued-fraction manipulation are correct, and the hierarchy 27 \u2192 2 \u2192 0 is internally consistent.  However, the main numerical claims rest on large-scale computa"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-02",
+          "file": "zaremba-exception-hierarchy_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-02T23:45:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 3,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Clean computational finding. 27->2->0 hierarchy is novel. CF splitting correctly applied."
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T20:03:34Z"
+    },
+    "zaremba-representation-growth": {
+      "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",
+      "certification": {
+        "level": "bronze",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-representation-growth_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Growth exponent R(d) ~ d^(2delta-1) is predicted b",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Growth exponent R(d) ~ d^(2delta-1) is predicted by the BK/MOW transfer operator framework. Our computation confirms 0.674 vs predicted 0.6737. Novel confirmation of theoretical prediction."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-representation-growth_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:54:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 0,
+            "disputed": 1,
+            "needs_clarification": 4,
+            "unverifiable": 0
+          },
+          "key_finding": "The numerical findings are consistent with established transfer-operator predictions and appear computationally plausible, but key reproducibility details are missing.  In particular, no full data set"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-representation-growth_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 2,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Clean confirmation of the transfer operator growth prediction. The 0.04% match between predicted (0.6737) and observed (0.674) exponents is compelling. The caveat that this is partially a self-consist"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:54:00Z"
+    },
+    "zaremba-spectral-gaps-uniform": {
+      "title": "Congruence Spectral Gaps for Zaremba's Semigroup Are Uniform",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-spectral-gaps-uniform_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Property (tau) is theoretically established by BGS",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Property (tau) is theoretically established by BGS. Our computation confirms it at unprecedented scale (1214 moduli). zbMATH API didn't return results for specialized search terms."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-spectral-gaps-uniform_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:44:30Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 7,
+            "verified": 2,
+            "disputed": 2,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "The computational pipeline is sound and the reported timings and magnitudes are believable.  The data convincingly show that, up to m = 1,999, no spectral gaps come close to zero.  However, numerical "
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-spectral-gaps-uniform_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 3,
+            "verified": 1,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The spectral gap computation is correct and the numerical confirmation of property (tau) at unprecedented scale is valuable. The main issue is the coupling to the proof framework's threshold \u2014 if the "
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:44:30Z"
+    },
+    "zaremba-transitivity-all-primes": {
+      "title": "Zaremba's Semigroup Acts Transitively on (Z/pZ)\u00b2 for ALL Primes (Algebraic Argument + Computation)",
+      "certification": {
+        "level": "bronze",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-transitivity-all-primes_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "Uses Dickson's classical classification (1901). AI",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Uses Dickson's classical classification (1901). AI-assisted application to Zaremba semigroups is novel. Not peer-reviewed."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-transitivity-all-primes_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:46:50Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 5,
+            "verified": 1,
+            "disputed": 3,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational portion is solid and reproduces known behaviour up to p=17,389, but the algebraic proof that would extend the result to all primes contains logical gaps and circular reasoning. Sever"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-transitivity-all-primes_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 1,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Sound application of Dickson's classical classification. The argument is short, verifiable, and correct. Small primes cross-checked computationally. The only reservation is that it hasn't been indepen"
+        }
+      ],
+      "remediations": [
+        {
+          "issue_id": "borel-exclusion-single-basis",
+          "severity": "critical",
+          "description": "The Borel exclusion argument checks that h1 has nonzero (2,1) entry in the standard basis, but a matrix may lie in a Borel subgroup after conjugation. Must show H fixes no 1-dimensional subspace of F_p^2, not just check one basis.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "circular-size-estimate",
+          "severity": "critical",
+          "description": "Step (3) uses the presumed transitivity |orbit|=p^2-1 to lower-bound |H|, which is exactly what the argument is trying to prove, creating a circular dependency.",
+          "status": "open",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "shared-eigenvector-fallacy",
+          "severity": "critical",
+          "description": "The proof assumes a shared eigenvector forces a shared eigenvalue, which is false: a vector can be an eigenvector for two matrices with different eigenvalues. The Cartan-normalizer exclusion is therefore unsubstantiated.",
+          "status": "open",
+          "resolved_commit": ""
+        }
+      ],
+      "issues_found": 3,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:46:50Z"
+    },
+    "zaremba-witness-golden-ratio": {
+      "title": "Zaremba Witnesses Concentrate at \u03b1(d)/d \u2248 0.171, Connected to the Golden Ratio",
+      "certification": {
+        "level": "bronze",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "unknown",
+          "file": "zaremba-witness-golden-ratio_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "The concentration of optimal witnesses at a/d ~ 1/",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The concentration of optimal witnesses at a/d ~ 1/(5+phi) is a novel computational observation. No direct precedent in literature. The golden ratio connection is suggestive but unexplained theoretical"
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-witness-golden-ratio_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:48:03Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 5,
+            "verified": 1,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "The computational observations are interesting and mostly plausible, and the accompanying code appears functional and reproducible.  The main statistical claim about concentration is likely correct bu"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-witness-golden-ratio_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 3,
+            "verified": 1,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The observation that witnesses concentrate near 0.171 is correct and reproducible. The CF prefix [0;5,1,...] is mathematically expected. The golden ratio connection is suggestive but the 13% discrepan"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T19:48:03Z"
+    }
+  }
+}
