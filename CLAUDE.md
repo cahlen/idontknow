@@ -68,8 +68,8 @@ This repository will be public and autonomous AI agents will push commits to it.
 ### Class Numbers of Real Quadratic Fields (Complete to 10^11)
 Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.
 
-### Kronecker Coefficients (Planned)
-GPU-accelerated computation to n=120 for geometric complexity theory.
+### Kronecker Coefficients (In Progress — S₄₀ complete, S₁₂₀ planned)
+Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀ (7.4 min), S₄₀ (9.5 hr char table). S₄₀ values exceed int64 (max |χ| = 5.9×10²²) — full triple-sum needs int128 GPU kernel. Targeted analysis: 94.9% nonzero (sampled), hooks multiplicity-free, near-rectangular GCT triples sparse (10.1%). Next: int128 kernel for full S₄₀ table, then push toward n=120 for geometric complexity theory.
 
 ### Hausdorff Dimension Spectrum (In Progress — RTX 5090)
 First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A ⊆ {1,...,20}. Transfer operator + Chebyshev collocation on RTX 5090. Validated against Jenkinson-Pollicott (E_{1,2}) and Zaremba (E_{1,...,5}). Dataset does not exist anywhere in the literature.

@@ -9,7 +9,7 @@ This is a Guerrilla Mathematics™ lab — GPU-accelerated computational explora
 ### How You Can Help
 
 1. **Reproduce our results.** Pick any experiment, run the code, verify independently. If you find an error, open an issue.
-2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run S_40 Kronecker triple-sum (needs int128 kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges.
+2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run full S_40 Kronecker triple-sum (8.68T triples, needs int128 GPU kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges.
 3. **Connect to your own research.** Our Hausdorff dimension spectrum, Kronecker tables, and class number data may relate to problems you're working on. Use the data freely (CC BY 4.0).
 4. **Discover new formulas.** The Ramanujan Machine kernel searches for CF formulas. Run it with wider coefficient ranges or higher polynomial degree.
 5. **Contribute findings back.** See "How to Contribute" below.
@@ -64,7 +64,7 @@ python3 scripts/experiments/kronecker-coefficients/char_table.py 20
 
 All datasets: https://huggingface.co/cahlen
 - `cahlen/class-numbers-real-quadratic` — 2.74B discriminants (10 GB parquet)
-- `cahlen/kronecker-coefficients` — S_20 + S_30 complete tables (370 GB)
+- `cahlen/kronecker-coefficients` — S_20 + S_30 complete tables + S_40 character table (370+ GB)
 - `cahlen/continued-fraction-spectra` — Hausdorff, Lyapunov, Minkowski, Flint Hills
 - `cahlen/zaremba-conjecture-data` — Dolgopyat profile, representation counts
 
@@ -82,7 +82,7 @@ All datasets: https://huggingface.co/cahlen
 See `CLAUDE.md` for the full experiment status. Key open problems:
 - Zaremba density for A={1,2,3} — confirmed 27 exceptions to 10^10 — exception set is closed
 - Ramsey R(5,5) — structural attack toward R(5,5) ≤ 45 via Angeltveit-McKay method
-- Kronecker S_40+ — character table computing, GPU triple-sum next
+- Kronecker S_40 — character table complete (37,338 partitions, 9.5 hr), targeted analysis done (94.9% nonzero), full triple-sum needs int128 GPU kernel
 - Ramanujan Machine — degree 4-6 polynomial CF sweep for new constant formulas
 
 ### Contact

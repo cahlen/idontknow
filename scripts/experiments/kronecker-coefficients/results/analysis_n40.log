@@ -1,0 +1,129 @@
+============================================================
+Kronecker S_40 Analysis
+============================================================
+
+Loading partitions...
+  37338 partitions of 40
+Computing centralizer orders...
+
+--- Phase 1: Character Table Statistics ---
+  Identity class index: 37337
+  Row 0/37338 (0%) [0s]
+  Row 5000/37338 (13%) [60s]
+  Row 10000/37338 (26%) [117s]
+  Row 15000/37338 (40%) [172s]
+  Row 20000/37338 (53%) [227s]
+  Row 25000/37338 (66%) [281s]
+  Row 30000/37338 (80%) [337s]
+  Row 35000/37338 (93%) [395s]
+  Nonzero entries: 891,693,627 / 1,394,126,244 (64.0%)
+  Max |χ|: 58965081685061803130880
+  Σ dim² = 40!: True
+
+--- Phase 2: Hook Kronecker Coefficients ---
+  Found 40 hook partitions
+  Loading 40 character table rows...
+  Scanning row 5000/37338...
+  Scanning row 10000/37338...
+  Scanning row 15000/37338...
+  Scanning row 20000/37338...
+  Scanning row 25000/37338...
+  Scanning row 30000/37338...
+  Scanning row 35000/37338...
+  Computing 11480 hook triples...
+    Hook row 0/40 (0%) [27s]
+    Hook row 5/40 (12%) [138s]
+    Hook row 10/40 (25%) [223s]
+    Hook row 15/40 (37%) [284s]
+    Hook row 20/40 (50%) [325s]
+    Hook row 25/40 (62%) [350s]
+    Hook row 30/40 (75%) [363s]
+    Hook row 35/40 (87%) [367s]
+  Hook Kronecker: 3969/11480 nonzero (34.6%), max=1, 368.0s
+
+--- Phase 3: Near-Rectangular Kronecker Coefficients ---
+  Found 40 near-rectangular partitions:
+    (40^1) -> index 0
+    (20^2) -> index 2087
+    (14^1,13^2) -> index 9203
+    (10^4) -> index 20410
+    (8^5) -> index 27589
+    (7^4,6^2) -> index 30915
+    (6^5,5^2) -> index 33651
+    (5^8) -> index 35591
+    (5^4,4^5) -> index 35675
+    (4^10) -> index 36706
+    (4^7,3^4) -> index 36721
+    (4^4,3^8) -> index 36814
+    (4^1,3^12) -> index 37057
+    (3^12,2^2) -> index 37185
+    (3^10,2^5) -> index 37192
+    (3^8,2^8) -> index 37205
+    (3^6,2^11) -> index 37224
+    (3^4,2^14) -> index 37249
+    (3^2,2^17) -> index 37280
+    (2^20) -> index 37317
+    (2^19,1^2) -> index 37318
+    (2^18,1^4) -> index 37319
+    (2^17,1^6) -> index 37320
+    (2^16,1^8) -> index 37321
+    (2^15,1^10) -> index 37322
+    (2^14,1^12) -> index 37323
+    (2^13,1^14) -> index 37324
+    (2^12,1^16) -> index 37325
+    (2^11,1^18) -> index 37326
+    (2^10,1^20) -> index 37327
+    (2^9,1^22) -> index 37328
+    (2^8,1^24) -> index 37329
+    (2^7,1^26) -> index 37330
+    (2^6,1^28) -> index 37331
+    (2^5,1^30) -> index 37332
+    (2^4,1^32) -> index 37333
+    (2^3,1^34) -> index 37334
+    (2^2,1^36) -> index 37335
+    (2^1,1^38) -> index 37336
+    (1^40) -> index 37337
+  Loading 40 character table rows...
+  Scanning row 5000/37338...
+  Scanning row 10000/37338...
+  Scanning row 15000/37338...
+  Scanning row 20000/37338...
+  Scanning row 25000/37338...
+  Scanning row 30000/37338...
+  Scanning row 35000/37338...
+  Computing 11480 near-rectangular triples...
+  Near-rect Kronecker: 1156/11480 nonzero (10.1%), max=105927325, 304.3s
+
+--- Phase 4: Random Sample (nonzero fraction estimate) ---
+  Sampling 1000 random triples from 37338 partitions...
+  Loading 2889 unique character table rows...
+  Scanning row 5000/37338...
+  Scanning row 10000/37338...
+  Scanning row 15000/37338...
+  Scanning row 20000/37338...
+  Scanning row 25000/37338...
+  Scanning row 30000/37338...
+  Scanning row 35000/37338...
+    Sample 0/1000 (0%) [0s]
+    Sample 100/1000 (10%) [2s]
+    Sample 200/1000 (20%) [3s]
+    Sample 300/1000 (30%) [5s]
+    Sample 400/1000 (40%) [7s]
+    Sample 500/1000 (50%) [9s]
+    Sample 600/1000 (60%) [10s]
+    Sample 700/1000 (70%) [12s]
+    Sample 800/1000 (80%) [14s]
+    Sample 900/1000 (90%) [16s]
+  Sample: 949/1000 nonzero = 94.9% (95% CI: [93.4%, 96.1%])
+  Max sampled |g| = 1300912596785734847, time = 17.3s
+
+--- Phase 5: Cross-n Trend Summary ---
+  n=20: 79.5% nonzero, max g = 6,408,361
+  n=30: 89.9% nonzero, max g = 24,233,221,539,853
+  n=40: ~94.9% nonzero (sampled), max g (hooks) = 1
+
+Results saved: scripts/experiments/kronecker-coefficients/results/analysis_n40.json
+
+============================================================
+S_40 Analysis Complete
+============================================================
