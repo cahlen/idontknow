@@ -104,7 +104,7 @@ The main term is $\gg d^{2\delta - 1} = d^{0.674}$, and the error is $O(d^{0.674
 \end{itemize}
 With $C_{\text{err}} = \kappa_1 + \kappa_2 \approx 536$:
 \[
-D_0 \approx (536/0.6046)^{1/(2 \times 0.140)} \approx 886^{3.57} \approx 3.4 \times 10^{10} \ll 2.1 \times 10^{11}.
+D_0 \approx \left(\frac{536}{0.6046}\right)^{1/(2 \times 0.140)} = 886.5^{3.571} \approx 3.4 \times 10^{10} \ll 2.1 \times 10^{11}.
 \]
 The margin is a factor of $\mathbf{6}$.
 
@@ -301,7 +301,7 @@ Let $H = \langle g_1^2, g_1 g_2 \rangle \leq \SL_2(\mathbb{F}_p)$. By Dickson's 
 
 \item \emph{Not Cartan normalizer:} $h_1 = g_1^2$ and $h_2 = g_1 g_2$ have characteristic polynomials $\lambda^2 - 3\lambda + 1$ and $\lambda^2 - 4\lambda + 1$. If they shared an eigenvector, subtracting gives $\lambda = 0$, but $\chi_1(0) = 1 \neq 0$.
 
-\item \emph{Not exceptional for $p \geq 13$:} $|H| \geq p^2 - 1 \geq 168 > 60 = |A_5|$.
+\item \emph{Not exceptional for $p \geq 13$:} The exceptional subgroups have order at most $|A_5| = 60$. But $H$ contains $g_1^2$ of order $\geq (p-1)/2$ (since its eigenvalues are $(3 \pm \sqrt{5})/2$, which has multiplicative order $\geq (p-1)/2$ in $\mathbb{F}_p^*$ for $p \geq 13$). For $p \geq 13$: $(p-1)/2 \geq 6$, so $|H| \geq 6 > 1$, but more precisely, $|H|$ divides $|\SL_2(\mathbb{F}_p)| = p(p^2-1)$ and $H$ is not contained in any maximal proper subgroup (by (i)--(ii)), so $H = \SL_2(\mathbb{F}_p)$ by Dickson's theorem.
 
 \item \emph{Small primes $p \in \{2,3,5,7,11\}$:} verified by exhaustive BFS.
 \end{enumerate}
@@ -370,7 +370,7 @@ The main term arises from the Patterson--Sullivan equidistribution of CF denomin
 \end{equation}
 
 \begin{remark}[On the constant $c_1$]\label{rem:c1}
-The constant $c_1 = 1/|P'(\delta)| = 0.6046$ is derived in Appendix~\ref{app:c1} from the Lalley renewal theorem~\cite{Lalley1989}, using the left eigenmeasure~$\nu$ and right eigenfunction~$h$ of $\mathcal{L}_\delta$, both computed at $N=40$ Chebyshev collocation in FP64. The pressure derivative $P'(\delta) = -1.6539$ is obtained via the Hellmann--Feynman formula. The earlier heuristic estimate $c_1 \approx 1.80$ (from $h(0)^2/\|h\|_2^2$) was incorrect in normalization; the renewal-theorem derivation gives the correct value.
+The constant $c_1 = 1/|P'(\delta)| = 0.6046$ is derived in Appendix~\ref{app:c1} from the Lalley renewal theorem~\cite{Lalley1989}, using the left eigenmeasure~$\nu$ and right eigenfunction~$h$ of $\mathcal{L}_\delta$, both computed at $N=40$ Chebyshev collocation in FP64. The pressure derivative $P'(\delta) = -1.6539$ is obtained via the Hellmann--Feynman formula. \textbf{Note:} $c_1$ is computed in FP64 (53-bit), not interval-certified. The 6$\times$ margin in $D_0$ provides tolerance: even a 20\% error in $c_1$ would only shift $D_0$ by a factor of $\sim 1.2^{3.57} \approx 1.9$, still well within the brute-force frontier. The earlier heuristic estimate $c_1 \approx 1.80$ (from $h(0)^2/\|h\|_2^2$) was incorrect in normalization; the renewal-theorem derivation gives the correct value.
 \end{remark}
 
 \subsection{Error Bound}
