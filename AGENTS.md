@@ -32,12 +32,22 @@ This is a Guerrilla Mathematics™ lab — GPU-accelerated computational explora
 **Finding contributions:**
 - If your computation reveals something interesting, write it up as a markdown file following the format in `bigcompute.science/src/content/findings/` and submit a PR to the website repo at https://github.com/cahlen/bigcompute.science.
 
+**Review contributions:**
+- Every finding is AI-audited claim-by-claim. You can add your own review using any AI model or as a human reviewer.
+- Use the generic review runner: `export API_KEY='...' && python3 scripts/reviews/run_review.py --slug <finding> --model <model> --provider <provider>`
+- Or write review JSON manually following the schema in `docs/verifications/SCHEMA.md`
+- Submit a PR adding your review JSON to `docs/verifications/`
+- Reviews are append-only — old reviews are never deleted, only superseded
+- Certification consensus uses most-conservative-wins across all reviews
+
 ### What's Here
 
 ```
 scripts/experiments/     — CUDA kernels and Python harnesses per experiment
+scripts/reviews/         — AI peer review infrastructure (run, aggregate, validate, sync)
 data/                    — Raw computation output (large files on HF)
 paper/                   — LaTeX writeups
+docs/verifications/      — Review JSONs, manifest, remediations (append-only ledger)
 docs/                    — Research notes
 ```
 
