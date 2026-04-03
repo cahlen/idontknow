@@ -442,34 +442,25 @@ def remediate(slugs, dry_run=False):
                 log(f"  [{iss['verdict']}] ({iss['from']}) {iss['claim'][:60]}")
             continue
 
-        # Read the finding
+        # Read the finding (trimmed to avoid prompt overload)
         finding_files = list((WEBSITE_ROOT / "src" / "content" / "findings").glob(f"*{slug}*"))
-        finding_text = finding_files[0].read_text() if finding_files else ""
+        finding_text = finding_files[0].read_text()[:2000] if finding_files else ""
 
-        prompt = f"""You are fixing issues in a bigcompute.science finding identified by peer reviewers.
+        prompt = f"""Fix issues in a bigcompute.science finding. Slug: {slug}
 
-Finding slug: {slug}
-Finding text (first 3000 chars):
-{finding_text[:3000]}
+Finding (truncated):
+{finding_text}
 
-Issues identified by reviewers:
-{json.dumps(issues, indent=2)}
+Issues from reviewers:
+{json.dumps(issues[:6], indent=2)}
 
-For EACH issue, determine:
-1. FIXABLE: factual error, overclaim, or missing context → provide the exact text edit
-2. ACKNOWLEDGED: deep mathematical gap → explain why it can't be fixed now
-3. DISAGREE: reviewer was wrong → explain why
-
-Respond with JSON only (no markdown):
-{{"remediations": [
-  {{"claim": "...", "action": "fix|acknowledge|disagree", "description": "what to do",
-   "old_text": "exact text to find in the finding (if fix)", "new_text": "replacement text (if fix)"}}
-]}}"""
+For each: fix (provide old_text/new_text), acknowledge (can't fix now), or disagree (reviewer wrong).
+JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowledge|disagree","description":"...","old_text":"...","new_text":"..."}}]}}"""
 
         try:
             result = subprocess.run(
                 [claude_cli, "-p", prompt],
-                capture_output=True, text=True, timeout=120,
+                capture_output=True, text=True, timeout=300,
             )
             text = result.stdout.strip()
 
