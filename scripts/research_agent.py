@@ -765,11 +765,34 @@ def tick(args, state):
             run_reviews(finding_slugs, models, dry_run)
 
     # Phase 6: Remediate (fix issues found by reviewers)
+    # Remediate new findings from this tick AND any existing unresolved issues
     if not phase or phase == "remediate":
-        if finding_slugs:
-            remediate(finding_slugs, dry_run)
-            # Re-aggregate after fixes
+        all_slugs_to_remediate = list(finding_slugs)  # new findings from this tick
+        # Also check all findings for unresolved review issues
+        verifications_dir = REPO_ROOT / "docs" / "verifications"
+        for rf in verifications_dir.glob("*review*.json"):
+            try:
+                with open(rf) as f:
+                    review = json.load(f)
+                slug = review.get("finding_slug", "")
+                has_unresolved = any(
+                    c.get("verdict", "") in ("DISPUTED", "NEEDS_CLARIFICATION")
+                    for c in review.get("claim_reviews", [])
+                )
+                if has_unresolved and slug and slug not in all_slugs_to_remediate:
+                    # Check if we already remediated this slug recently (within last 24h)
+                    last_rem = state.get("last_remediated", {}).get(slug, "")
+                    if not last_rem or (datetime.now(timezone.utc).isoformat()[:10] != last_rem[:10]):
+                        all_slugs_to_remediate.append(slug)
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+        if all_slugs_to_remediate:
+            log(f"Remediating {len(all_slugs_to_remediate)} finding(s) with unresolved issues...")
+            remediate(all_slugs_to_remediate, dry_run)
             if not dry_run:
+                for s in all_slugs_to_remediate:
+                    state.setdefault("last_remediated", {})[s] = datetime.now(timezone.utc).isoformat()
                 aggregate_reviews()
 
     # Phase 7: Deploy
