@@ -102,6 +102,7 @@ def call_chat_completions(api_key, api_base, model, prompt, max_tokens):
             "model": model,
             "messages": [{"role": "user", "content": prompt}],
             "max_completion_tokens": max_tokens,
+            "response_format": {"type": "json_object"},
         },
         timeout=600.0,
     )
