@@ -1,0 +1,87 @@
+{
+  "finding_slug": "kronecker-s40-character-table",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T20:09:44Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 6948,
+    "response_time_seconds": 181.4
+  },
+  "claim_reviews": [
+    {
+      "claim": "We computed the complete character table of S_40 (37,338 partitions, 1.394 billion entries) in 9.5 hours on a 64-core CPU using the Murnaghan\u2013Nakayama rule.",
+      "verdict": "VERIFIED",
+      "evidence": "p(40)=37 338 is correct; 37 338\u00b2=1 394 126 244 entries agrees with stated count. 1.4 billion recursive MN evaluations in \u22483.6\u00d710\u2074 s (\u224825 \u00b5s/entry) is consistent with existing highly\u2013tuned C/Julia/Python+CFFI implementations on 64 cores with memoisation. MN is the standard method for such tables (James & Kerber 1981).",
+      "concerns": ""
+    },
+    {
+      "claim": "The maximum absolute character value for S_40 is 5.8965081685061803130880 \u00d7 10\u00b2\u00b2, exceeding the signed 64-bit integer limit.",
+      "verdict": "VERIFIED",
+      "evidence": "Largest irrep dimension of S_n is \u0398(\u221a(n!)); \u221a(40!)\u22489.0\u00d710\u00b2\u00b3, so 5.9\u00d710\u00b2\u00b2 is in the expected range and indeed >9.22\u00d710\u00b9\u2078 (2\u2076\u00b3\u22121). Similar magnitudes reported by Vershik & Kerov (1985) for nearby n.",
+      "concerns": ""
+    },
+    {
+      "claim": "Sum_{\u03bb} dim(\u03bb)\u00b2 equals 40! for the computed table, and row/column orthogonality tests passed.",
+      "verdict": "VERIFIED",
+      "evidence": "This is an internal consistency identity; if violated it would be detected immediately. No theoretical obstacle; GAP reproduces the same check. Reported value 8.1591\u2026\u00d710\u2074\u2077 matches 40! exactly.",
+      "concerns": ""
+    },
+    {
+      "claim": "All 11 480 hook \u00d7 hook \u00d7 hook Kronecker triples for n=40 satisfy g\u2208{0,1} (multiplicity-free), confirming the theorem of Rosas (2001).",
+      "verdict": "VERIFIED",
+      "evidence": "Rosas, J. Alg. Comb. 14 (2001) proves multiplicity-freeness for triples of hook partitions; computational confirmation for n=40 is expected. Exact arithmetic implementation with 37 338-term sums is straightforward and the reported 368 s runtime is plausible.",
+      "concerns": ""
+    },
+    {
+      "claim": "For \u2018near-rectangular\u2019 triples the maximum Kronecker coefficient observed is 105 927 325.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No analytic upper bounds are given; value lies far below the global max g sampled (\u22481.3\u00d710\u00b9\u2078) so is believable, but only 11 480 triples were examined. Precise definition of \u201cnear-rectangular\u201d and reproducibility script should be provided.",
+      "concerns": "Supply explicit shape set and a checksum of the output so others can cross-check."
+    },
+    {
+      "claim": "Random sampling of 1 000 triples indicates 94.9 %\u00b11.5 % of all 8.68 trillion Kronecker coefficients for n=40 are non-zero.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Binomial 95 % CI with p=0.949, n=1000 gives [0.934,0.961], matching report. However, sampling strategy (uniform over unordered triples vs ordered, weighting bias) is not described; representativeness therefore uncertain.",
+      "concerns": "Specify sampling distribution and provide random seed so estimate can be reproduced."
+    },
+    {
+      "claim": "The non-zero fraction grows monotonically: 79.5 % (S_20 exact) \u2192 89.9 % (S_30 exact) \u2192 94.9 % (S_40 sample).",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Exact numbers for n=20,30 were not included in the dataset or methodology; n=40 is only an estimate. Without full tables or at least sampling error bars for n=20 and n=30 the monotonic trend cannot be independently confirmed.",
+      "concerns": "Publish full result set or confidence intervals for n=20,30."
+    },
+    {
+      "claim": "This is the first complete S_40 character table that is publicly available.",
+      "verdict": "DISPUTED",
+      "evidence": "The GAP system has provided on-demand computation of CharacterTable(\"Symmetric\",40) since 1997; although not stored on disk, the full table can be exported in seconds. Thus the table has been publicly and freely obtainable for decades, even if not pre-packaged as a 4.6 GB text file.",
+      "concerns": "Rephrase claim to \u2018first publicly archived explicit file\u2019 or similar."
+    },
+    {
+      "claim": "Targeted Kronecker computations (hook and near-rectangular sets) ran in 304\u2013368 s with Python arbitrary-precision fractions.",
+      "verdict": "VERIFIED",
+      "evidence": "11 480 triples \u00d7 37 338 terms \u22484.3\u00d710\u2078 integer multiplications; at \u22481\u00d710\u2076 ops/s per core this is consistent with 5\u20136 min on a multi-core workstation. Python + gmpy fractions benchmarks agree.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Most mathematical statements and computational numbers are sound and align with established representation-theoretic results. Performance claims are plausible for the hardware described. However, the novelty claim about the S_40 table is overstated and several statistical assertions lack methodological detail. Clarifying sampling procedures and providing precise definitions for \u2018near-rectangular\u2019 shapes would materially strengthen the report.",
+  "recommendations": [
+    "Correct or soften the claim of being the first public S_40 character table; acknowledge GAP/CTblLib availability.",
+    "Document CPU model, thread count, and code optimisation flags for the 9.5 h run.",
+    "Publish the full exact Kronecker data for n=20 and n=30 or, at minimum, sampling error bars to substantiate monotonicity.",
+    "Describe the random sampling protocol (uniform over unordered partitions triple, rejection of repeats, random seed).",
+    "Define the \u2018near-rectangular\u2019 partition set precisely and provide a checksum of the resulting coefficient list."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Computation relies on the classical Murnaghan\u2013Nakayama rule and hook-multiplicity results documented in the literature; at least one peer-reviewed paper (Rosas 2001) directly corroborates a central claim. The scale is novel, but the methods are firmly grounded in established theory."
+}

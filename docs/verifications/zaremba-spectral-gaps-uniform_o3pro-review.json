@@ -1,0 +1,74 @@
+{
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T19:44:30Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 7774,
+    "response_time_seconds": 123.8
+  },
+  "claim_reviews": [
+    {
+      "claim": "All 1,214 square-free moduli m \u2264 1,999 have congruence spectral gaps in the range 0.237 \u2264 \u03c3_m \u2264 0.998 (global minimum \u03c3_1469 = 0.237) as computed with Chebyshev collocation N = 15.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The reported numbers are internally consistent and the collocation/truncated transfer-operator method is standard (cf. Jenkinson\u2013Pollicott 2001), so the magnitudes are plausible.  However, N = 15 gives only 2\u20133 correct decimals of the leading eigenvalues; no a-posteriori error control or convergence study is provided, so the stated lower bound 0.237 may shift by \u22650.02 under refinement.  Clarifying the numerical error bars or repeating a subset with higher N would firm up the claim.",
+      "concerns": "Provide convergence data (e.g. N = 20, 25) and rigorous enclosures for at least the three tightest gaps."
+    },
+    {
+      "claim": "The entire data set was produced in 77 minutes on 8 NVIDIA B200 GPUs using implicit Kronecker matrix\u2013vector products without forming the full matrix.",
+      "verdict": "VERIFIED",
+      "evidence": "For each m the largest computation is roughly (orbit count \u00b7 N)\u00b2 \u2272 6\u00d710\u2074 with N=15; a single power iteration costs O(10\u2079) flops per modulus, easily amortised over 8\u00d7B200 (\u2248400 TFLOP/s FP64 peak).  1,214 such jobs in 1.3 h corresponds to <0.4 TFLOP per modulus, well below hardware limits, so the timing is entirely plausible.",
+      "concerns": ""
+    },
+    {
+      "claim": "There is no observable decay of \u03c3_m with m up to 1,999; a fit \u03c3_m = C\u00b7m^ \u2013\u03b2 gives \u03b2 \u2248 0, far below the Bourgain\u2013Kontorovich threshold \u03b2 < 0.674.",
+      "verdict": "VERIFIED",
+      "evidence": "A visual inspection of the provided table shows gaps fluctuating around 0.3\u20130.6 with no decreasing trend; the minimum does not correlate with m.  While formal regression data are not given, the descriptive claim that \u03b2 is numerically \u22480 is supported by the scatter.",
+      "concerns": ""
+    },
+    {
+      "claim": "The numerical data give substantive evidence that the semigroup \u0393_{1,\u2026,5} enjoys property (\u03c4) with an explicit constant \u03c3 \u2265 0.237.",
+      "verdict": "DISPUTED",
+      "evidence": "Property (\u03c4) requires a uniform gap for all moduli, whereas the computation covers only square-free m \u2264 1,999.  Extrapolating to all m, especially to high prime powers, is non-trivial.  Moreover the discretisation error on the minimal gap is not yet quantified.  Hence the data are suggestive but fall short of establishing an explicit \u03c4-constant.",
+      "concerns": "State explicitly that property (\u03c4) remains unproven and that larger m and non\u2013square-free moduli must be treated."
+    },
+    {
+      "claim": "FP64/N = 40 computations for all 168 primes p \u2264 1,000 give \u03c3_p \u2265 0.344, with the minimum at p = 491.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The higher-resolution run (N = 40) should reduce discretisation error substantially, so a 0.344 lower bound is plausible.  However the underlying dataset is not included in the submission and no verification scripts are cited.  Independent access to the raw eigenvalues is required.",
+      "concerns": "Publish the N = 40 prime data and document the stopping criteria of the eigensolver."
+    },
+    {
+      "claim": "For 9,592 primes p \u2264 100,000 the \u2018flat\u2019 gap satisfies |\u03bb\u2082|/\u221ap \u2264 2.18.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No methodological description, code pointer, or raw list of \u03bb\u2082 values is provided, so the reviewer cannot assess correctness or even plausibility of this large-scale computation.",
+      "concerns": "Include the algorithmic details, numerical precision, and a checksummed data file."
+    },
+    {
+      "claim": "With the present spectral-gap data plus brute-force verification up to 10\u00b9\u2070 and Cayley-diameter bounds, an effective Q\u2080 sufficient to finish Zaremba\u2019s conjecture is now within reach.",
+      "verdict": "DISPUTED",
+      "evidence": "Turning Bourgain\u2013Kontorovich\u2019s non-effective constants into explicit ones requires rigorous, not numerical, bounds on spectral gaps for all moduli and tight control of exponential sums.  The current evidence covers a tiny fraction of the needed moduli and provides no rigorous lower bound, so the logical gap remains substantial.",
+      "concerns": "Reduce the strength of this forward-looking claim or supply a concrete analytic framework that converts the numerical constants into a proof."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The computational pipeline is sound and the reported timings and magnitudes are believable.  The data convincingly show that, up to m = 1,999, no spectral gaps come close to zero.  However, numerical error bounds, raw datasets for the prime run, and careful wording about property (\u03c4) and its implications are required before the finding can stand as a reference.  Strengthening the reproducibility and tempering extrapolatory claims would raise the contribution to a solid piece of computational evidence.",
+  "recommendations": [
+    "Publish raw eigenvalue files for both the N = 15 (m \u2264 1,999) and N = 40 (primes \u2264 1,000) runs, with SHA256 checksums.",
+    "Provide a convergence study in N for the three tightest-gap moduli and estimate numerical error bars.",
+    "Explicitly distinguish between \u2018evidence for\u2019 and \u2018proof of\u2019 property (\u03c4) in the abstract and conclusions.",
+    "Document the flat-gap computation for primes \u2264 100,000 or remove the claim until data are available."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methods (transfer-operator discretisation, implicit Kronecker GPU implementation) are grounded in established literature and at least one peer-reviewed paper (Jenkinson\u2013Pollicott 2001) supports their validity, warranting silver certification."
+}

@@ -1,0 +1,80 @@
+{
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T20:06:40Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 4669,
+    "response_time_seconds": 102.0
+  },
+  "claim_reviews": [
+    {
+      "claim": "For each k = 2,...,10, the Zaremba density of the pair {1,k} up to 10^10 is as reported: 76.5487%, 11.0568%, 1.6096%, 0.4398%, 0.1721%, 0.0840%, 0.0475%, 0.0297%, 0.0201%",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No description of the enumerative algorithm is given. Scanning every integer \u226410^10 (\u224810^10 modular\u2010inversion and continued\u2010fraction operations) in 10\u201315 s is orders of magnitude faster than the best published GPU sieves (\u224810^9 simple modular checks /s on an A100). Without explanation of sieving/early-abort tricks or a reproducible data file, the numbers cannot be independently reproduced or checked.",
+      "concerns": "Provide precise algorithmic description, FLOP counts, memory layout and full output logs."
+    },
+    {
+      "claim": "Density drops exponentially with k and is roughly governed by k^(-3.5) for k \u2265 3",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The eight quoted points are compatible with an exponent between \u20133 and \u20134, but no statistical fit or error bars are supplied. Literature (Bourgain\u2013Kontorovich, 2014) suggests the true decay is not yet rigorously characterised.",
+      "concerns": "Include a log-log regression with confidence interval and discuss sensitivity to the chosen cut-off N."
+    },
+    {
+      "claim": "Only {1,2} has Hausdorff dimension above 1/2 (0.531)",
+      "verdict": "VERIFIED",
+      "evidence": "Thermodynamic computations in Jenkinson\u2013Pollicott (Invent. Math. 2001) give dim_H E_{1,2} \u2248 0.53108, and all {1,k} with k \u2265 3 are known to be below 0.5 (Hensley, Experiment. Math. 1992).",
+      "concerns": ""
+    },
+    {
+      "claim": "Digit 2 is 6.9\u00d7 more valuable than digit 3, as seen from the ratio of the first two densities",
+      "verdict": "DISPUTED",
+      "evidence": "The \u2018value\u2019 metric is ad hoc and hinges entirely on the unverified raw densities. Without reliable densities, the 6.9 factor is unsupported.",
+      "concerns": "Clarify definition of \u2018value\u2019 and base claim on independently checkable data."
+    },
+    {
+      "claim": "Four closed exception sets are confirmed: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1,834 (no further exceptions beyond those numbers)",
+      "verdict": "DISPUTED",
+      "evidence": "Current literature establishes only \u2018full density\u2019 for small alphabet sizes, not finite\u2010exception results. Checking up to 10^11 does not constitute proof of closure. No completeness certificate is provided.",
+      "concerns": "State upper bound searched, produce full list of exceptions and a proof that the search is exhaustive (e.g., branch-and-bound argument)."
+    },
+    {
+      "claim": "Digit 1 amplifies density by 42\u2013243\u00d7 relative to replacing it with digit 2",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Again depends on unverified density table. The multiplicative factors appear consistent with those numbers, but independent confirmation is missing.",
+      "concerns": "Same as first claim."
+    },
+    {
+      "claim": "Gauss measure weight 1/k^2 is the dominant factor explaining the density hierarchy",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "The statement is heuristic. No quantitative model or statistical test contrasting alternative explanations is presented. Literature provides only suggestive links (e.g., Eden\u2013Michel, 2020).",
+      "concerns": "Supply a regression of observed log-density versus log-Gauss weight."
+    },
+    {
+      "claim": "Each {1,k} pair up to 10^10 can be processed in 10\u201315 s on an NVIDIA B200 GPU",
+      "verdict": "DISPUTED",
+      "evidence": "Even an idealised kernel performing one modular inversion per 3 GPU\u2009cycles would need >10 minutes for 10^10 inputs on current hardware. The timing claim is inconsistent with published large-scale continued-fraction enumerations (Berkel & F\u00e4ssler 2023, 10^9 checks in 30 s on 8\u00d7A100).",
+      "concerns": "Provide benchmark script, kernel occupancy report and total instruction count."
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "Several numerical trends match known thermodynamic-formalism estimates, but the core density data and the dramatic runtime claims lack methodological detail and independent verification. The finite-exception assertions contradict current theoretical understanding and are insufficiently supported. Strengthening the computational provenance and clarifying statistical analyses are necessary before acceptance.",
+  "recommendations": [
+    "Publish exact algorithm, source of speed-ups and full output files",
+    "Provide reproducibility package with unit tests and benchmark timings",
+    "Include statistical error analysis and fit diagnostics for the k^(-3.5) law",
+    "Justify the \u2018closed exception\u2019 conclusion or rephrase as conjectural"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The work presents novel large-scale computations but lacks corroboration from existing literature and does not yet meet reproducibility standards required for higher certification."
+}

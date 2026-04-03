@@ -1,0 +1,81 @@
+{
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T20:04:56Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 5848,
+    "response_time_seconds": 79.7
+  },
+  "claim_reviews": [
+    {
+      "claim": "For the digit set {1,2}, the observed Zaremba densities are 57.98 % at 10^6, 72.06 % at 10^9, and 76.55 % at 10^10 (uncovered count 2 345 131 809).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The reported densities are internally consistent (1\u22122.345131809/10^10\u22480.7655) and are not in obvious conflict with earlier computational work (e.g. Hensley 1996 reported \u224840 % density at 10^5).  However, no raw hit\u2013list or independent checksum is supplied, so the numbers cannot be independently reproduced from the paper alone.",
+      "concerns": "Provide the list (or hash digest) of uncovered denominators and timing logs so that others can re-run the GPU code and spot-check the counts."
+    },
+    {
+      "claim": "These three data points are fit by density(N)=30.1+4.65\u00b7log10 N with residuals <0.1 %.",
+      "verdict": "VERIFIED",
+      "evidence": "Substituting N=10^6,10^9,10^10 gives predicted densities 57.98 %,71.96 %,76.61 %; the quoted residuals \u22120.02 %,+0.09 %,\u22120.07 % match to 2-decimal accuracy.",
+      "concerns": ""
+    },
+    {
+      "claim": "Including two further measurements (N=10^11,10^12) the best logarithmic fit is 31.5+4.47\u00b7log10 N with residuals \u22640.52 %.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Only the N=10^11 value is stated as observed (80.75 %).  The N=10^12 value is predicted, not measured, so the five-point regression actually relies on a forecast.  The wording conflates measured and predicted points.",
+      "concerns": "Clarify which points are empirical and which are forecasts; re-label the five-point fit accordingly."
+    },
+    {
+      "claim": "Logarithmic convergence is observed, in contrast to the power-law N^{0.062} predicted by the Bourgain\u2013Kontorovich framework; the empirical rate is 2.35\u00d7 faster.",
+      "verdict": "DISPUTED",
+      "evidence": "The BK exponent refers to the average representation count R(d), not the density of representable d.  No derivation is offered that translates the BK bound into a concrete density prediction, so saying the data is '2.35\u00d7 faster than theory' is not mathematically meaningful.  Literature (Bourgain & Kontorovich 2014; Huang\u2013Shen 2023) gives only very weak lower bounds for density and does not contradict the present data.",
+      "concerns": "Remove the numerical '2.35\u00d7 faster' comparison or supply a rigorous bridge from R(d) asymptotics to density."
+    },
+    {
+      "claim": "The Hausdorff dimension of the {1,2} continued-fraction Cantor set is \u03b4 = 0.531280506277205.",
+      "verdict": "VERIFIED",
+      "evidence": "This value agrees to 8-decimal precision with Hensley 1996 and with Jenkinson\u2013Pollicott\u2019s high-precision computations.",
+      "concerns": ""
+    },
+    {
+      "claim": "Predicted density \u224885.9 % at 10^12 and \u224899.9 % at 10^15; 100 % should be reached near 10^15.0.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "These are extrapolations outside the observed range.  No empirical backing is yet available.",
+      "concerns": "Label clearly as speculative; plan to test at 10^12 before making claims beyond."
+    },
+    {
+      "claim": "Adding digit 1 provides a sigmoid-shaped density gain across subsets of {1,\u2026,10}, peaking at a 79-percentage-point gap for cardinality 4.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The aggregate table is plausible but no underlying dataset, code path, or statistical error analysis is supplied.  Prior literature does not cover this comparison.",
+      "concerns": "Publish the full sweep results (or compressed checksum) so others can reproduce the sigmoid plot."
+    },
+    {
+      "claim": "For A={1,2,k} at N=10^6 the number of uncovered denominators grows roughly like k^7.",
+      "verdict": "DISPUTED",
+      "evidence": "The table shows ratios that fluctuate between 1.5 and 5.8, far from the constant factor implied by a clean k^7 law; no regression or error bars are provided.  A power-law of degree 5\u20138 would fit equally well on so few points.",
+      "concerns": "Perform a log\u2013log regression with confidence intervals and quantify goodness-of-fit; avoid stating an exponent to unit precision without such analysis."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The computations for {1,2} up to 10^10 are plausible and internally consistent, and the reported densities align with earlier small-scale experiments.  The paper\u2019s main weakness is over-interpreting three data points as evidence of logarithmic convergence and juxtaposing this with BK theory without a rigorous bridge.  Several secondary claims (k^7 scaling, sigmoid effect) need fuller data disclosure.  With clearer separation of measured versus forecast values and release of raw counts, the work would merit publication as a computational study.",
+  "recommendations": [
+    "Publish raw uncovered-denominator lists (or cryptographic hashes) for N=10^6\u201310^11 so others can verify counts.",
+    "Rerun the experiment at N=10^12 before claiming five-point fits or making 10^15 forecasts.",
+    "Remove or qualify the '2.35\u00d7 faster than theory' statement unless a derivation linking BK exponents to density is supplied.",
+    "Provide regressions with error bars for the {1,2,k} scaling and the digit-1 sigmoid, or weaken those conclusions.",
+    "Document GPU timing, thread layout, and memory usage to support computational-feasibility claims."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methodology is grounded in established literature on Hausdorff dimension and Zaremba-type computations, and at least two published papers (Hensley 1996; Jenkinson\u2013Pollicott 2001) corroborate the numerical techniques employed, but the new density extrapolations have not yet been independently validated."
+}

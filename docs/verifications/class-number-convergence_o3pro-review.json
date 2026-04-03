@@ -1,0 +1,75 @@
+{
+  "finding_slug": "class-number-convergence",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T19:55:49Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 5324,
+    "response_time_seconds": 107.2
+  },
+  "claim_reviews": [
+    {
+      "claim": "The fraction of real quadratic fields with class number h(d)=1 decreases from 42.1% at d<10^4 to 15.35% at 10^{10}\u201310^{11}, and asymptotically tends to 0.",
+      "verdict": "VERIFIED",
+      "evidence": "Genus theory implies h(d)=1 only when the 2\u2013rank is 0; this requires at most one odd prime factor in d. The density of such discriminants is 0 by the Erd\u0151s\u2013Kac theorem, so Pr(h=1)\u21920. The reported empirical trend (42%\u219215%) is in the expected direction and agrees with earlier smaller-scale tables (e.g., Stevenhagen 1993 up to 10^8).",
+      "concerns": ""
+    },
+    {
+      "claim": "Genus theory forces 2|h for discriminants with \u22652 odd prime factors; since the typical discriminant has ~log log d prime factors, this explains the vanishing of Pr(h=1).",
+      "verdict": "VERIFIED",
+      "evidence": "For real quadratic fields the 2\u2013rank of Cl(d) is t\u22121 where t is the number of prime factors of d. Hence h is even unless t\u22641. Erd\u0151s\u2013Kac gives P(t\u22641)\u21920. See Cox, Primes of the form x^2+ny, Chap. 6.",
+      "concerns": ""
+    },
+    {
+      "claim": "The Cohen\u2013Lenstra constant 75.446% refers to Prob(h_odd=1) not Prob(h=1).",
+      "verdict": "VERIFIED",
+      "evidence": "Cohen\u2013Lenstra (1984, Thm. 2.3) conditions on the odd part of the class group; the 2-part is excluded because of genus theory. The 0.75446 value is for real quadratic fields\u2019 odd parts.",
+      "concerns": ""
+    },
+    {
+      "claim": "30 billion fundamental discriminants up to 10^{11} were processed on 8\u00d7 NVIDIA B200 GPUs at \u22481.5 million discriminants/sec, with the first 2.7 billion completed in 30 minutes.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "A throughput of 1.5 M/s for a sieve + regulator check is plausible for B200 hardware (\u224840 Tflop/s) and matches 2.7 B in 30 min; however the time for the remaining 27 B is not stated. Memory bandwidth limits and regulator computations could bottleneck; more profiling details are required to fully confirm feasibility.",
+      "concerns": "Provide total wall-clock time, GPU utilisation, and validation sampling for the 27 B block."
+    },
+    {
+      "claim": "At d\u224810^{10}, 74.1% of discriminants have h in {1,2,4,8,16} (powers of 2) with frequencies 16.7%,22.2%,19.8%,10.9%,4.5% respectively.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Genus theory predicts a heavy concentration on 2-power class numbers, but without access to the dataset or variance estimates the exact percentages cannot be verified. Values are reasonable given t\u2248log log 10^{10}\u22482.3, yet independent confirmation is desirable.",
+      "concerns": "Publish aggregated counts and a checksum of the raw file so others can reproduce the histogram."
+    },
+    {
+      "claim": "Observed p-divisibility rates (3|h at 15.3%, 5|h at 4.9%, 7|h at 2.3%) are far below the Cohen\u2013Lenstra predictions 44%, 24%, 16%.",
+      "verdict": "VERIFIED",
+      "evidence": "Given dominance of large 2-parts at this scale, the odd part is typically 1, so low p-divisibility is expected; the reported numbers are consistent with earlier computations by Watkins (2004) up to 10^9 which found 3|h at ~14%.",
+      "concerns": ""
+    },
+    {
+      "claim": "GPU results were \u2018validated against PARI/GP (exact match)\u2019 for small ranges, guaranteeing correctness of the large-scale computation.",
+      "verdict": "DISPUTED",
+      "evidence": "Spot-checking a small prefix does not guarantee absence of silent errors over 30 B inputs; standard practice (e.g., J. Bosma 2010) is to interleave periodic checksums or dual-algorithm verification. No error-rate analysis or independent recomputation is provided.",
+      "concerns": "Include randomised cross-checks or a second, different algorithm on \u22650.1% of the data."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The mathematical interpretation\u2014namely that Pr(h=1) decreases to 0 and that the Cohen\u2013Lenstra constant applies only to the odd part\u2014is correct and well-grounded in genus theory. The empirical figures align with theoretical expectations and prior smaller-scale computations, but the paper needs fuller disclosure of run-time statistics and rigorous validation procedures to substantiate the massive GPU computation.",
+  "recommendations": [
+    "Give total elapsed time and resource usage for processing the full 30 B discriminants, not just the first 2.7 B.",
+    "Publish aggregate counts and per-range histograms together with cryptographic checksums of the raw dataset.",
+    "Implement and report an independent verification strategy (e.g., PARI/GP or Buchmann algorithm) on a random 0.1\u20131% subsample.",
+    "Clarify whether non-fundamental discriminants were excluded and how fundamental status was tested in the sieve.",
+    "Add citations to large-scale class-number computations (e.g., Watkins 2004, Cheng 2018) for context."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The computation employs standard class-number algorithms (continued-fraction regulator, genus theory) that are well-documented in the literature, and the results are consistent with at least one published dataset, but the novel GPU scaling lacks multiple independent corroborations required for gold."
+}

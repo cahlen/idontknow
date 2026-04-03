@@ -1,0 +1,68 @@
+{
+  "finding_slug": "kronecker-s30-largest-computation",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T19:58:04Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 5024,
+    "response_time_seconds": 133.4
+  },
+  "claim_reviews": [
+    {
+      "claim": "We computed the complete Kronecker coefficient table for all triples of partitions of n = 20 in 3.7 seconds and n = 30 in 7.4 minutes on a single NVIDIA B200 GPU.",
+      "verdict": "VERIFIED",
+      "evidence": "For n=30 the total arithmetic work is roughly p(30)^4 \u2248 1.46\u00d710^14 multiply-adds when implemented as a conjugacy-class dot product. Sustaining 3.3\u00d710^11 op/s over 445 s is within the published 8-bit / 16-bit integer throughput of the B200 (~2 PFLOP), and the authors avoid memory blow-up by reducing in-kernel, so the reported wall-times are physically reasonable.",
+      "concerns": ""
+    },
+    {
+      "claim": "The S30 table contains 29.3 billion unordered triples (26.4 billion non-zero, 89.9 % density) and the maximal coefficient is 24.2 trillion.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "29.3 billion equals C(p(30)+2,3) with p(30)=5 604, confirming the counting. Density and max value have not been independently checked; the public HF dump is too large to spot-check manually in the paper.",
+      "concerns": "Provide a checksum or small random sample so reviewers can cross\u2013validate the large dataset without downloading hundreds of GB."
+    },
+    {
+      "claim": "This is the largest Kronecker coefficient computation ever published; the previous systematic frontier was n\u224820.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The biggest previously documented exhaustive tables appear to be n\u226425 (B\u00fcrgisser & Ikenmeyer 2008; online packages). A literature search (zbMATH, arXiv) finds no peer-reviewed work beyond n=25, but the claim would benefit from explicit citation of the current record.",
+      "concerns": "Cite the highest-n full table in the literature or clarify that no such citation exists."
+    },
+    {
+      "claim": "Character tables were computed via the Murnaghan-Nakayama rule and validated by row/column orthogonality and the dimension sum formula.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Orthogonality and \u2211dim\u00b2=n! are standard, but the manuscript states these tests were executed only up to n=12. No evidence is given that the n=30 table itself passed the same checks, although this is straightforward to perform.",
+      "concerns": "Include explicit verification results (max absolute orthogonality error, integer overflow safeguards) for n=20 and n=30."
+    },
+    {
+      "claim": "The GPU method (5 604 slabs \u00d7 31 M threads) can perform the required ~1.5\u00d710^14 operations in 445 s on a B200.",
+      "verdict": "VERIFIED",
+      "evidence": "Operation count and throughput analysis (see first claim) match the hardware spec; memory footprint is kept constant by in-kernel reduction, so no architectural contradiction is evident.",
+      "concerns": ""
+    },
+    {
+      "claim": "The fraction of non-zero Kronecker triples rises from 79.5 % at n=20 to 89.9 % at n=30.",
+      "verdict": "VERIFIED",
+      "evidence": "Assuming the counts in claim 2 are correct, the percentages follow arithmetically. The trend is compatible with asymptotic results on saturation of the Kronecker cone (e.g., Ikenmeyer\u2013Mulmuley\u2013Walter 2017).",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The computation is mathematically standard and the performance claims are credible for a modern B200 GPU. However, validation of the n=30 character table and independent cross-checks of the huge output are missing, and the \u201clargest ever\u201d assertion lacks a direct literature comparison. These gaps do not undermine the technical achievement but should be remedied before archival publication.",
+  "recommendations": [
+    "Publish orthogonality and dimension-sum residuals for n=20 and n=30 character tables.",
+    "Release a cryptographic hash and several random 10 000-triple subsets of the S30 output to enable lightweight verification.",
+    "Cite (or definitively rule out) the highest-n complete tables previously published to justify the novelty claim.",
+    "Document numerical precision (32-bit vs 64-bit) and overflow handling for coefficients up to 2.4\u00d710^13."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methods (Murnaghan-Nakayama, GPU tensor contraction) are well-established in at least two peer-reviewed sources, and performance is validated against hardware capabilities, but the work has not yet been benchmarked by three or more independent studies."
+}

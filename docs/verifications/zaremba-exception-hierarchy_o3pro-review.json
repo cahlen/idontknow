@@ -1,0 +1,74 @@
+{
+  "finding_slug": "zaremba-exception-hierarchy",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T20:03:34Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 6091,
+    "response_time_seconds": 139.8
+  },
+  "claim_reviews": [
+    {
+      "claim": "For every denominator d \u2264 10^{10} there exists a coprime numerator a such that the continued-fraction expansion of a/d has all partial quotients at most 5 (i.e. Zaremba\u2019s conjecture with bound 5 has been exhaustively verified to 10^{10}).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No wall-clock timings, hardware specs, algorithmic description, or reproducible output are supplied.  Exhaustively treating 10^{10} denominators requires at least on the order of 10^{10} membership tests and a data footprint in the multi-terabyte range, so while not impossible on a large GPU cluster the feasibility has not been demonstrated in the report.",
+      "concerns": "Provide precise algorithm, parallelisation strategy, run-time, memory usage, and publicly accessible result logs or hashes."
+    },
+    {
+      "claim": "Exactly 27 denominators (all \u2264 6234) fail to admit a representation with partial quotients bounded by 3 for d \u2264 10^{10}.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The count is new and not found in the literature; no enumeration table or verification script accompanies the statement.  The claim is plausible given prior partial data (Hensley 1996 shows thin exceptional set) but cannot be independently confirmed from information provided.",
+      "concerns": "Release the complete list of 27 exceptions together with code and checksum so others can replicate the enumeration."
+    },
+    {
+      "claim": "Adding digit 4 resolves 25 of the 27 exceptions, leaving only d = 54 and d = 150 which require digit 5.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "This is a direct corollary of the previous claim and therefore inherits its evidentiary shortcomings.  A quick manual check does not contradict the statement, but no exhaustive certificate is given.",
+      "concerns": "Publish, for each of the 25 denominators, an explicit numerator whose continued fraction uses only digits \u2264 4, and a proof (or exhaustive search log) that none exist for d = 54, 150."
+    },
+    {
+      "claim": "The continued-fraction identity [0; \u2026, a] = [0; \u2026, a \u2212 1, 1] can be used to lower the maximum digit by 1 at the cost of one extra term.",
+      "verdict": "VERIFIED",
+      "evidence": "This is a standard property of simple continued fractions; see e.g. Khinchin, \u2018Continued Fractions\u2019, \u00a72.",
+      "concerns": ""
+    },
+    {
+      "claim": "d = 6 is an exception for digit set {1,2,3} because its canonical CF uses 5, but the non-canonical form [0;1,4,1] avoids digit 5 and therefore lies in the set with digits \u2264 4.",
+      "verdict": "VERIFIED",
+      "evidence": "Direct computation shows 5/6 = [0;1,5] and also = [0;1,4,1]; the second expansion indeed uses digits {1,4}.",
+      "concerns": ""
+    },
+    {
+      "claim": "For d = 54 and d = 150 every coprime numerator a produces a continued-fraction expansion that contains a digit \u2265 5 (hence digit 5 is unavoidable).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "This is plausible but unproven in the manuscript.  A brute-force check over 18 (resp. 40) residues is trivial on modern hardware yet no such explicit check or summary is supplied.",
+      "concerns": "Include the exhaustive search output for the 18 and 40 residues, or a short mathematical argument, to substantiate the assertion."
+    },
+    {
+      "claim": "d = 54 and d = 150 are the only denominators \u2264 10^{6} for which digit 5 is unavoidable.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No data set covering all 10^{6} denominators accompanies the statement, and the computational burden, though moderate, is not documented.",
+      "concerns": "Release the full scan results for denominators up to 10^{6}, or provide an argument narrowing the search space."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The mathematical portions concerning continued-fraction manipulation are correct, and the hierarchy 27 \u2192 2 \u2192 0 is internally consistent.  However, the main numerical claims rest on large-scale computations whose methodology and audit trail are not supplied, leaving the central results unverified.  With detailed computational documentation and publicly accessible certificates, the finding would be strong.",
+  "recommendations": [
+    "Publish source code, exact command lines, and hardware specifications for the 10^{10}-denominator sweep.",
+    "Provide checksums or compressed logs listing, for each exceptional denominator, all numerators tested and the minimal maximal digit found.",
+    "Add a concise mathematical explanation or proof-of-concept for why d = 54 and 150 are uniquely stubborn.",
+    "Benchmark the implementation against known small-range enumerations in the literature to validate correctness."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The work presents a novel empirical observation not previously reported in peer-reviewed literature, but lacks external corroboration or benchmarking."
+}

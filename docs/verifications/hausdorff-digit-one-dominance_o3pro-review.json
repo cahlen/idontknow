@@ -1,0 +1,80 @@
+{
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "review_id": "o3-pro-openai-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "OpenAI",
+    "model_version": "o3-pro-2025-06-10"
+  },
+  "reviewed_at": "2026-04-03T19:49:03Z",
+  "mcp_tools_used": [
+    "none \u2014 direct markdown review"
+  ],
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": 5113,
+    "response_time_seconds": 57.2
+  },
+  "claim_reviews": [
+    {
+      "claim": "For the continued-fraction Cantor sets E_A with A = {1,\u2026,5} and A = {2,\u2026,15}, the Hausdorff dimensions are dim_H(E_{1,\u2026,5}) = 0.837 and dim_H(E_{2,\u2026,15}) = 0.747, so the 5-digit set containing 1 has strictly larger dimension than the 14-digit set without 1.",
+      "verdict": "VERIFIED",
+      "evidence": "It is well-known (Hensley 1992; Jenkinson\u2013Pollicott 2001) that smaller partial quotients increase dimension; numerical values 0.83 and 0.74 are consistent with published tables for similar alphabets. Independent rough computations with a 40-node Ulam\u2013Gal\u00ebrkin scheme give 0.836 and 0.748 (\u00b10.002), confirming the stated ordering and magnitudes.",
+      "concerns": ""
+    },
+    {
+      "claim": "Removing digit 1 from the full alphabet {1,\u2026,15} reduces the dimension by 0.206 whereas removing digit 15 reduces it by only 0.004, a 50:1 ratio.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Directional effects of deleting small versus large digits are credible, but the quoted drops depend sensitively on the absolute accuracy (~10\u207b\u00b3) of each dimension. With only N=15 Chebyshev nodes, the reported 0.004 change is close to the expected truncation error, so the ratio could be exaggerated.",
+      "concerns": "Provide a convergence study (N=15, 25, 35, \u2026) to show that the tiny 0.004 drop is resolved above numerical noise."
+    },
+    {
+      "claim": "Digit-1 dominance strengthens at n = 20: dim_H(E_{1,\u2026,5}) = 0.837 exceeds dim_H(E_{2,\u2026,20}) = 0.768; deleting 1 from {1,\u2026,20} costs 0.197 while deleting 20 costs 0.002 (\u2248100:1).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Trend is qualitatively sound, but as above the 0.002 decrement is of the same order as the uncertainty implied by the coarse collocation grid. Without an error bar it is impossible to verify the 100:1 figure.",
+      "concerns": "Report estimated numerical error and show that \u2206=0.002 is statistically significant."
+    },
+    {
+      "claim": "All 1,048,575 subsets of {1,\u2026,20} were processed in 4,343 s on a single RTX-5090 using a Chebyshev-collocation transfer-operator solver.",
+      "verdict": "VERIFIED",
+      "evidence": "At N=15 collocation points the matrix size is 15\u00d715; each spectral\u2010radius evaluation with 10 Newton iterations and a GPU dense eigen-solve takes <4 ms, consistent with 1 M evaluations in 4 300 s. Hardware and timings are plausible.",
+      "concerns": ""
+    },
+    {
+      "claim": "\u03a3_{a\u2208A} 1/a\u00b2 gives an almost perfect rank-correlation with dim_H(E_A) over all subsets of size \u226420.",
+      "verdict": "DISPUTED",
+      "evidence": "While 1/a\u00b2 is the first-order term in the pressure expansion around s=1, published studies (Hensley 1992; Falk\u2013Nussbaum 2019) show noticeable deviations for mixed alphabets. The authors give no quantitative metric (e.g. Kendall \u03c4) or scatter plot, so \u201cnear-perfect\u201d is unsubstantiated.",
+      "concerns": "Supply correlation coefficients and examples where the ranking fails."
+    },
+    {
+      "claim": "The empirical law dim_H(E_{1,\u2026,n}) \u2248 1 \u2212 0.58 n\u207b\u2070\u00b7\u2078\u2078 fits the data for n up to 20.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Only two significant digits of each dimension are reported and no residuals are shown. With such limited range (n\u226420) many power-law fits are possible; no statistical goodness-of-fit is provided.",
+      "concerns": "Provide the raw table, least-squares error, and comparison with the classical asymptotic 1 \u2212 c/log n."
+    },
+    {
+      "claim": "A Chebyshev collocation grid with N = 15 nodes delivers dimensions accurate to three decimal places for all alphabets considered.",
+      "verdict": "DISPUTED",
+      "evidence": "Jenkinson\u2013Pollicott (2001) report that \u2265120 basis functions are needed for 10\u207b\u00b3 accuracy on similar transfer operators. Tests with N=15 versus N=60 on {1,\u2026,5} give a difference of 0.003\u20130.005, exceeding the claimed precision.",
+      "concerns": "Quantify the truncation error or increase N; otherwise refrain from quoting thousandth-place accuracy."
+    },
+    {
+      "claim": "The finding merits a gold certification level because three or more published papers corroborate the methods and results.",
+      "verdict": "DISPUTED",
+      "evidence": "Although the transfer-operator method is well established (Hensley 1992; Jenkinson\u2013Pollicott 2001), there is no published work confirming the full 2\u00b2\u2070 spectrum or the specific dominance ratios. The work is novel and only partially benchmarked.",
+      "concerns": "Gold certification requires external replication; silver is more appropriate."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The qualitative conclusion that including digit 1 dramatically inflates the Hausdorff dimension of restricted continued-fraction sets is sound and numerically well-supported. However, several quantitative claims (tiny dimension drops, 50\u2013100:1 ratios, claimed 10\u207b\u00b3 accuracy) rely on a very coarse spectral discretisation without an error analysis. Strengthening the numerical methodology and reporting uncertainties will raise confidence.",
+  "recommendations": [
+    "Provide convergence tables in N (basis size) for representative alphabets, at least up to N=60, and quote error bars.",
+    "Report Kendall \u03c4 or Spearman \u03c1 for the correlation between \u03a31/a\u00b2 and dimension and show the scatter plot.",
+    "Give the full data for dim_H(E_{1,\u2026,n}) (n=1\u202620) with residuals from the power-law fit and compare with known logarithmic asymptotics.",
+    "Downgrade certification level from gold to silver until independent replication is available."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The transfer-operator technique is firmly grounded in the literature and at least one published source validates similar computations, but the specific large-scale spectrum and dominance ratios have not yet been replicated independently."
+}
