@@ -428,49 +428,151 @@ def deploy(dry_run=False):
 
 # ── Phase 8: Plan Next ───────────────────────────────────────
 
-EXPERIMENT_PRIORITIES = [
-    {
-        "name": "Zaremba density confirmation",
-        "description": "Extend {1,2,k} hierarchy or confirm exception counts at higher decades",
-        "gpu_count": 1,
-        "priority": 1,
+# Known launchable experiments with concrete commands
+LAUNCHABLE = {
+    "zaremba_density": {
+        "binary": "zaremba_density_gpu",
+        "results_dir": "scripts/experiments/zaremba-density/results",
+        "single_gpu": True,
     },
-    {
-        "name": "Kronecker int128 kernel",
-        "description": "Full S_40 triple-sum (8.68T triples, needs int128 arithmetic)",
-        "gpu_count": 8,
-        "priority": 2,
+    "kronecker": {
+        "binary": "kronecker_gpu",
+        "results_dir": "scripts/experiments/kronecker-coefficients/results",
+        "single_gpu": True,
     },
-    {
-        "name": "Ramanujan Machine PSLQ",
-        "description": "High-precision PSLQ verification for degree 4+ candidates",
-        "gpu_count": 1,
-        "priority": 3,
+    "ramanujan": {
+        "binary": "ramanujan_gpu",
+        "results_dir": "scripts/experiments/ramanujan-machine/results",
+        "single_gpu": True,
     },
-    {
-        "name": "Class numbers [10^11, 10^12]",
-        "description": "Extend Cohen-Lenstra data to next decade",
-        "gpu_count": 8,
-        "priority": 4,
+    "class_numbers": {
+        "binary": "class_v2",
+        "results_dir": "data/class-numbers",
+        "single_gpu": True,
     },
-]
+}
 
 
-def plan_next(free_gpus, auto_launch=False):
-    """Suggest or launch next experiment based on free GPUs."""
+def plan_next(free_gpus, auto_launch=False, state=None):
+    """Use Claude to decide what to run on free GPUs, then launch it."""
     if not free_gpus:
         log("No free GPUs — nothing to plan.")
         return
 
     log(f"{len(free_gpus)} free GPU(s): {free_gpus}")
-    for exp in EXPERIMENT_PRIORITIES:
-        if len(free_gpus) >= exp["gpu_count"]:
-            log(f"SUGGESTED: {exp['name']} — {exp['description']}")
-            if auto_launch:
-                log("Auto-launch not yet implemented for safety. Use manual launch.", "WARN")
+
+    if not auto_launch:
+        log("Auto-launch disabled. Use --auto-launch to enable.")
+        return
+
+    claude_cli = shutil.which("claude")
+    if not claude_cli:
+        log("claude CLI not found — cannot plan experiments.", "WARN")
+        return
+
+    # Get current state for Claude to reason about
+    context = CLAUDE_MD.read_text()[:6000] if CLAUDE_MD.exists() else ""
+    harvested_names = list((state or {}).get("harvested", {}).keys())[-20:]
+    running_procs = []
+    try:
+        result = subprocess.run(["ps", "aux"], capture_output=True, text=True, timeout=10)
+        for line in result.stdout.split("\n"):
+            for kw in EXPERIMENT_KEYWORDS:
+                if kw in line.lower() and "grep" not in line and "research_agent" not in line:
+                    parts = line.split()
+                    if len(parts) >= 11:
+                        running_procs.append(" ".join(parts[10:])[:80])
+                    break
+    except subprocess.TimeoutExpired:
+        pass
+
+    prompt = f"""You are the experiment planner for bigcompute.science. You have {len(free_gpus)} free GPU(s) (indices: {free_gpus}).
+
+Currently running:
+{json.dumps(running_procs, indent=2) if running_procs else "nothing"}
+
+Recently harvested logs:
+{json.dumps(harvested_names[-10:], indent=2)}
+
+Available compiled binaries (in repo root):
+- ./zaremba_density_gpu <range> <digits>  (e.g., ./zaremba_density_gpu 100000000000 1,2,8)
+- ./kronecker_gpu <n> [gpu_id]
+- ./ramanujan_gpu <degree> <range>
+- ./class_v2 <gpu_id> <start>
+
+Project context (priorities from CLAUDE.md):
+{context}
+
+For EACH free GPU, respond with ONE concrete launch command. Consider:
+- What's already running (don't duplicate)
+- What was recently harvested (extend to next range or try next digit set)
+- CLAUDE.md priorities
+
+Respond with JSON only (no markdown):
+{{"launches": [
+  {{"gpu": 0, "command": "./zaremba_density_gpu 100000000000 1,2,8", "log_file": "scripts/experiments/zaremba-density/results/gpu_A128_1e11.log", "reason": "one sentence"}}
+]}}"""
+
+    try:
+        log("Asking Claude what to launch...")
+        result = subprocess.run(
+            [claude_cli, "-p", prompt],
+            capture_output=True, text=True, timeout=120,
+        )
+        if result.returncode != 0:
+            log(f"claude CLI failed: {result.stderr[:200]}", "ERROR")
             return
 
-    log("No suitable experiment for available GPU count.")
+        text = result.stdout.strip()
+        # Extract JSON
+        if "{" in text:
+            start = text.index("{")
+            depth = 0
+            for i in range(start, len(text)):
+                if text[i] == "{": depth += 1
+                elif text[i] == "}": depth -= 1
+                if depth == 0:
+                    text = text[start:i+1]
+                    break
+
+        plan = json.loads(text)
+        launches = plan.get("launches", [])
+
+        for launch in launches:
+            gpu = launch["gpu"]
+            cmd = launch["command"]
+            log_file = launch.get("log_file", f"logs/auto_gpu{gpu}.log")
+            reason = launch.get("reason", "")
+
+            # Safety: only allow known binaries
+            binary = cmd.split()[0].lstrip("./")
+            if binary not in [v["binary"] for v in LAUNCHABLE.values()]:
+                log(f"  BLOCKED: unknown binary '{binary}' — skipping for safety", "WARN")
+                continue
+
+            log(f"  LAUNCHING on GPU {gpu}: {cmd}")
+            log(f"    Reason: {reason}")
+            log(f"    Log: {log_file}")
+
+            # Ensure log directory exists
+            log_path = REPO_ROOT / log_file
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Launch
+            env = os.environ.copy()
+            env["CUDA_VISIBLE_DEVICES"] = str(gpu)
+            with open(log_path, "w") as lf:
+                subprocess.Popen(
+                    cmd.split(),
+                    stdout=lf, stderr=subprocess.STDOUT,
+                    env=env, cwd=str(REPO_ROOT),
+                )
+            log(f"  Started (background)")
+
+    except json.JSONDecodeError as e:
+        log(f"Plan JSON parse error: {e}", "ERROR")
+    except Exception as e:
+        log(f"Planning failed: {e}", "ERROR")
 
 
 # ── Main Loop ─────────────────────────────────────────────────
@@ -517,7 +619,7 @@ def tick(args, state):
 
     # Phase 8: Plan
     if not phase or phase == "plan":
-        plan_next(gpu_status.get("free_gpus", []), args.auto_launch)
+        plan_next(gpu_status.get("free_gpus", []), args.auto_launch, state)
 
     # Save state
     if not dry_run:
