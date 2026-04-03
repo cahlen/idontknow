@@ -1,0 +1,15 @@
+{
+  "issue_id": "connection-to-1-5-phi-where-phi-is-golden-ratio",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "minor",
+  "description": "The claimed value 0.1514 vs observed 0.171 is a 13% discrepancy. The connection is interesting but needs more rigorous justification or the discrepanc",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

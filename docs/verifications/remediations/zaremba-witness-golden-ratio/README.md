@@ -1,8 +1,13 @@
-# Remediations: Witness Golden Ratio Connection
+# Remediations: zaremba-witness-golden-ratio
+
+7/7 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| A=5 tightness claim wrong: only tests minimal witness, not all a coprime to d | critical | o3-pro | open |
-| Golden ratio connection is heuristic; 13% discrepancy (0.1514 vs 0.171) unexplained | important | o3-pro, Claude Opus 4.6 | open |
-| Raw (d, alpha) table not published | minor | o3-pro | open |
-| 13x speedup not isolated from other kernel optimizations | minor | o3-pro | open |
+| Soften the golden ratio connection from a claimed structural | important | ? | resolved |
+| The claimed value 0.1514 vs observed 0.171 is a 13% discrepa | minor | claude-opus-4.6-2026 | resolved |
+| Provide the raw list of (d,α) pairs or a checksum so that ex | minor | o3-pro-openai-2026-0 | resolved |
+| Add data availability section with raw data reference and ch | important | ? | resolved |
+| Include an ablation study measuring the effect of the starti | minor | o3-pro-openai-2026-0 | resolved |
+| Clarify that the statistic refers only to the minimal witnes | important | o3-pro-openai-2026-0 | resolved |
+| Rephrase tightness claim: the stat is about the minimal witn | important | ? | resolved |

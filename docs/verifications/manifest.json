@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-03T23:48:49Z",
+  "generated_at": "2026-04-03T23:53:45Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 15,
     "total_reviews": 41,
-    "total_remediations": 13,
-    "remediations_resolved": 11,
+    "total_remediations": 88,
+    "remediations_resolved": 86,
     "unique_models": 4,
     "unique_providers": 3,
     "models": [
@@ -91,9 +91,31 @@
           "key_finding": "The computational results are sound and the genus theory explanation is strong. The main concern is the characterization: (1) 'non-monotone' is inferred not observed \u2014 the data is monotonically decrea"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "30-billion-fundamental-discriminants-up-to-10-11",
+          "severity": "minor",
+          "description": "Provide total wall-clock time, GPU utilisation, and validation sampling for the 27 B block.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "at-d-10-10-74-1-of-discriminants-have-h-in-1",
+          "severity": "minor",
+          "description": "Publish aggregated counts and a checksum of the raw file so others can reproduce the histogram.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "gpu-results-were-validated-against-pari-gp-exact",
+          "severity": "important",
+          "description": "Include randomised cross-checks or a second, different algorithm on \u22650.1% of the data.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 3,
+      "issues_resolved": 3,
       "last_reviewed": "2026-04-03T19:55:49Z"
     },
     "gpu-matrix-enumeration-175x": {
@@ -145,9 +167,31 @@
           "key_finding": "Engineering finding. 175x speedup is real. Matrix-CF equivalence is classical. Correctly scoped."
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-denominators",
+          "severity": "minor",
+          "description": "Provide per-GPU timing, inter-GPU communication pattern, and peak memory usage.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "reformulating-the-enumeration-as-batched-2-2-matri",
+          "severity": "minor",
+          "description": "Specify exact GPU clock, compiler flags, baseline CPU model, thread count and profiling logs.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-fused-expand-mark-compact-cuda-kernel-with-ato",
+          "severity": "minor",
+          "description": "Include kernel listing, occupancy, and an ablation study separating fusion from other changes.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 3,
+      "issues_resolved": 3,
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
     "hausdorff-digit-one-dominance": {
@@ -219,9 +263,45 @@
           "key_finding": "Excellent computation with strong theoretical grounding. The transfer operator method is peer-reviewed (Jenkinson-Pollicott, Hensley). The dim_H(E_2) benchmark validates accuracy. Digit 1 dominance is"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "a-a-1-a-gives-an-almost-perfect-rank-correlat",
+          "severity": "important",
+          "description": "Supply correlation coefficients and examples where the ranking fails.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "a-chebyshev-collocation-grid-with-n-15-nodes-del",
+          "severity": "important",
+          "description": "Quantify the truncation error or increase N; otherwise refrain from quoting thousandth-place accuracy.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "digit-1-dominance-strengthens-at-n-20-dim-h-e",
+          "severity": "minor",
+          "description": "Report estimated numerical error and show that \u2206=0.002 is statistically significant.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "removing-digit-1-from-the-full-alphabet-1-15-r",
+          "severity": "minor",
+          "description": "Provide a convergence study (N=15, 25, 35, \u2026) to show that the tiny 0.004 drop is resolved above numerical noise.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-finding-merits-a-gold-certification-level-beca",
+          "severity": "important",
+          "description": "Gold certification requires external replication; silver is more appropriate.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 5,
+      "issues_resolved": 5,
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
@@ -273,9 +353,59 @@
           "key_finding": "Sound computation, well-validated. Scale unprecedented for complete tables. zbMATH papers corroborate methods."
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "character-tables-were-computed-via-the-m",
+          "severity": "important",
+          "description": "Add explicit orthogonality error bounds and integer overflow safeguard details for n=20 and n=30.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "character-tables-were-computed-via-the-murnaghan-n",
+          "severity": "minor",
+          "description": "Include explicit verification results (max absolute orthogonality error, integer overflow safeguards) for n=20 and n=30.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "largest-kronecker-computation-published",
+          "severity": "important",
+          "description": "Already addressed by the prior-work citation fix above \u2014 the hedged language 'to our knowledge' is now paired with an explicit caveat about unpublished computations. The same edit handles both the o3-pro and Opus concerns.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "the-s30-table-contains-29-3-billion-unordered-trip",
+          "severity": "minor",
+          "description": "Provide a checksum or small random sample so reviewers can cross\u2013validate the large dataset without downloading hundreds of GB.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-s30-table-contains-29.3-billion-unor",
+          "severity": "important",
+          "description": "Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "this-is-the-largest-kronecker-coefficien",
+          "severity": "important",
+          "description": "Replace the vague prior-work sentence with a specific citation trail and an explicit caveat about unpublished work.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "this-is-the-largest-kronecker-coefficient-computat",
+          "severity": "minor",
+          "description": "Cite the highest-n full table in the literature or clarify that no such citation exists.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 7,
+      "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:58:04Z"
     },
     "kronecker-s40-character-table": {
@@ -327,9 +457,38 @@
           "key_finding": "Sound computation with rigorous validation. The character table is verified by multiple internal consistency checks. Targeted Kronecker coefficients confirm known theorems (hook multiplicity-freeness)"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "for-near-rectangular-triples-the-maximum-kroneck",
+          "severity": "minor",
+          "description": "Supply explicit shape set and a checksum of the output so others can cross-check.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "near-rectangular-gct-relevant-triples-have-only-10",
+          "severity": "minor",
+          "description": "The set of 'near-rectangular' partitions used is broader than the strict GCT-relevant set. The 10.1% rate should be interpreted as an upper bound on G",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "random-sampling-of-1-000-triples-indicates-94-9",
+          "severity": "minor",
+          "description": "Specify sampling distribution and provide random seed so estimate can be reproduced.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "this-is-the-first-complete-s-40-character-table-th",
+          "severity": "important",
+          "description": "Rephrase claim to \u2018first publicly archived explicit file\u2019 or similar.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 4,
+      "issues_resolved": 4,
       "last_reviewed": "2026-04-03T20:09:44Z"
     },
     "zaremba-A12-logarithmic-convergence": {
@@ -381,9 +540,66 @@
           "key_finding": "The computational data (three density values) is correct and reproducible. The logarithmic fit is real but under-determined \u2014 three points can fit many models. The key issue: the finding conflates the"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "adding-digit-1-provides-a-sigmoid-shaped-density-g",
+          "severity": "minor",
+          "description": "Publish the full sweep results (or compressed checksum) so others can reproduce the sigmoid plot.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-a-1-2-k-at-n-10-6-the-number-of-uncovered-de",
+          "severity": "important",
+          "description": "Perform a log\u2013log regression with confidence intervals and quantify goodness-of-fit; avoid stating an exponent to unit precision without such analysis",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-the-digit-set-1-2-the-observed-zaremba-dens",
+          "severity": "minor",
+          "description": "Provide the list (or hash digest) of uncovered denominators and timing logs so that others can re-run the GPU code and spot-check the counts.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "including-two-further-measurements-n-10-11-10-12",
+          "severity": "minor",
+          "description": "Clarify which points are empirical and which are forecasts; re-label the five-point fit accordingly.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "logarithmic-convergence-is-observed-in-contrast-t",
+          "severity": "important",
+          "description": "Remove the numerical '2.35\u00d7 faster' comparison or supply a rigorous bridge from R(d) asymptotics to density.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "observed-convergence-rate-is-2-35x-faster-than-the",
+          "severity": "important",
+          "description": "The 2.35x claim compares apples and oranges. Revise to acknowledge the distinction between R(d) growth and density convergence.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "predicted-100-density-at-n-10-15",
+          "severity": "minor",
+          "description": "Five decades of extrapolation from 3 data points. The word 'predicted' should be 'extrapolated' to signal the uncertainty.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "this-is-not-the-power-law-n-0-062-predicted-by-bk",
+          "severity": "minor",
+          "description": "IMPORTANT: The finding states the BK framework predicts power-law convergence with exponent 0.062. This is an oversimplification. BK proves density 1 ",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 8,
+      "issues_resolved": 8,
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
@@ -455,9 +671,38 @@
           "key_finding": "The computation is correct (GPU BFS is exact). The connection to CF length is valid. However, there is an apparent inconsistency: the MCP finding data says 'diam <= 2 log(p)' but the finding page repo"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "computed-cayley-graph-diameters-of-1-5-in-sl",
+          "severity": "important",
+          "description": "Clarify which moduli were processed and correct the stated count.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "diameter-bound-translates-directly-to-a-worst-case",
+          "severity": "minor",
+          "description": "Cite a proof or give a careful argument for the mod-p to integer lift.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "full-bfs-over-sl-1021-1-06-10-elements-comp",
+          "severity": "minor",
+          "description": "Report measured throughput, GPU model specs, and validation checks (e.g., checksum of visited set) to rule out early termination.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-observed-ratio-decreases-and-appears-to-conver",
+          "severity": "minor",
+          "description": "Provide quantitative trend analysis and error bars; temper the asymptotic claim.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 4,
+      "issues_resolved": 4,
       "last_reviewed": "2026-04-03T19:50:28Z"
     },
     "zaremba-conjecture-proved": {
@@ -571,11 +816,53 @@
       ],
       "remediations": [
         {
+          "issue_id": "a-complete-brute-force-enumeration-on-8-nvidia-b2",
+          "severity": "minor",
+          "description": "Provide the exact command line, input parameters, final checksum/bit-set of covered denominators, and an external log proving that every integer 1\u20262.1",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "a-dolgopyat-type-calculation-gives-0-771-70",
+          "severity": "minor",
+          "description": "Either supply a computer-assisted Dolgopyat proof \u00e0 la Buzzi-Tsujii or downgrade the claim to a numerical heuristic.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "computer-assisted-proof-of-zaremba-s-conjecture-fo",
+          "severity": "minor",
+          "description": "The proof has known certification gaps. Calling it a 'proof' is premature until gaps are closed.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-the-eleven-covering-primes-p-31-the-spectral",
+          "severity": "minor",
+          "description": "Add a mathematically sound bound transporting eigenvalues from the finite Galerkin model to the full operator or explicitly cite a published method th",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "mow-constant-propagation",
           "severity": "critical",
           "description": "MOW (Magee-Oh-Winter 2019) theorem matching not verified: the original paper does not supply explicit constants, and Calderon-Magee (2025) gives explicit gap only for untwisted operators. No detailed constant-tracking appendix shows how epsilon and D0 are derived from published theorems.",
           "status": "acknowledged",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "only-one-specialist-gap-remains-matching-the-nume",
+          "severity": "important",
+          "description": "Clarify the full list of open gaps and downgrade the status to \u2018partial verification\u2019 until they are closed.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "paper-ready-for-arxiv",
+          "severity": "important",
+          "description": "Submit as 'proof framework' or 'conditional proof' until gaps are closed.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "proof-title-premature",
@@ -597,10 +884,17 @@
           "description": "rho_eta <= 0.771 computed in FP64/mpmath, not interval-certified with arb/MPFR. The entire D0 bound depends on this value. All four reviewers flagged this as the most critical gap.",
           "status": "resolved",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "using-the-explicit-constants-from-magee-oh-winter",
+          "severity": "important",
+          "description": "Provide a detailed constant-tracking appendix or Sage/arb notebook reproducing every numeric inequality.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 4,
-      "issues_resolved": 2,
+      "issues_found": 11,
+      "issues_resolved": 9,
       "last_reviewed": "2026-04-03T19:52:39Z"
     },
     "zaremba-density-phase-transition": {
@@ -672,9 +966,52 @@
           "key_finding": "The computational results are correct and significant. The 27 exceptions are genuine, the density sweep is comprehensive, and digit 1 dominance is a real phenomenon. However, the 'phase transition at "
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "digit-1-guarantees-transitivity-of-the-associated",
+          "severity": "minor",
+          "description": "Give formal statement and proof or reference (e.g. Bourgain\u2013Fuchs 2011).",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-a-1-2-3-exactly-27-denominators-10-10-a",
+          "severity": "minor",
+          "description": "Provide checksum of the 10^10 bitset, reproducibility scripts, and independent replication logs.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "of-the-1-023-subsets-of-1-10-366-reach-99-99",
+          "severity": "minor",
+          "description": "Publish the script that generated the CSV and SHA-256 of the data file.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "phase-transition-at-hausdorff-dimension-delta-1",
+          "severity": "minor",
+          "description": "The phase transition is NOT simply 'delta > 1/2'. Our own data shows {2,3,4,5} violates this. The real mechanism involves digit 1 (transitivity of the",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-work-merits-a-gold-certification-level",
+          "severity": "important",
+          "description": "Recommend downgrading to silver.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "there-is-a-sharp-phase-transition-at-hausdorff-dim",
+          "severity": "important",
+          "description": "Clarify status with respect to BK14 and Hensley\u2019s conjecture; supply proof outline or withdraw the general implication.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 6,
+      "issues_resolved": 6,
       "last_reviewed": "2026-04-03T20:01:13Z"
     },
     "zaremba-digit-pair-hierarchy": {
@@ -735,11 +1072,53 @@
           "resolved_commit": "5e89f99"
         },
         {
+          "issue_id": "density-drops-exponentially-with-k-and-is-roughly",
+          "severity": "minor",
+          "description": "Include a log-log regression with confidence interval and discuss sensitivity to the chosen cut-off N.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "digit-1-amplifies-density-by-42-243-relative-to-r",
+          "severity": "minor",
+          "description": "Same as first claim.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "digit-2-is-6-9-more-valuable-than-digit-3-as-see",
+          "severity": "important",
+          "description": "Clarify definition of \u2018value\u2019 and base claim on independently checkable data.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "digit-value-metric-ad-hoc",
           "severity": "important",
           "description": "The 'digit 2 is 6.9x more valuable than digit 3' metric is ad hoc (ratio of first two densities) and hinges entirely on unverified raw densities. No formal definition of 'value' is provided.",
           "status": "resolved",
           "resolved_commit": "5e89f99"
+        },
+        {
+          "issue_id": "each-1-k-pair-up-to-10-10-can-be-processed-in-10",
+          "severity": "important",
+          "description": "Provide benchmark script, kernel occupancy report and total instruction count.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-each-k-2-10-the-zaremba-density-of-the",
+          "severity": "minor",
+          "description": "Provide precise algorithmic description, FLOP counts, memory layout and full output logs.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "four-closed-exception-sets-are-confirmed-1-2-3",
+          "severity": "important",
+          "description": "State upper bound searched, produce full list of exceptions and a proof that the search is exhaustive (e.g., branch-and-bound argument).",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "gpu-timing-implausible",
@@ -749,8 +1128,8 @@
           "resolved_commit": ""
         }
       ],
-      "issues_found": 3,
-      "issues_resolved": 3,
+      "issues_found": 9,
+      "issues_resolved": 9,
       "last_reviewed": "2026-04-03T20:06:40Z"
     },
     "zaremba-exception-hierarchy": {
@@ -802,9 +1181,38 @@
           "key_finding": "Clean computational finding. 27->2->0 hierarchy is novel. CF splitting correctly applied."
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "adding-digit-4-resolves-25-of-the-27-exceptions-l",
+          "severity": "minor",
+          "description": "Publish, for each of the 25 denominators, an explicit numerator whose continued fraction uses only digits \u2264 4, and a proof (or exhaustive search log) ",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "exactly-27-denominators-all-6234-fail-to-admit",
+          "severity": "minor",
+          "description": "Release the complete list of 27 exceptions together with code and checksum so others can replicate the enumeration.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-d-54-and-d-150-every-coprime-numerator-a-p",
+          "severity": "minor",
+          "description": "Include the exhaustive search output for the 18 and 40 residues, or a short mathematical argument, to substantiate the assertion.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-every-denominator-d-10-10-there-exists-a-c",
+          "severity": "minor",
+          "description": "Provide precise algorithm, parallelisation strategy, run-time, memory usage, and publicly accessible result logs or hashes.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 4,
+      "issues_resolved": 4,
       "last_reviewed": "2026-04-03T20:03:34Z"
     },
     "zaremba-representation-growth": {
@@ -876,9 +1284,45 @@
           "key_finding": "Clean confirmation of the transfer operator growth prediction. The 0.04% match between predicted (0.6737) and observed (0.674) exponents is compelling. The caveat that this is partially a self-consist"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "hardest-cases-fewest-representations-are-d-1-a",
+          "severity": "minor",
+          "description": "Release the full R(d) list (e.g. CSV) and a verifier that recomputes the counts for d \u2264 10^4 so reviewers can spot-check.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "r-d-is-monotonically-increasing-on-average-the-la",
+          "severity": "important",
+          "description": "Clarify the definition of \u2018on average\u2019 (e.g. Ces\u00e0ro mean, logarithmic density) and supply empirical variance plots.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-growth-exponent-matches-theory-to-0-04",
+          "severity": "minor",
+          "description": "Report standard error or 95 % confidence interval for the fitted exponent.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-number-of-cf-representations-r-d-with-partial",
+          "severity": "minor",
+          "description": "Provide the regression details, raw R(d) values, and statistical error estimates.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "verified-via-gpu-representation-counter-to-d-10",
+          "severity": "minor",
+          "description": "Include benchmark statistics (wall-time, GPU model/count, kernel launch parameters) and a hash of the final output file.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 5,
+      "issues_resolved": 5,
       "last_reviewed": "2026-04-03T19:54:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
@@ -950,9 +1394,45 @@
           "key_finding": "The spectral gap computation is correct and the numerical confirmation of property (tau) at unprecedented scale is valuable. The main issue is the coupling to the proof framework's threshold \u2014 if the "
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "all-1-214-square-free-moduli-m-1-999-have-congru",
+          "severity": "minor",
+          "description": "Provide convergence data (e.g. N = 20, 25) and rigorous enclosures for at least the three tightest gaps.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "convergence-threshold-sigma-0-277-met-with-margi",
+          "severity": "minor",
+          "description": "The threshold value depends on the proof framework. State this dependency explicitly.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "fp64-n-40-computations-for-all-168-primes-p-1",
+          "severity": "minor",
+          "description": "Publish the N = 40 prime data and document the stopping criteria of the eigensolver.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-numerical-data-give-substantive-evidence-that",
+          "severity": "important",
+          "description": "State explicitly that property (\u03c4) remains unproven and that larger m and non\u2013square-free moduli must be treated.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "with-the-present-spectral-gap-data-plus-brute-forc",
+          "severity": "important",
+          "description": "Reduce the strength of this forward-looking claim or supply a concrete analytic framework that converts the numerical constants into a proof.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        }
+      ],
+      "issues_found": 5,
+      "issues_resolved": 5,
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
@@ -1040,15 +1520,43 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "h1-and-h2-never-share-an-eigenvector-modulo-any-pr",
+          "severity": "important",
+          "description": "Compute eigenvectors of h1 and h2 modulo p and show they cannot coincide, or supply another rigorous argument.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "h1-is-not-contained-in-any-borel-subgroup-because",
+          "severity": "important",
+          "description": "Need an invariant-subspace analysis rather than checking a single matrix in one basis.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "shared-eigenvector-fallacy",
           "severity": "critical",
           "description": "The proof assumes a shared eigenvector forces a shared eigenvalue, which is false: a vector can be an eigenvector for two matrices with different eigenvalues. The Cartan-normalizer exclusion is therefore unsubstantiated.",
           "status": "resolved",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "the-semigroup-1-5-acts-transitively-on-z",
+          "severity": "minor",
+          "description": "Extend computation further and/or supply a complete non-circular algebraic proof.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "using-dickson-s-classification-the-subgroup-h-h1",
+          "severity": "important",
+          "description": "Provide a non-circular size estimate for H or an independent argument excluding all maximal subgroups.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 3,
-      "issues_resolved": 3,
+      "issues_found": 7,
+      "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {
@@ -1129,11 +1637,39 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "connection-to-1-5-phi-where-phi-is-golden-ratio",
+          "severity": "minor",
+          "description": "The claimed value 0.1514 vs observed 0.171 is a 13% discrepancy. The connection is interesting but needs more rigorous justification or the discrepanc",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-each-1-d-100-000-the-least-zaremba-witnes",
+          "severity": "minor",
+          "description": "Provide the raw list of (d,\u03b1) pairs or a checksum so that external auditors can recompute the ratios and prefixes.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "for-each-1-\u2264-d-\u2264-100,000,-the-least-zare",
           "severity": "important",
           "description": "Add data availability section with raw data reference and checksum commitment before the References section",
           "status": "resolved",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "starting-the-search-at-a-0-170-d-instead-of-1-yi",
+          "severity": "minor",
+          "description": "Include an ablation study measuring the effect of the starting offset independently of other code changes.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-bound-a-5-is-tight-99-9-of-moduli-would-h",
+          "severity": "important",
+          "description": "Clarify that the statistic refers only to the minimal witness; rephrase or withdraw the claim of global tightness.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "the-bound-a-=-5-is-tight:-99.9-%-of-modu",
@@ -1143,8 +1679,8 @@
           "resolved_commit": ""
         }
       ],
-      "issues_found": 3,
-      "issues_resolved": 3,
+      "issues_found": 7,
+      "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:48:03Z"
     }
   }

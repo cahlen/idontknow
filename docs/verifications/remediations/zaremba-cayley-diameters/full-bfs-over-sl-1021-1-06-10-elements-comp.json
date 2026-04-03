@@ -1,0 +1,15 @@
+{
+  "issue_id": "full-bfs-over-sl-1021-1-06-10-elements-comp",
+  "finding_slug": "zaremba-cayley-diameters",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Report measured throughput, GPU model specs, and validation checks (e.g., checksum of visited set) to rule out early termination.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

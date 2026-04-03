@@ -1,0 +1,15 @@
+{
+  "issue_id": "predicted-100-density-at-n-10-15",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "minor",
+  "description": "Five decades of extrapolation from 3 data points. The word 'predicted' should be 'extrapolated' to signal the uncertainty.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

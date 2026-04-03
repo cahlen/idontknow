@@ -1,0 +1,15 @@
+{
+  "issue_id": "using-dickson-s-classification-the-subgroup-h-h1",
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "Provide a non-circular size estimate for H or an independent argument excluding all maximal subgroups.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "this-is-not-the-power-law-n-0-062-predicted-by-bk",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "minor",
+  "description": "IMPORTANT: The finding states the BK framework predicts power-law convergence with exponent 0.062. This is an oversimplification. BK proves density 1 ",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "four-closed-exception-sets-are-confirmed-1-2-3",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "State upper bound searched, produce full list of exceptions and a proof that the search is exhaustive (e.g., branch-and-bound argument).",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

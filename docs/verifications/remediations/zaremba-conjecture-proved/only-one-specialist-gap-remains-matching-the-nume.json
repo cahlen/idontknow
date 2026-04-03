@@ -1,0 +1,15 @@
+{
+  "issue_id": "only-one-specialist-gap-remains-matching-the-nume",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "Clarify the full list of open gaps and downgrade the status to \u2018partial verification\u2019 until they are closed.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

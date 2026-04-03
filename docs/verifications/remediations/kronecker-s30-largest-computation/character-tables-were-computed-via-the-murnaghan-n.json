@@ -1,0 +1,15 @@
+{
+  "issue_id": "character-tables-were-computed-via-the-murnaghan-n",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Include explicit verification results (max absolute orthogonality error, integer overflow safeguards) for n=20 and n=30.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

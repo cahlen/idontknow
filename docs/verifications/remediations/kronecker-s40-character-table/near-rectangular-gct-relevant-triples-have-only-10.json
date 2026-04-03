@@ -1,0 +1,15 @@
+{
+  "issue_id": "near-rectangular-gct-relevant-triples-have-only-10",
+  "finding_slug": "kronecker-s40-character-table",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "The set of 'near-rectangular' partitions used is broader than the strict GCT-relevant set. The 10.1% rate should be interpreted as an upper bound on G",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

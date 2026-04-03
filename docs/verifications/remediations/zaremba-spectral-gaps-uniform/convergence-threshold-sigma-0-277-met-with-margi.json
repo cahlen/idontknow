@@ -1,0 +1,15 @@
+{
+  "issue_id": "convergence-threshold-sigma-0-277-met-with-margi",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "minor",
+  "description": "The threshold value depends on the proof framework. State this dependency explicitly.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "at-d-10-10-74-1-of-discriminants-have-h-in-1",
+  "finding_slug": "class-number-convergence",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Publish aggregated counts and a checksum of the raw file so others can reproduce the histogram.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

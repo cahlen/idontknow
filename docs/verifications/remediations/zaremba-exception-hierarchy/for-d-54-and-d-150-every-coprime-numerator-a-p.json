@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-d-54-and-d-150-every-coprime-numerator-a-p",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Include the exhaustive search output for the 18 and 40 residues, or a short mathematical argument, to substantiate the assertion.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

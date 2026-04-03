@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-the-digit-set-1-2-the-observed-zaremba-dens",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide the list (or hash digest) of uncovered denominators and timing logs so that others can re-run the GPU code and spot-check the counts.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

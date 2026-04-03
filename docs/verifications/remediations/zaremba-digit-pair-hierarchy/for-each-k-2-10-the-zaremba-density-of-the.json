@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-k-2-10-the-zaremba-density-of-the",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide precise algorithmic description, FLOP counts, memory layout and full output logs.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

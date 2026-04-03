@@ -1,0 +1,15 @@
+{
+  "issue_id": "digit-1-guarantees-transitivity-of-the-associated",
+  "finding_slug": "zaremba-density-phase-transition",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Give formal statement and proof or reference (e.g. Bourgain\u2013Fuchs 2011).",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

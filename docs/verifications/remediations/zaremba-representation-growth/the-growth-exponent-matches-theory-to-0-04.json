@@ -1,0 +1,15 @@
+{
+  "issue_id": "the-growth-exponent-matches-theory-to-0-04",
+  "finding_slug": "zaremba-representation-growth",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Report standard error or 95 % confidence interval for the fitted exponent.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

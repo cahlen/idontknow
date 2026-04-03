@@ -1,0 +1,15 @@
+{
+  "issue_id": "the-numerical-data-give-substantive-evidence-that",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "State explicitly that property (\u03c4) remains unproven and that larger m and non\u2013square-free moduli must be treated.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

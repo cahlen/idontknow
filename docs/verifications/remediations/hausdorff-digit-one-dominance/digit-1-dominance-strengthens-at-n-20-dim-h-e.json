@@ -1,0 +1,15 @@
+{
+  "issue_id": "digit-1-dominance-strengthens-at-n-20-dim-h-e",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Report estimated numerical error and show that \u2206=0.002 is statistically significant.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

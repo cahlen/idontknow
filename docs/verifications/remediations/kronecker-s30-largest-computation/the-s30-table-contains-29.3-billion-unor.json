@@ -1,0 +1,9 @@
+{
+  "issue_id": "the-s30-table-contains-29.3-billion-unor",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "severity": "important",
+  "description": "Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
+  "resolved_at": "2026-04-03T23:51:39.683413+00:00"
+}

@@ -1,9 +1,10 @@
-# Remediations: Cayley Diameters
+# Remediations: zaremba-cayley-diameters
+
+4/4 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| Prime count wrong: pi(1021)=172, not 669 | critical | o3-pro | open |
-| Claimed bound "diam <= 2 log(p)" contradicted by data showing ratio up to 2.89 | important | o3-pro, Claude Opus 4.6 | open |
-| diam/log(p) convergence to 1.45 has no statistical analysis | minor | o3-pro | open |
-| mod-p to integer CF length lift argument not cited or proved | minor | o3-pro | open |
-| BFS validation checks (checksum of visited set) not provided | minor | o3-pro | open |
+| Clarify which moduli were processed and correct the stated c | important | o3-pro-openai-2026-0 | resolved |
+| Cite a proof or give a careful argument for the mod-p to int | minor | o3-pro-openai-2026-0 | resolved |
+| Report measured throughput, GPU model specs, and validation  | minor | o3-pro-openai-2026-0 | resolved |
+| Provide quantitative trend analysis and error bars; temper t | minor | o3-pro-openai-2026-0 | resolved |

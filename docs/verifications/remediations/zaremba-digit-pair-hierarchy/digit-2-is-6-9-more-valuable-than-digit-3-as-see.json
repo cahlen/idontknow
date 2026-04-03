@@ -1,0 +1,15 @@
+{
+  "issue_id": "digit-2-is-6-9-more-valuable-than-digit-3-as-see",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "Clarify definition of \u2018value\u2019 and base claim on independently checkable data.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

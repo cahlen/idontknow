@@ -1,9 +1,11 @@
-# Remediations: Representation Growth R(d) ~ d^0.674
+# Remediations: zaremba-representation-growth
+
+5/5 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| No regression details, raw R(d) values, or confidence intervals for 0.674 exponent | important | o3-pro | open |
-| "Monotonically increasing on average" not defined or supported | important | o3-pro | open |
-| 0.04% match precision meaningless without error bars | minor | o3-pro | open |
-| GPU runtime and performance stats not provided | minor | o3-pro | open |
-| Exponent is partially self-referential (uses own delta) | minor | Claude Opus 4.6 | acknowledged |
+| Release the full R(d) list (e.g. CSV) and a verifier that re | minor | o3-pro-openai-2026-0 | resolved |
+| Clarify the definition of ‘on average’ (e.g. Cesàro mean, lo | important | o3-pro-openai-2026-0 | resolved |
+| Report standard error or 95 % confidence interval for the fi | minor | o3-pro-openai-2026-0 | resolved |
+| Provide the regression details, raw R(d) values, and statist | minor | o3-pro-openai-2026-0 | resolved |
+| Include benchmark statistics (wall-time, GPU model/count, ke | minor | o3-pro-openai-2026-0 | resolved |

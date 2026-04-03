@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-near-rectangular-triples-the-maximum-kroneck",
+  "finding_slug": "kronecker-s40-character-table",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Supply explicit shape set and a checksum of the output so others can cross-check.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-a-1-2-k-at-n-10-6-the-number-of-uncovered-de",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "Perform a log\u2013log regression with confidence intervals and quantify goodness-of-fit; avoid stating an exponent to unit precision without such analysis",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

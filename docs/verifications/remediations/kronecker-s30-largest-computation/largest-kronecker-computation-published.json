@@ -1,0 +1,9 @@
+{
+  "issue_id": "largest-kronecker-computation-published",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "severity": "important",
+  "description": "Already addressed by the prior-work citation fix above \u2014 the hedged language 'to our knowledge' is now paired with an explicit caveat about unpublished computations. The same edit handles both the o3-pro and Opus concerns.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Already addressed by the prior-work citation fix above \u2014 the hedged language 'to our knowledge' is now paired with an explicit caveat about unpublished computations. The same edit handles both the o3-pro and Opus concerns.",
+  "resolved_at": "2026-04-03T23:51:39.683785+00:00"
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "a-complete-brute-force-enumeration-on-8-nvidia-b2",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide the exact command line, input parameters, final checksum/bit-set of covered denominators, and an external log proving that every integer 1\u20262.1",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

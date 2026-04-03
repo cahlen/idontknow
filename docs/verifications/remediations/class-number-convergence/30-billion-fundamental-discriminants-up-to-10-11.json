@@ -1,0 +1,15 @@
+{
+  "issue_id": "30-billion-fundamental-discriminants-up-to-10-11",
+  "finding_slug": "class-number-convergence",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide total wall-clock time, GPU utilisation, and validation sampling for the 27 B block.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

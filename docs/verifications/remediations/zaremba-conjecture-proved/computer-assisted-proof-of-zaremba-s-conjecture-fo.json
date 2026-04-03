@@ -1,0 +1,15 @@
+{
+  "issue_id": "computer-assisted-proof-of-zaremba-s-conjecture-fo",
+  "finding_slug": "zaremba-conjecture-proved",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "minor",
+  "description": "The proof has known certification gaps. Calling it a 'proof' is premature until gaps are closed.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

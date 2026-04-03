@@ -1,0 +1,15 @@
+{
+  "issue_id": "adding-digit-4-resolves-25-of-the-27-exceptions-l",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Publish, for each of the 25 denominators, an explicit numerator whose continued fraction uses only digits \u2264 4, and a proof (or exhaustive search log) ",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

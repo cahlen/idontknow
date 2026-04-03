@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-every-denominator-d-10-10-there-exists-a-c",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide precise algorithm, parallelisation strategy, run-time, memory usage, and publicly accessible result logs or hashes.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

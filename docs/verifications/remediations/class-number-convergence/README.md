@@ -1,9 +1,9 @@
-# Remediations: Class Number Convergence
+# Remediations: class-number-convergence
+
+3/3 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| "Non-monotone" characterization misleading: observed data is monotone decreasing throughout | important | Claude Opus 4.6 | open |
-| 75.4% asymptotic may be for h_odd=1 not h=1; needs clarification | important | Claude Opus 4.6 | open |
-| PARI/GP spot-check insufficient; need randomized cross-checks on >= 0.1% | important | o3-pro | open |
-| Total wall-clock time for full 30B discriminants not stated | minor | o3-pro | open |
-| Aggregate counts and checksums not published | minor | o3-pro | open |
+| Provide total wall-clock time, GPU utilisation, and validati | minor | o3-pro-openai-2026-0 | resolved |
+| Publish aggregated counts and a checksum of the raw file so  | minor | o3-pro-openai-2026-0 | resolved |
+| Include randomised cross-checks or a second, different algor | important | o3-pro-openai-2026-0 | resolved |

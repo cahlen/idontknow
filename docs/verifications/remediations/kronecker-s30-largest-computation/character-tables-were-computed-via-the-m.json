@@ -1,0 +1,9 @@
+{
+  "issue_id": "character-tables-were-computed-via-the-m",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "severity": "important",
+  "description": "Add explicit orthogonality error bounds and integer overflow safeguard details for n=20 and n=30.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add explicit orthogonality error bounds and integer overflow safeguard details for n=20 and n=30.",
+  "resolved_at": "2026-04-03T23:51:39.683741+00:00"
+}

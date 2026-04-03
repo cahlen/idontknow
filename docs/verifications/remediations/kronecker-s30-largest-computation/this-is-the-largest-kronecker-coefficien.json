@@ -1,0 +1,9 @@
+{
+  "issue_id": "this-is-the-largest-kronecker-coefficien",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "severity": "important",
+  "description": "Replace the vague prior-work sentence with a specific citation trail and an explicit caveat about unpublished work.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Replace the vague prior-work sentence with a specific citation trail and an explicit caveat about unpublished work.",
+  "resolved_at": "2026-04-03T23:51:39.683503+00:00"
+}

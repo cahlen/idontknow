@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-1-d-100-000-the-least-zaremba-witnes",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "minor",
+  "description": "Provide the raw list of (d,\u03b1) pairs or a checksum so that external auditors can recompute the ratios and prefixes.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address needs_clarification claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

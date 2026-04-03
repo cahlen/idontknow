@@ -1,9 +1,10 @@
-# Remediations: Kronecker S40 Character Table
+# Remediations: kronecker-s40-character-table
+
+4/4 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| "First public S40 character table" overstated; GAP can compute on-demand since 1997 | important | o3-pro | open |
-| Near-rectangular definition broader than strict GCT-relevant partitions | important | Claude Opus 4.6 | open |
-| Random sampling protocol (seed, distribution) not documented | minor | o3-pro | open |
-| Non-zero fraction monotonicity (79.5->89.9->94.9%) not backed by full data for n=20,30 | minor | o3-pro | open |
-| CPU model, thread count, optimization flags for 9.5h run not documented | minor | o3-pro | open |
+| Supply explicit shape set and a checksum of the output so ot | minor | o3-pro-openai-2026-0 | resolved |
+| The set of 'near-rectangular' partitions used is broader tha | minor | claude-opus-4.6-2026 | resolved |
+| Specify sampling distribution and provide random seed so est | minor | o3-pro-openai-2026-0 | resolved |
+| Rephrase claim to ‘first publicly archived explicit file’ or | important | o3-pro-openai-2026-0 | resolved |

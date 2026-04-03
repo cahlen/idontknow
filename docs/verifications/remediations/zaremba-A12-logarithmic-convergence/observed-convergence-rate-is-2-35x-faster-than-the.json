@@ -1,0 +1,15 @@
+{
+  "issue_id": "observed-convergence-rate-is-2-35x-faster-than-the",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01"
+  ],
+  "severity": "important",
+  "description": "The 2.35x claim compares apples and oranges. Revise to acknowledge the distinction between R(d) growth and density convergence.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from Claude Opus 4.6. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

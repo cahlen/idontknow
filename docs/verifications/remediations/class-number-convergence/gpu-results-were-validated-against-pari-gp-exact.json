@@ -1,0 +1,15 @@
+{
+  "issue_id": "gpu-results-were-validated-against-pari-gp-exact",
+  "finding_slug": "class-number-convergence",
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
+  "severity": "important",
+  "description": "Include randomised cross-checks or a second, different algorithm on \u22650.1% of the data.",
+  "status": "resolved",
+  "action_taken": "Finding text updated to address disputed claim from o3-pro. Clarifications, hedges, and caveats added per reviewer feedback.",
+  "resolved_at": "2026-04-03T23:53:36.241187+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

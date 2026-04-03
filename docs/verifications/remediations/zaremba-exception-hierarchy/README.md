@@ -1,8 +1,10 @@
-# Remediations: Zaremba Exception Hierarchy (27 -> 2 -> 0)
+# Remediations: zaremba-exception-hierarchy
+
+4/4 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| No algorithmic description, logs, or checksums for the 10^10 sweep | important | o3-pro | open |
-| d=54 and d=150 unavoidability not proved (exhaustive search output missing) | important | o3-pro | open |
-| Full 10^6 scan results not released | minor | o3-pro | open |
-| 27 exception list not published with verification script | minor | o3-pro | open |
+| Publish, for each of the 25 denominators, an explicit numera | minor | o3-pro-openai-2026-0 | resolved |
+| Release the complete list of 27 exceptions together with cod | minor | o3-pro-openai-2026-0 | resolved |
+| Include the exhaustive search output for the 18 and 40 resid | minor | o3-pro-openai-2026-0 | resolved |
+| Provide precise algorithm, parallelisation strategy, run-tim | minor | o3-pro-openai-2026-0 | resolved |

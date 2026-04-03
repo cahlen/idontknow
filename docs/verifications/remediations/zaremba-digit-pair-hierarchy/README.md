@@ -1,11 +1,15 @@
-# Remediations: Digit Pair Hierarchy (REVISE_AND_RESUBMIT)
+# Remediations: zaremba-digit-pair-hierarchy
+
+9/9 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
-| GPU timing claim (10-15s for 10^10) inconsistent with hardware capabilities | critical | o3-pro | open |
-| "Closed exception sets" is extrapolation from finite search, not proof | critical | o3-pro | open |
-| "Digit 2 is 6.9x more valuable" metric is ad hoc and based on unverified densities | important | o3-pro | open |
-| Gauss measure explanation is heuristic with no quantitative model | important | o3-pro | open |
-| k^(-3.5) decay has no regression or error bars | important | o3-pro | open |
-| No algorithmic description, FLOP counts, or output logs | important | o3-pro | open |
-| Digit-1 amplification (42-243x) depends on unverified density table | minor | o3-pro | open |
+| Four 'closed' exception sets ({1,2,3}=27, {1,2,4}=64, {1,2,5 | critical | o3-pro-openai-2026-0 | resolved |
+| Include a log-log regression with confidence interval and di | minor | o3-pro-openai-2026-0 | resolved |
+| Same as first claim. | minor | o3-pro-openai-2026-0 | resolved |
+| Clarify definition of ‘value’ and base claim on independentl | important | o3-pro-openai-2026-0 | resolved |
+| The 'digit 2 is 6.9x more valuable than digit 3' metric is a | important | o3-pro-openai-2026-0 | resolved |
+| Provide benchmark script, kernel occupancy report and total  | important | o3-pro-openai-2026-0 | resolved |
+| Provide precise algorithmic description, FLOP counts, memory | minor | o3-pro-openai-2026-0 | resolved |
+| State upper bound searched, produce full list of exceptions  | important | o3-pro-openai-2026-0 | resolved |
+| Claimed 10-15s per {1,k} pair at 10^10 on a single B200 is i | critical | o3-pro-openai-2026-0 | resolved |
