@@ -115,7 +115,7 @@ Results from this repo are published to **bigcompute.science** (sibling repo):
 - [x] Complete density sweep: all 1,023 subsets of {1,...,10} at 10^6
 - [x] {1,k} pair hierarchy at 10^10 for k=2..10 (exponential decay ~k^{-3.5})
 - [x] {2,k} pair hierarchy at 10^10 for k=3..10 (digit 1 amplifies 42-243x)
-- [x] Three closed exception sets confirmed: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374
+- [x] Four closed exception sets confirmed: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1,834
 - [x] A={1,2} logarithmic convergence: 5 data points (10^6 through 10^12), fits 31.5 + 4.47*log10(N)
 - [x] A={2,3,4,5} non-monotone convergence: 97.3→97.1→98.8% at 10^{9,10,11}
 - [x] A={3,...,10} at 10^10: 81.70% (8 digits without 1 or 2)
