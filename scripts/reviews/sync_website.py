@@ -83,6 +83,14 @@ def build_certifications(manifest):
                 for r in reviews
                 if r.get("reviewer", {}).get("model", "unknown") != "unknown"
             ],
+            "remediations": [
+                {
+                    "description": r.get("description", ""),
+                    "severity": r.get("severity", ""),
+                    "status": r.get("status", ""),
+                }
+                for r in finding.get("remediations", [])
+            ],
         })
 
     # Sort: gold first, then silver, bronze, uncertified; within each, alphabetical
