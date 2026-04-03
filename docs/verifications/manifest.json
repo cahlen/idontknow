@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-03T21:10:33Z",
+  "generated_at": "2026-04-03T21:12:16Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 15,
     "total_reviews": 41,
     "total_remediations": 10,
-    "remediations_resolved": 5,
+    "remediations_resolved": 8,
     "unique_models": 4,
     "unique_providers": 3,
     "models": [
@@ -1029,26 +1029,26 @@
           "issue_id": "borel-exclusion-single-basis",
           "severity": "critical",
           "description": "The Borel exclusion argument checks that h1 has nonzero (2,1) entry in the standard basis, but a matrix may lie in a Borel subgroup after conjugation. Must show H fixes no 1-dimensional subspace of F_p^2, not just check one basis.",
-          "status": "open",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "circular-size-estimate",
           "severity": "critical",
           "description": "Step (3) uses the presumed transitivity |orbit|=p^2-1 to lower-bound |H|, which is exactly what the argument is trying to prove, creating a circular dependency.",
-          "status": "open",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "shared-eigenvector-fallacy",
           "severity": "critical",
           "description": "The proof assumes a shared eigenvector forces a shared eigenvalue, which is false: a vector can be an eigenvector for two matrices with different eigenvalues. The Cartan-normalizer exclusion is therefore unsubstantiated.",
-          "status": "open",
+          "status": "resolved",
           "resolved_commit": ""
         }
       ],
       "issues_found": 3,
-      "issues_resolved": 0,
+      "issues_resolved": 3,
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {

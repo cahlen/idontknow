@@ -1,12 +1,14 @@
 {
   "issue_id": "borel-exclusion-single-basis",
   "finding_slug": "zaremba-transitivity-all-primes",
-  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
   "severity": "critical",
   "description": "The Borel exclusion argument checks that h1 has nonzero (2,1) entry in the standard basis, but a matrix may lie in a Borel subgroup after conjugation. Must show H fixes no 1-dimensional subspace of F_p^2, not just check one basis.",
-  "status": "open",
-  "action_taken": "",
+  "status": "resolved",
+  "action_taken": "Proof rewritten using non-circular Dickson classification. Borel: invariant-subspace analysis (eigenvectors of g1 and g2 provably distinct for p>=7). Cartan: eigenline pair analysis (4 distinct lines cannot be preserved). Exceptional: generator order exceeds 60 for p>=61. Small primes p<61 verified by BFS.",
   "resolved_by": null,
-  "resolved_at": null,
+  "resolved_at": "2026-04-03T17:10:00Z",
   "commits": []
 }

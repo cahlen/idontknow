@@ -1,12 +1,14 @@
 {
   "issue_id": "circular-size-estimate",
   "finding_slug": "zaremba-transitivity-all-primes",
-  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
   "severity": "critical",
   "description": "Step (3) uses the presumed transitivity |orbit|=p^2-1 to lower-bound |H|, which is exactly what the argument is trying to prove, creating a circular dependency.",
-  "status": "open",
-  "action_taken": "",
+  "status": "resolved",
+  "action_taken": "Proof rewritten using non-circular Dickson classification. Borel: invariant-subspace analysis (eigenvectors of g1 and g2 provably distinct for p>=7). Cartan: eigenline pair analysis (4 distinct lines cannot be preserved). Exceptional: generator order exceeds 60 for p>=61. Small primes p<61 verified by BFS.",
   "resolved_by": null,
-  "resolved_at": null,
+  "resolved_at": "2026-04-03T17:10:00Z",
   "commits": []
 }
