@@ -458,11 +458,31 @@ For each: fix (provide old_text/new_text), acknowledge (can't fix now), or disag
 JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowledge|disagree","description":"...","old_text":"...","new_text":"..."}}]}}"""
 
         try:
-            result = subprocess.run(
-                [claude_cli, "-p", prompt],
-                capture_output=True, text=True, timeout=300,
-            )
-            text = result.stdout.strip()
+            # Use httpx to call Claude API directly (faster than claude CLI)
+            import httpx
+            api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+            if api_key:
+                resp = httpx.post(
+                    "https://api.anthropic.com/v1/messages",
+                    headers={"x-api-key": api_key, "anthropic-version": "2023-06-01",
+                             "content-type": "application/json"},
+                    json={"model": "claude-sonnet-4-20250514", "max_tokens": 4000,
+                          "messages": [{"role": "user", "content": prompt}]},
+                    timeout=120.0,
+                )
+                if resp.status_code != 200:
+                    log(f"Anthropic API error: {resp.text[:200]}", "ERROR")
+                    continue
+                text = resp.json()["content"][0]["text"].strip()
+            elif claude_cli:
+                result = subprocess.run(
+                    [claude_cli, "-p", prompt],
+                    capture_output=True, text=True, timeout=300,
+                )
+                text = result.stdout.strip()
+            else:
+                log("No API key or claude CLI for remediation", "WARN")
+                continue
 
             # Extract JSON
             if "{" in text:
