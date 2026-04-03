@@ -1,0 +1,9 @@
+{
+  "issue_id": "the-bound-a-=-5-is-tight:-99.9-%-of-modu",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "severity": "important",
+  "description": "Rephrase tightness claim: the stat is about the minimal witness, not about global non-existence of A=4 witnesses. The table shows that the *smallest* witness uses quotient 5 in 99.91% of cases, but other (larger) witnesses with max quotient \u2264 4 may exist for those d.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Rephrase tightness claim: the stat is about the minimal witness, not about global non-existence of A=4 witnesses. The table shows that the *smallest* witness uses quotient 5 in 99.91% of cases, but other (larger) witnesses with max quotient \u2264 4 may exist for those d.",
+  "resolved_at": "2026-04-03T23:24:34.312584+00:00"
+}

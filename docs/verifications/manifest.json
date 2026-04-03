@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-03T21:12:16Z",
+  "generated_at": "2026-04-03T23:48:49Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 15,
     "total_reviews": 41,
-    "total_remediations": 10,
-    "remediations_resolved": 8,
+    "total_remediations": 13,
+    "remediations_resolved": 11,
     "unique_models": 4,
     "unique_providers": 3,
     "models": [
@@ -1120,9 +1120,31 @@
           "key_finding": "The observation that witnesses concentrate near 0.171 is correct and reproducible. The CF prefix [0;5,1,...] is mathematically expected. The golden ratio connection is suggestive but the 13% discrepan"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "connection-to-1-(5+phi)-where-phi-is-gol",
+          "severity": "important",
+          "description": "Soften the golden ratio connection from a claimed structural link to a heuristic observation. The 13% gap between 0.1511 and 0.1712 is too large to call a 'connection' without rigorous justification. Reframe as a structural observation about why digit 1 dominates after the leading 5.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "for-each-1-\u2264-d-\u2264-100,000,-the-least-zare",
+          "severity": "important",
+          "description": "Add data availability section with raw data reference and checksum commitment before the References section",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "the-bound-a-=-5-is-tight:-99.9-%-of-modu",
+          "severity": "important",
+          "description": "Rephrase tightness claim: the stat is about the minimal witness, not about global non-existence of A=4 witnesses. The table shows that the *smallest* witness uses quotient 5 in 99.91% of cases, but other (larger) witnesses with max quotient \u2264 4 may exist for those d.",
+          "status": "resolved",
+          "resolved_commit": ""
+        }
+      ],
+      "issues_found": 3,
+      "issues_resolved": 3,
       "last_reviewed": "2026-04-03T19:48:03Z"
     }
   }
