@@ -31,6 +31,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -229,18 +230,19 @@ def harvest(state, dry_run=False):
 # ── Phase 3: Analyze (calls Claude API) ──────────────────────
 
 def analyze_results(new_results):
-    """Call Claude API to analyze new results and determine if they're findings."""
+    """Analyze new results using claude CLI (uses Claude Code premium account)."""
+    # Try claude CLI first (uses premium account), fall back to API key
+    claude_cli = shutil.which("claude")
     api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        log("ANTHROPIC_API_KEY not set — skipping analysis. Set it for full cycle.", "WARN")
-        return []
 
-    import httpx
+    if not claude_cli and not api_key:
+        log("Neither 'claude' CLI nor ANTHROPIC_API_KEY available — skipping analysis.", "WARN")
+        return []
 
     # Load CLAUDE.md for context
     context = ""
     if CLAUDE_MD.exists():
-        context = CLAUDE_MD.read_text()[:8000]  # First 8K chars
+        context = CLAUDE_MD.read_text()[:8000]
 
     results_text = json.dumps(new_results, indent=2, default=str)
 
@@ -263,21 +265,56 @@ New results:
 {results_text}"""
 
     try:
-        resp = httpx.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={"x-api-key": api_key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={"model": "claude-sonnet-4-20250514", "max_tokens": 2000,
-                  "messages": [{"role": "user", "content": prompt}]},
-            timeout=60.0,
-        )
-        if resp.status_code != 200:
-            log(f"Claude API error {resp.status_code}: {resp.text[:200]}", "ERROR")
-            return []
+        if claude_cli:
+            log("Analyzing via claude CLI (premium account)...")
+            result = subprocess.run(
+                [claude_cli, "-p", prompt],
+                capture_output=True, text=True, timeout=120,
+            )
+            if result.returncode != 0:
+                log(f"claude CLI failed: {result.stderr[:200]}", "ERROR")
+                return []
+            text = result.stdout.strip()
+        else:
+            log("Analyzing via Anthropic API...")
+            import httpx
+            resp = httpx.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={"x-api-key": api_key, "anthropic-version": "2023-06-01",
+                         "content-type": "application/json"},
+                json={"model": "claude-sonnet-4-20250514", "max_tokens": 2000,
+                      "messages": [{"role": "user", "content": prompt}]},
+                timeout=60.0,
+            )
+            if resp.status_code != 200:
+                log(f"Claude API error {resp.status_code}: {resp.text[:200]}", "ERROR")
+                return []
+            text = resp.json()["content"][0]["text"].strip()
 
-        text = resp.json()["content"][0]["text"].strip()
-        if text.startswith("```"):
-            text = text.split("\n", 1)[1].rsplit("```", 1)[0]
+        # Parse JSON — handle mixed prose + JSON output
+        if "```" in text:
+            text = text.split("```")[1]
+            if text.startswith("json"):
+                text = text[4:]
+            text = text.strip()
+        elif "{" in text:
+            # Extract first JSON object from mixed text
+            start = text.index("{")
+            # Find matching closing brace
+            depth = 0
+            for i in range(start, len(text)):
+                if text[i] == "{":
+                    depth += 1
+                elif text[i] == "}":
+                    depth -= 1
+                    if depth == 0:
+                        text = text[start:i+1]
+                        break
         return json.loads(text).get("analyses", [])
+    except json.JSONDecodeError as e:
+        log(f"Analysis JSON parse error: {e}", "ERROR")
+        log(f"Raw response: {text[:300]}", "ERROR")
+        return []
     except Exception as e:
         log(f"Analysis failed: {e}", "ERROR")
         return []
@@ -361,18 +398,22 @@ def deploy(dry_run=False):
     for repo, name in [(REPO_ROOT, "idontknow"), (WEBSITE_ROOT, "bigcompute.science")]:
         status = subprocess.run(
             ["git", "status", "--porcelain"], cwd=str(repo),
-            capture_output=True, text=True, timeout=10
+            capture_output=True, text=True, timeout=30
         )
-        if status.stdout.strip():
-            log(f"Committing {name}...")
-            subprocess.run(["git", "add", "-A"], cwd=str(repo), timeout=10)
+        changed = [line.split()[-1] for line in status.stdout.strip().split("\n")
+                   if line.strip() and not any(x in line for x in [".bin", ".npz", ".csv", "node_modules"])]
+        if changed:
+            log(f"Committing {name} ({len(changed)} files)...")
+            # Add specific tracked files, not -A (avoids huge untracked data files)
+            for f in changed[:50]:  # cap at 50 files
+                subprocess.run(["git", "add", f], cwd=str(repo), capture_output=True, timeout=30)
             subprocess.run(
                 ["git", "commit", "-m",
                  f"research-agent: auto-update {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n"
                  f"Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"],
-                cwd=str(repo), capture_output=True, timeout=30
+                cwd=str(repo), capture_output=True, timeout=60
             )
-            subprocess.run(["git", "push"], cwd=str(repo), capture_output=True, timeout=60)
+            subprocess.run(["git", "push"], cwd=str(repo), capture_output=True, timeout=120)
             log(f"  Pushed {name}")
 
     # Deploy MCP
