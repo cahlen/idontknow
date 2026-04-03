@@ -1,12 +1,17 @@
 {
   "issue_id": "proof-title-premature",
   "finding_slug": "zaremba-conjecture-proved",
-  "found_by_reviews": ["claude-opus-4.6-2026-04-01", "o3-pro-openai-2026-04-03"],
+  "found_by_reviews": [
+    "claude-opus-4.6-2026-04-01",
+    "o3-pro-openai-2026-04-03"
+  ],
   "severity": "critical",
   "description": "Title says 'proof' but multiple gaps remain (not just one). Should be retitled 'proof framework' or 'conditional proof' until gaps are closed. o3-pro identified multiple unresolved issues beyond the claimed 'one specialist gap'.",
-  "status": "open",
-  "action_taken": "",
+  "status": "resolved",
+  "action_taken": "Renamed from \"proof\" to \"proof framework\" across all pages. Listed all 4 remaining gaps explicitly in finding text and frontmatter note. Commit 5e89f99.",
   "resolved_by": null,
-  "resolved_at": null,
-  "commits": []
+  "resolved_at": "2026-04-03T16:19:00Z",
+  "commits": [
+    "5e89f99"
+  ]
 }

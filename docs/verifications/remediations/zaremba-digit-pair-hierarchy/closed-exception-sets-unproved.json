@@ -1,12 +1,16 @@
 {
   "issue_id": "closed-exception-sets-unproved",
   "finding_slug": "zaremba-digit-pair-hierarchy",
-  "found_by_reviews": ["o3-pro-openai-2026-04-03"],
+  "found_by_reviews": [
+    "o3-pro-openai-2026-04-03"
+  ],
   "severity": "critical",
   "description": "Four 'closed' exception sets ({1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1834) are declared closed based on finite search up to 10^11, but no completeness certificate or branch-and-bound argument is provided. Current literature establishes only 'full density' not finite-exception results. Should be rephrased as conjectural.",
-  "status": "open",
-  "action_taken": "",
+  "status": "resolved",
+  "action_taken": "Changed \"confirmed closed\" to \"computationally observed, no new exceptions when extending search range.\" Added caveat: cannot rigorously prove finiteness. Commit 5e89f99.",
   "resolved_by": null,
-  "resolved_at": null,
-  "commits": []
+  "resolved_at": "2026-04-03T16:19:00Z",
+  "commits": [
+    "5e89f99"
+  ]
 }
