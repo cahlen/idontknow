@@ -703,6 +703,15 @@ def deploy(dry_run=False, direct_push=False):
                 capture_output=True, text=True, timeout=120
             )
 
+        # Ping search engines about updated content
+        indexnow_script = REPO_ROOT / "scripts" / "indexnow.py"
+        if indexnow_script.exists():
+            log("Pinging search engines (IndexNow + Google)...")
+            subprocess.run(
+                [sys.executable, str(indexnow_script)],
+                capture_output=True, text=True, timeout=30
+            )
+
 
 # ── Phase 8: Plan Next ───────────────────────────────────────
 
