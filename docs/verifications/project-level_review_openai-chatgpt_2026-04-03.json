@@ -1,0 +1,47 @@
+{
+  "finding_slug": "_project-level",
+  "review_id": "chatgpt-project-review-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "ChatGPT",
+    "model_provider": "OpenAI",
+    "notes": "Project-level editorial review of all 15 findings. Not a claim-by-claim audit — an assessment of citability and public trustworthiness."
+  },
+  "reviewed_at": "2026-04-03T21:30:00Z",
+  "review_type": "project-level-editorial",
+  "ranking": {
+    "safe_to_cite": [
+      "gpu-matrix-enumeration-175x",
+      "kronecker-s30-largest-computation",
+      "kronecker-s40-character-table",
+      "class-number-convergence",
+      "zaremba-exception-hierarchy",
+      "zaremba-representation-growth"
+    ],
+    "cite_with_caveats": [
+      "zaremba-density-phase-transition",
+      "zaremba-digit-pair-hierarchy",
+      "zaremba-A12-logarithmic-convergence",
+      "hausdorff-digit-one-dominance",
+      "zaremba-cayley-diameters",
+      "zaremba-spectral-gaps-uniform",
+      "zaremba-witness-golden-ratio"
+    ],
+    "do_not_cite_as_established": [
+      "zaremba-transitivity-all-primes",
+      "zaremba-conjecture-proved"
+    ]
+  },
+  "overall_assessment": "The site is worth citing for large computations, datasets, kernels, and numerical experiments. It is not yet safe to cite as authority for major new proofs or theorem-level closure, especially around the Zaremba transitivity and A=5 proof-framework claims. Best understood as an open computational lab notebook, not a source of settled mathematical claims.",
+  "recommended_citation_verbs": {
+    "safe": ["computed", "archived", "benchmarked", "observed", "fit", "checked", "released"],
+    "caveat": ["suggests", "appears", "is consistent with", "within the tested range", "preliminary numerical evidence"],
+    "unsafe": ["draft argument", "unverified framework", "not independently validated", "should not be treated as established"]
+  },
+  "followup_corrections_accepted": [
+    "Transitivity page was substantially rewritten after o3-pro review — addresses specific logic errors, though still not formalized",
+    "Proof framework rho_eta now arb-certified (not just FP64) — acknowledged as genuine upgrade",
+    "Spectral gaps N=15 accuracy caveat now present on the page — reviewer agreed this was important",
+    "H1 contradiction (Computer-Assisted Proof vs Proof Framework) — caught by reviewer, fixed"
+  ]
+}
