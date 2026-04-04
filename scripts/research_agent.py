@@ -824,12 +824,12 @@ Respond with JSON only (no markdown):
             log_path = REPO_ROOT / log_file
             log_path.parent.mkdir(parents=True, exist_ok=True)
 
-            # Launch
+            # Launch with stdbuf for line-buffered output to log file
             env = os.environ.copy()
             env["CUDA_VISIBLE_DEVICES"] = str(gpu)
             with open(log_path, "w") as lf:
                 subprocess.Popen(
-                    cmd.split(),
+                    ["stdbuf", "-oL"] + cmd.split(),
                     stdout=lf, stderr=subprocess.STDOUT,
                     env=env, cwd=str(REPO_ROOT),
                 )
