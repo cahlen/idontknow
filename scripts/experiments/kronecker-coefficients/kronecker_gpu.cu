@@ -87,14 +87,31 @@ int main(int argc, char **argv) {
             printf("  j=%d/%d (%.0f%%) %llu nz, max=%llu, %.0fs, ETA %.0fs\n",
                    j, P, 100.0*j/P, total_nz, global_max, el, eta);
             fflush(stdout);
+
+            // Checkpoint: save running stats so partial results survive if killed
+            char ckpt[256];
+            snprintf(ckpt, 256, "scripts/experiments/kronecker-coefficients/results/checkpoint_n%d.txt", n);
+            FILE *fc_out = fopen(ckpt, "w");
+            if (fc_out) {
+                fprintf(fc_out, "n=%d\nP=%d\nslab=%d/%d\nnonzero=%llu\nmax=%llu\nelapsed=%.1f\n",
+                        n, P, j+1, P, total_nz, global_max, el);
+                fclose(fc_out);
+            }
         }
     }
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double total = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
     printf("\n========================================\n");
+    printf("RESULTS\n");
+    printf("========================================\n");
     printf("S_%d Kronecker (GPU-only)\nP=%d, nonzero=%llu, max=%llu\nTime: %.1fs\n",
            n, P, total_nz, global_max, total);
     printf("========================================\n");
+
+    // Clean up checkpoint
+    char ckpt[256];
+    snprintf(ckpt, 256, "scripts/experiments/kronecker-coefficients/results/checkpoint_n%d.txt", n);
+    remove(ckpt);
     free(h_ct); free(h_z);
     cudaFree(d_ct); cudaFree(d_z); cudaFree(d_out); cudaFree(d_nz); cudaFree(d_mx);
 }
