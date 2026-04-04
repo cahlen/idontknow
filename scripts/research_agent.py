@@ -301,12 +301,12 @@ def call_llm(prompt, purpose="task"):
     gemini_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
     if gemini_key:
         try:
-            log(f"  [{purpose}] via Gemini API (gemini-2.5-flash)...")
+            log(f"  [{purpose}] via Gemini API (gemini-3-flash)...")
             gemini_prompt = prompt if "json" in prompt.lower() else prompt + "\nRespond with JSON."
             resp = httpx.post(
                 "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
                 headers={"Authorization": f"Bearer {gemini_key}", "Content-Type": "application/json"},
-                json={"model": "gemini-2.5-flash", "messages": [{"role": "user", "content": gemini_prompt}],
+                json={"model": "gemini-3-flash", "messages": [{"role": "user", "content": gemini_prompt}],
                       "max_completion_tokens": 4000},
                 timeout=120.0,
             )
