@@ -17,7 +17,12 @@ export OPENAI_API_KEY='sk-...'   # for peer reviews (optional)
 ./scripts/run_agent.sh --loop 10m # autonomous loop every 10 minutes
 ```
 
-The agent uses your Claude Code account for analysis (via `claude -p`), runs peer reviews through OpenAI o3-pro/gpt-4.1, creates remediation records for every issue found, and commits + pushes all changes. No separate Anthropic API key needed if you have Claude Code installed.
+The agent works with **any one** of these (in priority order):
+1. **Claude Code** installed — uses `claude -p`, no API key needed
+2. **Anthropic API key** — `export ANTHROPIC_API_KEY='sk-ant-...'`
+3. **OpenAI API key** — `export OPENAI_API_KEY='sk-proj-...'`
+
+One key is enough for the full cycle. Having both gives you multi-model peer reviews (diverse perspectives catch more errors). The agent auto-detects what's available and falls back gracefully.
 
 See `scripts/research_agent.py` for the full source (single file, ~600 lines, no framework dependencies).
 
