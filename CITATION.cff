@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Humphreys
     given-names: Cahlen
-    affiliation: "Enfuse.io / bigcompute.science"
+    affiliation: "bigcompute.science"
 repository-code: "https://github.com/cahlen/idontknow"
 url: "https://bigcompute.science"
 abstract: >-
