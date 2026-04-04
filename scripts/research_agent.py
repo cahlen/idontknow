@@ -568,6 +568,27 @@ def deploy(dry_run=False):
         log("[DRY RUN] Would build, commit, push, deploy")
         return
 
+    # Update changelog from git history
+    log("Updating changelog...")
+    try:
+        git_log = subprocess.run(
+            ["git", "log", "--oneline", "--format={\"hash\":\"%h\",\"date\":\"%ad\",\"message\":\"%s\"}",
+             "--date=format:%b %d", "-10"],
+            cwd=str(WEBSITE_ROOT), capture_output=True, text=True, timeout=10
+        )
+        if git_log.returncode == 0:
+            entries = []
+            for line in git_log.stdout.strip().split("\n"):
+                try:
+                    entries.append(json.loads(line))
+                except json.JSONDecodeError:
+                    pass
+            changelog_path = WEBSITE_ROOT / "src" / "data" / "changelog.json"
+            with open(changelog_path, "w") as f:
+                json.dump(entries, f, indent=2)
+    except Exception as e:
+        log(f"Changelog update failed: {e}", "WARN")
+
     # Build website
     log("Building website...")
     result = subprocess.run(
