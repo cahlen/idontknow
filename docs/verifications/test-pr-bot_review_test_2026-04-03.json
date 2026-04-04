@@ -1,0 +1,23 @@
+{
+  "finding_slug": "kronecker-s30-largest-computation",
+  "review_id": "test-pr-bot-v2",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gemini-2.5-flash",
+    "model_provider": "Google"
+  },
+  "reviewed_at": "2026-04-03T22:30:00Z",
+  "claim_reviews": [
+    {
+      "claim": "26.4B nonzero Kronecker coefficients for S_30",
+      "verdict": "VERIFIED",
+      "evidence": "Test review from Colab user.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Test review for PR bot v2 validation.",
+  "recommendations": [],
+  "certification_recommendation": "silver",
+  "certification_justification": "Test."
+}
