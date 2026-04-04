@@ -591,11 +591,23 @@ JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowl
 
 # ── Phase 7: Deploy ──────────────────────────────────────────
 
-def deploy(dry_run=False):
-    """Build website, commit both repos, deploy MCP."""
+def deploy(dry_run=False, direct_push=False):
+    """Build website, commit both repos, deploy MCP.
+
+    By default, creates a branch and opens a PR (safe for contributors).
+    With --direct-push, pushes to main (for repo owner only).
+    """
     if dry_run:
         log("[DRY RUN] Would build, commit, push, deploy")
         return
+
+    branch_name = None
+    if not direct_push:
+        branch_name = f"agent/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        log(f"Creating branch: {branch_name} (use --direct-push to push to main)")
+        for repo in [REPO_ROOT, WEBSITE_ROOT]:
+            subprocess.run(["git", "checkout", "-b", branch_name], cwd=str(repo),
+                          capture_output=True, timeout=10)
 
     # Update changelog from git history
     log("Updating changelog...")
@@ -629,6 +641,7 @@ def deploy(dry_run=False):
         return
 
     # Check if there are changes to commit
+    any_changes = False
     for repo, name in [(REPO_ROOT, "idontknow"), (WEBSITE_ROOT, "bigcompute.science")]:
         status = subprocess.run(
             ["git", "status", "--porcelain"], cwd=str(repo),
@@ -637,9 +650,9 @@ def deploy(dry_run=False):
         changed = [line.split()[-1] for line in status.stdout.strip().split("\n")
                    if line.strip() and not any(x in line for x in [".bin", ".npz", ".csv", "node_modules"])]
         if changed:
+            any_changes = True
             log(f"Committing {name} ({len(changed)} files)...")
-            # Add specific tracked files, not -A (avoids huge untracked data files)
-            for f in changed[:50]:  # cap at 50 files
+            for f in changed[:50]:
                 subprocess.run(["git", "add", f], cwd=str(repo), capture_output=True, timeout=30)
             subprocess.run(
                 ["git", "commit", "-m",
@@ -647,17 +660,48 @@ def deploy(dry_run=False):
                  f"Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"],
                 cwd=str(repo), capture_output=True, timeout=60
             )
-            subprocess.run(["git", "push"], cwd=str(repo), capture_output=True, timeout=120)
-            log(f"  Pushed {name}")
 
-    # Deploy MCP
-    mcp_dir = WEBSITE_ROOT / "workers" / "mcp"
-    if mcp_dir.exists():
-        log("Deploying MCP worker...")
-        subprocess.run(
-            ["npx", "wrangler", "deploy"], cwd=str(mcp_dir),
-            capture_output=True, text=True, timeout=120
-        )
+            if direct_push:
+                subprocess.run(["git", "push"], cwd=str(repo), capture_output=True, timeout=120)
+                log(f"  Pushed {name} to main")
+            elif branch_name:
+                subprocess.run(["git", "push", "-u", "origin", branch_name],
+                              cwd=str(repo), capture_output=True, timeout=120)
+                log(f"  Pushed {name} to branch {branch_name}")
+
+    # Open PR if on a branch
+    if branch_name and any_changes:
+        for repo, name in [(REPO_ROOT, "idontknow"), (WEBSITE_ROOT, "bigcompute.science")]:
+            try:
+                result = subprocess.run(
+                    ["gh", "pr", "create", "--title",
+                     f"research-agent: auto-update {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+                     "--body", "Automated update by the research agent.\n\nReview the changes before merging.",
+                     "--base", "main"],
+                    cwd=str(repo), capture_output=True, text=True, timeout=30
+                )
+                if result.returncode == 0:
+                    pr_url = result.stdout.strip()
+                    log(f"  PR opened for {name}: {pr_url}")
+                else:
+                    log(f"  PR creation skipped for {name} (gh not available or no changes)")
+            except (FileNotFoundError, subprocess.TimeoutExpired):
+                log(f"  PR creation skipped for {name} (gh CLI not installed)")
+
+        # Return to main
+        for repo in [REPO_ROOT, WEBSITE_ROOT]:
+            subprocess.run(["git", "checkout", "main"], cwd=str(repo),
+                          capture_output=True, timeout=10)
+
+    # Deploy MCP only on direct push (PRs get deployed after merge)
+    if direct_push:
+        mcp_dir = WEBSITE_ROOT / "workers" / "mcp"
+        if mcp_dir.exists():
+            log("Deploying MCP worker...")
+            subprocess.run(
+                ["npx", "wrangler", "deploy"], cwd=str(mcp_dir),
+                capture_output=True, text=True, timeout=120
+            )
 
 
 # ── Phase 8: Plan Next ───────────────────────────────────────
@@ -860,7 +904,7 @@ def tick(args, state):
     # Phase 7: Deploy
     if not phase or phase == "deploy":
         if analyses or (phase == "deploy"):
-            deploy(dry_run)
+            deploy(dry_run, direct_push=args.direct_push)
 
     # Phase 8: Plan
     if not phase or phase == "plan":
@@ -893,6 +937,7 @@ def main():
     parser.add_argument("--models", help="Comma-separated review models (default: gpt-4.1)")
     parser.add_argument("--dry-run", action="store_true", help="Report only, no changes")
     parser.add_argument("--auto-launch", action="store_true", help="Auto-launch experiments (off by default)")
+    parser.add_argument("--direct-push", action="store_true", help="Push directly to main (default: create branch + PR)")
     args = parser.parse_args()
 
     state = load_state()

@@ -24,7 +24,17 @@ The agent works with **any one** of these (in priority order):
 
 One key is enough for the full cycle. Having both gives you multi-model peer reviews (diverse perspectives catch more errors). The agent auto-detects what's available and falls back gracefully.
 
-See `scripts/research_agent.py` for the full source (single file, ~600 lines, no framework dependencies).
+**Governance:** By default, the agent creates a **branch and opens a PR** — it never pushes directly to main. A human reviews and merges. Only the repo owner uses `--direct-push` for their own running instance. This ensures no autonomous AI modifies published scientific claims without human sign-off.
+
+```bash
+# Default (safe): creates branch + PR for human review
+./scripts/run_agent.sh
+
+# Repo owner only: push directly to main
+./scripts/run_agent.sh --direct-push
+```
+
+See `scripts/research_agent.py` for the full source (single file, no framework dependencies).
 
 ### Other Ways to Help
 
