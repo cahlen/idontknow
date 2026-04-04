@@ -2,47 +2,81 @@
 
 GPU-accelerated computational mathematics — exploring open conjectures with custom CUDA kernels, interval arithmetic, and heavy compute on NVIDIA B200 + RTX 5090.
 
-**This work is produced through human–AI collaboration.** CUDA kernels, mathematical arguments, documentation, and analysis are developed jointly by [Cahlen Humphreys](https://github.com/cahlen) and AI agents (Claude). No results have been independently peer-reviewed. All claims are grounded in computational evidence and reproducible code — not formal proof unless explicitly stated. Everything is open for independent verification.
+**Human–AI collaborative research.** CUDA kernels, mathematical arguments, review infrastructure, and documentation developed jointly by [Cahlen Humphreys](https://github.com/cahlen) and AI agents (Claude Opus 4.6, o3-pro, GPT-5.2, Grok). Not peer-reviewed. All claims grounded in computational evidence and reproducible code. Everything open for independent verification.
 
-Results published openly at [bigcompute.science](https://bigcompute.science). Raw data on [Hugging Face](https://huggingface.co/cahlen).
+Results: [bigcompute.science](https://bigcompute.science) · Data: [Hugging Face](https://huggingface.co/cahlen) · MCP: [mcp.bigcompute.science](https://mcp.bigcompute.science/mcp) (23 tools, no auth)
+
+## Quick Start
+
+```bash
+# Run the research agent (needs one API key: Gemini free, or OpenAI, or Anthropic)
+export GEMINI_API_KEY='AIza...'   # free at aistudio.google.com/apikey
+./scripts/run_agent.sh             # one cycle: monitor → harvest → analyze → review → deploy
+./scripts/run_agent.sh --loop 10m  # autonomous loop
+```
+
+Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_research_agent.ipynb) — free T4 GPU, auto-compile, run experiments on open conjectures.
 
 ## Experiments
 
-| Experiment | Method | Key Result | Status |
-|---|---|---|---|
-| **Zaremba's Conjecture** | GPU brute force (210B) + MOW spectral theory + arb interval arithmetic | Computer-assisted proof framework for all d ≥ 1. D₀ ≈ 3.4×10¹⁰.  Not yet peer-reviewed. AI-audited by Claude Opus 4.6 + Grok (xAI). | [Paper](paper/zaremba-proof.pdf) |
-| **Ramsey R(5,5)** | SA + exhaustive extension + 4-SAT (Glucose3) | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
-| **Class Numbers** | GPU sieve + CF regulator (log-space) + Euler product (9592 primes) | 30B discriminants for d ∈ [10⁹, 10¹¹]. h=1 rate falls to 0 (genus theory). Odd-part convergence to C-L extremely slow. | In progress |
-| **Hausdorff Spectrum** | Transfer operator + Chebyshev collocation on RTX 5090 | To our knowledge, first complete dim_H for all 2²⁰ - 1 subsets of {1,...,20} | Complete |
-| **Lyapunov Spectrum** | Transfer operator eigenvalue computation | All 1,048,575 subsets | Complete |
-| **Minkowski ?(x)** | Multifractal analysis | To our knowledge, first numerical singularity spectrum f(α) | Complete |
-| **Flint Hills Series** | Quad-double CUDA arithmetic | Partial sums to 10¹⁰ | Complete |
-| **LLM Theorem Proving** | Goedel-Prover + Kimina-Prover → Lean 4 | 19/20 formal proofs | Complete |
-| **Kronecker Coefficients** | GPU MN rule + slab-parallel triple-sum | S_20, S_30 (26.4B nonzero), S_40 char table done. Triple-sum needs int128. | In progress |
-| **Ramanujan Machine** | GPU polynomial CF evaluation + constant matching | 586B candidates through deg 7, zero transcendental formulas | In progress |
-| **Zaremba Density** | GPU inverse-CF construction + bitset | Phase transition, 3 closed exception sets, {1,k} hierarchy, A={1,2} log convergence | In progress |
+| Experiment | Key Result | Status |
+|---|---|---|
+| **Zaremba Conjecture** | Proof framework (not complete proof). 210B verified, ρ_η ≤ 0.7606 (arb-certified, 77 digits). 4 gaps remain. | [Paper](paper/zaremba-proof.pdf) |
+| **Zaremba Density** | 4 closed exception sets: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1,834. A={1,2} logarithmic convergence. | In progress |
+| **Ramsey R(5,5)** | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
+| **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ computing. | In progress |
+| **Class Numbers** | 30B discriminants. h=1 rate falls to 0 (genus theory). | In progress |
+| **Hausdorff Spectrum** | First complete dim_H for all 2²⁰-1 subsets of {1,...,20}. | Complete |
+| **Ramanujan Machine** | 586B candidates through degree 7, zero transcendental formulas. | In progress |
+| **Lyapunov Spectrum** | All 1,048,575 Lyapunov exponents. | Complete |
+| **Minkowski ?(x)** | First numerical singularity spectrum f(α). | Complete |
+| **Flint Hills** | Partial sums to 10¹⁰. | Complete |
+
+## Review Infrastructure
+
+Every finding is AI-audited claim-by-claim by multiple models. Currently **41 reviews** from **4 models** across **3 providers**.
+
+```bash
+# Run a review (any OpenAI-compatible API)
+export API_KEY='...'
+python3 scripts/reviews/run_review.py --slug kronecker-s40-character-table --model gemini-2.5-flash --provider google --api-base https://generativelanguage.googleapis.com/v1beta/openai
+
+# Rebuild manifest + website data
+python3 scripts/reviews/aggregate.py
+python3 scripts/reviews/sync_website.py
+```
+
+- **Review scripts**: [`scripts/reviews/`](scripts/reviews/) — run, aggregate, validate, sync
+- **Manifest**: [`docs/verifications/manifest.json`](docs/verifications/manifest.json) — single source of truth
+- **Remediations**: [`docs/verifications/remediations/`](docs/verifications/remediations/) — per-finding issue tracking with commit links
+- **PR Bot**: [`.github/workflows/pr-review.yml`](.github/workflows/pr-review.yml) — auto-validates PRs, scans for secrets, labels
+
+## Research Agent
+
+Autonomous loop: Monitor → Harvest → Analyze → Review → Remediate → Deploy → Plan.
+
+```bash
+./scripts/run_agent.sh                         # one cycle
+./scripts/run_agent.sh --loop 10m              # autonomous
+./scripts/run_agent.sh --loop 10m --auto-launch # + launch experiments on free GPUs
+```
+
+Works with any ONE of: Claude Code (no key needed), Anthropic API, OpenAI API, or Gemini API (free). Auto-detects what's available. Default: creates branch + PR (safe). `--direct-push` for repo owner.
+
+Source: [`scripts/research_agent.py`](scripts/research_agent.py)
 
 ## Structure
 
 ```
-paper/                          # Zaremba proof paper (LaTeX + PDF)
-scripts/experiments/
-  zaremba-effective-bound/      # Brute force, spectral gaps, Dolgopyat, arb certification
-  ramsey-r55/                   # SA kernels, extension search, 4-SAT, Exoo data
-  class-numbers/                # GPU sieve, regulator, L-function, Cohen-Lenstra stats
-  hausdorff-dimension-spectrum/ # Transfer operator eigenvalue computation
-  lyapunov-exponent-spectrum/   # Lyapunov exponent computation
-  minkowski-spectrum/           # Multifractal singularity spectrum
-  flint-hills/                  # Quad-double partial sums
-  ramanujan-machine/            # Polynomial CF formula discovery (586B candidates)
-  zaremba-density/              # Zaremba density computations + phase transition
-  ramanujan-machine/            # Polynomial CF formula discovery
-  zaremba-density/              # Zaremba density computations
-  mcts-proof-search/            # LLM + MCTS for theorem proving
-lean4-proving/                  # Lean 4 formalizations + LLM proving loop
-data/                           # Raw computation output (large files on HF)
-logs/                           # Computation logs
-docs/                           # Research notes
+scripts/experiments/             CUDA kernels and Python harnesses per experiment
+scripts/reviews/                 AI peer review infrastructure
+scripts/research_agent.py        Autonomous research loop
+docs/verifications/              Review JSONs, manifest, remediations
+docs/verifications/remediations/ Per-finding issue tracking with commit links
+paper/                           Zaremba proof paper (LaTeX + PDF)
+data/                            Raw computation output (large files on HF)
+logs/                            Computation logs
+.github/workflows/               PR bot (auto-validate, scan for secrets, label)
 ```
 
 ## Hardware
@@ -51,38 +85,19 @@ docs/                           # Research notes
 |---|---|---|---|
 | **B200 Cluster** | 8× NVIDIA B200 | 1.43 TB (NVLink 5) | Primary compute |
 | **Local** | RTX 5090 | 32 GB | Development + smaller experiments |
+| **Colab** | T4 (free) / A100 / L4 | 16-80 GB | Distributed contributions |
 
-## Key Technical Details
+## Contribute
 
-### Zaremba Computer-Assisted Proof Framework (not yet peer-reviewed)
-- Brute force: 210B denominators verified, zero failures (6962s on 8×B200)
-- Spectral gaps: MPFR 256-bit certified (σ_p ≥ 0.651 for 11 covering primes)
-- Dolgopyat bound: ρ_η ≤ 0.771 via arb ball arithmetic (FLINT, 70 certified digits)
-- 7 of 8 constants interval-certified via arb/MPFR; C1 bounded by mpmath
-- MOW theorem matching verified against actual paper (Crelle 2019)
-- Transitivity argument via Dickson's classification (AI-assisted, not independently verified)
+1. **Colab** — [Open notebook](https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_research_agent.ipynb), compile kernels on free GPU, run experiments
+2. **Agent** — Clone, set one API key, `./scripts/run_agent.sh`
+3. **PR** — Add review JSONs or experiment logs, PR bot validates automatically
 
-### Ramsey R(5,5)
-- Fixed critical initialization bug (adj[i]=0 inside loop destroyed back-edges)
-- Exhaustive: 2⁴² = 4.4T extensions of Exoo's K₄₂ → zero valid (130s on 8×B200)
-- 4-SAT: all 656 K₄₂ colorings checked in 3 seconds (Glucose3)
-- Direct K₄₃ SAT (903 vars, 1.9M clauses) remains open
-
-### Class Numbers
-- GPU sieve + CF regulator + Euler product — all on-device, 1.5M disc/sec
-- Regulator: CF of √(d/4) for d≡0 mod 4, CF of (1+√d)/2 with reduced-state cycle detection for d≡1 mod 4
-- Validated: exact match with PARI/GP on 1000 discriminants
-- Finding: Cohen-Lenstra h=1 convergence is non-monotone (42% at d~10⁴ → 17% at d~10¹⁰)
-
-## Data Preservation
-
-All raw data from GPU computations is preserved:
-- **Small data** (< 100MB): committed to `data/` in this repo
-- **Large data** (> 100MB): uploaded to [Hugging Face](https://huggingface.co/cahlen) as datasets
-- All computations logged with timestamps, parameters, and aggregate statistics
+See [AGENTS.md](AGENTS.md) for the full contribution guide.
 
 ## Related
 
-- **[bigcompute.science](https://bigcompute.science)** — Publishing platform for results
-- **[bigcompute.science repo](https://github.com/cahlen/bigcompute.science)** — Website source (Astro + KaTeX)
-- **[/llms.txt](https://bigcompute.science/llms.txt)** — Agent-consumable structured data
+- **[bigcompute.science](https://bigcompute.science)** — Results + audit dashboard
+- **[MCP Server](https://mcp.bigcompute.science/mcp)** — 23 tools, no auth (arXiv, zbMATH, OEIS, LMFDB, Lean/Mathlib)
+- **[Hugging Face](https://huggingface.co/cahlen)** — Datasets (class numbers, Kronecker, spectra, Zaremba)
+- **[llms.txt](https://bigcompute.science/llms.txt)** — Agent-consumable structured index
