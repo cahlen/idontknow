@@ -1,0 +1,249 @@
+name: PR Review Bot
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'docs/verifications/**'
+      - 'scripts/experiments/**/results/**'
+      - 'data/**'
+      - 'logs/**'
+
+jobs:
+  classify:
+    name: Classify PR
+    runs-on: ubuntu-latest
+    outputs:
+      pr_type: ${{ steps.classify.outputs.type }}
+      has_secrets: ${{ steps.secrets.outputs.found }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Classify PR content
+        id: classify
+        run: |
+          FILES=$(git diff --name-only origin/main...HEAD)
+          echo "Changed files:"
+          echo "$FILES"
+
+          if echo "$FILES" | grep -q 'docs/verifications/.*review.*\.json'; then
+            echo "type=review" >> $GITHUB_OUTPUT
+          elif echo "$FILES" | grep -q 'scripts/experiments/.*/results/\|data/\|logs/'; then
+            echo "type=experiment" >> $GITHUB_OUTPUT
+          else
+            echo "type=other" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Scan for secrets
+        id: secrets
+        run: |
+          # Check for real API keys in changed files
+          FILES=$(git diff --name-only origin/main...HEAD)
+          FOUND="false"
+          for f in $FILES; do
+            if [ -f "$f" ]; then
+              if grep -qE 'sk-ant-api[0-9]{2}-[A-Za-z]|sk-proj-[A-Za-z0-9]{20,}|AIza[A-Za-z0-9_-]{30,}' "$f"; then
+                echo "::error file=$f::Possible API key detected in $f"
+                FOUND="true"
+              fi
+            fi
+          done
+          echo "found=$FOUND" >> $GITHUB_OUTPUT
+
+      - name: Block if secrets found
+        if: steps.secrets.outputs.found == 'true'
+        run: |
+          echo "::error::PR contains what appears to be an API key. Remove it and force-push."
+          exit 1
+
+  validate-review:
+    name: Validate Review JSON
+    needs: classify
+    if: needs.classify.outputs.pr_type == 'review'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate review JSONs
+        run: |
+          # Find new/changed review files in this PR
+          FILES=$(git diff --name-only origin/main...HEAD | grep 'docs/verifications/.*\.json' || true)
+
+          if [ -z "$FILES" ]; then
+            echo "No review JSONs to validate"
+            exit 0
+          fi
+
+          echo "Validating review files:"
+          echo "$FILES"
+
+          ERRORS=0
+          for f in $FILES; do
+            if [ -f "$f" ]; then
+              python3 scripts/reviews/validate.py "$f" || ERRORS=$((ERRORS + 1))
+            fi
+          done
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::$ERRORS review file(s) failed validation"
+            exit 1
+          fi
+          echo "All review files valid"
+
+      - name: Check review schema
+        run: |
+          FILES=$(git diff --name-only origin/main...HEAD | grep 'docs/verifications/.*\.json' || true)
+
+          python3 -c "
+          import json, sys
+
+          files = '''$FILES'''.strip().split('\n')
+          for f in files:
+              f = f.strip()
+              if not f: continue
+              try:
+                  with open(f) as fh:
+                      d = json.load(fh)
+                  slug = d.get('finding_slug', '')
+                  reviewer = d.get('reviewer', {}).get('model', '?')
+                  verdict = d.get('overall_verdict', '?')
+                  print(f'  OK: {slug} reviewed by {reviewer} -> {verdict}')
+              except Exception as e:
+                  print(f'  FAIL: {f}: {e}')
+                  sys.exit(1)
+          "
+
+      - name: Post summary comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const files = execSync('git diff --name-only origin/main...HEAD').toString().trim().split('\n');
+            const reviewFiles = files.filter(f => f.includes('docs/verifications/') && f.endsWith('.json'));
+
+            let body = '## Review PR Validated\n\n';
+            body += `${reviewFiles.length} review file(s) passed validation.\n\n`;
+
+            for (const f of reviewFiles) {
+              try {
+                const data = JSON.parse(require('fs').readFileSync(f, 'utf8'));
+                const model = data.reviewer?.model || '?';
+                const verdict = data.overall_verdict || '?';
+                const slug = data.finding_slug || '?';
+                body += `- **${slug}**: ${model} → \`${verdict}\`\n`;
+              } catch (e) {}
+            }
+
+            body += '\n> Auto-validated by PR Review Bot. Ready for merge.';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+  validate-experiment:
+    name: Validate Experiment Data
+    needs: classify
+    if: needs.classify.outputs.pr_type == 'experiment'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate experiment logs
+        run: |
+          FILES=$(git diff --name-only origin/main...HEAD | grep -E 'results/.*\.log$|data/.*\.log$|logs/.*\.log$' || true)
+
+          if [ -z "$FILES" ]; then
+            echo "No experiment logs to validate"
+            exit 0
+          fi
+
+          echo "Checking experiment logs:"
+
+          python3 -c "
+          import sys
+
+          files = '''$FILES'''.strip().split('\n')
+          valid = 0
+          for f in files:
+              f = f.strip()
+              if not f: continue
+              try:
+                  with open(f) as fh:
+                      content = fh.read()
+                  has_results = 'RESULTS' in content or ('Time:' in content and ('Density:' in content or 'Uncovered:' in content))
+                  size = len(content)
+                  print(f'  {\"OK\" if has_results else \"INCOMPLETE\"}: {f} ({size} bytes)')
+                  if has_results:
+                      valid += 1
+              except Exception as e:
+                  print(f'  ERROR: {f}: {e}')
+
+          print(f'\n{valid}/{len([f for f in files if f.strip()])} logs contain results')
+          "
+
+      - name: Post summary comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const files = execSync('git diff --name-only origin/main...HEAD').toString().trim().split('\n');
+            const logs = files.filter(f => f.endsWith('.log'));
+
+            let body = '## Experiment Data PR\n\n';
+            body += `${logs.length} log file(s) submitted.\n\n`;
+
+            for (const f of logs) {
+              try {
+                const content = require('fs').readFileSync(f, 'utf8');
+                const hasResults = content.includes('RESULTS') || (content.includes('Time:') && content.includes('Density:'));
+                body += `- \`${f}\`: ${hasResults ? 'Complete' : 'Incomplete'}\n`;
+              } catch (e) {}
+            }
+
+            body += '\n> Auto-validated by PR Review Bot. Experiment data ready for review.';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+  auto-label:
+    name: Auto-label PR
+    runs-on: ubuntu-latest
+    needs: classify
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const type = '${{ needs.classify.outputs.pr_type }}';
+            const labels = {
+              'review': ['ai-review', 'auto-validated'],
+              'experiment': ['experiment-data', 'auto-validated'],
+              'other': ['needs-review']
+            };
+
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labels[type] || ['needs-review']
+            });
