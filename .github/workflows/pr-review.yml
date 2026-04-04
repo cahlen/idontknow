@@ -9,9 +9,62 @@ on:
       - 'data/**'
       - 'logs/**'
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
+  # Gate: reject obviously bad PRs before burning CI minutes
+  gate:
+    name: PR Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR size (reject massive PRs)
+        run: |
+          FILE_COUNT=$(git diff --name-only origin/main...HEAD | wc -l)
+          TOTAL_SIZE=$(git diff --stat origin/main...HEAD | tail -1 | grep -oP '\d+ insertion' | grep -oP '\d+' || echo "0")
+
+          echo "Files changed: $FILE_COUNT"
+          echo "Lines added: $TOTAL_SIZE"
+
+          if [ "$FILE_COUNT" -gt 50 ]; then
+            echo "::error::PR has $FILE_COUNT changed files (max 50). Split into smaller PRs."
+            exit 1
+          fi
+
+      - name: Check for binary/large files
+        run: |
+          LARGE=$(git diff --name-only origin/main...HEAD | while read f; do
+            if [ -f "$f" ]; then
+              SIZE=$(wc -c < "$f")
+              if [ "$SIZE" -gt 10485760 ]; then  # 10MB
+                echo "$f ($SIZE bytes)"
+              fi
+            fi
+          done)
+
+          if [ -n "$LARGE" ]; then
+            echo "::error::PR contains files >10MB. Upload large data to Hugging Face instead."
+            echo "$LARGE"
+            exit 1
+          fi
+
+      - name: Check for code changes (contributors should only add data/reviews)
+        run: |
+          CODE_CHANGES=$(git diff --name-only origin/main...HEAD | grep -E '\.(py|cu|sh|ts|js|astro)$' || true)
+          if [ -n "$CODE_CHANGES" ]; then
+            echo "::warning::PR modifies code files. Data/review PRs should only add .json or .log files."
+            echo "$CODE_CHANGES"
+            # Warning, not error — maintainer decides
+          fi
   classify:
     name: Classify PR
+    needs: gate
     runs-on: ubuntu-latest
     outputs:
       pr_type: ${{ steps.classify.outputs.type }}
