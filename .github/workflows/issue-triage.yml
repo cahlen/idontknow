@@ -1,0 +1,187 @@
+name: Issue Triage Bot
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    name: Triage Issue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Triage issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = context.payload.issue.body || '';
+            const title = context.payload.issue.title || '';
+
+            // Is this a Colab notebook submission?
+            const isColab = body.includes('Submitted via bigcompute.science Colab notebook') ||
+                            body.includes('Colab') ||
+                            title.includes('Colab');
+
+            if (!isColab) {
+              // Not a notebook submission — label for manual review
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['needs-review']
+              });
+              return;
+            }
+
+            // Parse experiment results from the issue body
+            const resultBlocks = body.match(/```[\s\S]*?```/g) || [];
+            const results = [];
+
+            for (const block of resultBlocks) {
+              const digits = block.match(/Digit set:\s*\{([^}]+)\}/);
+              const range = block.match(/Range: d = 1 to (\d+)/);
+              const uncovered = block.match(/Uncovered:\s*(\d+)/);
+              const density = block.match(/Density:\s*([\d.]+)%/);
+
+              if (digits && range) {
+                results.push({
+                  digits: digits[1].replace(/\s/g, ''),
+                  range: parseInt(range[1]),
+                  uncovered: uncovered ? parseInt(uncovered[1]) : null,
+                  density: density ? parseFloat(density[1]) : null,
+                });
+              }
+            }
+
+            if (results.length === 0) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['colab-submission', 'needs-review']
+              });
+              return;
+            }
+
+            // Load known frontiers
+            let frontiers = {};
+            try {
+              frontiers = JSON.parse(fs.readFileSync('data/known_frontiers.json', 'utf8'));
+            } catch (e) {}
+
+            let newResults = [];
+            let knownResults = [];
+
+            for (const r of results) {
+              const frontier = frontiers[r.digits];
+              if (frontier && r.range <= frontier.range) {
+                knownResults.push(r);
+              } else {
+                newResults.push(r);
+              }
+            }
+
+            // Sanity checks
+            const issues = [];
+            for (const r of results) {
+              if (r.density !== null && (r.density < 0 || r.density > 100)) {
+                issues.push(`Density ${r.density}% out of range for A={${r.digits}}`);
+              }
+              if (r.uncovered !== null && r.uncovered < 0) {
+                issues.push(`Negative uncovered count for A={${r.digits}}`);
+              }
+              if (r.uncovered !== null && r.density !== null) {
+                const expectedUncovered = Math.round(r.range * (1 - r.density / 100));
+                if (Math.abs(expectedUncovered - r.uncovered) > r.range * 0.001) {
+                  issues.push(`Density/uncovered mismatch for A={${r.digits}}: ${r.density}% but ${r.uncovered} uncovered out of ${r.range}`);
+                }
+              }
+            }
+
+            // Build response
+            let comment = '## Automated Triage\n\n';
+            comment += `Parsed ${results.length} result(s) from this submission.\n\n`;
+
+            if (newResults.length > 0) {
+              comment += `### New Data (${newResults.length})\n`;
+              for (const r of newResults) {
+                const frontier = frontiers[r.digits];
+                if (frontier) {
+                  comment += `- **A={${r.digits}}** at 10^${String(r.range).length - 1} — extends frontier from 10^${String(frontier.range).length - 1}\n`;
+                } else {
+                  comment += `- **A={${r.digits}}** at 10^${String(r.range).length - 1} — never computed before\n`;
+                }
+              }
+              comment += '\n';
+            }
+
+            if (knownResults.length > 0) {
+              comment += `### Already Known (${knownResults.length})\n`;
+              for (const r of knownResults) {
+                const frontier = frontiers[r.digits];
+                comment += `- A={${r.digits}} at 10^${String(r.range).length - 1} — already computed to 10^${String(frontier.range).length - 1}\n`;
+              }
+              comment += '\n';
+            }
+
+            if (issues.length > 0) {
+              comment += `### Sanity Check Warnings\n`;
+              for (const i of issues) {
+                comment += `- ⚠️ ${i}\n`;
+              }
+              comment += '\n';
+            }
+
+            // Decide labels and action
+            const labels = ['colab-submission'];
+
+            if (newResults.length > 0 && issues.length === 0) {
+              labels.push('new-data');
+              comment += '> ✅ Contains new data. Ready for maintainer review.';
+            } else if (newResults.length === 0) {
+              labels.push('already-known');
+              comment += '> These results are already in our dataset at equal or higher ranges. Thank you for verifying! If you want to contribute new data, try unexplored digit sets like A={1,2,8} or A={1,2,9} at 10^9+.';
+            } else {
+              labels.push('needs-review');
+              comment += '> Contains potential issues. Flagged for manual review.';
+            }
+
+            // Post comment
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+            // Add labels
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels
+            });
+
+            // Auto-close if all results are already known
+            if (newResults.length === 0 && knownResults.length > 0 && issues.length === 0) {
+              await github.rest.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'closed',
+                state_reason: 'not_planned'
+              });
+            }
