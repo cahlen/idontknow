@@ -57,13 +57,31 @@ jobs:
             exit 1
           fi
 
-      - name: Check for code changes (contributors should only add data/reviews)
+      - name: Block code changes (security — prevent agent poisoning)
         run: |
-          CODE_CHANGES=$(git diff --name-only origin/main...HEAD | grep -E '\.(py|cu|sh|ts|js|astro)$' || true)
+          CODE_CHANGES=$(git diff --name-only origin/main...HEAD | grep -E '\.(py|cu|sh|ts|js|astro|yml|yaml|toml|cfg|ini)$' || true)
+          DANGEROUS=$(git diff --name-only origin/main...HEAD | grep -E '(scripts/|\.github/|Makefile|package\.json|astro\.config|wrangler)' || true)
+
+          if [ -n "$DANGEROUS" ]; then
+            echo "::error::PR modifies executable code or CI config. This is blocked for security."
+            echo "::error::The research agent runs these files automatically — code changes require maintainer-only commits."
+            echo "$DANGEROUS"
+            exit 1
+          fi
+
           if [ -n "$CODE_CHANGES" ]; then
-            echo "::warning::PR modifies code files. Data/review PRs should only add .json or .log files."
+            echo "::error::PR contains code files (.py, .cu, .sh, .ts, etc). Only .json and .log files accepted from contributors."
             echo "$CODE_CHANGES"
-            # Warning, not error — maintainer decides
+            exit 1
+          fi
+
+          # Only allow safe file types
+          ALLOWED_PATTERN='\.(json|log|md|txt|csv)$'
+          UNSAFE=$(git diff --name-only origin/main...HEAD | grep -v -E "$ALLOWED_PATTERN" || true)
+          if [ -n "$UNSAFE" ]; then
+            echo "::error::PR contains disallowed file types. Only .json, .log, .md, .txt, .csv accepted."
+            echo "$UNSAFE"
+            exit 1
           fi
   classify:
     name: Classify PR
