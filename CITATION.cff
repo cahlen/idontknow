@@ -5,9 +5,18 @@ type: software
 authors:
   - family-names: Humphreys
     given-names: Cahlen
+    affiliation: "Enfuse.io / bigcompute.science"
 repository-code: "https://github.com/cahlen/idontknow"
 url: "https://bigcompute.science"
-abstract: "GPU-accelerated infrastructure for exploring open conjectures in number theory and combinatorics. CUDA kernels for Zaremba's conjecture, Ramsey R(5,5), class numbers of real quadratic fields, Kronecker coefficients, Hausdorff dimension spectra, and Ramanujan Machine formula discovery. All results published openly with full reproduction instructions."
+abstract: >-
+  GPU-accelerated infrastructure for exploring open conjectures in number theory
+  and combinatorics. Custom CUDA kernels for Zaremba's conjecture (210B verified,
+  proof framework with arb-certified spectral bounds), Ramsey R(5,5) (656/656 K42
+  colorings UNSAT), Kronecker coefficients (S30 complete, S40 character table),
+  class numbers (30B discriminants), Hausdorff dimension spectra (2^20-1 subsets),
+  and Ramanujan Machine formula discovery. Multi-model AI peer review (41 reviews,
+  4 models, 3 providers). Autonomous research agent. Distributed Colab compute.
+  Human-AI collaborative work. Not peer-reviewed.
 keywords:
   - computational mathematics
   - number theory
@@ -19,8 +28,11 @@ keywords:
   - continued fractions
   - Kronecker coefficients
   - Hausdorff dimension
-license: MIT
-date-released: "2026-04-02"
+  - spectral theory
+  - AI peer review
+  - open science
+license: CC-BY-4.0
+date-released: "2026-04-04"
 references:
   - type: dataset
     title: "Class Numbers of Real Quadratic Fields"
@@ -29,7 +41,7 @@ references:
         given-names: Cahlen
     url: "https://huggingface.co/datasets/cahlen/class-numbers-real-quadratic"
   - type: dataset
-    title: "Kronecker Coefficients (S_20 and S_30)"
+    title: "Kronecker Coefficients (S_20, S_30, S_40)"
     authors:
       - family-names: Humphreys
         given-names: Cahlen

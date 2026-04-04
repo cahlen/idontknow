@@ -1,0 +1,63 @@
+{
+  "title": "bigcompute: GPU-Accelerated Computational Mathematics",
+  "description": "GPU-accelerated infrastructure for exploring open conjectures in number theory and combinatorics. Custom CUDA kernels for Zaremba's conjecture (210B verified), Ramsey R(5,5) (656/656 UNSAT), Kronecker coefficients (S30 26.4B triples, S40 character table), class numbers (30B discriminants), Hausdorff dimension spectra (all 2^20-1 subsets), and Ramanujan Machine formula discovery. Includes multi-model AI peer review infrastructure (41 reviews from 4 models), autonomous research agent, and distributed Colab compute notebooks. All results published at bigcompute.science.",
+  "creators": [
+    {
+      "name": "Humphreys, Cahlen",
+      "affiliation": "Enfuse.io / bigcompute.science",
+      "orcid": ""
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Claude (Anthropic)",
+      "type": "Other",
+      "affiliation": "Anthropic"
+    }
+  ],
+  "keywords": [
+    "computational mathematics",
+    "number theory",
+    "GPU computing",
+    "CUDA",
+    "Zaremba conjecture",
+    "Ramsey theory",
+    "class numbers",
+    "continued fractions",
+    "Kronecker coefficients",
+    "Hausdorff dimension",
+    "spectral theory",
+    "AI peer review",
+    "open science"
+  ],
+  "license": "CC-BY-4.0",
+  "upload_type": "software",
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "https://bigcompute.science",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/cahlen/zaremba-conjecture-data",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/cahlen/kronecker-coefficients",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/cahlen/continued-fraction-spectra",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "subjects": [
+    {"term": "Number theory", "identifier": "11-XX", "scheme": "msc"},
+    {"term": "Combinatorics", "identifier": "05-XX", "scheme": "msc"},
+    {"term": "Numerical analysis", "identifier": "65-XX", "scheme": "msc"}
+  ]
+}
