@@ -910,6 +910,10 @@ def tick(args, state):
     if not phase or phase == "plan":
         plan_next(gpu_status.get("free_gpus", []), args.auto_launch, state)
 
+    # Phase 9: Verify community submissions
+    if not phase or phase == "verify":
+        verify_community_submissions(gpu_status.get("free_gpus", []), state, dry_run)
+
     # Save state
     if not dry_run:
         save_state(state)
@@ -917,6 +921,153 @@ def tick(args, state):
     interesting = [a for a in analyses if a.get("interesting")]
     log(f"\nSummary: {len(new_results)} harvested, {len(interesting)} interesting, "
         f"{len(gpu_status.get('free_gpus', []))} GPUs free")
+
+
+# ── Phase 9: Verify Community Submissions ────────────────────
+
+def verify_community_submissions(free_gpus, state, dry_run=False):
+    """Check GitHub issues labeled 'new-data', re-run the experiment, verify results."""
+    if not free_gpus:
+        return  # Need a free GPU to verify
+
+    # Check if gh CLI is available
+    if not shutil.which("gh"):
+        return
+
+    already_verified = state.get("verified_issues", [])
+
+    try:
+        # Get open issues labeled 'new-data'
+        result = subprocess.run(
+            ["gh", "issue", "list", "--label", "new-data", "--state", "open", "--json", "number,title,body", "--limit", "5"],
+            capture_output=True, text=True, timeout=15
+        )
+        if result.returncode != 0:
+            return
+
+        issues = json.loads(result.stdout)
+        if not issues:
+            return
+
+        for issue in issues:
+            issue_num = issue["number"]
+            if issue_num in already_verified:
+                continue
+
+            body = issue.get("body", "")
+            log(f"Verifying community submission: issue #{issue_num}")
+
+            # Parse experiments from the issue body
+            experiments = []
+            import re as _re
+            for block in _re.findall(r'```[\s\S]*?```', body):
+                m_digits = _re.search(r'Digit set:\s*\{([^}]+)\}', block)
+                m_range = _re.search(r'Range: d = 1 to (\d+)', block)
+                m_uncovered = _re.search(r'Uncovered:\s*(\d+)', block)
+                m_density = _re.search(r'Density:\s*([\d.]+)%', block)
+                if m_digits and m_range:
+                    experiments.append({
+                        "digits": m_digits.group(1).replace(" ", ""),
+                        "range": int(m_range.group(1)),
+                        "claimed_uncovered": int(m_uncovered.group(1)) if m_uncovered else None,
+                        "claimed_density": float(m_density.group(1)) if m_density else None,
+                    })
+
+            if not experiments:
+                log(f"  Could not parse experiments from issue #{issue_num}")
+                continue
+
+            # Verify each experiment by re-running it
+            gpu = free_gpus[0]
+            all_match = True
+            results_comment = f"## Verification Results (GPU {gpu})\n\n"
+
+            for exp in experiments:
+                binary = REPO_ROOT / "zaremba_density_gpu"
+                if not binary.exists():
+                    log(f"  zaremba_density_gpu not found — cannot verify")
+                    break
+
+                log(f"  Re-running A={{{exp['digits']}}} at {exp['range']:,} on GPU {gpu}...")
+                if dry_run:
+                    log(f"  [DRY RUN] Would verify")
+                    continue
+
+                log_file = REPO_ROOT / "logs" / f"verify_issue_{issue_num}.log"
+                env = os.environ.copy()
+                env["CUDA_VISIBLE_DEVICES"] = str(gpu)
+
+                try:
+                    proc = subprocess.run(
+                        [str(binary), str(exp["range"]), exp["digits"]],
+                        capture_output=True, text=True, timeout=3600,  # 1 hour max
+                        env=env, cwd=str(REPO_ROOT)
+                    )
+                    output = proc.stdout
+
+                    # Parse our result
+                    m_unc = _re.search(r'Uncovered:\s*(\d+)', output)
+                    m_den = _re.search(r'Density:\s*([\d.]+)%', output)
+                    our_uncovered = int(m_unc.group(1)) if m_unc else None
+                    our_density = float(m_den.group(1)) if m_den else None
+
+                    # Compare
+                    match = True
+                    if exp["claimed_uncovered"] is not None and our_uncovered is not None:
+                        if exp["claimed_uncovered"] != our_uncovered:
+                            match = False
+                    if exp["claimed_density"] is not None and our_density is not None:
+                        if abs(exp["claimed_density"] - our_density) > 0.001:
+                            match = False
+
+                    status = "MATCH" if match else "MISMATCH"
+                    if not match:
+                        all_match = False
+
+                    results_comment += f"- A={{{exp['digits']}}} at {exp['range']:,}: **{status}**\n"
+                    if not match:
+                        results_comment += f"  - Claimed: uncovered={exp['claimed_uncovered']}, density={exp['claimed_density']}%\n"
+                        results_comment += f"  - Verified: uncovered={our_uncovered}, density={our_density}%\n"
+                    else:
+                        results_comment += f"  - Verified: uncovered={our_uncovered}, density={our_density}%\n"
+
+                    log(f"  {status}: claimed={exp['claimed_uncovered']}, verified={our_uncovered}")
+
+                except subprocess.TimeoutExpired:
+                    log(f"  Verification timed out for A={{{exp['digits']}}} at {exp['range']:,}")
+                    results_comment += f"- A={{{exp['digits']}}} at {exp['range']:,}: **TIMEOUT** (range too large for verification)\n"
+                except Exception as e:
+                    log(f"  Verification error: {e}")
+                    results_comment += f"- A={{{exp['digits']}}} at {exp['range']:,}: **ERROR** ({e})\n"
+
+            if dry_run:
+                continue
+
+            # Post verification comment
+            if all_match:
+                results_comment += "\n> All results verified. Data is authentic."
+            else:
+                results_comment += "\n> **MISMATCH DETECTED.** Some claimed results do not match our verification."
+
+            try:
+                subprocess.run(
+                    ["gh", "issue", "comment", str(issue_num), "--body", results_comment],
+                    capture_output=True, timeout=15
+                )
+                # Label based on result
+                label = "verified" if all_match else "verification-failed"
+                subprocess.run(
+                    ["gh", "issue", "edit", str(issue_num), "--add-label", label],
+                    capture_output=True, timeout=15
+                )
+                log(f"  Issue #{issue_num}: {label}")
+            except:
+                pass
+
+            state.setdefault("verified_issues", []).append(issue_num)
+
+    except Exception as e:
+        log(f"Community verification failed: {e}", "ERROR")
 
 
 def parse_interval(s):
@@ -932,7 +1083,7 @@ def main():
     parser = argparse.ArgumentParser(description="Autonomous research agent for bigcompute.science")
     parser.add_argument("--once", action="store_true", help="Run once and exit")
     parser.add_argument("--interval", default="10m", help="Loop interval (default: 10m)")
-    parser.add_argument("--phase", choices=["monitor", "harvest", "analyze", "review", "remediate", "deploy", "plan"],
+    parser.add_argument("--phase", choices=["monitor", "harvest", "analyze", "review", "remediate", "deploy", "plan", "verify"],
                         help="Run specific phase only")
     parser.add_argument("--models", help="Comma-separated review models (default: gpt-4.1)")
     parser.add_argument("--dry-run", action="store_true", help="Report only, no changes")
