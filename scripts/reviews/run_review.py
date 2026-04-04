@@ -47,18 +47,50 @@ def check_api_key_safety():
 
 
 def get_findings():
-    """Load all findings from the bigcompute.science content directory."""
+    """Load all findings from local bigcompute.science dir, or fetch from GitHub."""
     findings = {}
-    for f in sorted(glob.glob(str(FINDINGS_DIR / "*.md"))):
-        with open(f) as fh:
-            content = fh.read()
-        slug = None
-        for line in content.split("\n"):
-            if line.startswith("slug:"):
-                slug = line.split(":", 1)[1].strip().strip('"')
-                break
-        if slug:
-            findings[slug] = (f, content)
+
+    # Try local directory first
+    if FINDINGS_DIR.exists():
+        for f in sorted(glob.glob(str(FINDINGS_DIR / "*.md"))):
+            with open(f) as fh:
+                content = fh.read()
+            slug = None
+            for line in content.split("\n"):
+                if line.startswith("slug:"):
+                    slug = line.split(":", 1)[1].strip().strip('"')
+                    break
+            if slug:
+                findings[slug] = (f, content)
+
+    # Fallback: fetch from GitHub (for Colab / environments without bigcompute.science repo)
+    if not findings:
+        import httpx
+        try:
+            # Get file list from GitHub API
+            resp = httpx.get(
+                "https://api.github.com/repos/cahlen/bigcompute.science/contents/src/content/findings",
+                timeout=15.0
+            )
+            if resp.status_code == 200:
+                for item in resp.json():
+                    if item["name"].endswith(".md"):
+                        raw_url = item["download_url"]
+                        try:
+                            md = httpx.get(raw_url, timeout=15.0).text
+                            slug = None
+                            for line in md.split("\n"):
+                                if line.startswith("slug:"):
+                                    slug = line.split(":", 1)[1].strip().strip('"')
+                                    break
+                            if slug:
+                                findings[slug] = (item["name"], md)
+                        except:
+                            pass
+                print(f"Fetched {len(findings)} findings from GitHub")
+        except Exception as e:
+            print(f"Could not fetch findings from GitHub: {e}")
+
     return findings
 
 
