@@ -143,6 +143,76 @@ def main():
     print(f"  {certs['stats']['total_reviews']} reviews")
     print(f"  {certs['stats']['issues_discovered']} issues ({certs['stats']['issues_fixed']} fixed)")
 
+    # Also generate meta.json (machine-readable site index)
+    meta_path = output_path.parent.parent.parent / "public" / "meta.json"
+    if meta_path.parent.exists():
+        stats = certs["stats"]
+        models = manifest.get("stats", {}).get("models", [])
+        providers = manifest.get("stats", {}).get("providers", [])
+        finding_urls = {e["slug"]: f"https://bigcompute.science/findings/{e['slug']}/" for e in certs["certifications"]}
+
+        meta = {
+            "name": "bigcompute.science",
+            "description": "Open computational mathematics on GPUs. AI-audited, not peer-reviewed.",
+            "url": "https://bigcompute.science",
+            "generated_at": manifest.get("generated_at", ""),
+            "author": {"name": "Cahlen Humphreys", "github": "https://github.com/cahlen", "huggingface": "https://huggingface.co/cahlen"},
+            "license": "CC-BY-4.0",
+            "stats": {
+                "findings": stats["findings_audited"],
+                "reviews": stats["total_reviews"],
+                "issues": stats["issues_discovered"],
+                "issues_fixed": stats["issues_fixed"],
+                "models": models,
+                "providers": providers,
+            },
+            "findings": finding_urls,
+            "structured_data": {
+                "json_ld": "Every finding page emits ScholarlyArticle + Dataset JSON-LD",
+                "meta_tags": "Highwire Press (citation_*) + Dublin Core (DC.*)",
+                "sitemap": "https://bigcompute.science/sitemap-index.xml",
+                "rss": "https://bigcompute.science/rss.xml",
+            },
+            "key_pages": {
+                "findings": "https://bigcompute.science/findings/",
+                "verification": "https://bigcompute.science/verification/",
+                "cite": "https://bigcompute.science/cite/",
+                "about": "https://bigcompute.science/about/",
+                "interactive": "https://bigcompute.science/interactive/",
+            },
+            "machine_endpoints": {
+                "llms_txt": "https://bigcompute.science/llms.txt",
+                "llms_full": "https://bigcompute.science/llms-full.txt",
+                "mcp_server": "https://mcp.bigcompute.science/mcp",
+                "meta_json": "https://bigcompute.science/meta.json",
+            },
+            "repositories": {
+                "experiments": "https://github.com/cahlen/idontknow",
+                "website": "https://github.com/cahlen/bigcompute.science",
+                "manifest": "https://github.com/cahlen/idontknow/blob/main/docs/verifications/manifest.json",
+                "research_agent": "https://github.com/cahlen/idontknow/blob/main/scripts/research_agent.py",
+            },
+            "datasets": {
+                "zaremba": "https://huggingface.co/datasets/cahlen/zaremba-conjecture-data",
+                "kronecker": "https://huggingface.co/datasets/cahlen/kronecker-coefficients",
+                "spectra": "https://huggingface.co/datasets/cahlen/continued-fraction-spectra",
+            },
+            "colab_notebooks": {
+                "research_agent": "https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_research_agent.ipynb",
+                "mcp_explorer": "https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_mcp_explorer.ipynb",
+            },
+            "ai_disclosure": f"Human-AI collaborative. {len(models)} models, {len(providers)} providers. Not peer-reviewed.",
+            "recommended_citation_verbs": {
+                "safe": ["computed", "archived", "benchmarked", "observed", "verified", "released"],
+                "with_caveats": ["suggests", "appears", "is consistent with", "within the tested range"],
+                "do_not_use": ["proved", "established", "confirmed"],
+            },
+        }
+
+        with open(meta_path, "w") as f:
+            json.dump(meta, f, indent=2)
+        print(f"Meta written: {meta_path}")
+
 
 if __name__ == "__main__":
     main()
