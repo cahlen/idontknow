@@ -227,23 +227,101 @@ def harvest(state, dry_run=False):
     return new_results
 
 
-# ── Phase 3: Analyze (calls Claude API) ──────────────────────
+# ── Generic LLM caller ────────────────────────────────────────
+
+def call_llm(prompt, purpose="task"):
+    """Call any available LLM. Tries in order: claude CLI, Anthropic API, OpenAI API.
+    Returns response text or None on failure."""
+    import httpx
+
+    # 1. Try claude CLI (Claude Code premium account — no API key needed)
+    claude_cli = shutil.which("claude")
+    if claude_cli:
+        try:
+            log(f"  [{purpose}] via claude CLI...")
+            result = subprocess.run(
+                [claude_cli, "-p", prompt],
+                capture_output=True, text=True, timeout=300,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                return result.stdout.strip()
+        except subprocess.TimeoutExpired:
+            log(f"  [{purpose}] claude CLI timed out", "WARN")
+
+    # 2. Try Anthropic API
+    anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if anthropic_key:
+        try:
+            log(f"  [{purpose}] via Anthropic API...")
+            resp = httpx.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={"x-api-key": anthropic_key, "anthropic-version": "2023-06-01",
+                         "content-type": "application/json"},
+                json={"model": "claude-sonnet-4-20250514", "max_tokens": 4000,
+                      "messages": [{"role": "user", "content": prompt}]},
+                timeout=120.0,
+            )
+            if resp.status_code == 200:
+                return resp.json()["content"][0]["text"].strip()
+            log(f"  [{purpose}] Anthropic API {resp.status_code}: {resp.text[:100]}", "WARN")
+        except Exception as e:
+            log(f"  [{purpose}] Anthropic API failed: {e}", "WARN")
+
+    # 3. Try OpenAI API
+    openai_key = os.environ.get("OPENAI_API_KEY", "")
+    if openai_key:
+        try:
+            log(f"  [{purpose}] via OpenAI API (gpt-4.1)...")
+            resp = httpx.post(
+                "https://api.openai.com/v1/chat/completions",
+                headers={"Authorization": f"Bearer {openai_key}", "Content-Type": "application/json"},
+                json={"model": "gpt-4.1", "messages": [{"role": "user", "content": prompt}],
+                      "max_completion_tokens": 4000, "response_format": {"type": "json_object"}},
+                timeout=120.0,
+            )
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"].strip()
+            log(f"  [{purpose}] OpenAI API {resp.status_code}: {resp.text[:100]}", "WARN")
+        except Exception as e:
+            log(f"  [{purpose}] OpenAI API failed: {e}", "WARN")
+
+    log(f"  [{purpose}] No LLM available (need claude CLI, ANTHROPIC_API_KEY, or OPENAI_API_KEY)", "ERROR")
+    return None
+
+
+def parse_json_from_llm(text):
+    """Extract JSON from LLM response that may contain prose before/after."""
+    if not text:
+        return None
+    if "```" in text:
+        text = text.split("```")[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.strip()
+    elif "{" in text:
+        start = text.index("{")
+        depth = 0
+        for i in range(start, len(text)):
+            if text[i] == "{": depth += 1
+            elif text[i] == "}": depth -= 1
+            if depth == 0:
+                text = text[start:i+1]
+                break
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return None
+
+
+# ── Phase 3: Analyze ─────────────────────────────────────────
 
 def analyze_results(new_results):
-    """Analyze new results using claude CLI (uses Claude Code premium account)."""
-    # Try claude CLI first (uses premium account), fall back to API key
-    claude_cli = shutil.which("claude")
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-
-    if not claude_cli and not api_key:
-        log("Neither 'claude' CLI nor ANTHROPIC_API_KEY available — skipping analysis.", "WARN")
+    """Analyze new results using any available LLM."""
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+        log("No LLM available — skipping analysis.", "WARN")
         return []
 
-    # Load CLAUDE.md for context
-    context = ""
-    if CLAUDE_MD.exists():
-        context = CLAUDE_MD.read_text()[:8000]
-
+    context = CLAUDE_MD.read_text()[:6000] if CLAUDE_MD.exists() else ""
     results_text = json.dumps(new_results, indent=2, default=str)
 
     prompt = f"""You are a research assistant for bigcompute.science. New experiment results have come in.
@@ -264,60 +342,13 @@ Project context (from CLAUDE.md):
 New results:
 {results_text}"""
 
-    try:
-        if claude_cli:
-            log("Analyzing via claude CLI (premium account)...")
-            result = subprocess.run(
-                [claude_cli, "-p", prompt],
-                capture_output=True, text=True, timeout=120,
-            )
-            if result.returncode != 0:
-                log(f"claude CLI failed: {result.stderr[:200]}", "ERROR")
-                return []
-            text = result.stdout.strip()
-        else:
-            log("Analyzing via Anthropic API...")
-            import httpx
-            resp = httpx.post(
-                "https://api.anthropic.com/v1/messages",
-                headers={"x-api-key": api_key, "anthropic-version": "2023-06-01",
-                         "content-type": "application/json"},
-                json={"model": "claude-sonnet-4-20250514", "max_tokens": 2000,
-                      "messages": [{"role": "user", "content": prompt}]},
-                timeout=60.0,
-            )
-            if resp.status_code != 200:
-                log(f"Claude API error {resp.status_code}: {resp.text[:200]}", "ERROR")
-                return []
-            text = resp.json()["content"][0]["text"].strip()
-
-        # Parse JSON — handle mixed prose + JSON output
-        if "```" in text:
-            text = text.split("```")[1]
-            if text.startswith("json"):
-                text = text[4:]
-            text = text.strip()
-        elif "{" in text:
-            # Extract first JSON object from mixed text
-            start = text.index("{")
-            # Find matching closing brace
-            depth = 0
-            for i in range(start, len(text)):
-                if text[i] == "{":
-                    depth += 1
-                elif text[i] == "}":
-                    depth -= 1
-                    if depth == 0:
-                        text = text[start:i+1]
-                        break
-        return json.loads(text).get("analyses", [])
-    except json.JSONDecodeError as e:
-        log(f"Analysis JSON parse error: {e}", "ERROR")
-        log(f"Raw response: {text[:300]}", "ERROR")
-        return []
-    except Exception as e:
-        log(f"Analysis failed: {e}", "ERROR")
-        return []
+    text = call_llm(prompt, "analyze")
+    parsed = parse_json_from_llm(text)
+    if parsed:
+        return parsed.get("analyses", [])
+    if text:
+        log(f"Analysis parse failed. Raw: {text[:200]}", "ERROR")
+    return []
 
 
 # ── Phase 5: Review (multi-model) ────────────────────────────
@@ -401,9 +432,8 @@ def remediate(slugs, dry_run=False):
     if not slugs:
         return
 
-    claude_cli = shutil.which("claude")
-    if not claude_cli:
-        log("claude CLI not found — cannot remediate.", "WARN")
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+        log("No LLM available — cannot remediate.", "WARN")
         return
 
     # Read the latest reviews for these slugs
@@ -458,30 +488,8 @@ For each: fix (provide old_text/new_text), acknowledge (can't fix now), or disag
 JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowledge|disagree","description":"...","old_text":"...","new_text":"..."}}]}}"""
 
         try:
-            # Use httpx to call Claude API directly (faster than claude CLI)
-            import httpx
-            api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-            if api_key:
-                resp = httpx.post(
-                    "https://api.anthropic.com/v1/messages",
-                    headers={"x-api-key": api_key, "anthropic-version": "2023-06-01",
-                             "content-type": "application/json"},
-                    json={"model": "claude-sonnet-4-20250514", "max_tokens": 4000,
-                          "messages": [{"role": "user", "content": prompt}]},
-                    timeout=120.0,
-                )
-                if resp.status_code != 200:
-                    log(f"Anthropic API error: {resp.text[:200]}", "ERROR")
-                    continue
-                text = resp.json()["content"][0]["text"].strip()
-            elif claude_cli:
-                result = subprocess.run(
-                    [claude_cli, "-p", prompt],
-                    capture_output=True, text=True, timeout=300,
-                )
-                text = result.stdout.strip()
-            else:
-                log("No API key or claude CLI for remediation", "WARN")
+            text = call_llm(prompt, f"remediate:{slug}")
+            if not text:
                 continue
 
             # Extract JSON
@@ -639,9 +647,8 @@ def plan_next(free_gpus, auto_launch=False, state=None):
         log("Auto-launch disabled. Use --auto-launch to enable.")
         return
 
-    claude_cli = shutil.which("claude")
-    if not claude_cli:
-        log("claude CLI not found — cannot plan experiments.", "WARN")
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+        log("No LLM available — cannot plan experiments.", "WARN")
         return
 
     # Get current state for Claude to reason about
@@ -688,28 +695,15 @@ Respond with JSON only (no markdown):
 ]}}"""
 
     try:
-        log("Asking Claude what to launch...")
-        result = subprocess.run(
-            [claude_cli, "-p", prompt],
-            capture_output=True, text=True, timeout=120,
-        )
-        if result.returncode != 0:
-            log(f"claude CLI failed: {result.stderr[:200]}", "ERROR")
+        text = call_llm(prompt, "plan")
+        if not text:
+            return
+        parsed = parse_json_from_llm(text)
+        if not parsed:
+            log(f"Plan parse failed. Raw: {text[:200]}", "ERROR")
             return
 
-        text = result.stdout.strip()
-        # Extract JSON
-        if "{" in text:
-            start = text.index("{")
-            depth = 0
-            for i in range(start, len(text)):
-                if text[i] == "{": depth += 1
-                elif text[i] == "}": depth -= 1
-                if depth == 0:
-                    text = text[start:i+1]
-                    break
-
-        plan = json.loads(text)
+        plan = parsed
         launches = plan.get("launches", [])
 
         for launch in launches:
