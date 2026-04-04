@@ -30,20 +30,38 @@ VERDICT_SEVERITY = {
 
 
 def load_finding_titles(findings_dir):
-    """Extract slug -> title mapping from finding markdowns."""
+    """Extract slug -> title mapping from finding markdowns, or from GitHub."""
     titles = {}
-    for f in glob.glob(str(Path(findings_dir) / "*.md")):
-        slug = title = None
-        with open(f) as fh:
-            for line in fh:
-                if line.startswith("slug:"):
-                    slug = line.split(":", 1)[1].strip().strip('"')
-                if line.startswith("title:"):
-                    title = line.split(":", 1)[1].strip().strip('"')
-                if slug and title:
-                    break
-        if slug:
-            titles[slug] = title or slug
+
+    # Try local directory
+    findings_path = Path(findings_dir)
+    if findings_path.exists():
+        for f in glob.glob(str(findings_path / "*.md")):
+            slug = title = None
+            with open(f) as fh:
+                for line in fh:
+                    if line.startswith("slug:"):
+                        slug = line.split(":", 1)[1].strip().strip('"')
+                    if line.startswith("title:"):
+                        title = line.split(":", 1)[1].strip().strip('"')
+                    if slug and title:
+                        break
+            if slug:
+                titles[slug] = title or slug
+
+    # Fallback: extract titles from review JSONs (always available)
+    if not titles:
+        verifications = Path(findings_dir).parent.parent / "docs" / "verifications" if findings_path.exists() else Path(__file__).parent.parent.parent / "docs" / "verifications"
+        for f in glob.glob(str(verifications / "*.json")):
+            try:
+                with open(f) as fh:
+                    data = json.load(fh)
+                slug = data.get("finding_slug", "")
+                if slug and slug not in titles:
+                    titles[slug] = slug.replace("-", " ").title()
+            except:
+                pass
+
     return titles
 
 
