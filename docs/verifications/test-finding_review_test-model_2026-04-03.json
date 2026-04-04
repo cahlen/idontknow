@@ -1,0 +1,23 @@
+{
+  "finding_slug": "zaremba-density-phase-transition",
+  "review_id": "test-pr-bot-2026-04-03",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "test-model",
+    "model_provider": "TestProvider"
+  },
+  "reviewed_at": "2026-04-03T22:00:00Z",
+  "claim_reviews": [
+    {
+      "claim": "Test claim for PR bot validation",
+      "verdict": "VERIFIED",
+      "evidence": "This is a test review to validate the PR bot workflow.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Test review for PR bot validation.",
+  "recommendations": [],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Test review."
+}
