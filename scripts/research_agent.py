@@ -47,10 +47,20 @@ LOG_DIRS = [
     REPO_ROOT / "scripts" / "experiments",
 ]
 
-EXPERIMENT_KEYWORDS = [
-    "zaremba", "kronecker", "class_num", "ramanujan", "char_table",
-    "ramsey", "hausdorff", "lyapunov", "minkowski", "flint",
-]
+def get_experiment_keywords():
+    """Auto-discover experiment names from scripts/experiments/ directories."""
+    exp_dir = REPO_ROOT / "scripts" / "experiments"
+    keywords = []
+    if exp_dir.exists():
+        for d in exp_dir.iterdir():
+            if d.is_dir() and not d.name.startswith('.'):
+                # Convert dir name to keyword (e.g., "zaremba-density" -> "zaremba")
+                keywords.append(d.name.split('-')[0])
+    # Also catch common process names
+    keywords.extend(["char_table", "class_v2"])
+    return list(set(keywords))
+
+EXPERIMENT_KEYWORDS = get_experiment_keywords()
 
 
 def log(msg, level="INFO"):
@@ -652,29 +662,22 @@ def deploy(dry_run=False):
 
 # ── Phase 8: Plan Next ───────────────────────────────────────
 
-# Known launchable experiments with concrete commands
-LAUNCHABLE = {
-    "zaremba_density": {
-        "binary": "zaremba_density_gpu",
-        "results_dir": "scripts/experiments/zaremba-density/results",
-        "single_gpu": True,
-    },
-    "kronecker": {
-        "binary": "kronecker_gpu",
-        "results_dir": "scripts/experiments/kronecker-coefficients/results",
-        "single_gpu": True,
-    },
-    "ramanujan": {
-        "binary": "ramanujan_gpu",
-        "results_dir": "scripts/experiments/ramanujan-machine/results",
-        "single_gpu": True,
-    },
-    "class_numbers": {
-        "binary": "class_v2",
-        "results_dir": "data/class-numbers",
-        "single_gpu": True,
-    },
-}
+def get_launchable_binaries():
+    """Auto-discover compiled CUDA binaries in the repo root."""
+    binaries = {}
+    for f in REPO_ROOT.iterdir():
+        if f.is_file() and os.access(f, os.X_OK) and not f.suffix:
+            # Check if it's an ELF binary (compiled CUDA/C)
+            try:
+                with open(f, 'rb') as fh:
+                    magic = fh.read(4)
+                if magic == b'\x7fELF':
+                    binaries[f.name] = {"binary": f.name, "single_gpu": True}
+            except:
+                pass
+    return binaries
+
+LAUNCHABLE = get_launchable_binaries()
 
 
 def plan_next(free_gpus, auto_launch=False, state=None):
