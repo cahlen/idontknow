@@ -213,17 +213,68 @@ int main(int argc, char **argv) {
     cudaMalloc(&d_prefixes, np * 4 * sizeof(uint64));
     cudaMemcpy(d_prefixes, h_prefixes, np * 4 * sizeof(uint64), cudaMemcpyHostToDevice);
 
-    printf("Launching %d GPU threads...\n", np);
+    // Launch in batches for progress reporting + checkpoint support
+    int BATCH_SIZE = (np < 10000) ? np : 10000;
+    int num_batches = (np + BATCH_SIZE - 1) / BATCH_SIZE;
+
+    printf("Launching %d GPU threads in %d batches (batch=%d)...\n", np, num_batches, BATCH_SIZE);
     fflush(stdout);
 
     int block = 256;
-    int grid = (np + block - 1) / block;
-    enumerate_subtrees<<<grid, block>>>(d_prefixes, np, d_digits, num_digits, d_bs, max_d);
-    cudaDeviceSynchronize();
+    struct timespec t_batch;
+    double last_report = 0;
+
+    // Build checkpoint filename from args
+    char ckpt_path[512];
+    snprintf(ckpt_path, 512, "scripts/experiments/zaremba-density/results/checkpoint_A%s_%llu.bin",
+             argv[2], (unsigned long long)max_d);
+    // Replace commas with nothing in checkpoint name
+    for (char *c = ckpt_path; *c; c++) if (*c == ',') *c = '_';
+
+    for (int batch = 0; batch < num_batches; batch++) {
+        int offset = batch * BATCH_SIZE;
+        int count = (batch + 1 == num_batches) ? (np - offset) : BATCH_SIZE;
+
+        int grid = (count + block - 1) / block;
+        enumerate_subtrees<<<grid, block>>>(d_prefixes + offset * 4, count, d_digits, num_digits, d_bs, max_d);
+        cudaDeviceSynchronize();
+
+        clock_gettime(CLOCK_MONOTONIC, &t_batch);
+        double elapsed = (t_batch.tv_sec - t0.tv_sec) + (t_batch.tv_nsec - t0.tv_nsec) / 1e9;
+
+        // Progress report every 60 seconds
+        if (elapsed - last_report >= 60.0 || batch == num_batches - 1) {
+            double pct = 100.0 * (batch + 1) / num_batches;
+            double eta = (batch > 0) ? elapsed * (num_batches - batch - 1) / (batch + 1) : 0;
+            printf("  batch %d/%d (%.0f%%) %.0fs elapsed, ETA %.0fs\n",
+                   batch + 1, num_batches, pct, elapsed, eta);
+            fflush(stdout);
+            last_report = elapsed;
+        }
+
+        // Checkpoint bitset every 10% of batches
+        if ((batch + 1) % (num_batches / 10 + 1) == 0 || batch == num_batches - 1) {
+            // Save bitset to disk so partial results survive if killed
+            uint8_t *h_ckpt = (uint8_t*)malloc(bitset_bytes);
+            cudaMemcpy(h_ckpt, d_bs, bitset_bytes, cudaMemcpyDeviceToHost);
+            FILE *fp = fopen(ckpt_path, "wb");
+            if (fp) {
+                fwrite(&max_d, sizeof(uint64), 1, fp);
+                fwrite(&batch, sizeof(int), 1, fp);
+                fwrite(&num_batches, sizeof(int), 1, fp);
+                fwrite(h_ckpt, 1, bitset_bytes, fp);
+                fclose(fp);
+            }
+            free(h_ckpt);
+        }
+    }
 
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double enum_time = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
     printf("GPU enumeration: %.1fs\n", enum_time);
+
+    // Clean up checkpoint after successful completion
+    remove(ckpt_path);
 
     // Mark all denominators at depth < PREFIX_DEPTH on CPU (these are few)
     uint8_t *h_bs = (uint8_t*)calloc(bitset_bytes, 1);
