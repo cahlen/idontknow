@@ -5,6 +5,7 @@
 #   1. Claude Code installed (uses 'claude -p', no API key needed)
 #   2. ANTHROPIC_API_KEY set (uses Claude API directly)
 #   3. OPENAI_API_KEY set (uses GPT-4.1)
+#   4. GEMINI_API_KEY set (uses Gemini — free at aistudio.google.com/apikey)
 #
 # For multi-model peer reviews, OPENAI_API_KEY enables o3-pro/gpt-4.1/o3.
 # But even without it, the agent runs the full cycle using whatever is available.
@@ -38,16 +39,18 @@ cd "$(dirname "$0")/.."
 HAS_CLAUDE=$(which claude 2>/dev/null && echo "yes" || echo "no")
 HAS_ANTHROPIC=$([ -n "${ANTHROPIC_API_KEY:-}" ] && echo "yes" || echo "no")
 HAS_OPENAI=$([ -n "${OPENAI_API_KEY:-}" ] && echo "yes" || echo "no")
+HAS_GEMINI=$([ -n "${GEMINI_API_KEY:-}${GOOGLE_API_KEY:-}" ] && echo "yes" || echo "no")
 
-if [ "$HAS_CLAUDE" = "no" ] && [ "$HAS_ANTHROPIC" = "no" ] && [ "$HAS_OPENAI" = "no" ]; then
+if [ "$HAS_CLAUDE" = "no" ] && [ "$HAS_ANTHROPIC" = "no" ] && [ "$HAS_OPENAI" = "no" ] && [ "$HAS_GEMINI" = "no" ]; then
     echo "ERROR: Need at least one of:"
     echo "  - Claude Code installed (claude CLI)"
     echo "  - ANTHROPIC_API_KEY set"
     echo "  - OPENAI_API_KEY set"
+    echo "  - GEMINI_API_KEY set (free: aistudio.google.com/apikey)"
     exit 1
 fi
 
-echo "LLM availability: claude=$HAS_CLAUDE anthropic=$HAS_ANTHROPIC openai=$HAS_OPENAI"
+echo "LLM availability: claude=$HAS_CLAUDE anthropic=$HAS_ANTHROPIC openai=$HAS_OPENAI gemini=$HAS_GEMINI"
 
 # Pass API_KEY for review script
 export API_KEY="${OPENAI_API_KEY:-${ANTHROPIC_API_KEY:-}}"

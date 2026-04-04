@@ -287,7 +287,26 @@ def call_llm(prompt, purpose="task"):
         except Exception as e:
             log(f"  [{purpose}] OpenAI API failed: {e}", "WARN")
 
-    log(f"  [{purpose}] No LLM available (need claude CLI, ANTHROPIC_API_KEY, or OPENAI_API_KEY)", "ERROR")
+    # 4. Try Google Gemini API (free tier in Colab)
+    gemini_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    if gemini_key:
+        try:
+            log(f"  [{purpose}] via Gemini API (gemini-2.5-flash)...")
+            gemini_prompt = prompt if "json" in prompt.lower() else prompt + "\nRespond with JSON."
+            resp = httpx.post(
+                "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+                headers={"Authorization": f"Bearer {gemini_key}", "Content-Type": "application/json"},
+                json={"model": "gemini-2.5-flash", "messages": [{"role": "user", "content": gemini_prompt}],
+                      "max_completion_tokens": 4000},
+                timeout=120.0,
+            )
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"].strip()
+            log(f"  [{purpose}] Gemini API {resp.status_code}: {resp.text[:100]}", "WARN")
+        except Exception as e:
+            log(f"  [{purpose}] Gemini API failed: {e}", "WARN")
+
+    log(f"  [{purpose}] No LLM available (need claude CLI, ANTHROPIC_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY)", "ERROR")
     return None
 
 
@@ -319,7 +338,7 @@ def parse_json_from_llm(text):
 
 def analyze_results(new_results):
     """Analyze new results using any available LLM."""
-    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
         log("No LLM available — skipping analysis.", "WARN")
         return []
 
