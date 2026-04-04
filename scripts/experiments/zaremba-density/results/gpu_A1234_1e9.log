@@ -8,3 +8,16 @@ Prefixes (depth 4): 1048576
 Bitset: 0.13 GB
 
 Launching 1048576 GPU threads...
+GPU enumeration: 81102.2s
+
+========================================
+RESULTS
+========================================
+Digit set: {1,2,3,4}
+Range: d = 1 to 1000000000
+Covered: 999999998 / 1000000000
+Density: 99.9999998000%
+Uncovered: 2
+Uncovered d: 54 150
+Time: 81103.0s (enum: 81102.2s)
+========================================

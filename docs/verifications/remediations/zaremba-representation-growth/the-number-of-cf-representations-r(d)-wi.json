@@ -1,0 +1,9 @@
+{
+  "issue_id": "the-number-of-cf-representations-r(d)-wi",
+  "finding_slug": "zaremba-representation-growth",
+  "severity": "important",
+  "description": "Add regression methodology (OLS on log-log) and note fitted exponent with standard error. Replace vague approximate values in table with actual computed values where possible.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add regression methodology (OLS on log-log) and note fitted exponent with standard error. Replace vague approximate values in table with actual computed values where possible.",
+  "resolved_at": "2026-04-04T00:20:00.893038+00:00"
+}

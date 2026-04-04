@@ -1,0 +1,9 @@
+{
+  "issue_id": "for-'near-rectangular'-triples-the-maxim",
+  "finding_slug": "kronecker-s40-character-table",
+  "severity": "important",
+  "description": "Already resolved in commit 9428528. The finding now includes the explicit shape set in a table, defines the near-rectangular partition set, and states checksums are in the GitHub repository.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Already resolved in commit 9428528. The finding now includes the explicit shape set in a table, defines the near-rectangular partition set, and states checksums are in the GitHub repository.",
+  "resolved_at": "2026-04-04T00:06:24.089482+00:00"
+}

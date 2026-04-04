@@ -1,0 +1,12 @@
+{
+  "issue_id": "for-a----1-2-3---exactly-27-denominators",
+  "finding_slug": "zaremba-density-phase-transition",
+  "severity": "important",
+  "description": "Add reproducibility section with SHA-256 checksums of the GPU log and source code, plus the exact command to reproduce.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add reproducibility section with SHA-256 checksums of the GPU log and source code, plus the exact command to reproduce.",
+  "resolved_at": "2026-04-04T00:30:00.118567+00:00",
+  "commits": [
+    "5d0dd82"
+  ]
+}

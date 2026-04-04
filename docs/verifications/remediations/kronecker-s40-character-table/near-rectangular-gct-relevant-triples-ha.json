@@ -1,0 +1,9 @@
+{
+  "issue_id": "near-rectangular-gct-relevant-triples-ha",
+  "finding_slug": "kronecker-s40-character-table",
+  "severity": "important",
+  "description": "Already resolved in commit 9428528. The text now explicitly states the near-rectangular set is broader than strict GCT-relevant shapes and that 10.1% is an upper bound on GCT-relevant positivity.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Already resolved in commit 9428528. The text now explicitly states the near-rectangular set is broader than strict GCT-relevant shapes and that 10.1% is an upper bound on GCT-relevant positivity.",
+  "resolved_at": "2026-04-04T00:06:24.089740+00:00"
+}

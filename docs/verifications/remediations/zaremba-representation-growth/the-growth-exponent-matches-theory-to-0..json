@@ -1,0 +1,9 @@
+{
+  "issue_id": "the-growth-exponent-matches-theory-to-0.",
+  "finding_slug": "zaremba-representation-growth",
+  "severity": "important",
+  "description": "Add the confidence interval and clarify the percentage discrepancy calculation.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add the confidence interval and clarify the percentage discrepancy calculation.",
+  "resolved_at": "2026-04-04T00:20:00.893216+00:00"
+}

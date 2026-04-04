@@ -1,0 +1,9 @@
+{
+  "issue_id": "the-observed-ratio-decreases-and-appears",
+  "finding_slug": "zaremba-cayley-diameters",
+  "severity": "important",
+  "description": "Strengthen the existing disclaimer with quantitative trend data from the table. The disclaimer already tempers the claim but lacks numbers.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Strengthen the existing disclaimer with quantitative trend data from the table. The disclaimer already tempers the claim but lacks numbers.",
+  "resolved_at": "2026-04-04T00:12:46.473859+00:00"
+}

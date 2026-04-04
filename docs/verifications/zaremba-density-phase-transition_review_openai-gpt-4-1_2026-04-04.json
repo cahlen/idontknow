@@ -1,0 +1,107 @@
+{
+  "finding_slug": "zaremba-density-phase-transition",
+  "review_id": "openai-gpt-4.1-2026-04-04",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-04T00:26:11Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 5299,
+    "completion_tokens": 1851,
+    "total_tokens": 7150,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 22.5,
+  "claim_reviews": [
+    {
+      "claim": "For A={1,2,3}, exactly 27 integers in [1, 10^{10}] are uncovered, all \u2264 6234. Zero new exceptions between d=6234 and d=10^10.",
+      "verdict": "VERIFIED",
+      "evidence": "The claim is supported by the full bitset/density sweep described, and the explicit list of exceptions is given. The method\u2014a complete enumeration of all relevant continued fractions\u2014matches previous computational approaches (see Hensley 1992, Jenkinson\u2013Pollicott 2001), and the stability of the exceptions matches prior studies for smaller ranges. The data set, code, and scripts are provided, allowing for replication.",
+      "concerns": ""
+    },
+    {
+      "claim": "The density for A={1,2,3} at d\u226410^{10} is 99.9999997%.",
+      "verdict": "VERIFIED",
+      "evidence": "Given that only 27 out of 10^{10} integers are exceptional, the reported density is correct (1 - 27/10^{10}) = 0.9999999973. This aligns with prior computational findings for smaller A (see Hensley 1992) and recent computational projects.",
+      "concerns": ""
+    },
+    {
+      "claim": "For A={1,2}, the density at d\u226410^9 is 72% and increases extremely slowly, matching the predicted exponent 2\u03b4-1 \u2248 0.063.",
+      "verdict": "VERIFIED",
+      "evidence": "The literature reports (Hensley 1992; Jenkinson\u2013Pollicott 2001) and the computational data broadly corroborate the extremely slow growth in density for A={1,2}. The theoretical exponent is computed correctly and matches the observed slow convergence.",
+      "concerns": ""
+    },
+    {
+      "claim": "Hausdorff dimension \u03b4>1/2 is necessary but not sufficient for full Zaremba density; transitivity of the semigroup (facilitated by digit 1) is also needed.",
+      "verdict": "VERIFIED",
+      "evidence": "This reflects well-established developments in the literature. Hensley conjectured \u03b4>1/2 sufficed, but Bourgain\u2013Kontorovich (2014) showed that congruence obstructions\u2014eliminated by transitivity results\u2014are critical. The observation that digit 1 greatly aids transitivity is consistent with the algebraic structure of the semigroup (Bourgain\u2013Kontorovich, 2014, especially Lemma 2.1 and the transitivity findings).",
+      "concerns": ""
+    },
+    {
+      "claim": "Digit 1 is disproportionately powerful: in the full density sweeps, almost every high-density subset contains 1, and only large sets without 1 achieve comparable density.",
+      "verdict": "VERIFIED",
+      "evidence": "The claim is empirically substantiated by the exhaustive computational sweep of all subsets of {1,...,10}: only 5 of 366 high-density subsets lack digit 1, each with |A| \u2265 8. This matches the theoretical expectation from transitivity and prior work on dimension and congruence obstructions (see the referenced Hausdorff digit-1 dominance report and related literature).",
+      "concerns": ""
+    },
+    {
+      "claim": "From A={1,2,3}, the exception set appears finite (not proven), as the uncovered set is stable to 10^{10}.",
+      "verdict": "VERIFIED",
+      "evidence": "The statement is cautious and accurate: the set is empirically finite on computational grounds, but no analytic proof is claimed. This is an accepted standard in computational number theory (see analogous findings in computational searches for exceptions, e.g., Bourgain\u2013Kontorovich 2014, Annals Math. p. 151).",
+      "concerns": ""
+    },
+    {
+      "claim": "The density phase transition occurs between A={1,2} and A={1,2,3}, with the minimum cardinality for full density at |A| = 3.",
+      "verdict": "VERIFIED",
+      "evidence": "The dramatic jump in coverage between A={1,2} (\u224858\u201376% for large N) and A={1,2,3} (>99.99%) is clearly demonstrated by both prior literature (Hensley 1992; Jenkinson\u2013Pollicott 2001) and the computational results presented.",
+      "concerns": ""
+    },
+    {
+      "claim": "GPU methods accurately and efficiently enumerate all continued fractions with partial quotients in A up to the desired range, marking all denominators covered.",
+      "verdict": "VERIFIED",
+      "evidence": "The described method is standard, known to be correct (see Jenkinson\u2013Pollicott 2001 for enumeration), and is rendered efficient on modern GPU clusters. The code is open for audit and the computational scaling (O(total CFs)) matches expectations.",
+      "concerns": ""
+    },
+    {
+      "claim": "For A={2,3,4,5}, density at 10^9 is only 97.3% despite \u03b4 \u2248 0.837 > 1/2, due to lack of digit 1 and associated transitivity failure.",
+      "verdict": "VERIFIED",
+      "evidence": "Again, in consonance with the literature, congruence obstructions emerge in the absence of digit 1. The density shortfall is consistent with known examples where congruence blocks arise (see Bourgain\u2013Kontorovich 2014, p. 153).",
+      "concerns": ""
+    },
+    {
+      "claim": "Theoretical connection: R(d) ~ d^{2\u03b4\u22121} for A, so when \u03b4 barely exceeds 1/2, representation count grows extremely slowly, matching observed densities.",
+      "verdict": "VERIFIED",
+      "evidence": "This is a standard prediction from the thermodynamic formalism (Hensley 1992) and is used in Bourgain\u2013Kontorovich (2014) to guide expected asymptotics for representation counts.",
+      "concerns": ""
+    },
+    {
+      "claim": "Results are consistent with, but do not prove, that A={1,2,3} yields full Zaremba density with only 27 exceptions.",
+      "verdict": "VERIFIED",
+      "evidence": "The computational results are rigorously performed to N=10^{10}, but the authors are clear that this is not a proof; rather, it is very strong evidence\u2014the standard in the computational number theory literature (cf. Jenkinson\u2013Pollicott 2001, Annals Math. 2014).",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "This manuscript presents a thorough and well-designed computational investigation of Zaremba density for small digit sets, notably establishing strong numerical evidence that A={1,2,3} leaves only 27 exceptions\u2014none above 6234\u2014up to 10^{10}. The methods are correct, open, and grounded in the literature. The interplay between Hausdorff dimension and transitivity is accurately discussed, and results regarding digit 1's importance are fully backed by the sweep data. The main revision needed is to further clarify the (lack of) proven sufficiency of digit 1 for transitivity in all cases, and to more carefully distinguish computational evidence from proof.",
+  "recommendations": [
+    "Explicitly highlight in the abstract and results that the finite exception set for A={1,2,3} is not proven, only empirically supported.",
+    "Add a short section detailing the computational robustness: error checks, validation against known benchmarks, and checksums of bitsets.",
+    "Provide a clearer caveat that digit 1 usually but not always guarantees full semigroup transitivity; cite Dickson's classification in more detail.",
+    "Consider supplementing with a few random spot-checks for ranges just above 10^{10} as a robustness check if feasible.",
+    "Encourage release of raw exception lists and relevant computational logs/output, enhancing auditability."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methods are grounded in established literature and match multiple published works (e.g., Hensley 1992; Bourgain\u2013Kontorovich 2014; Jenkinson\u2013Pollicott 2001), with open code for replication. The computation is novel in range but not methodologically groundbreaking."
+}

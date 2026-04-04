@@ -272,10 +272,12 @@ def call_llm(prompt, purpose="task"):
     if openai_key:
         try:
             log(f"  [{purpose}] via OpenAI API (gpt-4.1)...")
+            # OpenAI json_object mode requires "json" in the prompt
+            openai_prompt = prompt if "json" in prompt.lower() else prompt + "\nRespond with JSON."
             resp = httpx.post(
                 "https://api.openai.com/v1/chat/completions",
                 headers={"Authorization": f"Bearer {openai_key}", "Content-Type": "application/json"},
-                json={"model": "gpt-4.1", "messages": [{"role": "user", "content": prompt}],
+                json={"model": "gpt-4.1", "messages": [{"role": "user", "content": openai_prompt}],
                       "max_completion_tokens": 4000, "response_format": {"type": "json_object"}},
                 timeout=120.0,
             )

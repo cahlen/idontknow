@@ -1,0 +1,9 @@
+{
+  "issue_id": "for-d-=-54-and-d-=-150-every-coprime-num",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "severity": "important",
+  "description": "Add exhaustive search output for d=54 (18 coprime residues) and d=150 (40 coprime residues) showing max partial quotient for each",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add exhaustive search output for d=54 (18 coprime residues) and d=150 (40 coprime residues) showing max partial quotient for each",
+  "resolved_at": "2026-04-04T00:10:08.109387+00:00"
+}

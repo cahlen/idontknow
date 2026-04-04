@@ -1,0 +1,9 @@
+{
+  "issue_id": "adding-digit-4-resolves-25-of-the-27-exc",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "severity": "important",
+  "description": "Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
+  "resolved_at": "2026-04-04T00:10:08.109354+00:00"
+}

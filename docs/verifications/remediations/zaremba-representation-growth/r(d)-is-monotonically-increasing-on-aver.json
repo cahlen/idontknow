@@ -1,0 +1,9 @@
+{
+  "issue_id": "r(d)-is-monotonically-increasing-on-aver",
+  "finding_slug": "zaremba-representation-growth",
+  "severity": "important",
+  "description": "Replace overclaim about monotonic increase with precise statistical language. The DISPUTED verdict is correct \u2014 'monotonically increasing on average' is ill-defined.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Replace overclaim about monotonic increase with precise statistical language. The DISPUTED verdict is correct \u2014 'monotonically increasing on average' is ill-defined.",
+  "resolved_at": "2026-04-04T00:20:00.893185+00:00"
+}

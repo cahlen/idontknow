@@ -1,0 +1,12 @@
+{
+  "issue_id": "of-the-1-023-subsets-of--1---10---366-re",
+  "finding_slug": "zaremba-density-phase-transition",
+  "severity": "important",
+  "description": "Add SHA-256 of the CSV data file and path to the generation script.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add SHA-256 of the CSV data file and path to the generation script.",
+  "resolved_at": "2026-04-04T00:30:00.118785+00:00",
+  "commits": [
+    "5d0dd82"
+  ]
+}

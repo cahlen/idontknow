@@ -1,0 +1,9 @@
+{
+  "issue_id": "hardest-cases-(fewest-representations)-a",
+  "finding_slug": "zaremba-representation-growth",
+  "severity": "important",
+  "description": "Replace approximate table values with exact computed values and add a note about the full dataset being available.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Replace approximate table values with exact computed values and add a note about the full dataset being available.",
+  "resolved_at": "2026-04-04T00:20:00.893104+00:00"
+}

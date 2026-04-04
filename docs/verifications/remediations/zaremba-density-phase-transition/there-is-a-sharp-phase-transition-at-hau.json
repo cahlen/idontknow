@@ -1,0 +1,12 @@
+{
+  "issue_id": "there-is-a-sharp-phase-transition-at-hau",
+  "finding_slug": "zaremba-density-phase-transition",
+  "severity": "important",
+  "description": "Weaken 'sharp phase transition' to 'observed correlation' and clarify relationship to Bourgain-Kontorovich 2014 (which proves density 1 non-effectively for A\u226450) and Hensley's conjecture. Our data is consistent with BK14 but we do not prove a phase transition theorem.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Weaken 'sharp phase transition' to 'observed correlation' and clarify relationship to Bourgain-Kontorovich 2014 (which proves density 1 non-effectively for A\u226450) and Hensley's conjecture. Our data is consistent with BK14 but we do not prove a phase transition theorem.",
+  "resolved_at": "2026-04-04T00:30:00.118651+00:00",
+  "commits": [
+    "5d0dd82"
+  ]
+}

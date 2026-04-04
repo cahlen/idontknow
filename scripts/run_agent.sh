@@ -1,29 +1,56 @@
 #!/bin/bash
-# Launch the research agent with API keys from environment.
+# Launch the research agent.
+#
+# The agent works with ANY ONE of these (in priority order):
+#   1. Claude Code installed (uses 'claude -p', no API key needed)
+#   2. ANTHROPIC_API_KEY set (uses Claude API directly)
+#   3. OPENAI_API_KEY set (uses GPT-4.1)
+#
+# For multi-model peer reviews, OPENAI_API_KEY enables o3-pro/gpt-4.1/o3.
+# But even without it, the agent runs the full cycle using whatever is available.
 #
 # Usage:
-#   export ANTHROPIC_API_KEY='sk-ant-...'
-#   export OPENAI_API_KEY='sk-proj-...'
 #   ./scripts/run_agent.sh              # one tick
 #   ./scripts/run_agent.sh --loop       # loop every 10m
 #   ./scripts/run_agent.sh --dry-run    # report only
 #
-# Or source your keys from a non-committed file:
-#   source ~/.bigcompute_keys && ./scripts/run_agent.sh
+# Examples:
+#   # Claude Code user (no API keys needed):
+#   ./scripts/run_agent.sh
+#
+#   # Anthropic API only:
+#   export ANTHROPIC_API_KEY='sk-ant-...'
+#   ./scripts/run_agent.sh
+#
+#   # OpenAI API only:
+#   export OPENAI_API_KEY='sk-proj-...'
+#   ./scripts/run_agent.sh
+#
+#   # Both (best: Claude for analysis, OpenAI for diverse reviews):
+#   export ANTHROPIC_API_KEY='sk-ant-...'
+#   export OPENAI_API_KEY='sk-proj-...'
+#   ./scripts/run_agent.sh
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# Check keys
-if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
-    echo "WARNING: ANTHROPIC_API_KEY not set — analysis phase will be skipped"
-fi
-if [ -z "${OPENAI_API_KEY:-}" ]; then
-    echo "WARNING: OPENAI_API_KEY not set — OpenAI reviews will be skipped"
+# Check what's available
+HAS_CLAUDE=$(which claude 2>/dev/null && echo "yes" || echo "no")
+HAS_ANTHROPIC=$([ -n "${ANTHROPIC_API_KEY:-}" ] && echo "yes" || echo "no")
+HAS_OPENAI=$([ -n "${OPENAI_API_KEY:-}" ] && echo "yes" || echo "no")
+
+if [ "$HAS_CLAUDE" = "no" ] && [ "$HAS_ANTHROPIC" = "no" ] && [ "$HAS_OPENAI" = "no" ]; then
+    echo "ERROR: Need at least one of:"
+    echo "  - Claude Code installed (claude CLI)"
+    echo "  - ANTHROPIC_API_KEY set"
+    echo "  - OPENAI_API_KEY set"
+    exit 1
 fi
 
-# Pass API_KEY for review script (it uses API_KEY not OPENAI_API_KEY)
-export API_KEY="${OPENAI_API_KEY:-}"
+echo "LLM availability: claude=$HAS_CLAUDE anthropic=$HAS_ANTHROPIC openai=$HAS_OPENAI"
+
+# Pass API_KEY for review script
+export API_KEY="${OPENAI_API_KEY:-${ANTHROPIC_API_KEY:-}}"
 
 if [ "${1:-}" = "--loop" ]; then
     shift

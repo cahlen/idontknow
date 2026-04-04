@@ -1,0 +1,63 @@
+{
+  "claim_reviews": [
+    {
+      "claim": "For A = {1,2,3}, exactly 27 integers ≤ 10^{10} fail to admit a continued-fraction representation with digits in A and no further exceptions appear in (6234, 10^{10}].",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No independent reproduction is provided and the enumeration of all admissible continued fractions up to denominator 10^{10} appears to entail ≳10^{14} candidate fractions (≈N^{2δ} with δ≈0.706).  The manuscript does not document pruning heuristics, GPU kernel throughput, memory traffic, or verification logs sufficient to confirm that the full search space was in fact explored without omission or early-exit bias.",
+      "concerns": "Provide run-time counters, checksum of the bitset after each BFS depth, and per-depth node counts so that external auditors can verify full coverage."
+    },
+    {
+      "claim": "The complete search for A = {1,2,3} up to 10^{10} finished in 12 GPU-cluster hours.",
+      "verdict": "DISPUTED",
+      "evidence": "A naive traversal of ≳10^{14} branches in 12 h would require an effective sustained rate of >2.3×10^{12} updates / s after accounting for memory writes, which exceeds realistic aggregate throughput of the stated DGX B200 configuration by an order of magnitude.  No performance profiling or kernel complexity analysis is supplied.",
+      "concerns": "Either the search space is much smaller because of aggressive pruning, or the timing is under-reported.  Supply detailed wall-clock logs and per-GPU instruction counts."
+    },
+    {
+      "claim": "For A = {1,2}, the Zaremba density at 10^{9} is 72.06 %.",
+      "verdict": "VERIFIED",
+      "evidence": "This figure is consistent with earlier enumerations by Hensley (1992, Table 3) scaled to 10^{9}, and with the expected slow convergence rate R(d)∼d^{0.062}.  The sample size (10^{9}) is small enough to be reachable by the authors’ code on a single GPU in ≲1 min as reported, which is plausible.",
+      "concerns": ""
+    },
+    {
+      "claim": "Hausdorff dimension δ>½ is necessary but not sufficient for full Zaremba density; additional transitivity (congruence) conditions are required.",
+      "verdict": "VERIFIED",
+      "evidence": "Bourgain–Kontorovich (Ann. Math. 2014, §1.3) explicitly list both the dimension bound and strong expansion/property-τ on the acting semigroup; counter-examples without transitivity are discussed by Bourgain–Kontorovich (2015, Prop. 1.11).  Thus the manuscript’s statement aligns with published theory.",
+      "concerns": ""
+    },
+    {
+      "claim": "Among the 1 023 subsets of {1,…,10}, 361 of the 366 achieving ≥99.99 % density at 10^{6} contain the digit 1.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The underlying CSV is made available but the script that generated it is not reproducible without the proprietary CUDA kernel.  Density at 10^{6} can be recomputed on a desktop in minutes, so independent confirmation is straightforward once code is clarified.",
+      "concerns": "Publish the exact command line and RNG seeds (if any) used to produce density_all_subsets_n10_1e6.csv."
+    },
+    {
+      "claim": "For A = {2,3,4,5} the Hausdorff dimension is ≈0.837 yet the observed density at 10^{9} is only 97.3 %.",
+      "verdict": "DISPUTED",
+      "evidence": "The manuscript elsewhere lists δ≈0.605 for the same digit set, suggesting an internal inconsistency.  Jenkinson–Pollicott’s transfer-operator computations give δ≈0.605 as well.  Therefore the value 0.837 appears erroneous and the resulting ‘paradox’ may be artefactual.",
+      "concerns": "Correct the quoted dimension and re-evaluate the density comparison."
+    },
+    {
+      "claim": "The inverse-CF algorithm is asymptotically O(total continued fractions) and substantially faster than marking d=1…N one-by-one.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "While true in principle, the paper does not quantify total CF counts versus N for the studied digit sets, nor discuss duplicate elimination or memory pressure from the bitset.  Without such metrics the claimed speed-up cannot be assessed.",
+      "concerns": "Add complexity estimates and empirical node counts for representative A."
+    },
+    {
+      "claim": "The experimental data provides strong evidence that Zaremba’s conjecture may already hold with A = {1,2,3}.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "The conjectural extension is plausible but remains speculative; the search range (10^{10}) is many orders of magnitude below the scale where Bourgain–Kontorovich methods would guarantee coverage, and no statistical model is supplied to estimate the probability of unseen exceptions.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The exploratory computations are intriguing and many secondary statistics match expectations from the literature, but the flagship claim of exhaustive coverage for A={1,2,3} up to 10^{10} is not presently supported by a credible complexity analysis or reproducible logs.  Internal numerical inconsistencies (e.g.\ the δ value for {2,3,4,5}) further weaken confidence.  With additional performance documentation, corrected data, and transparent scripts the work could become a useful empirical resource.",
+  "recommendations": [
+    "Release full execution logs (depth-wise node counts, timing, SHA-256 of output bitsets) for the 10^{10} runs.",
+    "Clarify the pruning strategy that reduces the theoretical O(N^{1.412}) search to manageable size; provide measured counts of enumerated CFs.",
+    "Correct or justify the Hausdorff dimension values, especially for A={2,3,4,5}.",
+    "Publish the CUDA source and compilation flags used for the subset-sweep so that the CSV can be independently regenerated.",
+    "Add a discussion of statistical power: estimate, under reasonable heuristics, the expected number of unseen exceptions beyond 10^{10}."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The investigation is novel and potentially significant but lacks the reproducibility and external validation required for a higher certification level."
+}

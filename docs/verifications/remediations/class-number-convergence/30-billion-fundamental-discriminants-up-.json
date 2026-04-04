@@ -1,0 +1,9 @@
+{
+  "issue_id": "30-billion-fundamental-discriminants-up-",
+  "finding_slug": "class-number-convergence",
+  "severity": "important",
+  "description": "Add wall-clock time, GPU utilization, and validation sampling details for the 27B block in the Update section.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add wall-clock time, GPU utilization, and validation sampling details for the 27B block in the Update section.",
+  "resolved_at": "2026-04-04T00:07:33.273467+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "issue_id": "using-dickson's-classification,-the-subg",
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "severity": "important",
+  "description": "Section (3) already uses element order (non-circular) instead of group size, but the phrase 'A direct check shows' is vague. Replace with an explicit resultant-based argument that makes the finiteness and computability of the exceptional prime set rigorous.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Section (3) already uses element order (non-circular) instead of group size, but the phrase 'A direct check shows' is vague. Replace with an explicit resultant-based argument that makes the finiteness and computability of the exceptional prime set rigorous.",
+  "resolved_at": "2026-04-04T00:18:08.567675+00:00"
+}

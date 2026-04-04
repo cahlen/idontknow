@@ -1,0 +1,9 @@
+{
+  "issue_id": "verified-via-gpu-representation-counter-",
+  "finding_slug": "zaremba-representation-growth",
+  "severity": "important",
+  "description": "Add GPU benchmark details: hardware, wall-time, kernel parameters, and output hash.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add GPU benchmark details: hardware, wall-time, kernel parameters, and output hash.",
+  "resolved_at": "2026-04-04T00:20:00.893151+00:00"
+}

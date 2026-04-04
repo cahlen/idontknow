@@ -1,0 +1,9 @@
+{
+  "issue_id": "this-is-the-first-complete-s_40-characte",
+  "finding_slug": "kronecker-s40-character-table",
+  "severity": "important",
+  "description": "Already resolved in commit 9428528. The claim now reads 'first publicly archived explicit file' with an explicit caveat that GAP has provided on-demand computation since 1997.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Already resolved in commit 9428528. The claim now reads 'first publicly archived explicit file' with an explicit caveat that GAP has provided on-demand computation since 1997.",
+  "resolved_at": "2026-04-04T00:06:24.089601+00:00"
+}

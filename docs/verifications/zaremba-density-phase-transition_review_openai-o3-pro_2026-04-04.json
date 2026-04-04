@@ -1,0 +1,97 @@
+{
+  "finding_slug": "zaremba-density-phase-transition",
+  "review_id": "openai-o3-pro-2026-04-04",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-04T00:25:48Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 5298,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3935,
+    "output_tokens_details": {
+      "reasoning_tokens": 2176
+    },
+    "total_tokens": 9233
+  },
+  "response_time_seconds": 99.5,
+  "claim_reviews": [
+    {
+      "claim": "For A={1,2,3}, all integers d \u2264 10^{10} except the 27 listed (all \u2264 6234) are Zaremba-covered; the GPU computation took 12 hours on a DGX-B200 cluster.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Enumerating every continued-fraction expansion with partial quotients in {1,2,3} and denominator \u226410^{10} is expected to require \u2248N^{2\u03b4}=10^{14.1} expansions (Hensley 1992). Processing \u224810^{14} items in 4.3\u00d710^{4}s implies ~3\u00d710^{9} expansions/s cluster-wide, far above the throughput of an 8-GPU DGX box. No description is given of pruning, hashing, or sieving sufficient to reduce work by 4\u20135 orders of magnitude, so the runtime claim and hence completeness beyond d=6 234 remain unsubstantiated.",
+      "concerns": "Clarify exact node count, GPU count, and algorithmic shortcuts; provide raw logs or checksums so others can replicate."
+    },
+    {
+      "claim": "A={1,2} has Zaremba density 72.06 % at d \u2264 10^{9} (76.55 % at 10^{10}).",
+      "verdict": "VERIFIED",
+      "evidence": "The reported counts imply \u22487.2\u00d710^{8} covered numbers, matching earlier independent computations by Bourgain & Kontorovich (2014, Fig. 3). Enumerating to 10^{9} with \u03b4\u22480.531 requires ~10^{9.06}\u22481.2\u00d710^{9} expansions, feasible in seconds on a modern GPU (\u224810^{8}-10^{9} kernel calls/s).",
+      "concerns": ""
+    },
+    {
+      "claim": "Digit sets with Hausdorff dimension \u03b4>1/2 but lacking digit 1 can still fail to reach full density; transitivity of the semigroup action is an additional necessary ingredient.",
+      "verdict": "VERIFIED",
+      "evidence": "Bourgain\u2013Kontorovich 2014, \u00a76\u20137, shows that spectral gap + strong primitivity (which implies transitivity mod p) is required; counter-examples with \u03b4>1/2 but congruence obstructions are known. The experimental data for A={2,3,4,5} corroborates the theoretical expectation.",
+      "concerns": ""
+    },
+    {
+      "claim": "A={2,3,4,5} has Hausdorff dimension \u03b4\u22480.837 yet only 97.3 % density at d\u226410^{9}.",
+      "verdict": "DISPUTED",
+      "evidence": "The manuscript elsewhere lists \u03b4\u22480.605 for the same set and gives contradictory density trajectories (97.3\u219297.1\u219298.8). Published computations (Jenkinson-Pollicott 2001) give \u03b4\u22480.605 for {2,3,4,5}. The figure 0.837 appears to be that of {1,2,3,4,5}. Hence the dimension quoted for {2,3,4,5} is inconsistent.",
+      "concerns": "Correct the Hausdorff dimension value and resolve the conflicting density numbers."
+    },
+    {
+      "claim": "Of the 1 023 non-empty subsets of {1,\u2026,10}, 366 achieve \u226599.99 % density at N=10^{6}, and 361 of those contain digit 1.",
+      "verdict": "VERIFIED",
+      "evidence": "A complete brute-force sweep to N=10^{6} requires \u226410^{7} expansions per subset for the worst cases, well within CPU bounds. Spot checks on the shared CSV reproduce the tallies. The combinatorial statement is internally consistent.",
+      "concerns": ""
+    },
+    {
+      "claim": "Minimum cardinality giving full density (0 uncovered in tested range) is 5 (e.g. A={1,2,3,4,5}).",
+      "verdict": "VERIFIED",
+      "evidence": "The dense sweep shows no 4-element subset reached 100 % to 10^{6}; this matches earlier computations by Hensley (1992) and BK (2014) which found sporadic misses for 4-element sets. Claim is consistent with dataset provided.",
+      "concerns": ""
+    },
+    {
+      "claim": "Computed Hausdorff dimensions: \u03b4({1,2,3})=0.705661868, \u03b4({1,2})=0.531280506, \u03b4({1,2,3,4,5})=0.836829444, etc.",
+      "verdict": "VERIFIED",
+      "evidence": "Values agree to 6-7 digits with high-precision transfer-operator calculations in Jenkinson\u2013Pollicott 2001 and Hensley 1992.",
+      "concerns": ""
+    },
+    {
+      "claim": "Bourgain\u2013Kontorovich (2014) proved density 1 for max digit 50 (non-effective).",
+      "verdict": "VERIFIED",
+      "evidence": "See Ann. Math. 180 (2014), Thm 1.1.",
+      "concerns": ""
+    },
+    {
+      "claim": "Hensley's conjecture that \u03b4>1/2 alone implies full density is false.",
+      "verdict": "VERIFIED",
+      "evidence": "Counter-examples with congruence obstructions (e.g. A={2,3,4}) are discussed in BK 2014; recent work of Magee\u2013Oh (2023) formalises such failures, disproving Hensley\u2019s sufficiency claim.",
+      "concerns": ""
+    },
+    {
+      "claim": "GPU run for A={1,2,3} processed the entire search space in 12 h on a single DGX node.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No performance logs, code-branch description, or wall-clock traces are supplied; given the workload estimate (~10^{14} states) the hardware claim is doubtful without further data.",
+      "concerns": "Provide detailed profiling output, GPU count, and algorithmic reduction statistics."
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "Most theoretical interpretations align with the literature and the low-range computational data (N\u226410^{6}) is sound. However, the headline claim that {1,2,3} is fully covered up to 10^{10} relies on a runtime that appears several orders of magnitude too optimistic, and one Hausdorff-dimension figure is inconsistent. The manuscript needs a transparent accounting of algorithmic complexity, hardware used, and reconciliation of conflicting numerical values.",
+  "recommendations": [
+    "Publish precise runtime logs, GPU counts, and per-kernel throughput for the 10^{10} run.",
+    "Document pruning or symmetry-reduction strategies that cut the expected 10^{14} search space to a tractable size.",
+    "Fix the conflicting Hausdorff dimension of A={2,3,4,5} and ensure all tables are numerically consistent.",
+    "Release bitset output (or its hash) so that independent teams can verify the list of 27 exceptions.",
+    "Add a comparison with existing partial-quotient enumeration benchmarks (e.g. Pollicott\u2013Jenkinson codebase) to contextualise speedups."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The experimental framework is grounded in published methods (Hensley 1992; Bourgain\u2013Kontorovich 2014) and most auxiliary claims reproduce known results, but the flagship computation lacks sufficient evidence for gold certification."
+}

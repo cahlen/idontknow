@@ -1,23 +1,25 @@
 {
-  "generated_at": "2026-04-04T00:02:44Z",
+  "generated_at": "2026-04-04T00:30:00Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 15,
-    "total_reviews": 41,
-    "total_remediations": 92,
-    "remediations_resolved": 90,
-    "unique_models": 4,
-    "unique_providers": 3,
+    "total_reviews": 43,
+    "total_remediations": 121,
+    "remediations_resolved": 118,
+    "unique_models": 5,
+    "unique_providers": 4,
     "models": [
       "Claude Opus 4.6",
       "GPT-5.2",
       "Grok",
+      "gpt-4.1",
       "o3-pro"
     ],
     "providers": [
       "Anthropic",
       "OpenAI",
+      "openai",
       "xAI"
     ]
   },
@@ -93,6 +95,13 @@
       ],
       "remediations": [
         {
+          "issue_id": "30-billion-fundamental-discriminants-up-",
+          "severity": "important",
+          "description": "Add wall-clock time, GPU utilization, and validation sampling details for the 27B block in the Update section.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "30-billion-fundamental-discriminants-up-to-10-11",
           "severity": "minor",
           "description": "Provide total wall-clock time, GPU utilisation, and validation sampling for the 27 B block.",
@@ -114,8 +123,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 3,
-      "issues_resolved": 3,
+      "issues_found": 4,
+      "issues_resolved": 4,
       "last_reviewed": "2026-04-03T19:55:49Z"
     },
     "gpu-matrix-enumeration-175x": {
@@ -487,6 +496,13 @@
       ],
       "remediations": [
         {
+          "issue_id": "for-'near-rectangular'-triples-the-maxim",
+          "severity": "important",
+          "description": "Already resolved in commit 9428528. The finding now includes the explicit shape set in a table, defines the near-rectangular partition set, and states checksums are in the GitHub repository.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "for-near-rectangular-triples-the-maximum-kroneck",
           "severity": "minor",
           "description": "Supply explicit shape set and a checksum of the output so others can cross-check.",
@@ -494,11 +510,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "near-rectangular-gct-relevant-triples-ha",
+          "severity": "important",
+          "description": "Already resolved in commit 9428528. The text now explicitly states the near-rectangular set is broader than strict GCT-relevant shapes and that 10.1% is an upper bound on GCT-relevant positivity.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "near-rectangular-gct-relevant-triples-have-only-10",
           "severity": "minor",
           "description": "The set of 'near-rectangular' partitions used is broader than the strict GCT-relevant set. The 10.1% rate should be interpreted as an upper bound on G",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "random-sampling-of-1-000-triples-indicat",
+          "severity": "important",
+          "description": "Already resolved in commit 9428528. The method section now specifies uniform sampling over unordered partition triples with replacement and notes the random seed is documented in the analysis script.",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "random-sampling-of-1-000-triples-indicates-94-9",
@@ -513,10 +543,17 @@
           "description": "Rephrase claim to \u2018first publicly archived explicit file\u2019 or similar.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "this-is-the-first-complete-s_40-characte",
+          "severity": "important",
+          "description": "Already resolved in commit 9428528. The claim now reads 'first publicly archived explicit file' with an explicit caveat that GAP has provided on-demand computation since 1997.",
+          "status": "resolved",
+          "resolved_commit": ""
         }
       ],
-      "issues_found": 4,
-      "issues_resolved": 4,
+      "issues_found": 8,
+      "issues_resolved": 8,
       "last_reviewed": "2026-04-03T20:09:44Z"
     },
     "zaremba-A12-logarithmic-convergence": {
@@ -708,6 +745,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "computed-cayley-graph-diameters-of-\u03b3_{1,",
+          "severity": "important",
+          "description": "The prime count 172 is correct (\u03c0(1021)=172); the reviewer's '669' does not appear in the finding. However, the body text ratio range [1.37, 2.89] is inconsistent with the data table (p=5 has ratio 3.11) and the frontmatter [1.37, 3.11]. Fix the display equation and add a clarifying note about the prime count.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "diameter-bound-translates-directly-to-a-worst-case",
           "severity": "minor",
           "description": "Cite a proof or give a careful argument for the mod-p to integer lift.",
@@ -722,19 +766,33 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "full-bfs-over-|sl\u2082(1021)|-\u2248-1.06\u00d710\u2079-ele",
+          "severity": "important",
+          "description": "Add measured throughput and validation details to the Method section to rule out early termination.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "the-observed-ratio-decreases-and-appears-to-conver",
           "severity": "minor",
           "description": "Provide quantitative trend analysis and error bars; temper the asymptotic claim.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-observed-ratio-decreases-and-appears",
+          "severity": "important",
+          "description": "Strengthen the existing disclaimer with quantitative trend data from the table. The disclaimer already tempers the claim but lacks numbers.",
+          "status": "resolved",
+          "resolved_commit": ""
         }
       ],
-      "issues_found": 4,
-      "issues_resolved": 4,
+      "issues_found": 7,
+      "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:50:28Z"
     },
     "zaremba-conjecture-proved": {
-      "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed)",
+      "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
       "certification": {
         "level": "bronze",
         "review_count": 5,
@@ -858,6 +916,20 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "a-dolgopyat-type-calculation-gives-\u03c1_\u03b7-\u2264",
+          "severity": "important",
+          "description": "Downgrade the claim from 'certified' to numerical heuristic, consistent with the summary already noting \u03c1_\u03b7 is FP64 not interval-certified.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "computer-assisted-proof-of-zaremba's-con",
+          "severity": "important",
+          "description": "The word 'proof' is premature. Replace with 'proof framework' in the effective_range field, which was already partially addressed above but also needs the title-level language fixed.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "computer-assisted-proof-of-zaremba-s-conjecture-fo",
           "severity": "minor",
           "description": "The proof has known certification gaps. Calling it a 'proof' is premature until gaps are closed.",
@@ -876,6 +948,13 @@
           "severity": "critical",
           "description": "MOW (Magee-Oh-Winter 2019) theorem matching not verified: the original paper does not supply explicit constants, and Calderon-Magee (2025) gives explicit gap only for untwisted operators. No detailed constant-tracking appendix shows how epsilon and D0 are derived from published theorems.",
           "status": "acknowledged",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "only-one-specialist-gap-remains-(matchin",
+          "severity": "important",
+          "description": "The summary already lists 6 gaps from the 2026-04-01 correction, but the status field still understates them. Update the status to explicitly enumerate gaps.",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -914,6 +993,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "using-the-explicit-constants-from-magee-",
+          "severity": "important",
+          "description": "Add explicit note that constant-tracking has not been independently verified and needs a reproducible notebook.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "using-the-explicit-constants-from-magee-oh-winter",
           "severity": "important",
           "description": "Provide a detailed constant-tracking appendix or Sage/arb notebook reproducing every numeric inequality.",
@@ -921,15 +1007,15 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 11,
-      "issues_resolved": 9,
+      "issues_found": 15,
+      "issues_resolved": 13,
       "last_reviewed": "2026-04-03T19:52:39Z"
     },
     "zaremba-density-phase-transition": {
       "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -992,15 +1078,69 @@
             "unverifiable": 0
           },
           "key_finding": "The computational results are correct and significant. The 27 exceptions are genuine, the density sweep is comprehensive, and digit 1 dominance is a real phenomenon. However, the 'phase transition at "
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-04-04",
+          "file": "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "openai"
+          },
+          "reviewed_at": "2026-04-04T00:26:11Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 11,
+            "verified": 11,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This manuscript presents a thorough and well-designed computational investigation of Zaremba density for small digit sets, notably establishing strong numerical evidence that A={1,2,3} leaves only 27 "
+        },
+        {
+          "review_id": "openai-o3-pro-2026-04-04",
+          "file": "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "openai"
+          },
+          "reviewed_at": "2026-04-04T00:25:48Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 10,
+            "verified": 7,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 1
+          },
+          "key_finding": "Most theoretical interpretations align with the literature and the low-range computational data (N\u226410^{6}) is sound. However, the headline claim that {1,2,3} is fully covered up to 10^{10} relies on a"
         }
       ],
       "remediations": [
+        {
+          "issue_id": "digit-1-guarantees-transitivity-of-the-a",
+          "severity": "important",
+          "description": "Add formal reference and clarify that the transitivity claim is empirically observed and supported by Dickson's classification of finite linear semigroups, not a standalone proven theorem. Reference Bourgain\u2013Fuchs 2011 and Bourgain\u2013Kontorovich 2014.",
+          "status": "resolved",
+          "resolved_commit": "5d0dd82"
+        },
         {
           "issue_id": "digit-1-guarantees-transitivity-of-the-associated",
           "severity": "minor",
           "description": "Give formal statement and proof or reference (e.g. Bourgain\u2013Fuchs 2011).",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-a----1-2-3---exactly-27-denominators",
+          "severity": "important",
+          "description": "Add reproducibility section with SHA-256 checksums of the GPU log and source code, plus the exact command to reproduce.",
+          "status": "resolved",
+          "resolved_commit": "5d0dd82"
         },
         {
           "issue_id": "for-a-1-2-3-exactly-27-denominators-10-10-a",
@@ -1010,11 +1150,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "of-the-1-023-subsets-of--1---10---366-re",
+          "severity": "important",
+          "description": "Add SHA-256 of the CSV data file and path to the generation script.",
+          "status": "resolved",
+          "resolved_commit": "5d0dd82"
+        },
+        {
           "issue_id": "of-the-1-023-subsets-of-1-10-366-reach-99-99",
           "severity": "minor",
           "description": "Publish the script that generated the CSV and SHA-256 of the data file.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "phase-transition-at-hausdorff-dimension-",
+          "severity": "important",
+          "description": "Same core issue as the o3-pro dispute. The summary line in frontmatter needs to distinguish between the \u03b4>1/2 correlation and the additional transitivity requirement. Already addressed in the summary fix above. Additionally fix the threshold data field description.",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "phase-transition-at-hausdorff-dimension-delta-1",
@@ -1024,11 +1178,32 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "phase-transition-at-hausdorff-dimension",
+          "severity": "important",
+          "description": "Same root issue as the o3-pro dispute on 'sharp phase transition'. The summary rewrite (remediation #2 above) addresses this by replacing 'phase transition' framing with 'two necessary conditions' framing and explicitly noting {2,3,4,5} as a counterexample to the simple \u03b4>1/2 threshold.",
+          "status": "resolved",
+          "resolved_commit": "5d0dd82"
+        },
+        {
+          "issue_id": "the-work-merits-a-gold-certification-lev",
+          "severity": "minor",
+          "description": "Already resolved: certification was downgraded to silver in a prior remediation pass (commit 9428528). The manifest confirms level: silver. No further change needed.",
+          "status": "disagree",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "the-work-merits-a-gold-certification-level",
           "severity": "important",
           "description": "Recommend downgrading to silver.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "there-is-a-sharp-phase-transition-at-hau",
+          "severity": "important",
+          "description": "Weaken 'sharp phase transition' to 'observed correlation' and clarify relationship to Bourgain-Kontorovich 2014 (which proves density 1 non-effectively for A\u226450) and Hensley's conjecture. Our data is consistent with BK14 but we do not prove a phase transition theorem.",
+          "status": "resolved",
+          "resolved_commit": "5d0dd82"
         },
         {
           "issue_id": "there-is-a-sharp-phase-transition-at-hausdorff-dim",
@@ -1038,9 +1213,9 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 6,
-      "issues_resolved": 6,
-      "last_reviewed": "2026-04-03T20:01:13Z"
+      "issues_found": 13,
+      "issues_resolved": 12,
+      "last_reviewed": "2026-04-04T00:26:11Z"
     },
     "zaremba-digit-pair-hierarchy": {
       "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 7x More Than Digit 3",
@@ -1211,11 +1386,25 @@
       ],
       "remediations": [
         {
+          "issue_id": "adding-digit-4-resolves-25-of-the-27-exc",
+          "severity": "important",
+          "description": "Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "adding-digit-4-resolves-25-of-the-27-exceptions-l",
           "severity": "minor",
           "description": "Publish, for each of the 25 denominators, an explicit numerator whose continued fraction uses only digits \u2264 4, and a proof (or exhaustive search log) ",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "exactly-27-denominators-(all-\u2264-6234)-fai",
+          "severity": "important",
+          "description": "Add the complete list of all 27 exceptions with reference to verification code",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "exactly-27-denominators-all-6234-fail-to-admit",
@@ -1232,15 +1421,29 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "for-d-=-54-and-d-=-150-every-coprime-num",
+          "severity": "important",
+          "description": "Add exhaustive search output for d=54 (18 coprime residues) and d=150 (40 coprime residues) showing max partial quotient for each",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "for-every-denominator-d-10-10-there-exists-a-c",
           "severity": "minor",
           "description": "Provide precise algorithm, parallelisation strategy, run-time, memory usage, and publicly accessible result logs or hashes.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-every-denominator-d-\u2264-10^{10}-there-",
+          "severity": "important",
+          "description": "Add computational details section with algorithm, parallelization, runtime, and reference to reproduction logs",
+          "status": "resolved",
+          "resolved_commit": ""
         }
       ],
-      "issues_found": 4,
-      "issues_resolved": 4,
+      "issues_found": 8,
+      "issues_resolved": 8,
       "last_reviewed": "2026-04-03T20:03:34Z"
     },
     "zaremba-representation-growth": {
@@ -1314,11 +1517,25 @@
       ],
       "remediations": [
         {
+          "issue_id": "hardest-cases-(fewest-representations)-a",
+          "severity": "important",
+          "description": "Replace approximate table values with exact computed values and add a note about the full dataset being available.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "hardest-cases-fewest-representations-are-d-1-a",
           "severity": "minor",
           "description": "Release the full R(d) list (e.g. CSV) and a verifier that recomputes the counts for d \u2264 10^4 so reviewers can spot-check.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "r(d)-is-monotonically-increasing-on-aver",
+          "severity": "important",
+          "description": "Replace overclaim about monotonic increase with precise statistical language. The DISPUTED verdict is correct \u2014 'monotonically increasing on average' is ill-defined.",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "r-d-is-monotonically-increasing-on-average-the-la",
@@ -1335,11 +1552,32 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "the-growth-exponent-matches-theory-to-0.",
+          "severity": "important",
+          "description": "Add the confidence interval and clarify the percentage discrepancy calculation.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "the-number-of-cf-representations-r(d)-wi",
+          "severity": "important",
+          "description": "Add regression methodology (OLS on log-log) and note fitted exponent with standard error. Replace vague approximate values in table with actual computed values where possible.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "the-number-of-cf-representations-r-d-with-partial",
           "severity": "minor",
           "description": "Provide the regression details, raw R(d) values, and statistical error estimates.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "verified-via-gpu-representation-counter-",
+          "severity": "important",
+          "description": "Add GPU benchmark details: hardware, wall-time, kernel parameters, and output hash.",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "verified-via-gpu-representation-counter-to-d-10",
@@ -1349,8 +1587,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 5,
-      "issues_resolved": 5,
+      "issues_found": 10,
+      "issues_resolved": 10,
       "last_reviewed": "2026-04-03T19:54:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
@@ -1576,6 +1814,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "using-dickson's-classification,-the-subg",
+          "severity": "important",
+          "description": "Section (3) already uses element order (non-circular) instead of group size, but the phrase 'A direct check shows' is vague. Replace with an explicit resultant-based argument that makes the finiteness and computability of the exceptional prime set rigorous.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "using-dickson-s-classification-the-subgroup-h-h1",
           "severity": "important",
           "description": "Provide a non-circular size estimate for H or an independent argument excluding all maximal subgroups.",
@@ -1583,8 +1828,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 7,
-      "issues_resolved": 7,
+      "issues_found": 8,
+      "issues_resolved": 8,
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {

@@ -8,7 +8,7 @@
   "bisection_steps": 55,
   "power_iterations": 300,
   "precision_digits": 15,
-  "total_runtime_seconds": 4342.8,
+  "total_runtime_seconds": 8654.9,
   "novel": true,
   "description": "First complete Hausdorff dimension spectrum for all subsets of {1,...,20}"
 }
