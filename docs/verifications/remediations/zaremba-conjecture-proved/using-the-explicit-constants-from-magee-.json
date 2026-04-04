@@ -1,0 +1,9 @@
+{
+  "issue_id": "using-the-explicit-constants-from-magee-",
+  "finding_slug": "zaremba-conjecture-proved",
+  "severity": "important",
+  "description": "Add explicit note that constant-tracking has not been independently verified and needs a reproducible notebook.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add explicit note that constant-tracking has not been independently verified and needs a reproducible notebook.",
+  "resolved_at": "2026-04-04T00:03:25.309433+00:00"
+}

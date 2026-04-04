@@ -10,5 +10,7 @@
   "action_taken": "Reviewer assumed bottom-up per-integer CF computation (O(N)). Our kernel uses top-down semigroup enumeration: generate all CF expansions from digit sequences and mark denominators via GPU bitset. Cost is O(number of valid CFs), not O(N). For sparse digit sets like {1,k}, there are far fewer valid CFs than integers, making 10-15s at 10^10 correct. The kernel source is at scripts/experiments/zaremba-density/zaremba_density_gpu.cu.",
   "resolved_by": null,
   "resolved_at": "2026-04-03T17:00:00Z",
-  "commits": []
+  "commits": [
+    "9428528"
+  ]
 }

@@ -88,6 +88,7 @@ def build_certifications(manifest):
                     "description": r.get("description", ""),
                     "severity": r.get("severity", ""),
                     "status": r.get("status", ""),
+                    "commit": r.get("resolved_commit", ""),
                 }
                 for r in finding.get("remediations", [])
             ],

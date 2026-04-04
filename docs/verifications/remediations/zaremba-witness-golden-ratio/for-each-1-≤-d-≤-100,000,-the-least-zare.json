@@ -5,5 +5,8 @@
   "description": "Add data availability section with raw data reference and checksum commitment before the References section",
   "status": "resolved",
   "action_taken": "Auto-fixed by research agent: Add data availability section with raw data reference and checksum commitment before the References section",
-  "resolved_at": "2026-04-03T23:24:34.312492+00:00"
+  "resolved_at": "2026-04-03T23:24:34.312492+00:00",
+  "commits": [
+    "9428528"
+  ]
 }

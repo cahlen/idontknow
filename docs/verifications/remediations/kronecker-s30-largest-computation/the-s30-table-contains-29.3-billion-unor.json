@@ -2,8 +2,11 @@
   "issue_id": "the-s30-table-contains-29.3-billion-unor",
   "finding_slug": "kronecker-s30-largest-computation",
   "severity": "important",
-  "description": "Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
+  "description": "Add a verification subsection with SHA-256 checksums for each Parquet shard and a small random sample of 5 triples so reviewers can cross-validate without downloading the full dataset.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
-  "resolved_at": "2026-04-03T23:51:39.683413+00:00"
+  "action_taken": "Auto-fixed by research agent: Add a verification subsection with SHA-256 checksums for each Parquet shard and a small random sample of 5 triples so reviewers can cross-validate without downloading the full dataset.",
+  "resolved_at": "2026-04-03T23:56:45.284644+00:00",
+  "commits": [
+    "9428528"
+  ]
 }

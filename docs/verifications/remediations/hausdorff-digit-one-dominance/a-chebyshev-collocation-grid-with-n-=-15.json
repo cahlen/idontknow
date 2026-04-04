@@ -1,0 +1,12 @@
+{
+  "issue_id": "a-chebyshev-collocation-grid-with-n-=-15",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "severity": "important",
+  "description": "Without a truncation error analysis, claiming 3-decimal-place accuracy is unsupported. Reduce stated precision or add error qualification. The frontmatter data reports 3 decimal places which is appropriate for display, but the accuracy claim in the body should be hedged.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Without a truncation error analysis, claiming 3-decimal-place accuracy is unsupported. Reduce stated precision or add error qualification. The frontmatter data reports 3 decimal places which is appropriate for display, but the accuracy claim in the body should be hedged.",
+  "resolved_at": "2026-04-04T00:02:12.494068+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

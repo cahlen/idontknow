@@ -1,0 +1,9 @@
+{
+  "issue_id": "computer-assisted-proof-of-zaremba's-con",
+  "finding_slug": "zaremba-conjecture-proved",
+  "severity": "important",
+  "description": "The word 'proof' is premature. Replace with 'proof framework' in the effective_range field, which was already partially addressed above but also needs the title-level language fixed.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The word 'proof' is premature. Replace with 'proof framework' in the effective_range field, which was already partially addressed above but also needs the title-level language fixed.",
+  "resolved_at": "2026-04-04T00:03:25.309505+00:00"
+}

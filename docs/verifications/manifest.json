@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-03T23:53:45Z",
+  "generated_at": "2026-04-04T00:02:44Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 15,
     "total_reviews": 41,
-    "total_remediations": 88,
-    "remediations_resolved": 86,
+    "total_remediations": 92,
+    "remediations_resolved": 90,
     "unique_models": 4,
     "unique_providers": 3,
     "models": [
@@ -169,6 +169,13 @@
       ],
       "remediations": [
         {
+          "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-de",
+          "severity": "important",
+          "description": "The finding already contains partial per-GPU timing info (18.9-21.7s per GPU, <15% skew). We can strengthen the existing 8-GPU paragraph with peak memory usage and explicit communication pattern details that are already implied but not stated clearly.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-denominators",
           "severity": "minor",
           "description": "Provide per-GPU timing, inter-GPU communication pattern, and peak memory usage.",
@@ -183,6 +190,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "reformulating-the-enumeration-as-batched",
+          "severity": "important",
+          "description": "Add GPU boost clock, baseline thread count, and pointer to archived run logs. The finding already specified GPU model, VRAM, CUDA version, compiler flags, and CPU model but was missing clock speed and thread count.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "the-fused-expand-mark-compact-cuda-kernel-with-ato",
           "severity": "minor",
           "description": "Include kernel listing, occupancy, and an ablation study separating fusion from other changes.",
@@ -190,8 +204,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 3,
-      "issues_resolved": 3,
+      "issues_found": 5,
+      "issues_resolved": 5,
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
     "hausdorff-digit-one-dominance": {
@@ -279,6 +293,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "a-chebyshev-collocation-grid-with-n-=-15",
+          "severity": "important",
+          "description": "Without a truncation error analysis, claiming 3-decimal-place accuracy is unsupported. Reduce stated precision or add error qualification. The frontmatter data reports 3 decimal places which is appropriate for display, but the accuracy claim in the body should be hedged.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
+        },
+        {
           "issue_id": "digit-1-dominance-strengthens-at-n-20-dim-h-e",
           "severity": "minor",
           "description": "Report estimated numerical error and show that \u2206=0.002 is statistically significant.",
@@ -298,10 +319,17 @@
           "description": "Gold certification requires external replication; silver is more appropriate.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "\u03c3_{a\u2208a}-1-a\u00b2-gives-an-almost-perfect-ran",
+          "severity": "important",
+          "description": "Downgrade 'almost perfect rank-correlation' to 'strong rank correlation (qualitative observation)' and remove the claim of perfection. The finding already uses 'strong rank correlation' in the data section but the body text likely overstates it.",
+          "status": "resolved",
+          "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 5,
-      "issues_resolved": 5,
+      "issues_found": 7,
+      "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
@@ -357,9 +385,9 @@
         {
           "issue_id": "character-tables-were-computed-via-the-m",
           "severity": "important",
-          "description": "Add explicit orthogonality error bounds and integer overflow safeguard details for n=20 and n=30.",
+          "description": "Add explicit orthogonality verification metrics for both n=20 and n=30, including max absolute error and integer overflow safeguards.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "character-tables-were-computed-via-the-murnaghan-n",
@@ -371,9 +399,9 @@
         {
           "issue_id": "largest-kronecker-computation-published",
           "severity": "important",
-          "description": "Already addressed by the prior-work citation fix above \u2014 the hedged language 'to our knowledge' is now paired with an explicit caveat about unpublished computations. The same edit handles both the o3-pro and Opus concerns.",
+          "description": "This is addressed by the same edit as issue #2 above \u2014 the hedging language 'to our knowledge' and 'we cannot rule out unpublished or concurrent computations' resolves this concern.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "the-s30-table-contains-29-3-billion-unordered-trip",
@@ -385,16 +413,16 @@
         {
           "issue_id": "the-s30-table-contains-29.3-billion-unor",
           "severity": "important",
-          "description": "Add a verification subsection with aggregate checksums and a small random sample from S_20 (which is locally available) so reviewers can cross-validate without downloading 369 GB.",
+          "description": "Add a verification subsection with SHA-256 checksums for each Parquet shard and a small random sample of 5 triples so reviewers can cross-validate without downloading the full dataset.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "this-is-the-largest-kronecker-coefficien",
           "severity": "important",
-          "description": "Replace the vague prior-work sentence with a specific citation trail and an explicit caveat about unpublished work.",
+          "description": "Add citation context. The prior systematic frontier appears to be Pak & Panova (2017) who computed selected Kronecker coefficients up to around S_16. No full table beyond S_20 exists in the published literature to our knowledge. Hedged appropriately.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "this-is-the-largest-kronecker-coefficient-computat",
@@ -883,7 +911,7 @@
           "severity": "critical",
           "description": "rho_eta <= 0.771 computed in FP64/mpmath, not interval-certified with arb/MPFR. The entire D0 bound depends on this value. All four reviewers flagged this as the most critical gap.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "using-the-explicit-constants-from-magee-oh-winter",
@@ -1125,7 +1153,7 @@
           "severity": "critical",
           "description": "Claimed 10-15s per {1,k} pair at 10^10 on a single B200 is inconsistent with hardware capabilities. Even idealized kernel performing one modular inversion per 3 GPU cycles would need >10 minutes for 10^10 inputs. Published benchmarks (Berkel & Fassler 2023) show 10^9 checks in 30s on 8xA100.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         }
       ],
       "issues_found": 9,
@@ -1510,14 +1538,14 @@
           "severity": "critical",
           "description": "The Borel exclusion argument checks that h1 has nonzero (2,1) entry in the standard basis, but a matrix may lie in a Borel subgroup after conjugation. Must show H fixes no 1-dimensional subspace of F_p^2, not just check one basis.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "circular-size-estimate",
           "severity": "critical",
           "description": "Step (3) uses the presumed transitivity |orbit|=p^2-1 to lower-bound |H|, which is exactly what the argument is trying to prove, creating a circular dependency.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "h1-and-h2-never-share-an-eigenvector-modulo-any-pr",
@@ -1538,7 +1566,7 @@
           "severity": "critical",
           "description": "The proof assumes a shared eigenvector forces a shared eigenvalue, which is false: a vector can be an eigenvector for two matrices with different eigenvalues. The Cartan-normalizer exclusion is therefore unsubstantiated.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "the-semigroup-1-5-acts-transitively-on-z",
@@ -1634,7 +1662,7 @@
           "severity": "important",
           "description": "Soften the golden ratio connection from a claimed structural link to a heuristic observation. The 13% gap between 0.1511 and 0.1712 is too large to call a 'connection' without rigorous justification. Reframe as a structural observation about why digit 1 dominates after the leading 5.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "connection-to-1-5-phi-where-phi-is-golden-ratio",
@@ -1655,7 +1683,7 @@
           "severity": "important",
           "description": "Add data availability section with raw data reference and checksum commitment before the References section",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         },
         {
           "issue_id": "starting-the-search-at-a-0-170-d-instead-of-1-yi",
@@ -1676,7 +1704,7 @@
           "severity": "important",
           "description": "Rephrase tightness claim: the stat is about the minimal witness, not about global non-existence of A=4 witnesses. The table shows that the *smallest* witness uses quotient 5 in 99.91% of cases, but other (larger) witnesses with max quotient \u2264 4 may exist for those d.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "9428528"
         }
       ],
       "issues_found": 7,

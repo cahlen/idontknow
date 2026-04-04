@@ -517,21 +517,33 @@ JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowl
                     log(f"  DISAGREE: {desc}")
 
             # Update remediation JSONs
+            # Get the latest commit hash from bigcompute.science (where finding text lives)
+            commit_hash = ""
+            try:
+                ch = subprocess.run(
+                    ["git", "log", "-1", "--format=%h"], cwd=str(WEBSITE_ROOT),
+                    capture_output=True, text=True, timeout=5)
+                commit_hash = ch.stdout.strip()
+            except:
+                pass
+
             rem_dir = verifications_dir / "remediations" / slug
             rem_dir.mkdir(parents=True, exist_ok=True)
             for rem in remediations:
-                if rem.get("action") == "fix":
+                if rem.get("action") in ("fix", "acknowledge", "disagree"):
                     issue_id = rem.get("claim", "unknown")[:40].lower().replace(" ", "-").replace("/", "-")
+                    issue_id = re.sub(r'[^a-z0-9-]', '-', issue_id).strip('-')
                     rem_file = rem_dir / f"{issue_id}.json"
                     with open(rem_file, "w") as f:
                         json.dump({
                             "issue_id": issue_id,
                             "finding_slug": slug,
-                            "severity": "important",
+                            "severity": "important" if rem.get("action") == "fix" else "minor",
                             "description": rem.get("description", ""),
-                            "status": "resolved",
+                            "status": "resolved" if rem.get("action") == "fix" else rem.get("action", "acknowledged"),
                             "action_taken": f"Auto-fixed by research agent: {rem.get('description', '')}",
                             "resolved_at": datetime.now(timezone.utc).isoformat(),
+                            "commits": [commit_hash] if commit_hash and rem.get("action") == "fix" else [],
                         }, f, indent=2)
 
         except (json.JSONDecodeError, Exception) as e:

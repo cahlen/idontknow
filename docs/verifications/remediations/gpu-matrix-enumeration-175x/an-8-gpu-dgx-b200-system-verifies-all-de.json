@@ -1,0 +1,12 @@
+{
+  "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-de",
+  "finding_slug": "gpu-matrix-enumeration-175x",
+  "severity": "important",
+  "description": "The finding already contains partial per-GPU timing info (18.9-21.7s per GPU, <15% skew). We can strengthen the existing 8-GPU paragraph with peak memory usage and explicit communication pattern details that are already implied but not stated clearly.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The finding already contains partial per-GPU timing info (18.9-21.7s per GPU, <15% skew). We can strengthen the existing 8-GPU paragraph with peak memory usage and explicit communication pattern details that are already implied but not stated clearly.",
+  "resolved_at": "2026-04-03T23:57:21.648388+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

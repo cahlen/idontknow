@@ -5,5 +5,8 @@
   "description": "Soften the golden ratio connection from a claimed structural link to a heuristic observation. The 13% gap between 0.1511 and 0.1712 is too large to call a 'connection' without rigorous justification. Reframe as a structural observation about why digit 1 dominates after the leading 5.",
   "status": "resolved",
   "action_taken": "Auto-fixed by research agent: Soften the golden ratio connection from a claimed structural link to a heuristic observation. The 13% gap between 0.1511 and 0.1712 is too large to call a 'connection' without rigorous justification. Reframe as a structural observation about why digit 1 dominates after the leading 5.",
-  "resolved_at": "2026-04-03T23:24:34.312629+00:00"
+  "resolved_at": "2026-04-03T23:24:34.312629+00:00",
+  "commits": [
+    "9428528"
+  ]
 }

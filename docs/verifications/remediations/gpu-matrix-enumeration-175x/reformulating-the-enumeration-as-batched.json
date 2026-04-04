@@ -1,0 +1,12 @@
+{
+  "issue_id": "reformulating-the-enumeration-as-batched",
+  "finding_slug": "gpu-matrix-enumeration-175x",
+  "severity": "important",
+  "description": "Add GPU boost clock, baseline thread count, and pointer to archived run logs. The finding already specified GPU model, VRAM, CUDA version, compiler flags, and CPU model but was missing clock speed and thread count.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add GPU boost clock, baseline thread count, and pointer to archived run logs. The finding already specified GPU model, VRAM, CUDA version, compiler flags, and CPU model but was missing clock speed and thread count.",
+  "resolved_at": "2026-04-03T23:54:19.661726+00:00",
+  "commits": [
+    "9428528"
+  ]
+}

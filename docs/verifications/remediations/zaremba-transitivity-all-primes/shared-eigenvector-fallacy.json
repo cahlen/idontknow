@@ -10,5 +10,7 @@
   "action_taken": "Proof rewritten using non-circular Dickson classification. Borel: invariant-subspace analysis (eigenvectors of g1 and g2 provably distinct for p>=7). Cartan: eigenline pair analysis (4 distinct lines cannot be preserved). Exceptional: generator order exceeds 60 for p>=61. Small primes p<61 verified by BFS.",
   "resolved_by": null,
   "resolved_at": "2026-04-03T17:10:00Z",
-  "commits": []
+  "commits": [
+    "9428528"
+  ]
 }
