@@ -6,7 +6,22 @@
 
 This is a Guerrilla Mathematics™ lab — GPU-accelerated computational exploration of open conjectures. We compute first, publish immediately, and refine later. Every dataset, kernel, and result is open. If you have hardware and mathematical curiosity, we want your contributions.
 
-### How You Can Help
+### Quickest Way to Start: The Research Agent
+
+If you have a **Claude Code account** and a GPU, the research agent is the easiest way to contribute. It automates the entire research cycle — monitoring experiments, harvesting results, analyzing data, running multi-model peer reviews, fixing issues, and deploying updates.
+
+```bash
+git clone https://github.com/cahlen/idontknow && cd idontknow
+export OPENAI_API_KEY='sk-...'   # for peer reviews (optional)
+./scripts/run_agent.sh            # one cycle: monitor → harvest → analyze → review → deploy
+./scripts/run_agent.sh --loop 10m # autonomous loop every 10 minutes
+```
+
+The agent uses your Claude Code account for analysis (via `claude -p`), runs peer reviews through OpenAI o3-pro/gpt-4.1, creates remediation records for every issue found, and commits + pushes all changes. No separate Anthropic API key needed if you have Claude Code installed.
+
+See `scripts/research_agent.py` for the full source (single file, ~600 lines, no framework dependencies).
+
+### Other Ways to Help
 
 1. **Reproduce our results.** Pick any experiment, run the code, verify independently. If you find an error, open an issue.
 2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run full S_40 Kronecker triple-sum (8.68T triples, needs int128 GPU kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges.
