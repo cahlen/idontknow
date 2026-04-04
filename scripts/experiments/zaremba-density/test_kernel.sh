@@ -75,14 +75,14 @@ check_checkpoint "A={1,2,3} at 10^3" "1000 1,2,3" "scripts/experiments/zaremba-d
 
 echo ""
 
-# Progress output test
-echo -n "  TEST: Progress output ... "
-output=$(./zaremba_density_gpu 10000 1,2,3 2>&1)
-if echo "$output" | grep -q "batch"; then
-    echo "PASS (batch progress lines present)"
+# Progress output test (check for batch launch message, not timed progress)
+echo -n "  TEST: Batch launch message ... "
+output=$($BINARY 10000 1,2,3 2>&1)
+if echo "$output" | grep -q "batches"; then
+    echo "PASS (batch launch message present)"
     PASS=$((PASS + 1))
 else
-    echo "FAIL (no batch progress output)"
+    echo "FAIL (no batch launch message)"
     FAIL=$((FAIL + 1))
 fi
 
