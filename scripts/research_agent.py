@@ -463,7 +463,7 @@ def remediate(slugs, dry_run=False):
     if not slugs:
         return
 
-    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
         log("No LLM available — cannot remediate.", "WARN")
         return
 
@@ -736,7 +736,7 @@ def plan_next(free_gpus, auto_launch=False, state=None):
         log("Auto-launch disabled. Use --auto-launch to enable.")
         return
 
-    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+    if not (shutil.which("claude") or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
         log("No LLM available — cannot plan experiments.", "WARN")
         return
 
