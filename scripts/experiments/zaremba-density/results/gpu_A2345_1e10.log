@@ -7,8 +7,10 @@ Digits: {2,3,4,5}
 Prefixes (depth 4): 10000000
 Bitset: 1.25 GB
 
-Launching 10000000 GPU threads...
-GPU enumeration: 11.2s
+Launching 10000000 GPU threads in 1000 batches (batch=10000)...
+  batch 809/1000 (81%) 62s elapsed, ETA 15s
+  batch 1000/1000 (100%) 79s elapsed, ETA 0s
+GPU enumeration: 82.3s
 
 ========================================
 RESULTS
@@ -18,5 +20,5 @@ Range: d = 1 to 10000000000
 Covered: 9713894120 / 10000000000
 Density: 97.1389412000%
 Uncovered: 286105880
-Time: 19.9s (enum: 11.2s)
+Time: 90.8s (enum: 82.3s)
 ========================================

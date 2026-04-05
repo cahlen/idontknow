@@ -1,15 +1,14 @@
 /*
- * GPU-accelerated Zaremba density computation.
+ * GPU-accelerated Zaremba density computation — overnight production version.
  *
- * Each GPU thread explores one branch of the CF tree in parallel.
- * The tree root has |A| children (one per digit). Each thread takes
- * one root and does DFS, marking denominators in a shared bitset.
+ * Persistent-thread design with periodic disk checkpointing:
+ *   1. CPU generates prefixes at fixed depth, sorts by q descending
+ *   2. GPU persistent threads self-schedule via atomic counter
+ *   3. Bitset checkpointed to disk every 5 minutes (survives kill)
+ *   4. Shallow denominators marked on CPU after GPU enumeration
+ *   5. Bit counting on GPU
  *
- * For 10^9 with A={1,2,3}: the tree has ~3^60 leaves but most branches
- * terminate early (q > max_d). GPU parallelism over the first few levels
- * of the tree gives millions of independent subtrees.
- *
- * Compile: nvcc -O3 -arch=sm_100a -o zaremba_density_gpu zaremba_density_gpu.cu -lm
+ * Compile: nvcc -O3 -arch=sm_90 -o zaremba_density_gpu zaremba_density_gpu.cu -lm
  * Run:     ./zaremba_density_gpu <max_d> <digits>
  */
 
@@ -18,14 +17,13 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
+#include <unistd.h>
 
 typedef unsigned long long uint64;
 
 #define MAX_DIGITS 10
 #define MAX_DEPTH 200
-
-// Global bitset in device memory
-__device__ uint8_t *d_bitset;
 
 __device__ void mark(uint64 d, uint8_t *bitset, uint64 max_d) {
     if (d < 1 || d > max_d) return;
@@ -34,84 +32,68 @@ __device__ void mark(uint64 d, uint8_t *bitset, uint64 max_d) {
     atomicOr((unsigned int*)&bitset[byte & ~3], (unsigned int)bit << (8 * (byte & 3)));
 }
 
-// Each thread gets a prefix (p_prev, p, q_prev, q) and does DFS from there
-__global__ void enumerate_subtrees(
-    uint64 *prefixes,    // [N × 4]: p_prev, p, q_prev, q per prefix
-    int num_prefixes,
+__global__ void enumerate_persistent(
+    uint64 *prefixes, int num_prefixes,
     int *digits, int num_digits,
-    uint8_t *bitset, uint64 max_d)
+    uint8_t *bitset, uint64 max_d,
+    int *progress)
 {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    if (tid >= num_prefixes) return;
+    struct { uint64 p_prev, p, q_prev, q; } stack[MAX_DEPTH];
 
-    uint64 p_prev0 = prefixes[tid * 4 + 0];
-    uint64 p0      = prefixes[tid * 4 + 1];
-    uint64 q_prev0 = prefixes[tid * 4 + 2];
-    uint64 q0      = prefixes[tid * 4 + 3];
+    while (true) {
+        int my_prefix = atomicAdd(progress, 1);
+        if (my_prefix >= num_prefixes) return;
 
-    // Mark the prefix denominator
-    mark(q0, bitset, max_d);
+        uint64 pp0 = prefixes[my_prefix * 4 + 0];
+        uint64 p0  = prefixes[my_prefix * 4 + 1];
+        uint64 qp0 = prefixes[my_prefix * 4 + 2];
+        uint64 q0  = prefixes[my_prefix * 4 + 3];
 
-    // DFS stack (iterative to avoid recursion limits)
-    struct { uint64 p_prev, p, q_prev, q; int digit_idx; } stack[MAX_DEPTH];
-    int sp = 0;
+        mark(q0, bitset, max_d);
 
-    // Push initial children
-    for (int i = num_digits - 1; i >= 0; i--) {
-        uint64 a = digits[i];
-        uint64 q_new = a * q0 + q_prev0;
-        if (q_new > max_d) continue;
-        uint64 p_new = a * p0 + p_prev0;
-        stack[sp].p_prev = p0;
-        stack[sp].p = p_new;
-        stack[sp].q_prev = q0;
-        stack[sp].q = q_new;
-        stack[sp].digit_idx = 0;
-        sp++;
-        if (sp >= MAX_DEPTH) break;
-    }
-
-    while (sp > 0) {
-        sp--;
-        uint64 pp = stack[sp].p_prev;
-        uint64 p  = stack[sp].p;
-        uint64 qp = stack[sp].q_prev;
-        uint64 q  = stack[sp].q;
-
-        mark(q, bitset, max_d);
-
-        // Push children
+        int sp = 0;
         for (int i = num_digits - 1; i >= 0; i--) {
             uint64 a = digits[i];
-            uint64 q_new = a * q + qp;
-            if (q_new > max_d) continue;
-            if (sp >= MAX_DEPTH) break;
-            uint64 p_new = a * p + pp;
-            stack[sp].p_prev = p;
-            stack[sp].p = p_new;
-            stack[sp].q_prev = q;
-            stack[sp].q = q_new;
+            uint64 q_new = a * q0 + qp0;
+            if (q_new > max_d || sp >= MAX_DEPTH) continue;
+            stack[sp].p_prev = p0; stack[sp].p = a * p0 + pp0;
+            stack[sp].q_prev = q0; stack[sp].q = q_new;
             sp++;
+        }
+
+        while (sp > 0) {
+            sp--;
+            uint64 pp = stack[sp].p_prev, p = stack[sp].p;
+            uint64 qp = stack[sp].q_prev, q = stack[sp].q;
+            mark(q, bitset, max_d);
+            for (int i = num_digits - 1; i >= 0; i--) {
+                uint64 a = digits[i];
+                uint64 q_new = a * q + qp;
+                if (q_new > max_d || sp >= MAX_DEPTH) continue;
+                stack[sp].p_prev = p; stack[sp].p = a * p + pp;
+                stack[sp].q_prev = q; stack[sp].q = q_new;
+                sp++;
+            }
         }
     }
 }
 
-// Count marked bits
 __global__ void count_marked(uint8_t *bitset, uint64 max_d, uint64 *count) {
     uint64 tid = blockIdx.x * (uint64)blockDim.x + threadIdx.x;
-    uint64 byte_idx = tid;
     uint64 max_byte = (max_d + 8) / 8;
-    if (byte_idx >= max_byte) return;
-
-    uint8_t b = bitset[byte_idx];
+    if (tid >= max_byte) return;
+    uint8_t b = bitset[tid];
     int bits = __popc((unsigned int)b);
-    // Adjust for bits beyond max_d in the last byte
-    if (byte_idx == max_byte - 1) {
+    if (tid == max_byte - 1) {
         int valid_bits = (max_d % 8) + 1;
-        uint8_t mask = (1 << valid_bits) - 1;
-        bits = __popc((unsigned int)(b & mask));
+        bits = __popc((unsigned int)(b & ((1 << valid_bits) - 1)));
     }
     if (bits > 0) atomicAdd(count, (uint64)bits);
+}
+
+int cmp_by_q_desc(const void *a, const void *b) {
+    uint64 qa = ((const uint64*)a)[3], qb = ((const uint64*)b)[3];
+    return (qa > qb) ? -1 : (qa < qb) ? 1 : 0;
 }
 
 int main(int argc, char **argv) {
@@ -122,7 +104,6 @@ int main(int argc, char **argv) {
 
     uint64 max_d = (uint64)atoll(argv[1]);
 
-    // Parse digits
     int h_digits[MAX_DIGITS];
     int num_digits = 0;
     char buf[256]; strncpy(buf, argv[2], 255);
@@ -133,33 +114,33 @@ int main(int argc, char **argv) {
     }
 
     printf("========================================\n");
-    printf("Zaremba Density (GPU)\n");
+    printf("Zaremba Density (GPU) — production\n");
     printf("Range: d = 1 to %llu\n", (unsigned long long)max_d);
     printf("Digits: {");
     for (int i = 0; i < num_digits; i++) printf("%s%d", i?",":"", h_digits[i]);
     printf("}\n");
     printf("========================================\n\n");
+    fflush(stdout);
 
-    // Generate prefixes: enumerate CF tree to target depth on CPU
-    // More prefixes = more GPU threads = better utilization
-    int PREFIX_DEPTH = 8;  // 3^8 = 6561 for A={1,2,3}
-    if (max_d >= 1000000000ULL) PREFIX_DEPTH = 10;  // 3^10 = 59049
-    if (max_d >= 10000000000ULL) PREFIX_DEPTH = 12;
+    // Prefix generation — fixed depth, sorted by q descending
+    int PREFIX_DEPTH = 8;
+    if (max_d >= 1000000000ULL)   PREFIX_DEPTH = 15;
+    if (max_d >= 10000000000ULL)  PREFIX_DEPTH = 15;
 
-    int max_prefixes = 10000000;
-    uint64 *h_prefixes = (uint64*)malloc(max_prefixes * 4 * sizeof(uint64));
+    int max_prefixes = 20000000;
+    uint64 *h_prefixes = (uint64*)malloc((uint64)max_prefixes * 4 * sizeof(uint64));
     int np = 0;
 
-    // Recursive prefix generation on CPU
-    struct PrefixEntry { uint64 pp, p, qp, q; int depth; };
-    struct PrefixEntry *stk = (struct PrefixEntry*)malloc(2000000 * sizeof(struct PrefixEntry));
+    printf("Generating prefixes (depth=%d)...\n", PREFIX_DEPTH);
+    fflush(stdout);
+
+    struct PfxEntry { uint64 pp, p, qp, q; int depth; };
+    struct PfxEntry *stk = (struct PfxEntry*)malloc(20000000 * sizeof(struct PfxEntry));
     int ssp = 0;
-    // Seed: depth-1 nodes
     for (int i = 0; i < num_digits; i++) {
         stk[ssp].pp = 0; stk[ssp].p = 1;
         stk[ssp].qp = 1; stk[ssp].q = h_digits[i];
-        stk[ssp].depth = 1;
-        ssp++;
+        stk[ssp].depth = 1; ssp++;
     }
     while (ssp > 0) {
         ssp--;
@@ -168,41 +149,42 @@ int main(int argc, char **argv) {
         int dep = stk[ssp].depth;
         if (q > max_d) continue;
         if (dep >= PREFIX_DEPTH) {
-            // Deep enough — hand off to GPU
             if (np < max_prefixes) {
-                h_prefixes[np*4+0] = pp;
-                h_prefixes[np*4+1] = p;
-                h_prefixes[np*4+2] = qp;
-                h_prefixes[np*4+3] = q;
+                h_prefixes[np*4+0] = pp; h_prefixes[np*4+1] = p;
+                h_prefixes[np*4+2] = qp; h_prefixes[np*4+3] = q;
                 np++;
             }
         } else {
             for (int i = num_digits - 1; i >= 0; i--) {
                 uint64 qn = (uint64)h_digits[i] * q + qp;
-                if (qn > max_d) continue;
-                uint64 pn = (uint64)h_digits[i] * p + pp;
-                stk[ssp].pp = p; stk[ssp].p = pn;
+                if (qn > max_d || ssp >= 19999999) continue;
+                stk[ssp].pp = p; stk[ssp].p = (uint64)h_digits[i] * p + pp;
                 stk[ssp].qp = q; stk[ssp].q = qn;
-                stk[ssp].depth = dep + 1;
-                ssp++;
+                stk[ssp].depth = dep + 1; ssp++;
             }
         }
     }
+    free(stk);
 
-    // Also add depth-1, depth-2, depth-3 denominators
-    // (the prefixes above start at depth 4)
-    // We'll mark these on CPU after
+    printf("Prefixes: %d. Sorting...\n", np);
+    fflush(stdout);
+    qsort(h_prefixes, np, 4 * sizeof(uint64), cmp_by_q_desc);
 
-    printf("Prefixes (depth 4): %d\n", np);
     printf("Bitset: %.2f GB\n\n", (max_d + 8) / 8.0 / 1e9);
+    fflush(stdout);
 
-    struct timespec t0, t1;
+    struct timespec t0, t1, t_check;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
-    // Allocate GPU
+    // GPU alloc
     uint64 bitset_bytes = (max_d + 8) / 8;
     uint8_t *d_bs;
-    cudaMalloc(&d_bs, bitset_bytes);
+    cudaError_t err = cudaMalloc(&d_bs, bitset_bytes);
+    if (err != cudaSuccess) {
+        fprintf(stderr, "FATAL: cudaMalloc bitset (%.2f GB): %s\n",
+                bitset_bytes / 1e9, cudaGetErrorString(err));
+        return 1;
+    }
     cudaMemset(d_bs, 0, bitset_bytes);
 
     int *d_digits;
@@ -210,86 +192,113 @@ int main(int argc, char **argv) {
     cudaMemcpy(d_digits, h_digits, num_digits * sizeof(int), cudaMemcpyHostToDevice);
 
     uint64 *d_prefixes;
-    cudaMalloc(&d_prefixes, np * 4 * sizeof(uint64));
-    cudaMemcpy(d_prefixes, h_prefixes, np * 4 * sizeof(uint64), cudaMemcpyHostToDevice);
+    cudaMalloc(&d_prefixes, (uint64)np * 4 * sizeof(uint64));
+    cudaMemcpy(d_prefixes, h_prefixes, (uint64)np * 4 * sizeof(uint64), cudaMemcpyHostToDevice);
 
-    // Launch in batches for progress reporting + checkpoint support
-    int BATCH_SIZE = (np < 10000) ? np : 10000;
-    int num_batches = (np + BATCH_SIZE - 1) / BATCH_SIZE;
+    // Mapped progress counter
+    int *h_progress_mapped, *d_progress;
+    cudaHostAlloc(&h_progress_mapped, sizeof(int), cudaHostAllocMapped);
+    *h_progress_mapped = 0;
+    cudaHostGetDevicePointer(&d_progress, h_progress_mapped, 0);
 
-    printf("Launching %d GPU threads in %d batches (batch=%d)...\n", np, num_batches, BATCH_SIZE);
-    fflush(stdout);
+    // Launch config
+    int num_SMs, max_thr_per_SM;
+    cudaDeviceGetAttribute(&num_SMs, cudaDevAttrMultiProcessorCount, 0);
+    cudaDeviceGetAttribute(&max_thr_per_SM, cudaDevAttrMaxThreadsPerMultiProcessor, 0);
+    int block_size = 256;
+    int use_SMs = num_SMs - 2;
+    if (use_SMs < 1) use_SMs = 1;
+    int total_threads = use_SMs * max_thr_per_SM;
+    if (total_threads > np) total_threads = np;
+    int grid_size = (total_threads + block_size - 1) / block_size;
 
-    int block = 256;
-    struct timespec t_batch;
-    double last_report = 0;
-
-    // Build checkpoint filename from args
+    // Checkpoint path
     char ckpt_path[512];
     snprintf(ckpt_path, 512, "scripts/experiments/zaremba-density/results/checkpoint_A%s_%llu.bin",
              argv[2], (unsigned long long)max_d);
-    // Replace commas with nothing in checkpoint name
     for (char *c = ckpt_path; *c; c++) if (*c == ',') *c = '_';
 
-    for (int batch = 0; batch < num_batches; batch++) {
-        int offset = batch * BATCH_SIZE;
-        int count = (batch + 1 == num_batches) ? (np - offset) : BATCH_SIZE;
+    cudaStream_t kernel_stream;
+    cudaStreamCreate(&kernel_stream);
 
-        int grid = (count + block - 1) / block;
-        enumerate_subtrees<<<grid, block>>>(d_prefixes + offset * 4, count, d_digits, num_digits, d_bs, max_d);
-        cudaDeviceSynchronize();
+    printf("Launching %d persistent threads on %d/%d SMs (%d prefixes)...\n",
+           grid_size * block_size, use_SMs, num_SMs, np);
+    fflush(stdout);
 
-        clock_gettime(CLOCK_MONOTONIC, &t_batch);
-        double elapsed = (t_batch.tv_sec - t0.tv_sec) + (t_batch.tv_nsec - t0.tv_nsec) / 1e9;
+    enumerate_persistent<<<grid_size, block_size, 0, kernel_stream>>>(
+        d_prefixes, np, d_digits, num_digits, d_bs, max_d, d_progress);
 
-        // Progress report every 60 seconds
-        if (elapsed - last_report >= 60.0 || batch == num_batches - 1) {
-            double pct = 100.0 * (batch + 1) / num_batches;
-            double eta = (batch > 0) ? elapsed * (num_batches - batch - 1) / (batch + 1) : 0;
-            printf("  batch %d/%d (%.0f%%) %.0fs elapsed, ETA %.0fs\n",
-                   batch + 1, num_batches, pct, elapsed, eta);
+    // Poll progress + checkpoint
+    double last_report = 0;
+    int last_progress_val = 0;
+    int last_ckpt_min = 0;
+    while (true) {
+        __sync_synchronize();
+        int h_progress = *h_progress_mapped;
+        if (h_progress >= np) break;
+
+        clock_gettime(CLOCK_MONOTONIC, &t_check);
+        double elapsed = (t_check.tv_sec - t0.tv_sec) + (t_check.tv_nsec - t0.tv_nsec) / 1e9;
+
+        if (elapsed - last_report >= 30.0) {
+            double pct = 100.0 * h_progress / np;
+            double rate = (elapsed > last_report) ?
+                (h_progress - last_progress_val) / (elapsed - last_report) : 0;
+            double eta = (rate > 0) ? (np - h_progress) / rate : 0;
+            printf("  [%6.0fs] %d/%d (%.1f%%) %.0f pfx/s ETA %.0fs\n",
+                   elapsed, h_progress, np, pct, rate, eta);
             fflush(stdout);
             last_report = elapsed;
+            last_progress_val = h_progress;
         }
 
-        // Checkpoint bitset every 10% of batches
-        if ((batch + 1) % (num_batches / 10 + 1) == 0 || batch == num_batches - 1) {
-            // Save bitset to disk so partial results survive if killed
+        // Checkpoint every 5 minutes
+        int curr_min = (int)(elapsed / 300);
+        if (curr_min > last_ckpt_min && elapsed > 60) {
+            last_ckpt_min = curr_min;
+            // Download bitset from GPU (non-blocking on default stream while kernel runs on kernel_stream)
             uint8_t *h_ckpt = (uint8_t*)malloc(bitset_bytes);
-            cudaMemcpy(h_ckpt, d_bs, bitset_bytes, cudaMemcpyDeviceToHost);
-            FILE *fp = fopen(ckpt_path, "wb");
-            if (fp) {
-                fwrite(&max_d, sizeof(uint64), 1, fp);
-                fwrite(&batch, sizeof(int), 1, fp);
-                fwrite(&num_batches, sizeof(int), 1, fp);
-                fwrite(h_ckpt, 1, bitset_bytes, fp);
-                fclose(fp);
+            if (h_ckpt) {
+                cudaMemcpy(h_ckpt, d_bs, bitset_bytes, cudaMemcpyDeviceToHost);
+                FILE *fp = fopen(ckpt_path, "wb");
+                if (fp) {
+                    fwrite(&max_d, sizeof(uint64), 1, fp);
+                    fwrite(&h_progress, sizeof(int), 1, fp);
+                    fwrite(&np, sizeof(int), 1, fp);
+                    fwrite(h_ckpt, 1, bitset_bytes, fp);
+                    fclose(fp);
+                    printf("  [checkpoint saved: %d/%d prefixes, %.1f GB]\n",
+                           h_progress, np, bitset_bytes / 1e9);
+                    fflush(stdout);
+                }
+                free(h_ckpt);
             }
-            free(h_ckpt);
         }
+
+        usleep(2000000);
     }
 
+    cudaStreamSynchronize(kernel_stream);
+    cudaStreamDestroy(kernel_stream);
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double enum_time = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
     printf("GPU enumeration: %.1fs\n", enum_time);
+    fflush(stdout);
 
-    // Clean up checkpoint after successful completion
     remove(ckpt_path);
 
-    // Mark all denominators at depth < PREFIX_DEPTH on CPU (these are few)
-    uint8_t *h_bs = (uint8_t*)calloc(bitset_bytes, 1);
+    // Mark shallow denominators on CPU
+    uint8_t *h_bs = (uint8_t*)malloc(bitset_bytes);
     cudaMemcpy(h_bs, d_bs, bitset_bytes, cudaMemcpyDeviceToHost);
-
-    // CPU: mark all CFs at depth 1 through PREFIX_DEPTH-1 (bounded, tiny)
     h_bs[0] |= (1 << 1);  // d=1
     {
-        struct { uint64 pp, p, qp, q; int dep; } cstk[200000];
+        struct ShallowEntry { uint64 pp, p, qp, q; int dep; };
+        struct ShallowEntry *cstk = (struct ShallowEntry*)malloc(500000 * sizeof(struct ShallowEntry));
         int csp = 0;
         for (int i = 0; i < num_digits; i++) {
             cstk[csp].pp = 0; cstk[csp].p = 1;
             cstk[csp].qp = 1; cstk[csp].q = h_digits[i];
-            cstk[csp].dep = 1;
-            csp++;
+            cstk[csp].dep = 1; csp++;
         }
         while (csp > 0) {
             csp--;
@@ -297,32 +306,37 @@ int main(int argc, char **argv) {
             int dep = cstk[csp].dep;
             if (q > max_d) continue;
             h_bs[q>>3] |= (1 << (q&7));
-            if (dep >= PREFIX_DEPTH) continue;  // GPU handles deeper
+            if (dep >= PREFIX_DEPTH) continue;
             uint64 pp = cstk[csp].pp, p = cstk[csp].p, qp = cstk[csp].qp;
             for (int i = 0; i < num_digits; i++) {
                 uint64 qn = (uint64)h_digits[i] * q + qp;
-                if (qn > max_d) continue;
-                if (csp < 199999) {
-                    cstk[csp].pp = p;
-                    cstk[csp].p = (uint64)h_digits[i] * p + pp;
-                    cstk[csp].qp = q;
-                    cstk[csp].q = qn;
-                    cstk[csp].dep = dep + 1;
-                    csp++;
-                }
+                if (qn > max_d || csp >= 499999) continue;
+                cstk[csp].pp = p;
+                cstk[csp].p = (uint64)h_digits[i] * p + pp;
+                cstk[csp].qp = q; cstk[csp].q = qn;
+                cstk[csp].dep = dep + 1; csp++;
             }
         }
+        free(cstk);
     }
+    cudaMemcpy(d_bs, h_bs, bitset_bytes, cudaMemcpyHostToDevice);
 
-    // Count
-    uint64 covered = 0;
-    for (uint64 d = 1; d <= max_d; d++) {
-        if (h_bs[d>>3] & (1 << (d&7))) covered++;
+    // Count on GPU
+    uint64 *d_count;
+    cudaMalloc(&d_count, sizeof(uint64));
+    cudaMemset(d_count, 0, sizeof(uint64));
+    {
+        uint64 max_byte = (max_d + 8) / 8;
+        int gd = (max_byte + 255) / 256;
+        count_marked<<<gd, 256>>>(d_bs, max_d, d_count);
+        cudaDeviceSynchronize();
     }
+    uint64 covered = 0;
+    cudaMemcpy(&covered, d_count, sizeof(uint64), cudaMemcpyDeviceToHost);
+    cudaFree(d_count);
 
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double total_time = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
-
     uint64 uncovered = max_d - covered;
 
     printf("\n========================================\n");
@@ -338,9 +352,8 @@ int main(int argc, char **argv) {
 
     if (uncovered > 0 && uncovered <= 100) {
         printf("Uncovered d:");
-        for (uint64 d = 1; d <= max_d; d++) {
+        for (uint64 d = 1; d <= max_d; d++)
             if (!(h_bs[d>>3] & (1 << (d&7)))) printf(" %llu", (unsigned long long)d);
-        }
         printf("\n");
     }
 
@@ -349,5 +362,6 @@ int main(int argc, char **argv) {
 
     free(h_prefixes); free(h_bs);
     cudaFree(d_bs); cudaFree(d_digits); cudaFree(d_prefixes);
+    cudaFreeHost(h_progress_mapped);
     return 0;
 }

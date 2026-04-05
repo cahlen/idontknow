@@ -1,0 +1,12 @@
+========================================
+Zaremba Density (GPU)
+Range: d = 1 to 10000000000000
+Digits: {1,2}
+========================================
+
+Prefixes (depth 4): 4096
+Bitset: 1250.00 GB
+
+Launching 4096 GPU threads in 1 batches (batch=4096)...
+  batch 1/1 (100%) 10s elapsed, ETA 0s
+GPU enumeration: 167.0s
