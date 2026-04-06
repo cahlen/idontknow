@@ -1,0 +1,17 @@
+{
+  "issue_id": "publish--for-each-of-the-25-denominators",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "Add table: for each denominator among the 27, for A={1,2,3,4}, show explicit numerator a such that CF(a/d) expansion has all partial quotients \u22644; and for d=54,150, note exhaustive log shows none exist with \u22644.",
+  "status": "resolved",
+  "action_taken": "Add table: for each denominator among the 27, for A={1,2,3,4}, show explicit numerator a such that CF(a/d) expansion has all partial quotients \u22644; and for d=54,150, note exhaustive log shows none exist with \u22644.",
+  "resolved_at": "2026-04-06T22:21:18.788587+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

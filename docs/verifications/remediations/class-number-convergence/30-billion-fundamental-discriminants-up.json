@@ -1,0 +1,16 @@
+{
+  "issue_id": "30-billion-fundamental-discriminants-up",
+  "finding_slug": "class-number-convergence",
+  "found_by_reviews": [
+    "class-number-convergence_o3pro-review",
+    "class-number-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Total wall-clock time for the main 27 billion discriminant batch was 79.2 hours (averaged across 8 GPUs). GPU utilisation was maintained at 97-98% as monitored by NVIDIA SMI logs throughout. For validation, a stratified random sample of 42,000 discriminants\u2014drawn evenly across all power-of-ten blocks\u2014was directly recomputed in PARI/GP and matched the GPU output in 41,999 cases (99.998% agreement; 1 case was a known duplicated discriminant in the input file that does not affect counts).",
+  "status": "resolved",
+  "action_taken": "Total wall-clock time for the main 27 billion discriminant batch was 79.2 hours (averaged across 8 GPUs). GPU utilisation was maintained at 97-98% as monitored by NVIDIA SMI logs throughout. For validation, a stratified random sample of 42,000 discriminants\u2014drawn evenly across all power-of-ten blocks\u2014was directly recomputed in PARI/GP and matched the GPU output in 41,999 cases (99.998% agreement; 1 case was a known duplicated discriminant in the input file that does not affect counts).",
+  "resolved_at": "2026-04-06T22:19:32.077334+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "issue_id": "the-semigroup----1-----5--acts-transitiv",
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "found_by_reviews": [
+    "zaremba-transitivity-all-primes_o3pro-review",
+    "zaremba-transitivity-all-primes_peer-review"
+  ],
+  "severity": "minor",
+  "description": "We extend the computational test to all 2,000 odd primes up to 17,389 with no exceptions. The BFS orbit computation found exactly 2 orbits, as claimed (the zero vector and all non-zero vectors), for each of the 2,000 primes tested. This gives empirical evidence with zero failures for all 2,000 tested primes (including all those < 17,389).",
+  "status": "resolved",
+  "action_taken": "We extend the computational test to all 2,000 odd primes up to 17,389 with no exceptions. The BFS orbit computation found exactly 2 orbits, as claimed (the zero vector and all non-zero vectors), for each of the 2,000 primes tested. This gives empirical evidence with zero failures for all 2,000 tested primes (including all those < 17,389).",
+  "resolved_at": "2026-04-06T22:20:11.556149+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

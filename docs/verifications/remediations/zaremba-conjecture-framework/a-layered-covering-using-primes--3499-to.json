@@ -1,0 +1,17 @@
+{
+  "issue_id": "a-layered-covering-using-primes--3499-to",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "We label Layer 4 as heuristic, due to the lack of a proven uniform lower bound for \u03c3_p as p increases (no effective bound given for spectral gaps beyond p=31).",
+  "status": "resolved",
+  "action_taken": "We label Layer 4 as heuristic, due to the lack of a proven uniform lower bound for \u03c3_p as p increases (no effective bound given for spectral gaps beyond p=31).",
+  "resolved_at": "2026-04-06T23:39:42.829848+00:00",
+  "commits": [
+    "3598cc8"
+  ]
+}

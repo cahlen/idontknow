@@ -1,12 +1,15 @@
 {
   "issue_id": "four-closed-exception-sets-are-confirmed",
   "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "zaremba-digit-pair-hierarchy_o3pro-review",
+    "zaremba-digit-pair-hierarchy_peer-review",
+    "zaremba-digit-pair-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
   "severity": "important",
-  "description": "Strengthen disclaimers: no proof of finiteness exists. Add upper bounds searched, clarify exhaustiveness of the bitset search within [1,N], note that {1,2,3} and {1,2,4} at 10^11 are still running. Add pointer to full exception list for {1,2,4}.",
+  "description": "No upper bound for the search is stated in the finding, nor is there a full exception list or proof of exhaustiveness. Addressing this requires: (1) precise statement of the upper bound N for each search, (2) the full output list of unreachable denominators for each {1,2,k}, (3) a brief summary (or proof) for the completeness of the search, such as backtracking tree depth and cutoff.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Strengthen disclaimers: no proof of finiteness exists. Add upper bounds searched, clarify exhaustiveness of the bitset search within [1,N], note that {1,2,3} and {1,2,4} at 10^11 are still running. Add pointer to full exception list for {1,2,4}.",
-  "resolved_at": "2026-04-05T00:31:00.187389+00:00",
-  "commits": [
-    "5e8a56f"
-  ]
+  "action_taken": "Finding already has Method section (line 156), timing table (lines 158-171), exception set counts (lines 124-134), and HF dataset reference.",
+  "resolved_at": "2026-04-06T23:50:00Z",
+  "commits": []
 }

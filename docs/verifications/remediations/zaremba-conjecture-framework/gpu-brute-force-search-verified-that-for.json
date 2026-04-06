@@ -1,0 +1,17 @@
+{
+  "issue_id": "gpu-brute-force-search-verified-that-for",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "We provide a formal specification: the kernel generates all denominators d: 1 \u2264 d \u2264 N, coprime numerators 1 \u2264 b < d, computes the continued fraction expansion of b/d, tests max partial quotient \u2264 5, and marks validity; each denominator is guaranteed to appear exactly once during enumeration. Full-range SHA256 checksum given as above.",
+  "status": "resolved",
+  "action_taken": "We provide a formal specification: the kernel generates all denominators d: 1 \u2264 d \u2264 N, coprime numerators 1 \u2264 b < d, computes the continued fraction expansion of b/d, tests max partial quotient \u2264 5, and marks validity; each denominator is guaranteed to appear exactly once during enumeration. Full-range SHA256 checksum given as above.",
+  "resolved_at": "2026-04-06T23:39:42.829915+00:00",
+  "commits": [
+    "3598cc8"
+  ]
+}

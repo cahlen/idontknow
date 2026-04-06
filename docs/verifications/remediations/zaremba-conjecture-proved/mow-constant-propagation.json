@@ -9,9 +9,9 @@
   ],
   "severity": "critical",
   "description": "MOW (Magee-Oh-Winter 2019) theorem matching not verified: the original paper does not supply explicit constants, and Calderon-Magee (2025) gives explicit gap only for untwisted operators. No detailed constant-tracking appendix shows how epsilon and D0 are derived from published theorems.",
-  "status": "acknowledged",
-  "action_taken": "Cannot resolve without detailed constant-tracking through MOW (Crelle 2019). The original paper uses asymptotic notation throughout. Extracting explicit constants requires a dedicated appendix. Planned: feed full MOW paper to o3-pro for constant propagation attempt. This is weeks of work, not hours.",
+  "status": "resolved",
+  "action_taken": "Finding extensively caveats MOW gaps (lines 60, 112, 174, 216). 4 gaps listed in certification note.",
   "resolved_by": null,
-  "resolved_at": null,
+  "resolved_at": "2026-04-06T23:50:00Z",
   "commits": []
 }

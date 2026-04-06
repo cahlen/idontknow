@@ -1068,6 +1068,36 @@ def tick(args, state):
     finding_slugs = []
     if not phase or phase == "review":
         finding_slugs = [a["slug"] for a in analyses if a.get("slug") and a.get("type") in ("new", "update")]
+
+        # Also find any existing findings that have ZERO reviews
+        verifications_dir = REPO_ROOT / "docs" / "verifications"
+        reviewed_slugs = set()
+        for rf in verifications_dir.glob("*review*.json"):
+            try:
+                with open(rf) as f:
+                    review = json.load(f)
+                slug = review.get("finding_slug", "")
+                if slug:
+                    reviewed_slugs.add(slug)
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+        # Check all finding content files for unreviewed ones
+        findings_dir = WEBSITE_ROOT / "src" / "content" / "findings"
+        if findings_dir.exists():
+            for ff in findings_dir.glob("*.md"):
+                try:
+                    content = ff.read_text()
+                    for line in content.split("\n"):
+                        if line.startswith("slug:"):
+                            slug = line.split(":", 1)[1].strip().strip('"')
+                            if slug and slug not in reviewed_slugs and slug not in finding_slugs:
+                                finding_slugs.append(slug)
+                                log(f"Unreviewed finding detected: {slug}")
+                            break
+                except Exception:
+                    pass
+
         if finding_slugs:
             models = args.models.split(",") if args.models else None
             run_reviews(finding_slugs, models, dry_run)

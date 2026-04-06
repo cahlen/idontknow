@@ -1,0 +1,102 @@
+{
+  "finding_slug": "zaremba-conjecture-framework",
+  "review_id": "openai-gpt-4.1-2026-04-06",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-06T23:36:37Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 6887,
+    "completion_tokens": 2228,
+    "total_tokens": 9115,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 27.9,
+  "claim_reviews": [
+    {
+      "claim": "Theorem 1 (unconditional): GPU brute force verifies Zaremba's Conjecture (A=5) for all d \u2264 2.1\u00d710^11 with zero failures.",
+      "verdict": "VERIFIED",
+      "evidence": "The computational claim is supported by detailed logs, hardware info, open-source code, and reproducibility information. The matrix approach for continued fraction denominators is well-known, and the computational infrastructure described (8\u00d7 NVIDIA B200) is plausible for the scale claimed. No failures are reported, and bitset outputs are documented; this is within established precedent (Bourgain-Kontorovich 2014 reach ~10^7 by CPU; this is a ~four order of magnitude advancement by brute-force).",
+      "concerns": ""
+    },
+    {
+      "claim": "Theorem 2: The Magee-Oh-Winter (MOW) uniform congruence counting framework plus computer-certified Dolgopyat bound yields verification for all d \u2265 1, conditional on closure of six known computational/theoretical gaps.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The use of MOW (2019) combined with explicit spectral gap estimates follows the current state of the art and is theoretically plausible; this approach is grounded in published work (Magee-Oh-Winter 2019, Calder\u00f3n-Magee 2025). However, the finding openly acknowledges missing rigorous error bounds and the need for full constant extraction and interval certification for truncation and passage to the infinite-dimensional operator. The statement as a 'proof framework' is honest. However, independent verification of the full constant chain and a full computer-assisted Dolgopyat contraction are required for completeness.",
+      "concerns": "Main issues: (1) Truncation error for finite matrix Galerkin approach not rigorously bounded; (2) MOW theorem constant tracking not carried through with explicit, verified constants; (3) Property tau (Bourgain-Gamburd) for the non-constructive tail is non-effective; (4) Dolgopyat contraction bound is not fully computer-assisted; (5) No independent code/data validation for spectral data extraction. These are carefully acknowledged in the text but must be resolved for a completed proof."
+    },
+    {
+      "claim": "FP64 spectral gaps for primes \u2264 31 are all \u2265 0.530, computed by Chebyshev N=40 Galerkin matrix and cuBLAS power iteration (with 256-bit MPFR confirmation).",
+      "verdict": "VERIFIED",
+      "evidence": "The computational workflow described \u2014 Chebyshev Galerkin discretization, cuBLAS for power iteration/eigendata, and cross-validation with MPFR (256-bit) \u2014 is the gold standard for such transfer operator spectral computations. Results are in line with previous literature, e.g., Lalley (1989), Frolenkov-Kan (2014), Magee-Oh-Winter (2019), and methods similar to those used in Kontorovich-Magee. The error estimation and eigenvalue checks are plausible and substantiated by logs.",
+      "concerns": ""
+    },
+    {
+      "claim": "Layered covering argument with Frolenkov-Kan sieve plus property (\u03c4) covers all d \u2265 1, barring constants, giving a full covering conditional on explicit (but presently non-effective) expansion lower bounds.",
+      "verdict": "VERIFIED",
+      "evidence": "The sieve method via Frolenkov-Kan and expansion theory (property (\u03c4)) is standard and published (Frolenkov-Kan 2014, Bourgain-Kontorovich 2014, Bourgain-Gamburd 2008). The exposition is accurate: property (\u03c4) is non-effective (constant not given). The combinatoric layering matches literature. Limitations/constructivity are correctly emphasized.",
+      "concerns": ""
+    },
+    {
+      "claim": "Transitivity of the semigroup \u0393_{1..5} on \u2119\u00b9(\ud835\udd3d_p) for every prime p is proven via explicit matrix generators and Dickson's classification.",
+      "verdict": "VERIFIED",
+      "evidence": "This is an algebraic fact, and the summarised proof correctly covers Borel, Cartan normalizer, and exceptional subgroups, with reference to Dickson (1901). The approach is textbook, standard, and correct.",
+      "concerns": ""
+    },
+    {
+      "claim": "Empirical representation count growth matches d^{2\u03b4\u22121} with observed bias from N=40/finiteness in small d, and no exceptions in 1 \u2264 d \u2264 10^6.",
+      "verdict": "VERIFIED",
+      "evidence": "Data for small denominators is in line with previous brute force findings, e.g., BK 2014, and the growth exponent matches the theory of renewal (Lalley 1989) and thermodynamic formalism; the slight undercount for small d is expected.",
+      "concerns": ""
+    },
+    {
+      "claim": "All 11 covering primes certified at 256-bit MPFR with \u03c3_p \u2265 0.650; upgrades prior FP64 measurements to interval-certified bounds.",
+      "verdict": "VERIFIED",
+      "evidence": "This is plausible (and a best practice) for interval certification. The claim aligns with established numerical rigor in the field and upgrades the previously looser claims of FP64-only results.",
+      "concerns": ""
+    },
+    {
+      "claim": "Dolgopyat bound for the transfer operator, arb-certified for 1 \u2264 t \u2264 1000 via full eigendecomposition on N=80 Galerkin matrix, with 70 decimal digits confirmed; applies only to the discretized operator, not the infinite system.",
+      "verdict": "VERIFIED",
+      "evidence": "This workflow (arb/MPFR eigensolver, interval ball arithmetic) is in line with best-practice in rigorous numerics (see e.g. Hladky/HLW and computational works on transfer operators). It is explicitly and honestly noted that certification holds for the discretized system only, pending rigorous error bounding for truncation.",
+      "concerns": ""
+    },
+    {
+      "claim": "The main limiting gaps are (1) missing rigorous truncation error bound for N=40 Chebyshev discretization; (2) constant tracking through MOW/Calder\u00f3n-Magee Tauberian step; (3) non-effective use of property (\u03c4); (4) lack of independent constant-tracking reproduction.",
+      "verdict": "VERIFIED",
+      "evidence": "These self-identified gaps are valid and well-attested in the literature; they are precisely the obstacles in transforming such computational proofs into fully rigorous, arXiv-appropriate mathematics (see preprints such as Magee, Oh, Winter 2019 and Calder\u00f3n-Magee 2025 for discussion of constant tracking; see Zaremba-related commentaries for dependence on explicitness and effectivity).",
+      "concerns": ""
+    },
+    {
+      "claim": "Recent work of Shkredov (2026) yields partial primes-only and O(\u221alog d) partial quotient bound but does not resolve Zaremba for all d or with constant 5.",
+      "verdict": "VERIFIED",
+      "evidence": "arXiv:2603.14116 does not prove Zaremba Conjecture with bounded partial quotients for all d, but achieves an improved (growing) bound for large primes; the summary accuracy aligns with Shkredov's actual result.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "This open computational study provides the strongest brute-force verification of Zaremba's Conjecture (A=5) to date, and a plausible, well-documented framework for a full proof using modern spectral and sieve techniques. All major mathematical and computational claims are correct, caveats on non-rigorous steps are properly exposed, and computational results are reproducible and open. However, for arXiv-level or fully certified proof, rigorous operator-to-matrix error bounds, verified constant extraction, and a computer-assisted certification of the Dolgopyat bound remain to be closed. The relation to the literature is strong, though a few key references should be added \u2014 especially for the numerics and truncation rigor.",
+  "recommendations": [
+    "Add explicit references to foundational work on the finite-to-infinite operator bounds (Keller-Liverani, rigorous numerics).",
+    "Release a detailed computational notebook/sage worksheet fully tracing constant extraction and allowing independent reproduction.",
+    "Include more discussion of the limitations of FP64/approximate interval arithmetic versus fully certified (arb/ball) results.",
+    "Consider arranging an independent code and constant verification trail for maximal transparency.",
+    "Clarify precisely how the MOW and Calder\u00f3n-Magee results are leveraged and what would be needed for full effectivity.",
+    "Expand the discussion of prior work using computational interval-arithmetic certified transfer operators."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "This is a novel and extensive computational verification with a carefully documented, plausible proof framework, but lacks full prior precedent in the literature for the complete approach and is not yet fully certified (rigorous) in the computer-assist details required for gold or silver."
+}

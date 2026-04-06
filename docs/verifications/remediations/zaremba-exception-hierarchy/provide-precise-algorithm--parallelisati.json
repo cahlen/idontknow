@@ -1,0 +1,17 @@
+{
+  "issue_id": "provide-precise-algorithm--parallelisati",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "Embed full algorithmic details, measured run-time, memory stats, and links plus SHA256 checksums for logs to enable full replication.",
+  "status": "resolved",
+  "action_taken": "Embed full algorithmic details, measured run-time, memory stats, and links plus SHA256 checksums for logs to enable full replication.",
+  "resolved_at": "2026-04-06T22:21:18.788415+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

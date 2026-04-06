@@ -6,11 +6,11 @@
     "zaremba-spectral-gaps-uniform_peer-review"
   ],
   "severity": "minor",
-  "description": "The threshold \u03c3 > 0.277 comes from the Bourgain-Kontorovich circle method framework with specific assumptions about exponential sum bounds. This dependency must be stated explicitly so readers understand the threshold is not absolute.",
+  "description": "Insert explicit dependence of the threshold on the proof framework, with a forward-looking caveat.",
   "status": "resolved",
-  "action_taken": "The threshold \u03c3 > 0.277 comes from the Bourgain-Kontorovich circle method framework with specific assumptions about exponential sum bounds. This dependency must be stated explicitly so readers understand the threshold is not absolute.",
-  "resolved_at": "2026-04-05T01:43:28.365976+00:00",
+  "action_taken": "Insert explicit dependence of the threshold on the proof framework, with a forward-looking caveat.",
+  "resolved_at": "2026-04-06T22:20:44.679805+00:00",
   "commits": [
-    "5e8a56f"
+    "95db7f2"
   ]
 }

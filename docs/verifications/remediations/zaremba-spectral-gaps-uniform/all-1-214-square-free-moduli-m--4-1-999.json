@@ -1,0 +1,14 @@
+{
+  "issue_id": "all-1-214-square-free-moduli-m--4-1-999",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "zaremba-spectral-gaps-uniform_o3pro-review",
+    "zaremba-spectral-gaps-uniform_peer-review"
+  ],
+  "severity": "important",
+  "description": "We cannot fix this without rerunning computations for N=20,25 and producing interval enclosures on the gaps for the three minimum entries. The current experiment data only specifies N=40 gaps for the prime moduli, not for all square-free moduli or for lower N.",
+  "status": "acknowledged",
+  "action_taken": "We cannot fix this without rerunning computations for N=20,25 and producing interval enclosures on the gaps for the three minimum entries. The current experiment data only specifies N=40 gaps for the prime moduli, not for all square-free moduli or for lower N.",
+  "resolved_at": null,
+  "commits": []
+}

@@ -1,0 +1,85 @@
+{
+  "finding_slug": "zaremba-inverse-square-amplification",
+  "review_id": "openai-o3-2026-04-06",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-06T23:39:19Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 2698,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 2800,
+    "output_tokens_details": {
+      "reasoning_tokens": 1344
+    },
+    "total_tokens": 5498
+  },
+  "response_time_seconds": 27.6,
+  "claim_reviews": [
+    {
+      "claim": "The ratio of Zaremba density for {1,k} to {2,k} follows an inverse-square law: amplification \u2248 1633/k\u00b2 with R\u00b2 = 0.991 and exponent \u22122.002.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Only 8 data points (k=3\u201310) are fitted. Densities for the two alphabets are measured at different cut-offs (10\u00b9\u00b9 vs 10\u00b9\u2070), so the ratio may include finite-N bias.  R\u00b2 close to 1 for 3 degrees of freedom is not difficult to obtain.  No error bars or replicate runs are given.  Literature contains no prior report of an inverse-square law, so independent checks are required.",
+      "concerns": "Re-compute both densities at the same N for multiple N; give standard errors of the fit."
+    },
+    {
+      "claim": "Digit 1 amplifies density by 200\u00d7 at k=3, decaying to 18\u00d7 at k=10.",
+      "verdict": "VERIFIED",
+      "evidence": "The provided table shows the stated ratios.  Given the reported enumeration method, these numbers are internally consistent.",
+      "concerns": ""
+    },
+    {
+      "claim": "All densities were obtained by complete enumeration up to N (no sampling) on 8\u00d7NVIDIA B200 GPUs.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "The code is linked but not benchmarked in the manuscript.  Without a runtime analysis or memory-use description, the reviewer cannot confirm that a full enumeration to 10\u00b9\u00b9 denominators is feasible within GPU memory and time.",
+      "concerns": "Provide wall-clock times, GPU occupancy statistics, and verification against known enumerations (e.g. Hensley data up to 10\u2079)."
+    },
+    {
+      "claim": "R\u00b2 = 0.991 for the inverse-square fit.",
+      "verdict": "VERIFIED",
+      "evidence": "A least-squares fit of log(amplification) versus log(k) for the eight reported points reproduces R\u00b2\u22480.991.",
+      "concerns": ""
+    },
+    {
+      "claim": "The number of {1,2,k} exceptions grows roughly like 3.2\u1d4f and satisfies log E(k) = \u22120.030k\u00b2 + 1.73k \u22121.90 with R\u00b2 = 0.997.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Growth ratios are computed from eight empirical counts, half of which are still \u2018open\u2019 at 10\u00b9\u00b9.  No statistical or theoretical justification for an exponential-quadratic model is supplied.",
+      "concerns": "Provide larger k, error estimates, and compare with Hensley\u2019s upper and lower bounds for restricted-digit sets."
+    },
+    {
+      "claim": "The exception set for {1,3,5} is finite with an estimated limit of \u224881 005 exceptions.",
+      "verdict": "DISPUTED",
+      "evidence": "The data show a declining increment, but no mathematical argument guarantees eventual closure; the extrapolation is speculative.",
+      "concerns": "Demonstrate saturation at a higher N or supply a heuristic with quantified confidence."
+    },
+    {
+      "claim": "GPU enumeration to N = 10\u00b9\u00b9 for a two-digit alphabet is feasible on the stated hardware.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "A two-digit continued-fraction tree up to depth log_\u03c6 N has \u2248O(N) nodes; bit-set storage for 10\u00b9\u00b9 bits is 12.5 GB, within a B200\u2019s 180 GB, but no runtime or I/O numbers are given.",
+      "concerns": "Include performance metrics and memory footprint; cross-validate a subset with CPU enumeration."
+    },
+    {
+      "claim": "Digit 1\u2019s dominance is \u2018quadratically\u2019 stronger than digit 2 because of the golden ratio structure.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "This is an interpretative statement with no derivation.  Existing theory (Gauss measure, Hensley dimension formula) does not predict a k\u207b\u00b2 factor.",
+      "concerns": "Either supply a theoretical argument or phrase the statement as conjectural."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The empirical observations are intriguing and the data appear internally consistent, but key claims rely on a small sample and on computations that have not been independently benchmarked.  The inverse-square law may be a real phenomenon, yet the current evidence is not conclusive.  Strengthening the computational methodology section, aligning cut-offs, and adding statistical uncertainty would raise the work to a publishable standard.",
+  "recommendations": [
+    "Recompute both {1,k} and {2,k} densities at the same N for several N (e.g. 10\u2079, 10\u00b9\u2070, 10\u00b9\u00b9) to test stability of the exponent.",
+    "Release logs showing runtime, GPU utilisation, and hash checksums of bitsets to aid reproducibility.",
+    "Provide confidence intervals for densities and for the fitted exponent and intercept.",
+    "Clarify speculative language around the golden-ratio explanation and the finiteness of the {1,3,5} exception set.",
+    "Cite the missing references and discuss how the present findings relate to their bounds and methods."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The observation is novel and interesting but has not yet been corroborated by external studies or benchmarked against published datasets."
+}

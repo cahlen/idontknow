@@ -1,12 +1,19 @@
 {
   "issue_id": "there-is-a-sharp-phase-transition-at-hau",
   "finding_slug": "zaremba-density-phase-transition",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
   "severity": "important",
-  "description": "Weaken 'sharp phase transition' to 'observed correlation' and clarify relationship to Bourgain-Kontorovich 2014 (which proves density 1 non-effectively for A\u226450) and Hensley's conjecture. Our data is consistent with BK14 but we do not prove a phase transition theorem.",
+  "description": "Data in the finding shows that subsets such as {2,3,4,5} violate the naive delta=1/2 threshold, indicating that presence of digit 1 is necessary. Reference to BK14 and Hensley needed. Explicitly correct the statement.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Weaken 'sharp phase transition' to 'observed correlation' and clarify relationship to Bourgain-Kontorovich 2014 (which proves density 1 non-effectively for A\u226450) and Hensley's conjecture. Our data is consistent with BK14 but we do not prove a phase transition theorem.",
-  "resolved_at": "2026-04-04T00:30:00.118651+00:00",
+  "action_taken": "Data in the finding shows that subsets such as {2,3,4,5} violate the naive delta=1/2 threshold, indicating that presence of digit 1 is necessary. Reference to BK14 and Hensley needed. Explicitly correct the statement.",
+  "resolved_at": "2026-04-06T22:18:58.754802+00:00",
   "commits": [
-    "5d0dd82"
+    "95db7f2"
   ]
 }

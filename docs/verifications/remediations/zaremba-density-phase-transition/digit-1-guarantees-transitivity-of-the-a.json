@@ -1,12 +1,19 @@
 {
   "issue_id": "digit-1-guarantees-transitivity-of-the-a",
   "finding_slug": "zaremba-density-phase-transition",
-  "severity": "important",
-  "description": "Add formal reference and clarify that the transitivity claim is empirically observed and supported by Dickson's classification of finite linear semigroups, not a standalone proven theorem. Reference Bourgain\u2013Fuchs 2011 and Bourgain\u2013Kontorovich 2014.",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
+  "severity": "minor",
+  "description": "Supply formal claim, cite known reference, and connect to presence of digit 1 in data.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add formal reference and clarify that the transitivity claim is empirically observed and supported by Dickson's classification of finite linear semigroups, not a standalone proven theorem. Reference Bourgain\u2013Fuchs 2011 and Bourgain\u2013Kontorovich 2014.",
-  "resolved_at": "2026-04-04T00:30:00.118729+00:00",
+  "action_taken": "Supply formal claim, cite known reference, and connect to presence of digit 1 in data.",
+  "resolved_at": "2026-04-06T22:18:58.754869+00:00",
   "commits": [
-    "5d0dd82"
+    "95db7f2"
   ]
 }

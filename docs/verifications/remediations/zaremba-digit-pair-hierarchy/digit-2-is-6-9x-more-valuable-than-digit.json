@@ -1,12 +1,17 @@
 {
   "issue_id": "digit-2-is-6-9x-more-valuable-than-digit",
   "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "zaremba-digit-pair-hierarchy_o3pro-review",
+    "zaremba-digit-pair-hierarchy_peer-review",
+    "zaremba-digit-pair-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
   "severity": "important",
-  "description": "Replace loose 'value' language with precise density-ratio definition. The 6.9x number is correct (76.55/11.06=6.92) but 'value' is undefined.",
+  "description": "Title says '7x' but 10^11 data gives rho({1,2})/rho({1,3}) = 80.75/9.11 = 8.9x. Update title to '9x'. The body already correctly reports 8.9x and explains the ratio is widening because dim_H({1,2})=0.531 > 1/2 while dim_H({1,3})=0.454 < 1/2.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Replace loose 'value' language with precise density-ratio definition. The 6.9x number is correct (76.55/11.06=6.92) but 'value' is undefined.",
-  "resolved_at": "2026-04-05T00:31:00.187349+00:00",
+  "action_taken": "Title says '7x' but 10^11 data gives rho({1,2})/rho({1,3}) = 80.75/9.11 = 8.9x. Update title to '9x'. The body already correctly reports 8.9x and explains the ratio is widening because dim_H({1,2})=0.531 > 1/2 while dim_H({1,3})=0.454 < 1/2.",
+  "resolved_at": "2026-04-06T21:56:03.926980+00:00",
   "commits": [
-    "5e8a56f"
+    "95db7f2"
   ]
 }

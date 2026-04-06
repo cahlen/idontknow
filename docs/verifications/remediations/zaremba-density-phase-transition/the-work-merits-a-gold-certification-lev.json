@@ -1,10 +1,17 @@
 {
   "issue_id": "the-work-merits-a-gold-certification-lev",
   "finding_slug": "zaremba-density-phase-transition",
-  "severity": "minor",
-  "description": "Already resolved: certification was downgraded to silver in a prior remediation pass (commit 9428528). The manifest confirms level: silver. No further change needed.",
-  "status": "resolved",
-  "action_taken": "Already resolved: certification is silver.",
-  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
+  "severity": "important",
+  "description": "The certification question is a policy decision, not only data-based. No automated fix; if reviewer consensus is silver, downgrade accordingly.",
+  "status": "disputed",
+  "action_taken": "Certification level is determined by most-conservative-wins consensus, not adjustable per-finding.",
+  "resolved_at": "2026-04-06T23:50:00Z",
   "commits": []
 }

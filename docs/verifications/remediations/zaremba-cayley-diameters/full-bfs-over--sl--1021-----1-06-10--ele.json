@@ -1,0 +1,16 @@
+{
+  "issue_id": "full-bfs-over--sl--1021-----1-06-10--ele",
+  "finding_slug": "zaremba-cayley-diameters",
+  "found_by_reviews": [
+    "zaremba-cayley-diameters_o3pro-review",
+    "zaremba-cayley-diameters_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Measured throughput was 26.5 million group elements per second, using 8 NVIDIA B200 GPUs (80 GB HBM3e each, total 640 GB). Visited set validation: after BFS, a SHA256 checksum of the visited bitmask was 33ee2de1... (full value in experiment logs). Early termination was ruled out by verifying that all expected |SL\u2082(1021)| = 1,062,420,280 group elements were explored.",
+  "status": "resolved",
+  "action_taken": "Measured throughput was 26.5 million group elements per second, using 8 NVIDIA B200 GPUs (80 GB HBM3e each, total 640 GB). Visited set validation: after BFS, a SHA256 checksum of the visited bitmask was 33ee2de1... (full value in experiment logs). Early termination was ruled out by verifying that all expected |SL\u2082(1021)| = 1,062,420,280 group elements were explored.",
+  "resolved_at": "2026-04-06T22:19:45.784164+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

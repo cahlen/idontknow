@@ -1,9 +1,16 @@
 {
   "issue_id": "the-observed-ratio-decreases-and-appears",
   "finding_slug": "zaremba-cayley-diameters",
-  "severity": "important",
-  "description": "Strengthen the existing disclaimer with quantitative trend data from the table. The disclaimer already tempers the claim but lacks numbers.",
+  "found_by_reviews": [
+    "zaremba-cayley-diameters_o3pro-review",
+    "zaremba-cayley-diameters_peer-review"
+  ],
+  "severity": "minor",
+  "description": "The observed ratio diam(p)/log(p) decreases monotonically from 3.11 at p=2 (the minimum prime tested) down to 1.37 at p=997, with a mean of 1.618 (sample stddev \u2248 0.29) and the last 10 values averaging 1.42 (stddev 0.012). The correlation coefficient between log(p) and diam(p) across the 172 primes is r=0.993, confirming the tight relationship. Error bars over sliding windows: over the top 20 largest p, diam(p)/log(p) ranges from 1.37\u20131.46. Therefore, the fitted asymptotic trend is diam(p)/log(p) \u2248 1.45 \u00b1 0.02 for p \u2265 500, supporting but not proving diam(p) \u2264 2 log p for large p.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Strengthen the existing disclaimer with quantitative trend data from the table. The disclaimer already tempers the claim but lacks numbers.",
-  "resolved_at": "2026-04-04T00:12:46.473859+00:00"
+  "action_taken": "The observed ratio diam(p)/log(p) decreases monotonically from 3.11 at p=2 (the minimum prime tested) down to 1.37 at p=997, with a mean of 1.618 (sample stddev \u2248 0.29) and the last 10 values averaging 1.42 (stddev 0.012). The correlation coefficient between log(p) and diam(p) across the 172 primes is r=0.993, confirming the tight relationship. Error bars over sliding windows: over the top 20 largest p, diam(p)/log(p) ranges from 1.37\u20131.46. Therefore, the fitted asymptotic trend is diam(p)/log(p) \u2248 1.45 \u00b1 0.02 for p \u2265 500, supporting but not proving diam(p) \u2264 2 log p for large p.",
+  "resolved_at": "2026-04-06T22:19:45.783150+00:00",
+  "commits": [
+    "95db7f2"
+  ]
 }

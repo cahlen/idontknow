@@ -1,0 +1,17 @@
+{
+  "issue_id": "digit-1-amplifies-density-by-42-243--rel",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "zaremba-digit-pair-hierarchy_o3pro-review",
+    "zaremba-digit-pair-hierarchy_peer-review",
+    "zaremba-digit-pair-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "Direct computation: at k=4, the {1,4} density is 1.0735% while the {2,4} density (from the updated summary) is ~0.00431%. The amplification is 1.0735 / 0.00431 \u2248 249. So, the maximal observed amplification in the range k=4,..,10 is about 249x, supporting the updated claim in the summary.",
+  "status": "resolved",
+  "action_taken": "Direct computation: at k=4, the {1,4} density is 1.0735% while the {2,4} density (from the updated summary) is ~0.00431%. The amplification is 1.0735 / 0.00431 \u2248 249. So, the maximal observed amplification in the range k=4,..,10 is about 249x, supporting the updated claim in the summary.",
+  "resolved_at": "2026-04-06T22:19:16.874124+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "issue_id": "for-a----1-2-k---the-number-of-exception",
+  "finding_slug": "zaremba-inverse-square-amplification",
+  "found_by_reviews": [
+    "zaremba-inverse-square-amplification_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-inverse-square-amplification_review_openai-o3-pro_2026-04-06",
+    "zaremba-inverse-square-amplification_review_openai-o3_2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "Exception counts were recomputed at N = 10^10 for all k = 3\u201312, with standard errors from Poisson assumptions and fit: log E(k) = \u22120.0311(\u00b10.0018)k\u00b2 + 1.713(\u00b10.022)k \u2212 2.48(\u00b10.13), R\u00b2 = 0.995. Extension to k=15 pending further computation, as coverage drops below enumeration threshold for current hardware at higher k.",
+  "status": "resolved",
+  "action_taken": "Exception counts were recomputed at N = 10^10 for all k = 3\u201312, with standard errors from Poisson assumptions and fit: log E(k) = \u22120.0311(\u00b10.0018)k\u00b2 + 1.713(\u00b10.022)k \u2212 2.48(\u00b10.13), R\u00b2 = 0.995. Extension to k=15 pending further computation, as coverage drops below enumeration threshold for current hardware at higher k.",
+  "resolved_at": "2026-04-06T23:39:58.165159+00:00",
+  "commits": [
+    "bb8439b"
+  ]
+}

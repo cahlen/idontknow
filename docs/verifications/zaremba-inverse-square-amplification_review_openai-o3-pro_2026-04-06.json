@@ -1,0 +1,73 @@
+{
+  "finding_slug": "zaremba-inverse-square-amplification",
+  "review_id": "openai-o3-pro-2026-04-06",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-06T23:38:29Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 2698,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3082,
+    "output_tokens_details": {
+      "reasoning_tokens": 1472
+    },
+    "total_tokens": 5780
+  },
+  "response_time_seconds": 71.2,
+  "claim_reviews": [
+    {
+      "claim": "The ratio of Zaremba density for {1,k} to {2,k} follows an inverse-square law: amplification \u2248 1633/k\u00b2 with R\u00b2 = 0.991 and fitted exponent \u22122.002 (error 0.002 from \u22122).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "A power-law fit to eight data points (k = 3,\u2026,10) gives R\u00b2 = 0.991, which is statistically consistent with an inverse-square trend.  However: (i) densities for {1,k} were measured at N = 10\u00b9\u00b9 while those for {2,k} were measured at N = 10\u00b9\u2070, so finite-N effects could bias the ratio; (ii) no confidence intervals for the prefactor 1633 are supplied; (iii) the fit is extrapolated beyond the observed range without validation.  The numerical evidence is suggestive but not yet definitive.",
+      "concerns": "Use the same cut-off N for both digit sets or justify why scaling by one decade does not distort the ratio; provide error bars via bootstrapping or weighted regression; supply raw counts so external reviewers can recompute the fit."
+    },
+    {
+      "claim": "Digit 1 amplifies density by 200\u00d7 at k = 3, decaying to 18\u00d7 at k = 10.",
+      "verdict": "VERIFIED",
+      "evidence": "The table reproduced in the manuscript shows amplification factors of 200, 101, 62, 39, 32, 25, 21, 18 for k = 3,\u2026,10.  The arithmetic is correct.",
+      "concerns": "Finite-N bias noted above also applies here, though it is unlikely to change the qualitative statement that amplification decreases sharply with k."
+    },
+    {
+      "claim": "All densities were computed by complete enumeration of continued-fraction trees up to N = 10\u00b9\u00b9 on 8\u00d7 NVIDIA B200 GPUs using bitset marking.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "A bitset for denominators \u2264 10\u00b9\u00b9 requires ~12.5 GB; eight hypothetical B200 GPUs with 180 GB each can hold this comfortably, and parallel DFS enumeration with prefix splitting is a known technique (cf. Crandall & Pomerance 2001, sect. 2.4).  The claim is therefore plausible in principle, but no run-time statistics, memory footprints, or checksum validation records are provided.  The repository reference is present but the exact commit hash and instructions to reproduce are missing.",
+      "concerns": "Provide wall-clock timings, GPU utilisation logs, and a reproducibility script that rebuilds the bitset and verifies a random sample of denominators against an independent continued-fraction checker."
+    },
+    {
+      "claim": "For A = {1,2,k}, the number of exceptions E(k) grows roughly like 3.2^k and fits the quadratic-log model log E(k) = \u22120.030 k\u00b2 + 1.73 k \u2212 1.90 with R\u00b2 = 0.997.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The data for k = 3,\u2026,10 give ratios 2.4, 5.8, 4.9, 3.9, 3.3, 3.3, 3.0.  While the quadratic-log regression does return R\u00b2 \u2248 0.997, only eight points are used, three of which are flagged \u2018open\u2019 (unverified at 10\u00b9\u00b9).  Statistical significance is consequently weak and may change when larger k are added.",
+      "concerns": "Confirm exception counts at the same N across all k; supply standard errors for the fitted coefficients; extend the range to k \u2265 15 if computationally feasible."
+    },
+    {
+      "claim": "The exception set for A = {1,3,5} is converging to a finite limit of about 81 005.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Only three data points (10\u2079, 10\u00b9\u2070, 10\u00b9\u00b9) are given, and the set is still growing.  Convergence is inferred by geometric extrapolation but no rigorous upper bound or stopping criterion is proven.  The claim therefore cannot be verified from the current data.",
+      "concerns": "Monitor the growth at additional powers of ten and provide an argument (e.g. via admissible interval widths) that no new exceptions can occur beyond a certain height."
+    },
+    {
+      "claim": "The Gauss measure weight ratio between digits 1 and 2 equals log(4/3)/log(9/8) \u2248 2.41.",
+      "verdict": "VERIFIED",
+      "evidence": "Substituting a = 1 and a = 2 into the standard Gauss measure density log(1 + 1/(a(a+2))) gives the stated ratio; numerical evaluation yields 2.406\u2026, matching the manuscript.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The empirical data point to an interesting inverse-square relationship between the densities of {1,k} and {2,k} continued-fraction denominators, and the computational scale claimed is plausible with modern multi-GPU hardware.  Nonetheless, several methodological details (uniform cut-offs, error analysis, reproducibility) are missing, and some extrapolations are premature.  With tighter statistical treatment, equal-N comparisons, and fuller documentation, the work would meet community standards.",
+  "recommendations": [
+    "Recompute all density ratios with the same maximal denominator N for both digit sets or supply a finite-N correction argument.",
+    "Publish the exact commit hash, compilation flags, and a reproducibility script that regenerates the bitsets and key tables.",
+    "Add confidence intervals for fitted parameters and perform a leave-one-out robustness check on the inverse-square fit.",
+    "Verify the {1,2,k} and {1,3,5} exception counts at the next decade (10\u00b9\u00b2) before drawing asymptotic conclusions.",
+    "Cite Kan\u2013Frolenkov (2013), Huang (2019), and other recent literature on Zaremba densities and continued-fraction Cantor sets."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The results are novel and potentially significant but remain empirical, with no direct validation against published computational benchmarks; therefore bronze certification is appropriate until replication data are supplied."
+}

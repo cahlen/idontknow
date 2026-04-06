@@ -6,9 +6,11 @@
     "kronecker-s30-largest-computation_peer-review"
   ],
   "severity": "important",
-  "description": "The finding summary already includes both: 'SHA-256 full dataset checksum: 7f19c4... (truncated)' and a link to a downloadable file of 1000 random (\u03bb, \u03bc, \u03bd, g(\u03bb,\u03bc,\u03bd)) samples at https://huggingface.co/datasets/cahlen/kronecker-coefficients/blob/main/s30_samples_1000.csv. Both were added in commit 9428528 and are present in the current published text.",
+  "description": "Added a SHA256 checksum of the full S_30 dataset, as well as a random sample of 5 nonzero (i,j,k,g) entries from kronecker_n30. This allows reviewers to verify both file integrity and correctness of individual entries.",
   "status": "resolved",
-  "action_taken": "Reviewer concern already addressed in finding text. Marked resolved.",
-  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
-  "commits": []
+  "action_taken": "Added a SHA256 checksum of the full S_30 dataset, as well as a random sample of 5 nonzero (i,j,k,g) entries from kronecker_n30. This allows reviewers to verify both file integrity and correctness of individual entries.",
+  "resolved_at": "2026-04-06T22:18:42.264626+00:00",
+  "commits": [
+    "95db7f2"
+  ]
 }

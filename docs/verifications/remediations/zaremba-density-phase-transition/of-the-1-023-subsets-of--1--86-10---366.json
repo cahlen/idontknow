@@ -1,0 +1,19 @@
+{
+  "issue_id": "of-the-1-023-subsets-of--1--86-10---366",
+  "finding_slug": "zaremba-density-phase-transition",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
+  "severity": "important",
+  "description": "Provide script name and SHA-256 hash for the CSV file as derived in the data block.",
+  "status": "resolved",
+  "action_taken": "Provide script name and SHA-256 hash for the CSV file as derived in the data block.",
+  "resolved_at": "2026-04-06T22:18:58.754951+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

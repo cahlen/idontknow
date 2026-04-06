@@ -1,0 +1,17 @@
+{
+  "issue_id": "digit-2-is-6-9--more-valuable-than-digit",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "found_by_reviews": [
+    "zaremba-digit-pair-hierarchy_o3pro-review",
+    "zaremba-digit-pair-hierarchy_peer-review",
+    "zaremba-digit-pair-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "The correct ratio is derived directly from the densities at N=10^{11}: 80.7543/9.1093 \u2248 8.87, so the '9\u00d7' claim in the summary is correct, while '6.9\u00d7' is not. The value definition is clarified: 'value' is the multiplicative density boost of including digit 2 versus digit 3 in {1,k} for k=2,3.",
+  "status": "resolved",
+  "action_taken": "The correct ratio is derived directly from the densities at N=10^{11}: 80.7543/9.1093 \u2248 8.87, so the '9\u00d7' claim in the summary is correct, while '6.9\u00d7' is not. The value definition is clarified: 'value' is the multiplicative density boost of including digit 2 versus digit 3 in {1,k} for k=2,3.",
+  "resolved_at": "2026-04-06T22:19:16.873998+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

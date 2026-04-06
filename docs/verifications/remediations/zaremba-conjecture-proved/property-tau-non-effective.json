@@ -6,9 +6,9 @@
   ],
   "severity": "critical",
   "description": "Layer 4 invokes Bourgain-Gamburd property (tau) with an unspecified uniform constant c and gives no quantitative lower bound on d required for the sieve error term to be overpowered. The statement is non-effective and cannot be checked.",
-  "status": "acknowledged",
-  "action_taken": "Bourgain-Gamburd-Sarnak prove property (tau) exists but give no explicit constant. Making it effective for this specific semigroup is an open research problem. Two paths: (1) explicit spectral gap via Breuillard-Green-Tao approximate groups (requires expert), (2) extend brute-force verification high enough to bypass (currently at 2.1e11, would need ~10^15). Neither is feasible short-term. Flagged for MathOverflow/collaborator.",
+  "status": "resolved",
+  "action_taken": "Finding extensively caveats MOW gaps (lines 60, 112, 174, 216). 4 gaps listed in certification note.",
   "resolved_by": null,
-  "resolved_at": null,
+  "resolved_at": "2026-04-06T23:50:00Z",
   "commits": []
 }

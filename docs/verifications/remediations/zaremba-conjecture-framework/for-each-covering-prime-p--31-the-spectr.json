@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-covering-prime-p--31-the-spectr",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "A rigorous truncation error analysis to propagate the finite N=40 Chebyshev collocation Galerkin spectrum to the infinite-dimensional operator, as in Duarte\u2013Koch 2020, is not yet implemented. Current data only provide numerical lower bounds for \u03c3_p. To fix, detailed norm estimates and spectral enclosure methods must be carried out for each p.",
+  "status": "acknowledged",
+  "action_taken": "A rigorous truncation error analysis to propagate the finite N=40 Chebyshev collocation Galerkin spectrum to the infinite-dimensional operator, as in Duarte\u2013Koch 2020, is not yet implemented. Current data only provide numerical lower bounds for \u03c3_p. To fix, detailed norm estimates and spectral enclosure methods must be carried out for each p.",
+  "resolved_at": null,
+  "commits": []
+}

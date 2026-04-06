@@ -1,0 +1,17 @@
+{
+  "issue_id": "release-the-complete-list-of-27-exceptio",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "List all 27 exceptions (denominator values), and give code+SHA256 hash for full exception file, release code repo link.",
+  "status": "resolved",
+  "action_taken": "List all 27 exceptions (denominator values), and give code+SHA256 hash for full exception file, release code repo link.",
+  "resolved_at": "2026-04-06T22:21:18.788528+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

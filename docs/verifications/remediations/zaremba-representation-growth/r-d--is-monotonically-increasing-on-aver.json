@@ -1,0 +1,16 @@
+{
+  "issue_id": "r-d--is-monotonically-increasing-on-aver",
+  "finding_slug": "zaremba-representation-growth",
+  "found_by_reviews": [
+    "zaremba-representation-growth_o3pro-review",
+    "zaremba-representation-growth_peer-review"
+  ],
+  "severity": "important",
+  "description": "Clarify 'on average' as the (unweighted) arithmetic mean of R(d) for a block of d, provide variance plots and blockwise means.",
+  "status": "resolved",
+  "action_taken": "Clarify 'on average' as the (unweighted) arithmetic mean of R(d) for a block of d, provide variance plots and blockwise means.",
+  "resolved_at": "2026-04-06T22:20:27.680881+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}

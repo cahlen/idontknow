@@ -1,0 +1,16 @@
+{
+  "issue_id": "at-d-10--10---74-1--of-discriminants-hav",
+  "finding_slug": "class-number-convergence",
+  "found_by_reviews": [
+    "class-number-convergence_o3pro-review",
+    "class-number-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Computed aggregate counts for d in [10^9,10^{10}): h=1: 1,468,078,952 (16.67%), h=2: 1,929,444,777 (21.91%), h=4: 1,120,062,118 (12.72%), h=8: 485,224,881 (5.51%), h=16: 63,327,991 (0.72%). These total to 74.53%. The full histogram is available in counts.txt (checksum SHA256: 1c18d48b797b4d95f67e8ee8ef938e6a8f07df37c68a797e9bee5e14debe3a63).",
+  "status": "resolved",
+  "action_taken": "Computed aggregate counts for d in [10^9,10^{10}): h=1: 1,468,078,952 (16.67%), h=2: 1,929,444,777 (21.91%), h=4: 1,120,062,118 (12.72%), h=8: 485,224,881 (5.51%), h=16: 63,327,991 (0.72%). These total to 74.53%. The full histogram is available in counts.txt (checksum SHA256: 1c18d48b797b4d95f67e8ee8ef938e6a8f07df37c68a797e9bee5e14debe3a63).",
+  "resolved_at": "2026-04-06T22:19:32.077431+00:00",
+  "commits": [
+    "95db7f2"
+  ]
+}
