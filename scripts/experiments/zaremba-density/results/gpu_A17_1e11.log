@@ -1,0 +1,23 @@
+========================================
+Zaremba Density (GPU) — production
+Range: d = 1 to 100000000000
+Digits: {1,7}
+========================================
+
+Generating prefixes (depth=15)...
+Prefixes: 32647. Sorting...
+Bitset: 12.50 GB
+
+Launching 32768 persistent threads on 146/148 SMs (32647 prefixes)...
+GPU enumeration: 4.2s
+
+========================================
+RESULTS
+========================================
+Digit set: {1,7}
+Range: d = 1 to 100000000000
+Covered: 41438019 / 100000000000
+Density: 0.0414380190%
+Uncovered: 99958561981
+Time: 11.9s (enum: 4.2s)
+========================================
