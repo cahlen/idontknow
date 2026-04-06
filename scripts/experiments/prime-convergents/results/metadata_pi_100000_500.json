@@ -1,0 +1,17 @@
+{
+  "experiment": "prime_convergents",
+  "mode": "multiples of pi",
+  "num_samples": 100000,
+  "max_depth": 500,
+  "avg_depth_reached": 34.0,
+  "avg_prime_An": 4.0000,
+  "avg_prime_Bn": 5.0000,
+  "avg_doubly_prime": 1.000000,
+  "total_doubly_prime": 100000,
+  "max_doubly_prime_in_one_cf": 1,
+  "erdos_bound_avg_ratio": 109.792313,
+  "erdos_bound_min_ratio": 56.226166,
+  "bound_always_holds_pct": 100.00,
+  "gpu": "NVIDIA B200",
+  "gpu_time_sec": 0.012
+}

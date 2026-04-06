@@ -1,0 +1,17 @@
+{
+  "experiment": "prime_convergents",
+  "mode": "random (Gauss-Kuzmin)",
+  "num_samples": 10000000,
+  "max_depth": 500,
+  "avg_depth_reached": 38.2,
+  "avg_prime_An": 4.9238,
+  "avg_prime_Bn": 4.9626,
+  "avg_doubly_prime": 0.953094,
+  "total_doubly_prime": 9530935,
+  "max_doubly_prime_in_one_cf": 7,
+  "erdos_bound_avg_ratio": 116.652722,
+  "erdos_bound_min_ratio": 4.869426,
+  "bound_always_holds_pct": 100.00,
+  "gpu": "NVIDIA B200",
+  "gpu_time_sec": 4.814
+}

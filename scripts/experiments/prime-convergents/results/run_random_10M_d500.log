@@ -1,0 +1,35 @@
+========================================
+Prime Convergents of Continued Fractions
+========================================
+Samples:   10000000
+Max depth: 500 convergents per sample
+Mode:      random (Gauss-Kuzmin)
+
+GPU: NVIDIA B200 (191.5 GB)
+
+Launching 39063 blocks × 256 threads...
+GPU time: 4.81 s
+
+========================================
+RESULTS
+========================================
+Samples:              10000000
+Mode:                 random (Gauss-Kuzmin)
+Avg depth reached:    38.2 (max 500)
+
+--- Primality ---
+Avg prime A_n per CF: 4.92
+Avg prime B_n per CF: 4.96
+Avg doubly-prime:     0.9531
+Total doubly-prime:   9530935 across all samples
+Max doubly-prime:     7 (sample #423025)
+
+--- Erdos-Mahler Bound: G(A_n) >= e^{n/(50 ln n)} ---
+Avg ratio log(G(A_n)) / (n/(50 ln n)): 116.6527
+Min ratio (worst case):                 4.8694
+Samples where bound always holds:       10000000 / 10000000 (100.0%)
+
+Time: 4.81 s
+========================================
+CSV written: scripts/experiments/prime-convergents/results/stats_random_10000000_500.csv
+Metadata written: scripts/experiments/prime-convergents/results/metadata_random_10000000_500.json
