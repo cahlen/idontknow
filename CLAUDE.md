@@ -73,9 +73,35 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 
 **What's done:**
 - [x] CUDA kernel v3: 10 base constants + 29 compound expressions + zero-value filter
-- [x] Degree 1-7 complete: 586B candidates, zero confirmed transcendentals
+- [x] Degree 1-7 complete: 586B+ candidates, zero confirmed transcendentals
+- [x] Degree 4 range [-4,4]: 3.5B candidates, 53M hits (all algebraic/sqrt(2)), 345s
+- [x] Degree 5 range [-2,2]: 244M candidates, 5.6M hits, 24s
+- [x] Degree 6 range [-2,2]: 6.1B candidates (in progress)
+- [x] Degree 3 range [-11,11]: 78B candidates (in progress)
 - [ ] Degree 4-6 full sweep with high-precision PSLQ verification
 - [ ] GPU PSLQ implementation for eliminating double-precision false positives
+
+### Prime Convergents (NEW — GPU verification of Erdos-Mahler bound)
+*Extends Humphreys (2013, NCUR/Boise State) with GPU-scale computation.*
+
+**What's done:**
+- [x] CUDA kernel: 128-bit convergent recurrence + Miller-Rabin primality + GPF tracking
+- [x] 10M random CFs verified: Erdos-Mahler bound G(A_n) >= e^{n/(50 ln n)} holds 100%
+- [x] Bound constant 50 is very conservative: worst-case ratio 4.87, mean 116.7
+- [x] Avg 4.92 prime A_n, 0.95 doubly-prime per CF; max 7 doubly-prime in one CF
+- [x] e verification: exactly 3 doubly-prime convergents (matches 2013 Maple result)
+- [ ] Extend to 128-bit/256-bit arithmetic for deeper convergent analysis (current overflow ~n=38)
+- [ ] Formal tightening of the constant: computational evidence suggests ~10 suffices
+
+### Erdos-Straus Conjecture (NEW — GPU solution counting)
+*Count solutions f(p) for 4/p = 1/x + 1/y + 1/z for all primes p.*
+
+**What's done:**
+- [x] CUDA kernel: per-prime solution enumeration, sieve + batch GPU
+- [x] Test run: all primes to 10^7 (in progress)
+- [x] Production run: all primes to 10^8 (in progress on GPU)
+- [ ] Distribution analysis: f(p) vs p mod 4, barely-solvable census
+- [ ] Extend to 10^9 (requires optimized inner loop)
 
 ### Zaremba Density (In Progress — GPU density computations)
 *Zaremba density phase transition and exception set analysis.*

@@ -87,7 +87,14 @@
     "scripts/experiments/zaremba-density/results/gpu_A24_1e11.log": "2026-04-06T17:33:26.037424+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A25_1e11.log": "2026-04-06T17:33:26.037424+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A34_1e11.log": "2026-04-06T17:33:26.037424+00:00",
-    "scripts/experiments/zaremba-density/results/gpu_A35_1e11.log": "2026-04-06T17:33:26.037424+00:00"
+    "scripts/experiments/zaremba-density/results/gpu_A35_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/ramanujan-machine/results/run_deg4_range3.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/ramanujan-machine/results/run_deg4_range4.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/ramanujan-machine/results/run_deg5_range2.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/prime-convergents/results/run_random_1M_d500.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/prime-convergents/results/run_random_10M_d500.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/prime-convergents/results/run_e_100K_d500.log": "2026-04-06T18:29:36.227491+00:00",
+    "scripts/experiments/prime-convergents/results/run_pi_100K_d500.log": "2026-04-06T18:29:36.227491+00:00"
   },
   "reviewed": {},
   "deployed_at": null,

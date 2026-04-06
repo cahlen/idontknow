@@ -1,0 +1,65 @@
+========================================
+Ramanujan Machine (GPU)
+========================================
+Polynomial degree: 4
+Coefficient range: [-4, 4]
+CF evaluation depth: 200 terms
+Total candidates: 3486784401
+GPU: 2
+Constants: pi, e, ln(2), gamma, Catalan, zeta(3), Gauss, Lemniscate, sqrt(2), phi
+========================================
+
+  HIT: P=(4,2,2,2,2) Q=(-4,-4,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(3,4,4,4,4) Q=(-2,-4,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(4,4,2,2,0) Q=(0,-4,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(1,-4,-4,-4,-4) Q=(2,-4,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(0,-2,-2,-2,-2) Q=(4,-4,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(3,-4,-4,-4,-4) Q=(4,-4,-4,-4,-4) → 4 = sqrt(2)^(4/1)
+  HIT: P=(3,3,4,4,4) Q=(-2,-3,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  HIT: P=(1,-3,-4,-4,-4) Q=(2,-3,-4,-4,-4) → 2 = sqrt(2)^(2/1)
+  0.0% (1000000/3486784401) 8 hits, 9953632 candidates/sec, ETA 350s
+  2.9% (101000000/3486784401) 486240 hits, 10109924 candidates/sec, ETA 335s
+  5.8% (201000000/3486784401) 1589137 hits, 10110876 candidates/sec, ETA 325s
+  8.6% (301000000/3486784401) 3334947 hits, 10111087 candidates/sec, ETA 315s
+  11.5% (401000000/3486784401) 4923286 hits, 10111039 candidates/sec, ETA 305s
+  14.4% (501000000/3486784401) 5730663 hits, 10110870 candidates/sec, ETA 295s
+  17.2% (601000000/3486784401) 7286480 hits, 10110794 candidates/sec, ETA 285s
+  20.1% (701000000/3486784401) 9032261 hits, 10110741 candidates/sec, ETA 276s
+  23.0% (801000000/3486784401) 10565533 hits, 10110601 candidates/sec, ETA 266s
+  25.8% (901000000/3486784401) 11839067 hits, 10110395 candidates/sec, ETA 256s
+  28.7% (1001000000/3486784401) 13466836 hits, 10110230 candidates/sec, ETA 246s
+  31.6% (1101000000/3486784401) 15529769 hits, 10110089 candidates/sec, ETA 236s
+  34.4% (1201000000/3486784401) 17022043 hits, 10109986 candidates/sec, ETA 226s
+  37.3% (1301000000/3486784401) 18492305 hits, 10109908 candidates/sec, ETA 216s
+  40.2% (1401000000/3486784401) 20462820 hits, 10109817 candidates/sec, ETA 206s
+  43.0% (1501000000/3486784401) 22476873 hits, 10109714 candidates/sec, ETA 196s
+  45.9% (1601000000/3486784401) 23858086 hits, 10109581 candidates/sec, ETA 187s
+  48.8% (1701000000/3486784401) 25675212 hits, 10109417 candidates/sec, ETA 177s
+  51.7% (1801000000/3486784401) 27817018 hits, 10109694 candidates/sec, ETA 167s
+  54.5% (1901000000/3486784401) 29529764 hits, 10109573 candidates/sec, ETA 157s
+  57.4% (2001000000/3486784401) 30925139 hits, 10109437 candidates/sec, ETA 147s
+  60.3% (2101000000/3486784401) 33089862 hits, 10109316 candidates/sec, ETA 137s
+  63.1% (2201000000/3486784401) 34917969 hits, 10109205 candidates/sec, ETA 127s
+  66.0% (2301000000/3486784401) 36427612 hits, 10109111 candidates/sec, ETA 117s
+  68.9% (2401000000/3486784401) 38044897 hits, 10109019 candidates/sec, ETA 107s
+  71.7% (2501000000/3486784401) 39946024 hits, 10108930 candidates/sec, ETA 98s
+  74.6% (2601000000/3486784401) 41691905 hits, 10108848 candidates/sec, ETA 88s
+  77.5% (2701000000/3486784401) 42729281 hits, 10108782 candidates/sec, ETA 78s
+  80.3% (2801000000/3486784401) 44401845 hits, 10108709 candidates/sec, ETA 68s
+  83.2% (2901000000/3486784401) 46305083 hits, 10108640 candidates/sec, ETA 58s
+  86.1% (3001000000/3486784401) 47644146 hits, 10108576 candidates/sec, ETA 48s
+  88.9% (3101000000/3486784401) 48300928 hits, 10108523 candidates/sec, ETA 38s
+  91.8% (3201000000/3486784401) 50230429 hits, 10108472 candidates/sec, ETA 28s
+  94.7% (3301000000/3486784401) 51858171 hits, 10108419 candidates/sec, ETA 18s
+  97.5% (3401000000/3486784401) 52754236 hits, 10108378 candidates/sec, ETA 8s
+  100.0% (3486784401/3486784401) 53224191 hits, 10108347 candidates/sec, ETA 0s
+
+========================================
+Ramanujan Machine Results
+========================================
+Degree: 4, range: [-4,4]
+Candidates: 3486784401
+Hits: 53224191
+Time: 344.9s (10108346 candidates/sec)
+Output: scripts/experiments/ramanujan-machine/results/hits_deg4_range4.csv
+========================================
