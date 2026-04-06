@@ -13,7 +13,7 @@
  *       if z_den > 0 and z_num % z_den == 0: count++
  *
  * Compile:
- *   nvcc -O3 -arch=sm_120 -o erdos_straus erdos_straus.cu -lm
+ *   nvcc -O3 -arch=sm_90 -o erdos_straus erdos_straus.cu -lm
  *
  * Usage:
  *   ./erdos_straus [max_N_millions]    (default: 100 = 10^8)
@@ -240,13 +240,19 @@ int main(int argc, char** argv) {
 
     /* ---- Launch kernel in batches with progress reporting ---- */
     const int threads_per_block = 256;
-    const uint64_t batch_size = (n_primes + 99) / 100;  // ~1% per batch
+    const uint64_t batch_size = 50000;  // ~50K primes per batch for responsive progress
+    uint64_t n_batches = (n_primes + batch_size - 1) / batch_size;
 
-    printf("Launching kernel (%d threads/block, %d batches) ...\n",
-           threads_per_block, (int)((n_primes + batch_size - 1) / batch_size));
+    printf("Launching kernel (%d threads/block, %" PRIu64 " batches of %" PRIu64 ") ...\n",
+           threads_per_block, n_batches, batch_size);
     fflush(stdout);
 
     double t_gpu_start = now_sec();
+    double last_report = t_gpu_start;
+    uint64_t batch_num = 0;
+
+    // Temporary host buffer for incremental min/max tracking
+    std::vector<uint32_t> batch_counts;
 
     for (uint64_t offset = 0; offset < n_primes; offset += batch_size) {
         uint64_t this_batch = std::min(batch_size, n_primes - offset);
@@ -257,15 +263,41 @@ int main(int argc, char** argv) {
 
         CUDA_CHECK(cudaDeviceSynchronize());
 
-        int pct = (int)(((offset + this_batch) * 100) / n_primes);
-        uint64_t last_prime = primes[offset + this_batch - 1];
-        printf("\r  Progress: %3d%% (p <= %s)", pct, comma_fmt(last_prime));
-        fflush(stdout);
+        batch_num++;
+        uint64_t primes_done = offset + this_batch;
+        double now = now_sec();
+        double elapsed = now - t_gpu_start;
+
+        // Report progress every batch or every 30 seconds, whichever is more frequent
+        if (now - last_report >= 30.0 || batch_num == 1 || batch_num == n_batches ||
+            (batch_num % 10 == 0)) {
+
+            // Read back this batch to get min/max f values
+            batch_counts.resize(this_batch);
+            CUDA_CHECK(cudaMemcpy(batch_counts.data(), d_counts + offset,
+                                  this_batch * sizeof(uint32_t),
+                                  cudaMemcpyDeviceToHost));
+            uint32_t b_min = UINT32_MAX, b_max = 0;
+            for (uint64_t i = 0; i < this_batch; i++) {
+                if (batch_counts[i] < b_min) b_min = batch_counts[i];
+                if (batch_counts[i] > b_max) b_max = batch_counts[i];
+            }
+
+            double pct = 100.0 * primes_done / n_primes;
+            double eta = (pct > 0.0) ? elapsed * (100.0 / pct - 1.0) : 0.0;
+            printf("[%.1fs] batch %" PRIu64 "/%" PRIu64 " (%.1f%%) %s primes done, "
+                   "min_f=%u, max_f=%u, ETA %.0fs\n",
+                   elapsed, batch_num, n_batches, pct,
+                   comma_fmt(primes_done), b_min, b_max, eta);
+            fflush(stdout);
+            last_report = now;
+        }
     }
 
     double t_gpu = now_sec() - t_gpu_start;
-    printf("\n  GPU time: %.2f s (%.0f primes/sec)\n\n",
+    printf("\nGPU time: %.2f s (%.0f primes/sec)\n\n",
            t_gpu, n_primes / t_gpu);
+    fflush(stdout);
 
     /* ---- Copy results back ---- */
     std::vector<uint32_t> counts(n_primes);
@@ -384,7 +416,10 @@ int main(int argc, char** argv) {
     printf("\n");
 
     /* ---- Write CSV ---- */
-    const char* csv_path = "scripts/experiments/erdos-straus/results/solution_counts.csv";
+    char csv_path[256];
+    snprintf(csv_path, sizeof(csv_path),
+             "scripts/experiments/erdos-straus/results/erdos_straus_1e%d.csv",
+             (int)round(log10((double)max_N)));
     printf("Writing CSV to %s ... ", csv_path);
     fflush(stdout);
     FILE* csv = fopen(csv_path, "w");
@@ -392,10 +427,9 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Error: cannot open %s for writing\n", csv_path);
         return 1;
     }
-    fprintf(csv, "p,f_p,log10_p\n");
+    fprintf(csv, "prime,f_count\n");
     for (uint64_t i = 0; i < n_primes; i++) {
-        fprintf(csv, "%" PRIu64 ",%u,%.6f\n",
-                primes[i], counts[i], log10((double)primes[i]));
+        fprintf(csv, "%" PRIu64 ",%u\n", primes[i], counts[i]);
     }
     fclose(csv);
     printf("done.\n");
@@ -430,7 +464,29 @@ int main(int argc, char** argv) {
     fclose(jf);
     printf("done.\n\n");
 
-    printf("Total wall time: %.2f s\n", now_sec() - t0);
+    double total_time = now_sec() - t0;
+
+    /* ---- RESULTS summary block ---- */
+    printf("========================================================\n");
+    printf("RESULTS: Erdos-Straus Solution Counting\n");
+    printf("========================================================\n");
+    printf("Range:               primes p <= %s\n", comma_fmt(max_N));
+    printf("Primes processed:    %s\n", comma_fmt(n_primes));
+    printf("Conjecture holds:    %s\n", count_fp_0 == 0 ? "YES (all f(p) >= 1)" : "NO — COUNTEREXAMPLE FOUND");
+    if (count_fp_0 > 0) {
+        printf("*** COUNTEREXAMPLES:   %s primes with f(p)=0 ***\n", comma_fmt(count_fp_0));
+    }
+    printf("Global min f(p):     %u  (at p = %s)\n", global_min, comma_fmt(min_prime));
+    printf("Global max f(p):     %u  (at p = %s)\n", global_max, comma_fmt(max_prime));
+    printf("Mean f(p):           %.4f\n", (double)global_sum / n_primes);
+    printf("Barely solvable:     %s primes with f(p)=1\n", comma_fmt(count_fp_1));
+    printf("GPU:                 %s\n", prop.name);
+    printf("Sieve time:          %.2f s\n", t_sieve);
+    printf("GPU time:            %.2f s (%.0f primes/sec)\n", t_gpu, n_primes / t_gpu);
+    printf("Total wall time:     %.2f s\n", total_time);
+    printf("CSV output:          %s\n", csv_path);
+    printf("========================================================\n");
+    fflush(stdout);
 
     return 0;
 }

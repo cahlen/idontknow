@@ -1,5 +1,5 @@
 {
-  "last_tick": "2026-04-05T05:36:40.428747+00:00",
+  "last_tick": "2026-04-06T23:39:58.249673+00:00",
   "harvested": {
     "logs/matrix_v5_gpu0.log": "2026-04-03T21:30:44.480925+00:00",
     "logs/matrix_v5_gpu3.log": "2026-04-03T21:30:44.481623+00:00",
@@ -99,20 +99,22 @@
   "reviewed": {},
   "deployed_at": null,
   "last_remediated": {
-    "kronecker-s30-largest-computation": "2026-04-05T01:43:28.366011+00:00",
+    "kronecker-s30-largest-computation": "2026-04-06T22:21:18.788803+00:00",
     "gpu-matrix-enumeration-175x": "2026-04-04T00:20:46.863435+00:00",
     "zaremba-witness-golden-ratio": "2026-04-04T00:20:46.863437+00:00",
     "hausdorff-digit-one-dominance": "2026-04-05T01:43:28.366026+00:00",
     "zaremba-conjecture-proved": "2026-04-04T00:20:46.863441+00:00",
-    "zaremba-digit-pair-hierarchy": "2026-04-05T01:43:28.366029+00:00",
+    "zaremba-digit-pair-hierarchy": "2026-04-06T22:21:18.788810+00:00",
     "kronecker-s40-character-table": "2026-04-04T00:20:46.863444+00:00",
-    "class-number-convergence": "2026-04-05T01:43:28.366031+00:00",
-    "zaremba-exception-hierarchy": "2026-04-05T01:43:28.366032+00:00",
-    "zaremba-cayley-diameters": "2026-04-05T01:43:28.366034+00:00",
-    "zaremba-density-phase-transition": "2026-04-05T01:43:28.366028+00:00",
-    "zaremba-A12-logarithmic-convergence": "2026-04-05T01:43:28.366035+00:00",
-    "zaremba-transitivity-all-primes": "2026-04-05T01:43:28.366036+00:00",
-    "zaremba-representation-growth": "2026-04-05T01:43:28.366037+00:00",
-    "zaremba-spectral-gaps-uniform": "2026-04-05T01:43:28.366038+00:00"
+    "class-number-convergence": "2026-04-06T22:21:18.788812+00:00",
+    "zaremba-exception-hierarchy": "2026-04-06T22:21:18.788820+00:00",
+    "zaremba-cayley-diameters": "2026-04-06T22:21:18.788814+00:00",
+    "zaremba-density-phase-transition": "2026-04-06T22:21:18.788808+00:00",
+    "zaremba-A12-logarithmic-convergence": "2026-04-06T22:21:18.788815+00:00",
+    "zaremba-transitivity-all-primes": "2026-04-06T22:21:18.788817+00:00",
+    "zaremba-representation-growth": "2026-04-06T22:21:18.788818+00:00",
+    "zaremba-spectral-gaps-uniform": "2026-04-06T22:21:18.788819+00:00",
+    "zaremba-conjecture-framework": "2026-04-06T23:39:58.165326+00:00",
+    "zaremba-inverse-square-amplification": "2026-04-06T23:39:58.165330+00:00"
   }
 }

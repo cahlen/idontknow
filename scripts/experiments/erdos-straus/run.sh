@@ -3,8 +3,8 @@ set -euo pipefail
 cd "$(dirname "$0")/../../.."
 export PATH="/usr/local/cuda/bin:$PATH"
 MAX_M="${1:-100}"
-echo "Compiling erdos_straus (sm_120 for RTX 5090)..."
-nvcc -O3 -arch=sm_120 -o erdos_straus scripts/experiments/erdos-straus/erdos_straus.cu -lm
+echo "Compiling erdos_straus (sm_90 for B200)..."
+nvcc -O3 -arch=sm_90 -o erdos_straus scripts/experiments/erdos-straus/erdos_straus.cu -lm
 echo "Done."
 mkdir -p scripts/experiments/erdos-straus/results
 echo ""
