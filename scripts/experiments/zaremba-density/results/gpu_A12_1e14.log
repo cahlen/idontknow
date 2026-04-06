@@ -1,11 +1,11 @@
 ========================================
 Zaremba Density (GPU) — production
-Range: d = 1 to 10000000000000
+Range: d = 1 to 100000000000000
 Digits: {1,2}
 ========================================
 
 Generating prefixes (depth=15)...
 Prefixes: 32768. Sorting...
-Bitset: 1250.00 GB
+Bitset: 12500.00 GB
 
-FATAL: cudaMalloc bitset (1250.00 GB): out of memory
+FATAL: cudaMalloc bitset (12500.00 GB): out of memory
