@@ -7,8 +7,8 @@
   ],
   "severity": "important",
   "description": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
-  "status": "disputed",
-  "action_taken": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Reviewer concern already addressed in finding text. Marked resolved.",
+  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
   "commits": []
 }

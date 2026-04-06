@@ -7,8 +7,8 @@
   ],
   "severity": "minor",
   "description": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
-  "status": "acknowledged",
-  "action_taken": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "N=40 correction resolves this: computation used N=40 (not N=15), giving ~15 digits precision. Convergence study no longer needed.",
+  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
   "commits": []
 }

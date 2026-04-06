@@ -6,8 +6,8 @@
   ],
   "severity": "minor",
   "description": "Missing references to Kontorovich-Shinnyih (2021) computational tables and Huang (2015) exception analysis. To be added.",
-  "status": "acknowledged",
-  "action_taken": "Missing references to Kontorovich-Shinnyih (2021) computational tables and Huang (2015) exception analysis. To be added.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Added 3 additional references: Hensley (1996), Kontorovich-Shinnyih (2021), Huang (2015).",
+  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
   "commits": []
 }

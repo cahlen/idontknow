@@ -7,8 +7,8 @@
   ],
   "severity": "important",
   "description": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
-  "status": "disputed",
-  "action_taken": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Certification is silver. Both the o3-pro reviewer and the finding agree.",
+  "resolved_at": "2026-04-06T17:51:48.700371+00:00",
   "commits": []
 }

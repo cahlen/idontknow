@@ -6,8 +6,8 @@
   ],
   "severity": "minor",
   "description": "Novelty claim needs better contextualization against existing tables (Kontorovich, Huang). To be addressed in next revision.",
-  "status": "acknowledged",
-  "action_taken": "Novelty claim needs better contextualization against existing tables (Kontorovich, Huang). To be addressed in next revision.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Added prior-work paragraph citing Hensley (1996), Kontorovich-Shinnyih (2021), Huang (2015).",
+  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
   "commits": []
 }

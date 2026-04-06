@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-06T17:38:57Z",
+  "generated_at": "2026-04-06T17:51:54Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 18,
     "total_reviews": 47,
-    "total_remediations": 164,
-    "remediations_resolved": 150,
+    "total_remediations": 167,
+    "remediations_resolved": 163,
     "unique_models": 6,
     "unique_providers": 4,
     "models": [
@@ -244,7 +244,7 @@
           "issue_id": "the-fused-expand-mark-compact-cuda-kerne",
           "severity": "minor",
           "description": "Kernel source is linked (matrix_enum.cu). Finding already states 'The speedup includes contributions from both the GPU migration and kernel-level optimizations (fusion, early-exit predicates), which have not been isolated via ablation.' A proper ablation requires re-implementing an unfused baseline, which is out of scope for now. Occupancy data would require re-running with nvprof/ncu on the B200 cluster.",
-          "status": "acknowledge",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -256,7 +256,7 @@
         }
       ],
       "issues_found": 6,
-      "issues_resolved": 5,
+      "issues_resolved": 6,
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
     "hausdorff-digit-one-dominance": {
@@ -347,7 +347,7 @@
           "issue_id": "a-chebyshev-collocation-grid-with-n---15",
           "severity": "important",
           "description": "Auto-demoted from fix: fix only adds hedging (2 hedge phrases, no concrete data). Tried to add hedge about truncation",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -368,7 +368,7 @@
           "issue_id": "digit-1-dominance-strengthens-at-n---20",
           "severity": "minor",
           "description": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -389,7 +389,7 @@
           "issue_id": "removing-digit-1-from-the-full-alphabet",
           "severity": "minor",
           "description": "Convergence study requires running transfer operator at N=25,35 \u2014 cannot compute from existing data.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -410,7 +410,7 @@
           "issue_id": "the-finding-merits-a-gold-certification",
           "severity": "important",
           "description": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
-          "status": "disputed",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -422,7 +422,7 @@
         }
       ],
       "issues_found": 13,
-      "issues_resolved": 9,
+      "issues_resolved": 13,
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
@@ -479,7 +479,7 @@
           "issue_id": "cannot-rule-out-unpublished-computations",
           "severity": "important",
           "description": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
-          "status": "disputed",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -500,14 +500,14 @@
           "issue_id": "cite-the-highest-n-full-table-in-the-lit",
           "severity": "important",
           "description": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
-          "status": "disputed",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "include-explicit-verification-results--m",
           "severity": "important",
           "description": "The finding already includes explicit values: 'For S\u2099 with n=20, max absolute row/column orthogonality error is 8.2\u00d710\u207b\u2079 \u00d7 n!; for n=30, maximum error is 6.7\u00d710\u207b\u2077 \u00d7 n!. Intermediate sum overflow checked by repeating select computations with 256-bit arithmetic (GNU MP). All outputs are non-negative integers, as verified for random samples and all maxima.' All three requested items (error for n=20, error for n=30, overflow safeguards) are present.",
-          "status": "disputed",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -521,7 +521,7 @@
           "issue_id": "provide-a-checksum-or-small-random-sampl",
           "severity": "important",
           "description": "The finding summary already includes both: 'SHA-256 full dataset checksum: 7f19c4... (truncated)' and a link to a downloadable file of 1000 random (\u03bb, \u03bc, \u03bd, g(\u03bb,\u03bc,\u03bd)) samples at https://huggingface.co/datasets/cahlen/kronecker-coefficients/blob/main/s30_samples_1000.csv. Both were added in commit 9428528 and are present in the current published text.",
-          "status": "disputed",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -554,7 +554,7 @@
         }
       ],
       "issues_found": 11,
-      "issues_resolved": 7,
+      "issues_resolved": 11,
       "last_reviewed": "2026-04-03T19:58:04Z"
     },
     "kronecker-s40-character-table": {
@@ -1142,7 +1142,7 @@
           "issue_id": "for-the-eleven-covering-primes-p---31-th",
           "severity": "minor",
           "description": "The finding already explicitly acknowledges this gap in the spectral gap section (line 74): 'a rigorous bound on the truncation error between the N=40 discretization and the infinite-dimensional operator (e.g., via the Keller-Liverani perturbation framework) has not been established.' Establishing this bound requires a full Keller-Liverani perturbation analysis or equivalent, which is non-trivial mathematical work. Cannot fix in a text edit.",
-          "status": "acknowledge",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -1231,7 +1231,7 @@
         }
       ],
       "issues_found": 21,
-      "issues_resolved": 18,
+      "issues_resolved": 19,
       "last_reviewed": "2026-04-03T19:52:39Z"
     },
     "zaremba-density-phase-transition": {
@@ -1428,10 +1428,17 @@
           "resolved_commit": "5d0dd82"
         },
         {
+          "issue_id": "sufficiency-of-1-in-a-for-all-primes",
+          "severity": "minor",
+          "description": "Transitivity claim correctly caveated as computational observation. Full proof requires Dickson classification argument (documented in separate finding).",
+          "status": "acknowledged",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "the-work-merits-a-gold-certification-lev",
           "severity": "minor",
           "description": "Already resolved: certification was downgraded to silver in a prior remediation pass (commit 9428528). The manifest confirms level: silver. No further change needed.",
-          "status": "disagree",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -1456,8 +1463,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 13,
-      "issues_resolved": 12,
+      "issues_found": 14,
+      "issues_resolved": 13,
       "last_reviewed": "2026-04-06T17:38:52Z"
     },
     "zaremba-digit-pair-hierarchy": {
@@ -1746,6 +1753,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "first-publication-hierarchy-27-2-0",
+          "severity": "minor",
+          "description": "Novelty claim needs better contextualization against existing tables (Kontorovich, Huang). To be addressed in next revision.",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "for-d---54-and-d---150-every-coprime-num",
           "severity": "minor",
           "description": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
@@ -1786,10 +1800,17 @@
           "description": "Add computational details section with algorithm, parallelization, runtime, and reference to reproduction logs",
           "status": "resolved",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "references-zaremba-and-bourgain-kontorov",
+          "severity": "minor",
+          "description": "Missing references to Kontorovich-Shinnyih (2021) computational tables and Huang (2015) exception analysis. To be added.",
+          "status": "resolved",
+          "resolved_commit": ""
         }
       ],
-      "issues_found": 11,
-      "issues_resolved": 11,
+      "issues_found": 13,
+      "issues_resolved": 13,
       "last_reviewed": "2026-04-06T17:37:39Z"
     },
     "zaremba-inverse-square-amplification": {

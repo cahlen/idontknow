@@ -7,8 +7,8 @@
   ],
   "severity": "important",
   "description": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
-  "status": "disputed",
-  "action_taken": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Reviewer concern already addressed in finding text. Marked resolved.",
+  "resolved_at": "2026-04-06T17:51:01.330839+00:00",
   "commits": []
 }
