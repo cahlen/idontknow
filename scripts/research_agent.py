@@ -827,6 +827,14 @@ def deploy(dry_run=False, direct_push=False):
         log(f"Build failed: {result.stderr[:200]}", "ERROR")
         return
 
+    # Pull latest from remote before committing to avoid push rejections
+    for repo, name in [(REPO_ROOT, "idontknow"), (WEBSITE_ROOT, "bigcompute.science")]:
+        try:
+            subprocess.run(["git", "pull", "--rebase", "--autostash"],
+                          cwd=str(repo), capture_output=True, timeout=30)
+        except Exception:
+            log(f"  git pull --rebase failed for {name}, continuing", "WARN")
+
     # Check if there are changes to commit
     any_changes = False
     for repo, name in [(REPO_ROOT, "idontknow"), (WEBSITE_ROOT, "bigcompute.science")]:
