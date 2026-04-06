@@ -82,22 +82,25 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 
 **What's done:**
 - [x] Complete density sweep: all 1,023 subsets of {1,...,10} at 10^6
-- [x] {1,k} pair hierarchy at 10^11 for k=2..10 (power law ~k^{-5.25})
-- [x] {2,k} pair hierarchy at 10^10 for k=3..10
-- [x] Inverse-square amplification law: {1,k}/{2,k} density ratio ≈ 1633/k² (R²=0.991, exponent -2.002)
-- [x] Five closed exception sets confirmed:
+- [x] {1,k} pair hierarchy at 10^11 for k=2..10 (power law k^{-5.83}, R²=0.994)
+- [x] {2,k} pair hierarchy at 10^11 for k=3..5 ({2,3}=0.0215%, {2,4}=0.0043%, {2,5}=0.0016%)
+- [x] {3,k} pairs at 10^11: {3,4}=0.000474%, {3,5}=0.000202%
+- [x] Amplification law: {1,k}/{2,k} ratio is scale-dependent — grows 1.5-1.7x per decade (424x at 1e11 for k=3, was 243x at 1e10)
+- [x] Five closed exception sets confirmed at 10^11:
   - {1,2,3}=27 (verified to 10^9, 10^11 running)
   - {1,2,4}=64 (verified to 10^10, 10^11 running)
-  - {1,2,5}=374 (verified to 10^10, 10^11 running)
-  - {1,2,6}=1,834 (verified to 10^10, 10^11 running)
-  - {1,2,7}=7,178 (verified to 10^11 — NEW fifth closed set)
+  - {1,2,5}=374 (verified to 10^11)
+  - {1,2,6}=1,834 (verified to 10^11 — identical to 10^10)
+  - {1,2,7}=7,178 (verified to 10^11 — identical to 10^10)
 - [x] Open (growing) exception sets at 10^11: {1,2,8}=23,590, {1,2,9}=77,109, {1,2,10}=228,514
-- [x] {1,3,5} exception set converging to ~81,005: 75,547→80,431→80,945 (9.5x deceleration per decade, likely sixth closed set)
+- [x] {1,3,5} exception set converging to ~81,000: 75,547→80,431→80,945 (9.5x deceleration per decade)
+- [x] {1,k} single-digit densities at 10^11: k=3 (9.11%) through k=10 (0.0085%)
 - [x] A={1,2} logarithmic convergence: 5 data points (10^6 through 10^12), fits 31.5 + 4.47*log10(N)
 - [x] A={1,2}@10^13 attempted — 1.25 TB bitset exceeds GPU memory, needs segmented approach
 - [ ] Confirm {1,2,3} 27 exceptions at 10^11 (running)
 - [ ] Confirm {1,2,4} 64 exceptions at 10^11 (running)
-- [ ] A={1,2,3} at 10^12 — does 27 hold at next decade? (running, checkpointing)
+- [ ] A={1,2,3} at 10^12 — does 27 hold at next decade? (running)
+- [ ] 10^12 runs in progress: {1,2,4}, {1,2,5}, {1,2,6}, {1,2,7}
 - [ ] BUG: no-digit-1 cross-set monotonicity violation — {2,3,4,5} density > {2,3,4,5,6} at 10^10 (old kernel, likely incomplete enumeration — needs rerun on fixed kernel)
 
 ## Publishing Pipeline

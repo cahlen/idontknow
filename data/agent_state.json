@@ -1,5 +1,5 @@
 {
-  "last_tick": "2026-04-04T00:20:46.945580+00:00",
+  "last_tick": "2026-04-05T05:36:40.428747+00:00",
   "harvested": {
     "logs/matrix_v5_gpu0.log": "2026-04-03T21:30:44.480925+00:00",
     "logs/matrix_v5_gpu3.log": "2026-04-03T21:30:44.481623+00:00",
@@ -41,7 +41,7 @@
     "scripts/experiments/zaremba-density/results/gpu_A12_1e10.log": "2026-04-03T21:30:44.892132+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A27_1e10.log": "2026-04-03T21:30:44.892239+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A8_1e10.log": "2026-04-03T21:30:44.892308+00:00",
-    "scripts/experiments/zaremba-density/results/gpu_A126_1e11.log": "2026-04-03T21:30:44.892456+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A126_1e11.log": "2026-04-06T17:33:26.037424+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A123_1e9.log": "2026-04-03T21:30:44.892530+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A18_1e10.log": "2026-04-03T21:30:44.892647+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A125_1e11.log": "2026-04-03T21:30:44.892724+00:00",
@@ -69,9 +69,43 @@
     "scripts/experiments/zaremba-density/results/gpu_A7_1e10.log": "2026-04-03T21:30:44.894544+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A135_1e9.log": "2026-04-03T21:30:44.894615+00:00",
     "scripts/experiments/zaremba-density/results/gpu_A14_1e10.log": "2026-04-03T21:30:44.894688+00:00",
-    "scripts/experiments/zaremba-density/results/gpu_A234567_1e10.log": "2026-04-03T21:30:44.894830+00:00"
+    "scripts/experiments/zaremba-density/results/gpu_A234567_1e10.log": "2026-04-03T21:30:44.894830+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A127_1e11.log": "2026-04-04T00:23:58.481038+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A110_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A1210_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A128_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A129_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A135_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A13_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A14_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A15_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A16_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A17_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A18_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A19_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A23_1e11_v2.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A24_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A25_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A34_1e11.log": "2026-04-06T17:33:26.037424+00:00",
+    "scripts/experiments/zaremba-density/results/gpu_A35_1e11.log": "2026-04-06T17:33:26.037424+00:00"
   },
   "reviewed": {},
   "deployed_at": null,
-  "last_remediated": {}
+  "last_remediated": {
+    "kronecker-s30-largest-computation": "2026-04-05T01:43:28.366011+00:00",
+    "gpu-matrix-enumeration-175x": "2026-04-04T00:20:46.863435+00:00",
+    "zaremba-witness-golden-ratio": "2026-04-04T00:20:46.863437+00:00",
+    "hausdorff-digit-one-dominance": "2026-04-05T01:43:28.366026+00:00",
+    "zaremba-conjecture-proved": "2026-04-04T00:20:46.863441+00:00",
+    "zaremba-digit-pair-hierarchy": "2026-04-05T01:43:28.366029+00:00",
+    "kronecker-s40-character-table": "2026-04-04T00:20:46.863444+00:00",
+    "class-number-convergence": "2026-04-05T01:43:28.366031+00:00",
+    "zaremba-exception-hierarchy": "2026-04-05T01:43:28.366032+00:00",
+    "zaremba-cayley-diameters": "2026-04-05T01:43:28.366034+00:00",
+    "zaremba-density-phase-transition": "2026-04-05T01:43:28.366028+00:00",
+    "zaremba-A12-logarithmic-convergence": "2026-04-05T01:43:28.366035+00:00",
+    "zaremba-transitivity-all-primes": "2026-04-05T01:43:28.366036+00:00",
+    "zaremba-representation-growth": "2026-04-05T01:43:28.366037+00:00",
+    "zaremba-spectral-gaps-uniform": "2026-04-05T01:43:28.366038+00:00"
+  }
 }

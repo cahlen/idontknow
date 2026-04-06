@@ -1,0 +1,652 @@
+[
+  {
+    "file": "gpu_A10_1e10.log",
+    "digits": "10",
+    "max_d": 10000000000,
+    "covered": 10,
+    "total": 10000000000,
+    "density_pct": 1e-07,
+    "uncovered": 9999999990,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A110_1e10.log",
+    "digits": "1,10",
+    "max_d": 10000000000,
+    "covered": 2006678,
+    "total": 10000000000,
+    "density_pct": 0.02006678,
+    "uncovered": 9997993322,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A110_1e11.log",
+    "digits": "1,10",
+    "max_d": 100000000000,
+    "covered": 8525602,
+    "total": 100000000000,
+    "density_pct": 0.008525602,
+    "uncovered": 99991474398,
+    "time_s": 12.6
+  },
+  {
+    "file": "gpu_A1210_1e11.log",
+    "digits": "1,2,10",
+    "max_d": 100000000000,
+    "covered": 99999771486,
+    "total": 100000000000,
+    "density_pct": 99.999771486,
+    "uncovered": 228514,
+    "time_s": 5390.3
+  },
+  {
+    "file": "gpu_A1234_1e9.log",
+    "digits": "1,2,3,4",
+    "max_d": 1000000000,
+    "covered": 999999998,
+    "total": 1000000000,
+    "density_pct": 99.9999998,
+    "uncovered": 2,
+    "time_s": 81103.0
+  },
+  {
+    "file": "gpu_A123_1e9.log",
+    "digits": "1,2,3",
+    "max_d": 1000000000,
+    "covered": 999999973,
+    "total": 1000000000,
+    "density_pct": 99.9999973,
+    "uncovered": 27,
+    "time_s": 2999.7
+  },
+  {
+    "file": "gpu_A124_1e10.log",
+    "digits": "1,2,4",
+    "max_d": 10000000000,
+    "covered": 9999999936,
+    "total": 10000000000,
+    "density_pct": 99.99999936,
+    "uncovered": 64,
+    "time_s": 11131.6
+  },
+  {
+    "file": "gpu_A124_1e9.log",
+    "digits": "1,2,4",
+    "max_d": 1000000000,
+    "covered": 999999936,
+    "total": 1000000000,
+    "density_pct": 99.9999936,
+    "uncovered": 64,
+    "time_s": 917.4
+  },
+  {
+    "file": "gpu_A125_1e10.log",
+    "digits": "1,2,5",
+    "max_d": 10000000000,
+    "covered": 9999999626,
+    "total": 10000000000,
+    "density_pct": 99.99999626,
+    "uncovered": 374,
+    "time_s": 4287.9
+  },
+  {
+    "file": "gpu_A126_1e10.log",
+    "digits": "1,2,6",
+    "max_d": 10000000000,
+    "covered": 9999998166,
+    "total": 10000000000,
+    "density_pct": 99.99998166,
+    "uncovered": 1834,
+    "time_s": 2092.3
+  },
+  {
+    "file": "gpu_A126_1e11.log",
+    "digits": "1,2,6",
+    "max_d": 100000000000,
+    "covered": 99999998166,
+    "total": 100000000000,
+    "density_pct": 99.999998166,
+    "uncovered": 1834,
+    "time_s": 29295.4
+  },
+  {
+    "file": "gpu_A127_1e10.log",
+    "digits": "1,2,7",
+    "max_d": 10000000000,
+    "covered": 9999992822,
+    "total": 10000000000,
+    "density_pct": 99.99992822,
+    "uncovered": 7178,
+    "time_s": 1228.6
+  },
+  {
+    "file": "gpu_A127_1e11.log",
+    "digits": "1,2,7",
+    "max_d": 100000000000,
+    "covered": 99999992822,
+    "total": 100000000000,
+    "density_pct": 99.999992822,
+    "uncovered": 7178,
+    "time_s": 22868.8
+  },
+  {
+    "file": "gpu_A128_1e11.log",
+    "digits": "1,2,8",
+    "max_d": 100000000000,
+    "covered": 99999976410,
+    "total": 100000000000,
+    "density_pct": 99.99997641,
+    "uncovered": 23590,
+    "time_s": 10012.4
+  },
+  {
+    "file": "gpu_A129_1e11.log",
+    "digits": "1,2,9",
+    "max_d": 100000000000,
+    "covered": 99999922891,
+    "total": 100000000000,
+    "density_pct": 99.999922891,
+    "uncovered": 77109,
+    "time_s": 7078.1
+  },
+  {
+    "file": "gpu_A12_1e10.log",
+    "digits": "1,2",
+    "max_d": 10000000000,
+    "covered": 7654868191,
+    "total": 10000000000,
+    "density_pct": 76.54868191,
+    "uncovered": 2345131809,
+    "time_s": 88.4
+  },
+  {
+    "file": "gpu_A12_1e11.log",
+    "digits": "1,2",
+    "max_d": 100000000000,
+    "covered": 80754334638,
+    "total": 100000000000,
+    "density_pct": 80.754334638,
+    "uncovered": 19245665362,
+    "time_s": 1012.0
+  },
+  {
+    "file": "gpu_A12_1e12.log",
+    "digits": "1,2",
+    "max_d": 1000000000000,
+    "covered": 845791333633,
+    "total": 1000000000000,
+    "density_pct": 84.5791333633,
+    "uncovered": 154208666367,
+    "time_s": 12374.5
+  },
+  {
+    "file": "gpu_A12_1e9.log",
+    "digits": "1,2",
+    "max_d": 1000000000,
+    "covered": 720615327,
+    "total": 1000000000,
+    "density_pct": 72.0615327,
+    "uncovered": 279384673,
+    "time_s": 28.0
+  },
+  {
+    "file": "gpu_A135_1e10.log",
+    "digits": "1,3,5",
+    "max_d": 10000000000,
+    "covered": 9999919569,
+    "total": 10000000000,
+    "density_pct": 99.99919569,
+    "uncovered": 80431,
+    "time_s": 297.1
+  },
+  {
+    "file": "gpu_A135_1e11.log",
+    "digits": "1,3,5",
+    "max_d": 100000000000,
+    "covered": 99999919055,
+    "total": 100000000000,
+    "density_pct": 99.999919055,
+    "uncovered": 80945,
+    "time_s": 2631.6
+  },
+  {
+    "file": "gpu_A135_1e9.log",
+    "digits": "1,3,5",
+    "max_d": 1000000000,
+    "covered": 999924453,
+    "total": 1000000000,
+    "density_pct": 99.9924453,
+    "uncovered": 75547,
+    "time_s": 61.8
+  },
+  {
+    "file": "gpu_A13_1e10.log",
+    "digits": "1,3",
+    "max_d": 10000000000,
+    "covered": 1105679198,
+    "total": 10000000000,
+    "density_pct": 11.05679198,
+    "uncovered": 8894320802,
+    "time_s": 18.0
+  },
+  {
+    "file": "gpu_A13_1e11.log",
+    "digits": "1,3",
+    "max_d": 100000000000,
+    "covered": 9109285211,
+    "total": 100000000000,
+    "density_pct": 9.109285211,
+    "uncovered": 90890714789,
+    "time_s": 22.7
+  },
+  {
+    "file": "gpu_A14_1e10.log",
+    "digits": "1,4",
+    "max_d": 10000000000,
+    "covered": 160962658,
+    "total": 10000000000,
+    "density_pct": 1.60962658,
+    "uncovered": 9839037342,
+    "time_s": 11.1
+  },
+  {
+    "file": "gpu_A14_1e11.log",
+    "digits": "1,4",
+    "max_d": 100000000000,
+    "covered": 1073467875,
+    "total": 100000000000,
+    "density_pct": 1.073467875,
+    "uncovered": 98926532125,
+    "time_s": 12.0
+  },
+  {
+    "file": "gpu_A15_1e10.log",
+    "digits": "1,5",
+    "max_d": 10000000000,
+    "covered": 43978058,
+    "total": 10000000000,
+    "density_pct": 0.43978058,
+    "uncovered": 9956021942,
+    "time_s": 10.4
+  },
+  {
+    "file": "gpu_A15_1e11.log",
+    "digits": "1,5",
+    "max_d": 100000000000,
+    "covered": 256397641,
+    "total": 100000000000,
+    "density_pct": 0.256397641,
+    "uncovered": 99743602359,
+    "time_s": 11.8
+  },
+  {
+    "file": "gpu_A16_1e10.log",
+    "digits": "1,6",
+    "max_d": 10000000000,
+    "covered": 17213899,
+    "total": 10000000000,
+    "density_pct": 0.17213899,
+    "uncovered": 9982786101,
+    "time_s": 10.6
+  },
+  {
+    "file": "gpu_A16_1e11.log",
+    "digits": "1,6",
+    "max_d": 100000000000,
+    "covered": 91234131,
+    "total": 100000000000,
+    "density_pct": 0.091234131,
+    "uncovered": 99908765869,
+    "time_s": 12.2
+  },
+  {
+    "file": "gpu_A17_1e10.log",
+    "digits": "1,7",
+    "max_d": 10000000000,
+    "covered": 8402224,
+    "total": 10000000000,
+    "density_pct": 0.08402224,
+    "uncovered": 9991597776,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A17_1e11.log",
+    "digits": "1,7",
+    "max_d": 100000000000,
+    "covered": 41438019,
+    "total": 100000000000,
+    "density_pct": 0.041438019,
+    "uncovered": 99958561981,
+    "time_s": 11.9
+  },
+  {
+    "file": "gpu_A18_1e10.log",
+    "digits": "1,8",
+    "max_d": 10000000000,
+    "covered": 4746521,
+    "total": 10000000000,
+    "density_pct": 0.04746521,
+    "uncovered": 9995253479,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A18_1e11.log",
+    "digits": "1,8",
+    "max_d": 100000000000,
+    "covered": 22070960,
+    "total": 100000000000,
+    "density_pct": 0.02207096,
+    "uncovered": 99977929040,
+    "time_s": 13.2
+  },
+  {
+    "file": "gpu_A19_1e10.log",
+    "digits": "1,9",
+    "max_d": 10000000000,
+    "covered": 2971971,
+    "total": 10000000000,
+    "density_pct": 0.02971971,
+    "uncovered": 9997028029,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A19_1e11.log",
+    "digits": "1,9",
+    "max_d": 100000000000,
+    "covered": 13164380,
+    "total": 100000000000,
+    "density_pct": 0.01316438,
+    "uncovered": 99986835620,
+    "time_s": 13.5
+  },
+  {
+    "file": "gpu_A1_1e10.log",
+    "digits": "1",
+    "max_d": 10000000000,
+    "covered": 48,
+    "total": 10000000000,
+    "density_pct": 4.8e-07,
+    "uncovered": 9999999952,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A210_1e10.log",
+    "digits": "2,10",
+    "max_d": 10000000000,
+    "covered": 47231,
+    "total": 10000000000,
+    "density_pct": 0.00047231,
+    "uncovered": 9999952769,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A234567_1e10.log",
+    "digits": "2,3,4,5,6,7",
+    "max_d": 10000000000,
+    "covered": 9526800277,
+    "total": 10000000000,
+    "density_pct": 95.26800277,
+    "uncovered": 473199723,
+    "time_s": 35.3
+  },
+  {
+    "file": "gpu_A23456_1e10.log",
+    "digits": "2,3,4,5,6",
+    "max_d": 10000000000,
+    "covered": 9589378314,
+    "total": 10000000000,
+    "density_pct": 95.89378314,
+    "uncovered": 410621686,
+    "time_s": 22.0
+  },
+  {
+    "file": "gpu_A2345_1e10.log",
+    "digits": "2,3,4,5",
+    "max_d": 10000000000,
+    "covered": 9713894120,
+    "total": 10000000000,
+    "density_pct": 97.1389412,
+    "uncovered": 286105880,
+    "time_s": 90.8
+  },
+  {
+    "file": "gpu_A2345_1e11.log",
+    "digits": "2,3,4,5",
+    "max_d": 100000000000,
+    "covered": 98782527648,
+    "total": 100000000000,
+    "density_pct": 98.782527648,
+    "uncovered": 1217472352,
+    "time_s": 248.0
+  },
+  {
+    "file": "gpu_A2345_1e9.log",
+    "digits": "2,3,4,5",
+    "max_d": 1000000000,
+    "covered": 972937480,
+    "total": 1000000000,
+    "density_pct": 97.293748,
+    "uncovered": 27062520,
+    "time_s": 11.1
+  },
+  {
+    "file": "gpu_A23_1e10.log",
+    "digits": "2,3",
+    "max_d": 10000000000,
+    "covered": 4548593,
+    "total": 10000000000,
+    "density_pct": 0.04548593,
+    "uncovered": 9995451407,
+    "time_s": 10.4
+  },
+  {
+    "file": "gpu_A23_1e11.log",
+    "digits": "2,3",
+    "max_d": 100000000000,
+    "covered": 21481287,
+    "total": 100000000000,
+    "density_pct": 0.021481287,
+    "uncovered": 99978518713,
+    "time_s": 86.9
+  },
+  {
+    "file": "gpu_A23_1e11_v2.log",
+    "digits": "2,3",
+    "max_d": 100000000000,
+    "covered": 21481287,
+    "total": 100000000000,
+    "density_pct": 0.021481287,
+    "uncovered": 99978518713,
+    "time_s": 13.0
+  },
+  {
+    "file": "gpu_A24_1e10.log",
+    "digits": "2,4",
+    "max_d": 10000000000,
+    "covered": 1060467,
+    "total": 10000000000,
+    "density_pct": 0.01060467,
+    "uncovered": 9998939533,
+    "time_s": 10.2
+  },
+  {
+    "file": "gpu_A24_1e11.log",
+    "digits": "2,4",
+    "max_d": 100000000000,
+    "covered": 4310492,
+    "total": 100000000000,
+    "density_pct": 0.004310492,
+    "uncovered": 99995689508,
+    "time_s": 12.7
+  },
+  {
+    "file": "gpu_A25_1e10.log",
+    "digits": "2,5",
+    "max_d": 10000000000,
+    "covered": 412558,
+    "total": 10000000000,
+    "density_pct": 0.00412558,
+    "uncovered": 9999587442,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A25_1e11.log",
+    "digits": "2,5",
+    "max_d": 100000000000,
+    "covered": 1624571,
+    "total": 100000000000,
+    "density_pct": 0.001624571,
+    "uncovered": 99998375429,
+    "time_s": 11.7
+  },
+  {
+    "file": "gpu_A26_1e10.log",
+    "digits": "2,6",
+    "max_d": 10000000000,
+    "covered": 233301,
+    "total": 10000000000,
+    "density_pct": 0.00233301,
+    "uncovered": 9999766699,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A27_1e10.log",
+    "digits": "2,7",
+    "max_d": 10000000000,
+    "covered": 130157,
+    "total": 10000000000,
+    "density_pct": 0.00130157,
+    "uncovered": 9999869843,
+    "time_s": 10.3
+  },
+  {
+    "file": "gpu_A28_1e10.log",
+    "digits": "2,8",
+    "max_d": 10000000000,
+    "covered": 86909,
+    "total": 10000000000,
+    "density_pct": 0.00086909,
+    "uncovered": 9999913091,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A29_1e10.log",
+    "digits": "2,9",
+    "max_d": 10000000000,
+    "covered": 63755,
+    "total": 10000000000,
+    "density_pct": 0.00063755,
+    "uncovered": 9999936245,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A2_1e10.log",
+    "digits": "2",
+    "max_d": 10000000000,
+    "covered": 27,
+    "total": 10000000000,
+    "density_pct": 2.7e-07,
+    "uncovered": 9999999973,
+    "time_s": 10.2
+  },
+  {
+    "file": "gpu_A345678910_1e10.log",
+    "digits": "3,4,5,6,7,8,9,10",
+    "max_d": 10000000000,
+    "covered": 8169654055,
+    "total": 10000000000,
+    "density_pct": 81.69654055,
+    "uncovered": 1830345945,
+    "time_s": 1579.0
+  },
+  {
+    "file": "gpu_A34_1e11.log",
+    "digits": "3,4",
+    "max_d": 100000000000,
+    "covered": 473948,
+    "total": 100000000000,
+    "density_pct": 0.000473948,
+    "uncovered": 99999526052,
+    "time_s": 12.1
+  },
+  {
+    "file": "gpu_A35_1e11.log",
+    "digits": "3,5",
+    "max_d": 100000000000,
+    "covered": 202066,
+    "total": 100000000000,
+    "density_pct": 0.000202066,
+    "uncovered": 99999797934,
+    "time_s": 11.8
+  },
+  {
+    "file": "gpu_A3_1e10.log",
+    "digits": "3",
+    "max_d": 10000000000,
+    "covered": 20,
+    "total": 10000000000,
+    "density_pct": 2e-07,
+    "uncovered": 9999999980,
+    "time_s": 10.2
+  },
+  {
+    "file": "gpu_A4_1e10.log",
+    "digits": "4",
+    "max_d": 10000000000,
+    "covered": 16,
+    "total": 10000000000,
+    "density_pct": 1.6e-07,
+    "uncovered": 9999999984,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A5_1e10.log",
+    "digits": "5",
+    "max_d": 10000000000,
+    "covered": 15,
+    "total": 10000000000,
+    "density_pct": 1.5e-07,
+    "uncovered": 9999999985,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A6_1e10.log",
+    "digits": "6",
+    "max_d": 10000000000,
+    "covered": 13,
+    "total": 10000000000,
+    "density_pct": 1.3e-07,
+    "uncovered": 9999999987,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A7_1e10.log",
+    "digits": "7",
+    "max_d": 10000000000,
+    "covered": 12,
+    "total": 10000000000,
+    "density_pct": 1.2e-07,
+    "uncovered": 9999999988,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A8_1e10.log",
+    "digits": "8",
+    "max_d": 10000000000,
+    "covered": 11,
+    "total": 10000000000,
+    "density_pct": 1.1e-07,
+    "uncovered": 9999999989,
+    "time_s": 10.1
+  },
+  {
+    "file": "gpu_A9_1e10.log",
+    "digits": "9",
+    "max_d": 10000000000,
+    "covered": 11,
+    "total": 10000000000,
+    "density_pct": 1.1e-07,
+    "uncovered": 9999999989,
+    "time_s": 10.1
+  }
+]

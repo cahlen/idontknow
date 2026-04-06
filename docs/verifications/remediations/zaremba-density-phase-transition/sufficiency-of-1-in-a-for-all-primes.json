@@ -1,0 +1,13 @@
+{
+  "issue_id": "sufficiency-of-1-in-a-for-all-primes",
+  "finding_slug": "zaremba-density-phase-transition",
+  "found_by_reviews": [
+    "gpt-4.1-openai-2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "Transitivity claim correctly caveated as computational observation. Full proof requires Dickson classification argument (documented in separate finding).",
+  "status": "acknowledged",
+  "action_taken": "Transitivity claim correctly caveated as computational observation. Full proof requires Dickson classification argument (documented in separate finding).",
+  "resolved_at": null,
+  "commits": []
+}

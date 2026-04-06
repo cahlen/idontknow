@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-05T01:43:28Z",
+  "generated_at": "2026-04-06T17:38:57Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
-    "total_findings": 17,
-    "total_reviews": 44,
+    "total_findings": 18,
+    "total_reviews": 47,
     "total_remediations": 164,
     "remediations_resolved": 150,
     "unique_models": 6,
@@ -1238,7 +1238,7 @@
       "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
       "certification": {
         "level": "silver",
-        "review_count": 5,
+        "review_count": 6,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1321,6 +1321,26 @@
             "unverifiable": 0
           },
           "key_finding": "This manuscript presents a thorough and well-designed computational investigation of Zaremba density for small digit sets, notably establishing strong numerical evidence that A={1,2,3} leaves only 27 "
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-04-06",
+          "file": "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "openai"
+          },
+          "reviewed_at": "2026-04-06T17:38:52Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 8,
+            "verified": 7,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational and mathematical claims are accurate and well-supported by the literature and the presented data. The author has carefully presented caveats regarding the limitations of computationa"
         },
         {
           "review_id": "openai-o3-pro-2026-04-04",
@@ -1438,13 +1458,13 @@
       ],
       "issues_found": 13,
       "issues_resolved": 12,
-      "last_reviewed": "2026-04-04T00:26:11Z"
+      "last_reviewed": "2026-04-06T17:38:52Z"
     },
     "zaremba-digit-pair-hierarchy": {
       "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 7x More Than Digit 3",
       "certification": {
         "level": "bronze",
-        "review_count": 2,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1487,6 +1507,26 @@
             "unverifiable": 0
           },
           "key_finding": "Comprehensive finding. Clean data, Gauss measure explanation grounded in classical theory. Closed exception sets verified."
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-04-06",
+          "file": "zaremba-digit-pair-hierarchy_review_openai-gpt-4-1_2026-04-06.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "openai"
+          },
+          "reviewed_at": "2026-04-06T17:36:30Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 12,
+            "verified": 12,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational findings are consistent with the established mathematical understanding of Zaremba's conjecture, dimension theory, and Gauss measure heuristics. All quantitative claims are plausible"
         }
       ],
       "remediations": [
@@ -1598,13 +1638,13 @@
       ],
       "issues_found": 15,
       "issues_resolved": 15,
-      "last_reviewed": "2026-04-03T20:06:40Z"
+      "last_reviewed": "2026-04-06T17:36:30Z"
     },
     "zaremba-exception-hierarchy": {
       "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
       "certification": {
         "level": "bronze",
-        "review_count": 2,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1647,6 +1687,26 @@
             "unverifiable": 0
           },
           "key_finding": "Clean computational finding. 27->2->0 hierarchy is novel. CF splitting correctly applied."
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-04-06",
+          "file": "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "openai"
+          },
+          "reviewed_at": "2026-04-06T17:37:39Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 9,
+            "verified": 7,
+            "disputed": 0,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The primary mathematical and computational claims are sound, well-supported by both the project\u2019s own cross-checks and the literature. The novel presentation of the 27\u21922\u21920 exception hierarchy is an in"
         }
       ],
       "remediations": [
@@ -1730,7 +1790,20 @@
       ],
       "issues_found": 11,
       "issues_resolved": 11,
-      "last_reviewed": "2026-04-03T20:03:34Z"
+      "last_reviewed": "2026-04-06T17:37:39Z"
+    },
+    "zaremba-inverse-square-amplification": {
+      "title": "Inverse-Square Amplification: Digit 1 Boosts Zaremba Density by 1600/k\u00b2",
+      "certification": {
+        "level": "uncertified",
+        "review_count": 0,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": ""
     },
     "zaremba-representation-growth": {
       "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",

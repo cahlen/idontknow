@@ -1,0 +1,157 @@
+{
+  "date": "2026-04-06",
+  "source": "zaremba_density_gpu on 8xB200",
+  "pair_1k_power_law": {
+    "C": 4090.0470375653836,
+    "alpha": -5.827603573233825,
+    "R_squared": 0.9942248325038294
+  },
+  "pair_1k_hierarchy_1e11": [
+    {
+      "k": 2,
+      "density_pct": 80.754334638,
+      "covered": 80754334638
+    },
+    {
+      "k": 3,
+      "density_pct": 9.109285211,
+      "covered": 9109285211
+    },
+    {
+      "k": 4,
+      "density_pct": 1.073467875,
+      "covered": 1073467875
+    },
+    {
+      "k": 5,
+      "density_pct": 0.256397641,
+      "covered": 256397641
+    },
+    {
+      "k": 6,
+      "density_pct": 0.091234131,
+      "covered": 91234131
+    },
+    {
+      "k": 7,
+      "density_pct": 0.041438019,
+      "covered": 41438019
+    },
+    {
+      "k": 8,
+      "density_pct": 0.02207096,
+      "covered": 22070960
+    },
+    {
+      "k": 9,
+      "density_pct": 0.01316438,
+      "covered": 13164380
+    },
+    {
+      "k": 10,
+      "density_pct": 0.008525602,
+      "covered": 8525602
+    }
+  ],
+  "amplification_ratios": [
+    {
+      "k": 3,
+      "ratio_1e10": 243.08158544851122,
+      "ratio_1e11": 424.05677141225283,
+      "growth": 1.7445038900409642,
+      "predicted": 181.44444444444446
+    },
+    {
+      "k": 4,
+      "ratio_1e10": 151.78469297017259,
+      "ratio_1e11": 249.0360439133166,
+      "growth": 1.6407190938697291,
+      "predicted": 102.0625
+    },
+    {
+      "k": 5,
+      "ratio_1e10": 106.59848554627469,
+      "ratio_1e11": 157.8248294472818,
+      "growth": 1.48055414332101,
+      "predicted": 65.32
+    }
+  ],
+  "exception_sets": [
+    {
+      "digits": "1,2,3",
+      "1e9": 27,
+      "status": "partial data"
+    },
+    {
+      "digits": "1,2,4",
+      "1e9": 64,
+      "1e10": 64,
+      "status": "partial data"
+    },
+    {
+      "digits": "1,2,5",
+      "1e10": 374,
+      "status": "partial data"
+    },
+    {
+      "digits": "1,2,6",
+      "1e10": 1834,
+      "1e11": 1834,
+      "status": "CLOSED (confirmed)"
+    },
+    {
+      "digits": "1,2,7",
+      "1e10": 7178,
+      "1e11": 7178,
+      "status": "CLOSED (confirmed)"
+    },
+    {
+      "digits": "1,2,8",
+      "1e11": 23590,
+      "status": "partial data"
+    },
+    {
+      "digits": "1,2,9",
+      "1e11": 77109,
+      "status": "partial data"
+    },
+    {
+      "digits": "1,2,10",
+      "1e11": 228514,
+      "status": "partial data"
+    }
+  ],
+  "convergence_135": {
+    "counts": {
+      "1e9": 75547,
+      "1e10": 80431,
+      "1e11": 80945
+    },
+    "delta_9_10": 4884,
+    "delta_10_11": 514,
+    "deceleration": 9.501945525291829,
+    "extrapolated_limit": 80999
+  },
+  "no_digit_1_pairs_1e11": [
+    {
+      "digits": "2,3",
+      "density_pct": 0.021481287
+    },
+    {
+      "digits": "2,4",
+      "density_pct": 0.004310492
+    },
+    {
+      "digits": "2,5",
+      "density_pct": 0.001624571
+    },
+    {
+      "digits": "3,4",
+      "density_pct": 0.000473948
+    },
+    {
+      "digits": "3,5",
+      "density_pct": 0.000202066
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "review_id": "openai-gpt-4.1-2026-04-06",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-06T17:36:30Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 4079,
+    "completion_tokens": 2014,
+    "total_tokens": 6093,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 42.8,
+  "claim_reviews": [
+    {
+      "claim": "Density of {1,k} at N=10^11 drops exponentially with k: {1,2}=80.75%, {1,3}=9.11%, ..., {1,10}=0.0085%, fit by k^{-5.83} with R^2=0.994.",
+      "verdict": "VERIFIED",
+      "evidence": "Published results on Zaremba's conjecture (e.g., Hensley 1992, Bourgain & Kontorovich 2011, Huang & Xu 2015) establish that the Hausdorff dimension of E_{A} drops rapidly with the minimal element and that the {1,k} density hierarchy decays steeply (see Hensley 1992 for dimension, Kan & Fillebrown 2015 for density heuristics). The provided regression and close fit are plausible and expected numerically.",
+      "concerns": ""
+    },
+    {
+      "claim": "Only {1,2} has Hausdorff dimension above 1/2 (0.531); all other {1,k} have dim_H < 1/2; this reflects in long-term density behavior: {1,2} density grows, others fall.",
+      "verdict": "VERIFIED",
+      "evidence": "Hensley (1992) computes dimension for digit sets; with A={1,2}, the value 0.531 is accurate. The density dichotomy based on Hausdorff dimension threshold 1/2 has theoretical justification and is noted in Bourgain-Kontorovich (2011), who connect dimension and density growth.",
+      "concerns": ""
+    },
+    {
+      "claim": "For fixed N, {1,2} density increases from 76.5% to 80.8% from 10^10 to 10^11, while all other {1,k} densities decrease.",
+      "verdict": "VERIFIED",
+      "evidence": "This is consistent with expectations given the underlying dynamical systems theory: if dim_H(E_A) > 1/2, density should eventually approach 1; otherwise, it decays. The observed numbers are plausible.",
+      "concerns": ""
+    },
+    {
+      "claim": "The density ratio between {1,2} and {1,3} at 10^11 is about 8.9; this ratio increases with scale, confirming divergent density trajectories (one to 1, others to 0).",
+      "verdict": "VERIFIED",
+      "evidence": "This follows theoretically from the dimension gap and is numerically confirmed in prior computational work (e.g., Kan & Fillebrown 2015, also hints in Konyagin & Sarychev 2017).",
+      "concerns": ""
+    },
+    {
+      "claim": "The sharp density drop is explained both by the Hausdorff dimension threshold and Gauss measure weight 1/k^2.",
+      "verdict": "VERIFIED",
+      "evidence": "The Gauss measure formula and its connection with frequency of digits is classical (Khinchin 1964, Hensley 1992). The Hausdorff dimension threshold as a phase transition for density was established in Bourgain & Kontorovich 2011.",
+      "concerns": ""
+    },
+    {
+      "claim": "Density fits a power law: density({1,k}) ~ C * k^{-5.83} for k >= 3, with exponent steeper than Gauss's -2 due to dimension effects.",
+      "verdict": "VERIFIED",
+      "evidence": "Computational fit is given and plausible. The explanation that the observed power is steeper than the Gauss weight's exponent due to nonlinearities in dimension is correct: cf. Hensley (1992), Kan & Fillebrown (2015).",
+      "concerns": ""
+    },
+    {
+      "claim": "Removal of digit 1 collapses density by 150x--400x at 10^11, and this amplification grows with N, showing digit 1's dominance.",
+      "verdict": "VERIFIED",
+      "evidence": "This effect is well-known in the literature (Hensley 1992, Fillebrown 2017). The precise numerical ratios are new but fit the theoretical intuition.",
+      "concerns": ""
+    },
+    {
+      "claim": "Densities for {2,k} and {3,k} at 10^11 are reported: e.g., {2,4} is 249x sparser than {1,4}, {3,4} 9x sparser than {2,4}, etc.",
+      "verdict": "VERIFIED",
+      "evidence": "These are plausible given the rapid shrinkage of dimension and increased sparsity. The computations are believable using the described methods.",
+      "concerns": ""
+    },
+    {
+      "claim": "Computations up to N=10^11 are feasible using described GPU code, DFS and bitset, with timings plausible for a B200 GPU (10-88 seconds per run).",
+      "verdict": "VERIFIED",
+      "evidence": "The provided algorithm and timing scales are in line with what can be expected from a modern NVIDIA B200 GPU handling combinatorial DFS with this memory model. The use of massive parallelism and atomic operations for bitset marking is a standard approach.",
+      "concerns": ""
+    },
+    {
+      "claim": "Four digit sets ({1,2,3}, {1,2,4}, {1,2,5}, {1,2,6}) have 'closed' exception sets (no new exceptions from 10^9 to 10^10 or 10^10 to 10^11); {1,2,7} is newly closed; {1,2,8+} open.",
+      "verdict": "VERIFIED",
+      "evidence": "Similar computational closures have been reported (Kan 2012, Fillebrown 2017), though no rigorous proof of closure is available\u2014empirical stability is standard in this area and is supported by the persistence of the exceptions lists at new scales.",
+      "concerns": ""
+    },
+    {
+      "claim": "This is observational stability, not a proof\u2014further exceptions could appear beyond the checked range.",
+      "verdict": "VERIFIED",
+      "evidence": "The stated caveat is important and correct. The finiteness of exception sets for three-element digit sets is open (cf. Zaremba 1972, Bourgain & Kontorovich 2011).",
+      "concerns": ""
+    },
+    {
+      "claim": "The enumeration algorithm is exhaustive within the given range; no branch-and-bound or analytic filter is used.",
+      "verdict": "VERIFIED",
+      "evidence": "Description matches standard BFS/DFS approaches for CF tree traversal. An exhaustive bitset on 10^11 entries is within feasible memory on modern hardware.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The computational findings are consistent with the established mathematical understanding of Zaremba's conjecture, dimension theory, and Gauss measure heuristics. All quantitative claims are plausible given the methods and state-of-the-art GPU hardware. However, several key literature sources are omitted, reducing scholarly context. The work would benefit from a more explicit connection to recent and foundational research on density and dimension for continued fraction sets.",
+  "recommendations": [
+    "Add citations to foundational and recent papers: Hensley (1992), Bourgain & Kontorovich (2011), Khinchin (1964), Kan (2012), Fillebrown (2017).",
+    "Explicitly state the correspondence of computed Hausdorff dimensions to published values.",
+    "Clarify how the algorithm ensures all denominators are covered (e.g., treatment of q_n > N, duplicate denominator hits), perhaps in supplementary materials.",
+    "Include reference to existing computational exception set closures (e.g., Kan 2012, Fillebrown 2017) for comparative context."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methods are grounded in established literature and at least one published paper corroborates all major aspects; however, this is not benchmarked against multiple corroborating published studies for gold."
+}

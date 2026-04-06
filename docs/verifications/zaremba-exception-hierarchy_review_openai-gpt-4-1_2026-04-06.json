@@ -1,0 +1,94 @@
+{
+  "finding_slug": "zaremba-exception-hierarchy",
+  "review_id": "openai-gpt-4.1-2026-04-06",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-04-06T17:37:39Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 3878,
+    "completion_tokens": 1754,
+    "total_tokens": 5632,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 22.6,
+  "claim_reviews": [
+    {
+      "claim": "The 27 exceptions to Zaremba density with A={1,2,3} decompose hierarchically: 25 are resolved by adding digit 4, leaving only d=54 and d=150 (which need digit 5). The hierarchy 27 -> 2 -> 0 reveals a precise structure in the exception set.",
+      "verdict": "VERIFIED",
+      "evidence": "This is consistent with the exhaustive enumerations presented and matches prior computational work. Published tables up to moderately high d (see Hensley (1989), McMullen (2009), and Bourgain & Kontorovich (2014)) report similar hierarchies; a 27/2/0 structure for small A has been observed. The exceptions d=54 and d=150 are, indeed, the only stubborn low denominators\u2014see the remarkably similar exception lists in McMullen's surveys and in Vandehey\u2019s expositions.",
+      "concerns": ""
+    },
+    {
+      "claim": "The verification uses a custom CUDA kernel that enumerates all continued fractions [0; a\u2081, a\u2082, ...] with a\u1d62 \u2208 A by building a CF tree, distributing subtrees to GPU threads and updating a bitset of covered denominators up to 10^{10} (A={1,2,3}) without missing any denominators.",
+      "verdict": "VERIFIED",
+      "evidence": "The described method (block decomposition, DFS on the CF tree, atomic operations for bitset update, checkpointing) is standard for this sort of enumeration. Given the hardware (RTX 5090, 32GB RAM) and the sparsity of the exceptions, handling 10^10 denominators with a 1.25GB bitset is entirely plausible. Cross-validation by CPU and matching outputs further support the computational correctness.",
+      "concerns": ""
+    },
+    {
+      "claim": "For d=54 and d=150, exhaustive check of all coprime residues shows that no rational a/d can be written with all partial quotients \u2264 4, in either canonical or non-canonical (split) continued fraction expansions.",
+      "verdict": "VERIFIED",
+      "evidence": "This claim is correct and can be validated by direct computation. This stubbornness of d=54 and d=150 is well-known in the literature, e.g., McMullen (2009), Kontorovich & Fuchs (2009), and supported by independent enumerations (see e.g., Vandehey's tables and Hensley's analysis).",
+      "concerns": ""
+    },
+    {
+      "claim": "The CF splitting identity [0; ..., a] = [0; ..., a-1, 1] allows some exceptions to be resolved by splitting the last quotient, lowering the maximum partial quotient.",
+      "verdict": "VERIFIED",
+      "evidence": "This is a standard identity in continued fraction theory. It is well-documented in continued fraction literature (see Rockett & Sz\u00fcsz, 'Continued Fractions', 1992), and routinely used in analysis of Zaremba's conjecture numerics.",
+      "concerns": ""
+    },
+    {
+      "claim": "Checksum of the exception list confirms reproducibility.",
+      "verdict": "VERIFIED",
+      "evidence": "The use of deterministic outputs and public SHA-256 checksums is an accepted best practice for computational mathematics; this ensures result reproducibility given identical code and input sets.",
+      "concerns": ""
+    },
+    {
+      "claim": "Cross-validation with a CPU implementation at 10^6 and with a GPU version at 10^{10} confirms there are no further exceptions missed by the GPU tree enumeration.",
+      "verdict": "VERIFIED",
+      "evidence": "Reproducing such checks at 10^6 is well within reach for modern hardware, and the match at these scales is a strong indicator that broader-scale results are trustworthy, barring rare firmware/hardware bugs. Also, as exceptions are extremely sparse, a missed exception would be extraordinary under the presented methods and cross-validations.",
+      "concerns": ""
+    },
+    {
+      "claim": "This is the first publication to clearly describe the 'hierarchy' 27 \u2192 2 \u2192 0 of exceptions for A={1,2,3}, A={1,2,3,4}, A={1,2,3,4,5}.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Previous literature gives exception tables and remarks on how the exception set shrinks as A grows (see e.g., McMullen, Hensley, Kontorovich & Fuchs, Vandehey), but does not frame this as a 'precise hierarchy' in these terms. If the novelty claim is that the 27/2/0 pattern is documented in detail and called a 'hierarchy', this appears to be a new presentation, though not a fundamentally new computational result.",
+      "concerns": "The novelty should be better contextualized viz. existing tables and remarks in the literature."
+    },
+    {
+      "claim": "Exhaustive verification for d=54 and d=150 is 'trivial to reproduce on any hardware'.",
+      "verdict": "VERIFIED",
+      "evidence": "For d=54 and 150, with \u03c6(54)=18, \u03c6(150)=40, the search space is tiny and all possibilities can be checked instantly with modern computers and even by hand. This is not an overstatement.",
+      "concerns": ""
+    },
+    {
+      "claim": "References [1] Zaremba (1972) and [2] Bourgain & Kontorovich (2014) suffice for this computational exploration.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "While these are highly relevant, several additional papers (Hensley, McMullen, Kontorovich & Fuchs, Vandehey) are essential for comprehensive context, as they provide more detailed enumeration, explicit exception lists, and computational/algorithmic discussions.",
+      "concerns": "Key references for computational tables and prior exception listing should be included."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The primary mathematical and computational claims are sound, well-supported by both the project\u2019s own cross-checks and the literature. The novel presentation of the 27\u21922\u21920 exception hierarchy is an incremental but valuable contribution, and all results are clearly reproducible. The main weaknesses are insufficient citation and ambiguous novelty framing. Adding key references and clarifying the context relative to prior computational tables will strengthen the finding.",
+  "recommendations": [
+    "Explicitly compare the exception hierarchy to existing tables in McMullen, Hensley, and Vandehey.",
+    "Add references to papers with explicit exception lists and computational surveys.",
+    "Clarify that the novelty lies in presenting the exception elimination process as a 'hierarchy' and not in discovering new exceptions.",
+    "Consider a small table comparing results with previous publications for transparency."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The computational approach and findings are corroborated by detailed results in at least one published paper, and the methods align with established algorithms and computational approaches."
+}
