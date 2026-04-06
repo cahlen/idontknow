@@ -63,7 +63,7 @@ This repository is public and autonomous AI agents push commits to it. **Nothing
 Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.
 
 ### Kronecker Coefficients (In Progress — S₄₀ complete, S₄₅ computing)
-Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀ (7.4 min), S₄₀ (9.5 hr char table). S₄₀ values exceed int64 (max |χ| = 5.9×10²²) — full triple-sum needs int128 GPU kernel. Targeted analysis: 94.9% nonzero (sampled), hooks multiplicity-free, near-rectangular GCT triples sparse (10.1%). Next: int128 kernel for full S₄₀ table, then push toward n=120 for geometric complexity theory.
+Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀ (7.4 min), S₄₀ (9.5 hr char table). S₄₀ values exceed int64 (max |χ| = 5.9×10²²) — full triple-sum needs int128 GPU kernel. Targeted analysis: 94.9% nonzero (sampled), hooks multiplicity-free, near-rectangular GCT triples sparse (10.1%). **S₄₅ full char table is infeasible** (89,134 partitions → 63 TB table, segfaults). Beyond S₄₀ requires targeted triple computation for specific GCT-relevant partitions, not full tables.
 
 ### Hausdorff Dimension Spectrum (Complete — RTX 5090)
 First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A ⊆ {1,...,20}. Transfer operator + Chebyshev collocation on RTX 5090. Validated against Jenkinson-Pollicott (E_{1,2}) and Zaremba (E_{1,...,5}). Dataset does not exist anywhere in the literature.

@@ -35,6 +35,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Load .env if present (gitignored, contains API keys)
+if [ -f .env ]; then
+    set -a
+    source .env
+    set +a
+fi
+
 # Check what's available
 HAS_CLAUDE=$(which claude 2>/dev/null && echo "yes" || echo "no")
 HAS_ANTHROPIC=$([ -n "${ANTHROPIC_API_KEY:-}" ] && echo "yes" || echo "no")

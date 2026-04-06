@@ -40,6 +40,15 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 WEBSITE_ROOT = REPO_ROOT.parent / "bigcompute.science"
+
+# Load .env if present (gitignored, contains API keys)
+_env_file = REPO_ROOT / ".env"
+if _env_file.exists():
+    for line in _env_file.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            key, val = line.split("=", 1)
+            os.environ.setdefault(key.strip(), val.strip())
 STATE_FILE = REPO_ROOT / "data" / "agent_state.json"
 CLAUDE_MD = REPO_ROOT / "CLAUDE.md"
 LOG_DIRS = [
@@ -244,9 +253,20 @@ def call_llm(prompt, purpose="task"):
     Returns response text or None on failure."""
     import httpx
 
-    # 1. Try claude CLI (Claude Code premium account — no API key needed)
+    # 1. Try claude CLI — SKIP if another claude process is already running
+    # (e.g. if the agent was launched from within Claude Code)
     claude_cli = shutil.which("claude")
+    claude_already_running = False
     if claude_cli:
+        try:
+            ps = subprocess.run(["pgrep", "-f", "claude"], capture_output=True, text=True, timeout=5)
+            # If there are multiple claude processes, one is us — skip CLI to avoid conflicts
+            claude_pids = [p for p in ps.stdout.strip().split("\n") if p.strip()]
+            claude_already_running = len(claude_pids) > 0
+        except Exception:
+            pass
+
+    if claude_cli and not claude_already_running:
         try:
             log(f"  [{purpose}] via claude CLI...")
             result = subprocess.run(
@@ -977,8 +997,14 @@ Respond with JSON only (no markdown):
             log_file = launch.get("log_file", f"logs/auto_gpu{gpu}.log")
             reason = launch.get("reason", "")
 
+            # Strip env var prefixes the LLM sometimes prepends
+            # e.g. "CUDA_VISIBLE_DEVICES=4 ./zaremba_density_gpu ..." -> "./zaremba_density_gpu ..."
+            clean_cmd = cmd
+            while "=" in clean_cmd.split()[0]:
+                clean_cmd = clean_cmd.split(None, 1)[1] if " " in clean_cmd else ""
+
             # Safety: only allow known binaries
-            binary = cmd.split()[0].lstrip("./")
+            binary = clean_cmd.split()[0].lstrip("./") if clean_cmd else cmd.split()[0]
             if binary not in [v["binary"] for v in LAUNCHABLE.values()]:
                 log(f"  BLOCKED: unknown binary '{binary}' — skipping for safety", "WARN")
                 continue
@@ -996,7 +1022,7 @@ Respond with JSON only (no markdown):
             env["CUDA_VISIBLE_DEVICES"] = str(gpu)
             with open(log_path, "w") as lf:
                 subprocess.Popen(
-                    ["stdbuf", "-oL"] + cmd.split(),
+                    ["stdbuf", "-oL"] + clean_cmd.split(),
                     stdout=lf, stderr=subprocess.STDOUT,
                     env=env, cwd=str(REPO_ROOT),
                 )
