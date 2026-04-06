@@ -458,6 +458,127 @@ def aggregate_reviews():
 
 # ── Phase 6: Remediate ───────────────────────────────────────
 
+# Hedging phrases that indicate the LLM punted instead of fixing
+HEDGE_PHRASES = [
+    "not yet quantified", "not yet computed", "pending", "further analysis needed",
+    "has not yet been", "remains to be", "study needed", "to be determined",
+    "future work", "not yet been computed",
+]
+
+
+def gather_evidence(slug):
+    """Collect experiment data files relevant to a finding for the LLM prompt.
+
+    Reads the finding's related_experiment field, finds the matching experiment
+    directory, and returns a summary string of available data (CSV samples,
+    metadata JSON, log tails) that the LLM can use to compute real answers.
+    """
+    # Read the finding to get related_experiment
+    finding_files = list((WEBSITE_ROOT / "src" / "content" / "findings").glob(f"*{slug}*"))
+    if not finding_files:
+        return ""
+
+    finding_text = finding_files[0].read_text()
+    related = ""
+    for line in finding_text.split("\n"):
+        if line.startswith("related_experiment:"):
+            related = line.split(":", 1)[1].strip().strip("/")
+            break
+
+    # Map website experiment path to local directory
+    # e.g. "experiments/hausdorff-dimension-spectrum" -> "scripts/experiments/hausdorff-spectrum"
+    exp_name = related.split("/")[-1] if related else ""
+    exp_dir = None
+    if exp_name:
+        # Try exact match first, then prefix match
+        candidate = REPO_ROOT / "scripts" / "experiments" / exp_name
+        if candidate.exists():
+            exp_dir = candidate
+        else:
+            # Fuzzy match: try shortened forms
+            for d in (REPO_ROOT / "scripts" / "experiments").iterdir():
+                if d.is_dir() and (exp_name.startswith(d.name) or d.name.startswith(exp_name)
+                                   or exp_name.replace("-dimension", "").replace("-gpu", "") == d.name
+                                   or d.name.replace("-spectrum", "-dimension-spectrum") == exp_name):
+                    exp_dir = d
+                    break
+
+    if not exp_dir or not exp_dir.exists():
+        return ""
+
+    evidence_parts = []
+    results_dir = exp_dir / "results"
+    if not results_dir.exists():
+        return ""
+
+    # Collect metadata JSONs (small, full content)
+    for meta in sorted(results_dir.glob("metadata*.json"))[:3]:
+        try:
+            evidence_parts.append(f"=== {meta.name} ===\n{meta.read_text()[:2000]}")
+        except Exception:
+            pass
+
+    # Collect CSV headers + sample rows (first 5, last 5)
+    for csv_file in sorted(results_dir.glob("*.csv"))[:3]:
+        try:
+            lines = csv_file.read_text().split("\n")
+            sample = lines[:6]  # header + 5 rows
+            if len(lines) > 11:
+                sample.append(f"... ({len(lines)} total rows) ...")
+                sample.extend(lines[-5:])
+            evidence_parts.append(f"=== {csv_file.name} (sample) ===\n" + "\n".join(sample))
+        except Exception:
+            pass
+
+    # Collect analysis JSONs
+    for analysis in sorted(results_dir.glob("analysis*.json"))[:2]:
+        try:
+            evidence_parts.append(f"=== {analysis.name} ===\n{analysis.read_text()[:3000]}")
+        except Exception:
+            pass
+
+    # Collect recent log tails
+    for logf in sorted(results_dir.glob("*.log"), key=lambda f: f.stat().st_mtime, reverse=True)[:3]:
+        try:
+            lines = logf.read_text().split("\n")
+            tail = lines[-20:] if len(lines) > 20 else lines
+            evidence_parts.append(f"=== {logf.name} (tail) ===\n" + "\n".join(tail))
+        except Exception:
+            pass
+
+    return "\n\n".join(evidence_parts)
+
+
+def validate_fix(old_text, new_text):
+    """Check whether a proposed fix actually adds substance vs just hedging.
+
+    Returns (is_valid, reason). A fix that only inserts hedge phrases without
+    adding concrete data (numbers, coefficients, error bounds) is rejected.
+    """
+    if not old_text or not new_text:
+        return False, "empty old_text or new_text"
+
+    # What was added?
+    added = new_text.replace(old_text, "").strip() if old_text in new_text else new_text
+
+    # Check if the addition is purely hedging
+    added_lower = added.lower()
+    hedge_count = sum(1 for phrase in HEDGE_PHRASES if phrase in added_lower)
+
+    # Check if real data was added (numbers, equals signs, correlation values)
+    has_numbers = bool(re.search(r'\d+\.\d{2,}', added))  # decimal with 2+ places
+    has_equals = "=" in added or "≈" in added
+    has_data_words = any(w in added_lower for w in [
+        "spearman", "kendall", "correlation", "r =", "rho =", "tau =",
+        "± ", "converges to", "n=25", "n=35",
+    ])
+
+    if hedge_count > 0 and not has_numbers and not has_data_words:
+        return False, f"fix only adds hedging ({hedge_count} hedge phrases, no concrete data)"
+
+    return True, "ok"
+
+
 def remediate(slugs, dry_run=False):
     """Use Claude to read reviews, identify fixable issues, and fix them."""
     if not slugs:
@@ -503,9 +624,12 @@ def remediate(slugs, dry_run=False):
                 log(f"  [{iss['verdict']}] ({iss['from']}) {iss['claim'][:60]}")
             continue
 
-        # Read the finding (trimmed to avoid prompt overload)
+        # Read the finding
         finding_files = list((WEBSITE_ROOT / "src" / "content" / "findings").glob(f"*{slug}*"))
         finding_text = finding_files[0].read_text()[:2000] if finding_files else ""
+
+        # Gather actual experiment data so the LLM can compute real answers
+        evidence = gather_evidence(slug)
 
         prompt = f"""Fix issues in a bigcompute.science finding. Slug: {slug}
 
@@ -515,8 +639,20 @@ Finding (truncated):
 Issues from reviewers:
 {json.dumps(issues[:6], indent=2)}
 
-For each: fix (provide old_text/new_text), acknowledge (can't fix now), or disagree (reviewer wrong).
-JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowledge|disagree","description":"...","old_text":"...","new_text":"..."}}]}}"""
+"""
+        if evidence:
+            prompt += f"""Experiment data (use this to compute actual values — do NOT just add hedging language):
+{evidence[:6000]}
+
+"""
+        prompt += """IMPORTANT RULES:
+1. For "fix": you MUST insert concrete data (computed values, correlation coefficients, error bounds) derived from the experiment data above. Do NOT just add phrases like "not yet quantified" or "pending further analysis" — that is NOT a fix, it is hedging.
+2. If the experiment data does not contain enough information to compute the requested value, use "acknowledge" (not "fix" with a hedge).
+3. "acknowledge" = the issue is real but we cannot fix it without running more computation. Be specific about what computation is needed.
+4. "disagree" = the reviewer is wrong. Explain why with evidence.
+
+For each: fix (provide old_text/new_text with real data), acknowledge (can't fix now — say what's needed), or disagree (reviewer wrong — explain why).
+JSON only, no markdown: {"remediations": [{"claim":"...","action":"fix|acknowledge|disagree","description":"...","old_text":"...","new_text":"..."}]}"""
 
         try:
             text = call_llm(prompt, f"remediate:{slug}")
@@ -542,6 +678,14 @@ JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowl
                 desc = rem.get("description", "")[:80]
 
                 if action == "fix" and rem.get("old_text") and rem.get("new_text") and finding_files:
+                    # Validate that the fix adds substance, not just hedges
+                    is_valid, reason = validate_fix(rem["old_text"], rem["new_text"])
+                    if not is_valid:
+                        log(f"  REJECTED fix (hedge-only): {reason} — {desc}", "WARN")
+                        rem["action"] = "acknowledge"
+                        rem["description"] = f"Auto-demoted from fix: {reason}. {desc}"
+                        continue
+
                     # Apply the fix
                     content = finding_files[0].read_text()
                     if rem["old_text"] in content:
@@ -563,26 +707,49 @@ JSON only, no markdown: {{"remediations": [{{"claim":"...","action":"fix|acknowl
                     ["git", "log", "-1", "--format=%h"], cwd=str(WEBSITE_ROOT),
                     capture_output=True, text=True, timeout=5)
                 commit_hash = ch.stdout.strip()
-            except:
+            except Exception:
                 pass
 
             rem_dir = verifications_dir / "remediations" / slug
             rem_dir.mkdir(parents=True, exist_ok=True)
             for rem in remediations:
-                if rem.get("action") in ("fix", "acknowledge", "disagree"):
+                action = rem.get("action", "")
+                if action in ("fix", "acknowledge", "disagree"):
                     issue_id = rem.get("claim", "unknown")[:40].lower().replace(" ", "-").replace("/", "-")
                     issue_id = re.sub(r'[^a-z0-9-]', '-', issue_id).strip('-')
                     rem_file = rem_dir / f"{issue_id}.json"
+
+                    # Only "fix" that was actually applied => "resolved"
+                    # "acknowledge" => "acknowledged" (open — needs more computation)
+                    # "disagree" => "disputed" (open — reviewer disagreement)
+                    if action == "fix":
+                        status = "resolved"
+                    elif action == "acknowledge":
+                        status = "acknowledged"
+                    else:
+                        status = "disputed"
+
+                    found_by = [rf.stem for rf in review_files]
+
+                    # Derive severity from the original issue's verdict
+                    claim_text = rem.get("claim", "")[:100]
+                    original_verdict = "DISPUTED"
+                    for iss in issues:
+                        if iss["claim"][:40] == claim_text[:40]:
+                            original_verdict = iss.get("verdict", "DISPUTED")
+                            break
+
                     with open(rem_file, "w") as f:
                         json.dump({
                             "issue_id": issue_id,
                             "finding_slug": slug,
-                            "severity": "important" if rem.get("action") == "fix" else "minor",
+                            "found_by_reviews": found_by,
+                            "severity": "important" if original_verdict == "DISPUTED" else "minor",
                             "description": rem.get("description", ""),
-                            "status": "resolved" if rem.get("action") == "fix" else rem.get("action", "acknowledged"),
-                            "action_taken": f"Auto-fixed by research agent: {rem.get('description', '')}",
-                            "resolved_at": datetime.now(timezone.utc).isoformat(),
-                            "commits": [commit_hash] if commit_hash and rem.get("action") == "fix" else [],
+                            "status": status,
+                            "action_taken": rem.get("description", ""),
+                            "resolved_at": datetime.now(timezone.utc).isoformat() if status == "resolved" else None,
+                            "commits": [commit_hash] if commit_hash and status == "resolved" else [],
                         }, f, indent=2)
 
         except (json.JSONDecodeError, Exception) as e:
@@ -890,12 +1057,48 @@ def tick(args, state):
                 with open(rf) as f:
                     review = json.load(f)
                 slug = review.get("finding_slug", "")
-                has_unresolved = any(
-                    c.get("verdict", "") in ("DISPUTED", "NEEDS_CLARIFICATION")
-                    for c in review.get("claim_reviews", [])
-                )
-                if has_unresolved and slug and slug not in all_slugs_to_remediate:
-                    # Check if we already remediated this slug recently (within last 24h)
+
+                # Count claims that are DISPUTED/NEEDS_CLARIFICATION
+                disputed_claims = [
+                    c for c in review.get("claim_reviews", [])
+                    if c.get("verdict", "") in ("DISPUTED", "NEEDS_CLARIFICATION")
+                ]
+                if not disputed_claims or not slug or slug in all_slugs_to_remediate:
+                    continue
+
+                # Check how many are already resolved/acknowledged in remediation dir
+                rem_dir = verifications_dir / "remediations" / slug
+                resolved_statuses = set()
+                if rem_dir.exists():
+                    for rem_file in rem_dir.glob("*.json"):
+                        try:
+                            rem_data = json.loads(rem_file.read_text())
+                            if rem_data.get("status") in ("resolved", "disputed"):
+                                resolved_statuses.add(rem_data.get("description", "")[:40])
+                        except (json.JSONDecodeError, KeyError):
+                            pass
+
+                # Only re-remediate if there are claims with no resolution yet
+                # (i.e. no remediation JSON, or status is "acknowledged" meaning needs more work)
+                has_truly_unresolved = False
+                for claim in disputed_claims:
+                    claim_id = claim.get("claim", "")[:40].lower().replace(" ", "-").replace("/", "-")
+                    claim_id = re.sub(r'[^a-z0-9-]', '-', claim_id).strip('-')
+                    rem_file = rem_dir / f"{claim_id}.json"
+                    if not rem_file.exists():
+                        has_truly_unresolved = True
+                        break
+                    try:
+                        rem_data = json.loads(rem_file.read_text())
+                        if rem_data.get("status") == "acknowledged":
+                            has_truly_unresolved = True
+                            break
+                    except (json.JSONDecodeError, KeyError):
+                        has_truly_unresolved = True
+                        break
+
+                if has_truly_unresolved:
+                    # Still rate-limit to once per day
                     last_rem = state.get("last_remediated", {}).get(slug, "")
                     if not last_rem or (datetime.now(timezone.utc).isoformat()[:10] != last_rem[:10]):
                         all_slugs_to_remediate.append(slug)
