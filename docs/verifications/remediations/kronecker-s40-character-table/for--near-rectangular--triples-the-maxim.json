@@ -1,0 +1,12 @@
+{
+  "issue_id": "for--near-rectangular--triples-the-maxim",
+  "finding_slug": "kronecker-s40-character-table",
+  "severity": "important",
+  "description": "Add explicit 40-partition shape set with representative examples, link to source function, and SHA-256 checksum. Also remove duplicated paragraph on line 92.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add explicit 40-partition shape set with representative examples, link to source function, and SHA-256 checksum. Also remove duplicated paragraph on line 92.",
+  "resolved_at": "2026-04-05T00:34:16.135919+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

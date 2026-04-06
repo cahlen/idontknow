@@ -1,15 +1,16 @@
 {
-  "generated_at": "2026-04-04T00:30:00Z",
+  "generated_at": "2026-04-05T01:43:28Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
-    "total_findings": 15,
-    "total_reviews": 43,
-    "total_remediations": 121,
-    "remediations_resolved": 118,
-    "unique_models": 5,
+    "total_findings": 17,
+    "total_reviews": 44,
+    "total_remediations": 164,
+    "remediations_resolved": 150,
+    "unique_models": 6,
     "unique_providers": 4,
     "models": [
+      "ChatGPT",
       "Claude Opus 4.6",
       "GPT-5.2",
       "Grok",
@@ -24,6 +25,40 @@
     ]
   },
   "findings": {
+    "_project-level": {
+      "title": "_project-level",
+      "certification": {
+        "level": "uncertified",
+        "review_count": 1,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "chatgpt-project-review-2026-04-03",
+          "file": "project-level_review_openai-chatgpt_2026-04-03.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "ChatGPT",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T21:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The site is worth citing for large computations, datasets, kernels, and numerical experiments. It is not yet safe to cite as authority for major new proofs or theorem-level closure, especially around "
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-04-03T21:30:00Z"
+    },
     "class-number-convergence": {
       "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
       "certification": {
@@ -180,9 +215,9 @@
         {
           "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-de",
           "severity": "important",
-          "description": "The finding already contains partial per-GPU timing info (18.9-21.7s per GPU, <15% skew). We can strengthen the existing 8-GPU paragraph with peak memory usage and explicit communication pattern details that are already implied but not stated clearly.",
+          "description": "Per-GPU timing, communication pattern, and peak memory were added in commit 9428528 but a corrupted text fragment remains ('expansion.ed on the host CPU (negligible time).' is a remnant of a bad edit merge). Also remove the duplicate certification block at the end of the body (lines 78-85 duplicate the frontmatter).",
           "status": "resolved",
-          "resolved_commit": "9428528"
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "an-8-gpu-dgx-b200-system-verifies-all-denominators",
@@ -201,9 +236,16 @@
         {
           "issue_id": "reformulating-the-enumeration-as-batched",
           "severity": "important",
-          "description": "Add GPU boost clock, baseline thread count, and pointer to archived run logs. The finding already specified GPU model, VRAM, CUDA version, compiler flags, and CPU model but was missing clock speed and thread count.",
+          "description": "Hardware specs already added in prior remediation (commit 9428528): B200 2.1 GHz boost, CUDA 12.8, nvcc -O3 -arch=sm_100a, baseline 2\u00d7 Xeon 8570 112c/224t. No text change needed beyond the corruption fix below.",
           "status": "resolved",
-          "resolved_commit": "9428528"
+          "resolved_commit": "5e8a56f"
+        },
+        {
+          "issue_id": "the-fused-expand-mark-compact-cuda-kerne",
+          "severity": "minor",
+          "description": "Kernel source is linked (matrix_enum.cu). Finding already states 'The speedup includes contributions from both the GPU migration and kernel-level optimizations (fusion, early-exit predicates), which have not been isolated via ablation.' A proper ablation requires re-implementing an unfused baseline, which is out of scope for now. Occupancy data would require re-running with nvprof/ncu on the B200 cluster.",
+          "status": "acknowledge",
+          "resolved_commit": ""
         },
         {
           "issue_id": "the-fused-expand-mark-compact-cuda-kernel-with-ato",
@@ -213,7 +255,7 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 5,
+      "issues_found": 6,
       "issues_resolved": 5,
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
@@ -288,11 +330,25 @@
       ],
       "remediations": [
         {
+          "issue_id": "a-a--1-a--gives-an-almost-perfect-ran",
+          "severity": "important",
+          "description": "We now provide the actual rank-correlation (Spearman's \u03c1 ~ 0.996 at n=15, 0.992 at n=20) and note the known failure cases (e.g., E_{1,2} vs E_{3,4}).",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "a-a-1-a-gives-an-almost-perfect-rank-correlat",
           "severity": "important",
           "description": "Supply correlation coefficients and examples where the ranking fails.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "a-chebyshev-collocation-grid-with-n---15",
+          "severity": "important",
+          "description": "Auto-demoted from fix: fix only adds hedging (2 hedge phrases, no concrete data). Tried to add hedge about truncation",
+          "status": "acknowledged",
+          "resolved_commit": ""
         },
         {
           "issue_id": "a-chebyshev-collocation-grid-with-n-15-nodes-del",
@@ -309,6 +365,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "digit-1-dominance-strengthens-at-n---20",
+          "severity": "minor",
+          "description": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
+          "status": "acknowledged",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "digit-1-dominance-strengthens-at-n-20-dim-h-e",
           "severity": "minor",
           "description": "Report estimated numerical error and show that \u2206=0.002 is statistically significant.",
@@ -323,11 +386,32 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "removing-digit-1-from-the-full-alphabet",
+          "severity": "minor",
+          "description": "Convergence study requires running transfer operator at N=25,35 \u2014 cannot compute from existing data.",
+          "status": "acknowledged",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "sum-1-a-2-gives-an-almost-perfect-rank-c",
+          "severity": "important",
+          "description": "Added Spearman correlation from spectrum data",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "the-finding-merits-a-gold-certification-level-beca",
           "severity": "important",
           "description": "Gold certification requires external replication; silver is more appropriate.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-finding-merits-a-gold-certification",
+          "severity": "important",
+          "description": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
+          "status": "disputed",
+          "resolved_commit": ""
         },
         {
           "issue_id": "\u03c3_{a\u2208a}-1-a\u00b2-gives-an-almost-perfect-ran",
@@ -337,8 +421,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 7,
-      "issues_resolved": 7,
+      "issues_found": 13,
+      "issues_resolved": 9,
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
@@ -392,6 +476,13 @@
       ],
       "remediations": [
         {
+          "issue_id": "cannot-rule-out-unpublished-computations",
+          "severity": "important",
+          "description": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
+          "status": "disputed",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "character-tables-were-computed-via-the-m",
           "severity": "important",
           "description": "Add explicit orthogonality verification metrics for both n=20 and n=30, including max absolute error and integer overflow safeguards.",
@@ -406,11 +497,32 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "cite-the-highest-n-full-table-in-the-lit",
+          "severity": "important",
+          "description": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
+          "status": "disputed",
+          "resolved_commit": ""
+        },
+        {
+          "issue_id": "include-explicit-verification-results--m",
+          "severity": "important",
+          "description": "The finding already includes explicit values: 'For S\u2099 with n=20, max absolute row/column orthogonality error is 8.2\u00d710\u207b\u2079 \u00d7 n!; for n=30, maximum error is 6.7\u00d710\u207b\u2077 \u00d7 n!. Intermediate sum overflow checked by repeating select computations with 256-bit arithmetic (GNU MP). All outputs are non-negative integers, as verified for random samples and all maxima.' All three requested items (error for n=20, error for n=30, overflow safeguards) are present.",
+          "status": "disputed",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "largest-kronecker-computation-published",
           "severity": "important",
           "description": "This is addressed by the same edit as issue #2 above \u2014 the hedging language 'to our knowledge' and 'we cannot rule out unpublished or concurrent computations' resolves this concern.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "provide-a-checksum-or-small-random-sampl",
+          "severity": "important",
+          "description": "The finding summary already includes both: 'SHA-256 full dataset checksum: 7f19c4... (truncated)' and a link to a downloadable file of 1000 random (\u03bb, \u03bc, \u03bd, g(\u03bb,\u03bc,\u03bd)) samples at https://huggingface.co/datasets/cahlen/kronecker-coefficients/blob/main/s30_samples_1000.csv. Both were added in commit 9428528 and are present in the current published text.",
+          "status": "disputed",
+          "resolved_commit": ""
         },
         {
           "issue_id": "the-s30-table-contains-29-3-billion-unordered-trip",
@@ -441,7 +553,7 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 7,
+      "issues_found": 11,
       "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:58:04Z"
     },
@@ -503,6 +615,13 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "for--near-rectangular--triples-the-maxim",
+          "severity": "important",
+          "description": "Add explicit 40-partition shape set with representative examples, link to source function, and SHA-256 checksum. Also remove duplicated paragraph on line 92.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "for-near-rectangular-triples-the-maximum-kroneck",
           "severity": "minor",
           "description": "Supply explicit shape set and a checksum of the output so others can cross-check.",
@@ -512,9 +631,9 @@
         {
           "issue_id": "near-rectangular-gct-relevant-triples-ha",
           "severity": "important",
-          "description": "Already resolved in commit 9428528. The text now explicitly states the near-rectangular set is broader than strict GCT-relevant shapes and that 10.1% is an upper bound on GCT-relevant positivity.",
+          "description": "Clarify in the section heading that our near-rectangular set is broader than strict GCT rectangles, making 10.1% an upper bound. Combined with remediation 1 which adds the explicit partition set.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "near-rectangular-gct-relevant-triples-have-only-10",
@@ -526,9 +645,9 @@
         {
           "issue_id": "random-sampling-of-1-000-triples-indicat",
           "severity": "important",
-          "description": "Already resolved in commit 9428528. The method section now specifies uniform sampling over unordered partition triples with replacement and notes the random seed is documented in the analysis script.",
+          "description": "Specify sampling distribution (uniform over unordered triples without replacement) and explicit random seed (42).",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "random-sampling-of-1-000-triples-indicates-94-9",
@@ -536,6 +655,13 @@
           "description": "Specify sampling distribution and provide random seed so estimate can be reproduced.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "this-is-the-first-complete-s-40-characte",
+          "severity": "important",
+          "description": "Rephrase to 'first publicly archived explicit file' and remove duplicated GAP disclaimer paragraph.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "this-is-the-first-complete-s-40-character-table-th",
@@ -552,8 +678,8 @@
           "resolved_commit": ""
         }
       ],
-      "issues_found": 8,
-      "issues_resolved": 8,
+      "issues_found": 10,
+      "issues_resolved": 10,
       "last_reviewed": "2026-04-03T20:09:44Z"
     },
     "zaremba-A12-logarithmic-convergence": {
@@ -614,11 +740,32 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "adding-digit-1-provides-a-sigmoid-shaped",
+          "severity": "minor",
+          "description": "Add link to the published full sweep CSV (1,023 rows) with SHA-256 hash 4b052ecb952b... so others can reproduce the sigmoid plot.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
+          "issue_id": "for-a--1-2-k--at-n-10-6-the-number-of-un",
+          "severity": "important",
+          "description": "Replace qualitative statement with log-log OLS regression: exponent 6.42, 95% CI [5.80, 7.04], R\u00b2 = 0.986.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "for-a-1-2-k-at-n-10-6-the-number-of-uncovered-de",
           "severity": "important",
           "description": "Perform a log\u2013log regression with confidence intervals and quantify goodness-of-fit; avoid stating an exponent to unit precision without such analysis",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-the-digit-set--1-2---the-observed-za",
+          "severity": "minor",
+          "description": "Add SHA-256 hashes and GPU timing for all 5 log files in the Reproduce section so others can verify counts.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "for-the-digit-set-1-2-the-observed-zaremba-dens",
@@ -628,11 +775,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "including-two-further-measurements--n-10",
+          "severity": "minor",
+          "description": "Update frontmatter: replace predicted_density_1e12 with measured 84.58%, add density_1e11/1e12, add R\u00b2=0.9984, note all 5 values are empirical.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "including-two-further-measurements-n-10-11-10-12",
           "severity": "minor",
           "description": "Clarify which points are empirical and which are forecasts; re-label the five-point fit accordingly.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "logarithmic-convergence-is-observed--in",
+          "severity": "important",
+          "description": "Remove stale '~85.9%' prediction (actual was 84.58%). Replace 3-point hedging with 5-point R\u00b2 and note the growing residual at 10^12.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "logarithmic-convergence-is-observed-in-contrast-t",
@@ -656,6 +817,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "this-is-not-the-power-law-n-0-062-predic",
+          "severity": "minor",
+          "description": "Rewrite frontmatter summary to distinguish R(d) growth from density convergence, remove 'NOT power-law' framing, update fit coefficients to 5-point values.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "this-is-not-the-power-law-n-0-062-predicted-by-bk",
           "severity": "minor",
           "description": "IMPORTANT: The finding states the BK framework predicts power-law convergence with exponent 0.062. This is an oversimplification. BK proves density 1 ",
@@ -663,8 +831,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 8,
-      "issues_resolved": 8,
+      "issues_found": 14,
+      "issues_resolved": 14,
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
@@ -791,8 +959,21 @@
       "issues_resolved": 7,
       "last_reviewed": "2026-04-03T19:50:28Z"
     },
-    "zaremba-conjecture-proved": {
+    "zaremba-conjecture-framework": {
       "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
+      "certification": {
+        "level": "uncertified",
+        "review_count": 0,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": ""
+    },
+    "zaremba-conjecture-proved": {
+      "title": "zaremba-conjecture-proved",
       "certification": {
         "level": "bronze",
         "review_count": 5,
@@ -909,6 +1090,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "a-complete-brute-force-enumeration-on-8",
+          "severity": "important",
+          "description": "Add explicit command line, input parameters, and checksum reference directly in the brute-force section rather than relying solely on the manifest link.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "a-dolgopyat-type-calculation-gives-0-771-70",
           "severity": "minor",
           "description": "Either supply a computer-assisted Dolgopyat proof \u00e0 la Buzzi-Tsujii or downgrade the claim to a numerical heuristic.",
@@ -923,6 +1111,13 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "a-dolgopyat-type-calculation-gives",
+          "severity": "important",
+          "description": "Downgrade the Dolgopyat claim from 'arb-certified' to 'numerical bound on finite discretization' and explicitly label it as not a computer-assisted proof.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "computer-assisted-proof-of-zaremba's-con",
           "severity": "important",
           "description": "The word 'proof' is premature. Replace with 'proof framework' in the effective_range field, which was already partially addressed above but also needs the title-level language fixed.",
@@ -930,11 +1125,25 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "computer-assisted-proof-of-zaremba-s-con",
+          "severity": "important",
+          "description": "The slug 'zaremba-conjecture-proved' implies a completed proof. Rename to 'zaremba-conjecture-framework' to match the actual status.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "computer-assisted-proof-of-zaremba-s-conjecture-fo",
           "severity": "minor",
           "description": "The proof has known certification gaps. Calling it a 'proof' is premature until gaps are closed.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-the-eleven-covering-primes-p---31-th",
+          "severity": "minor",
+          "description": "The finding already explicitly acknowledges this gap in the spectral gap section (line 74): 'a rigorous bound on the truncation error between the N=40 discretization and the infinite-dimensional operator (e.g., via the Keller-Liverani perturbation framework) has not been established.' Establishing this bound requires a full Keller-Liverani perturbation analysis or equivalent, which is non-trivial mathematical work. Cannot fix in a text edit.",
+          "status": "acknowledge",
+          "resolved_commit": ""
         },
         {
           "issue_id": "for-the-eleven-covering-primes-p-31-the-spectral",
@@ -956,6 +1165,13 @@
           "description": "The summary already lists 6 gaps from the 2026-04-01 correction, but the status field still understates them. Update the status to explicitly enumerate gaps.",
           "status": "resolved",
           "resolved_commit": ""
+        },
+        {
+          "issue_id": "only-one-specialist-gap-remains--matchin",
+          "severity": "important",
+          "description": "The effective_range field still starts with 'all d \u2265 1' which is misleading for a framework with 6 known gaps. Downgrade to make the partial/conditional status unambiguous.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "only-one-specialist-gap-remains-matching-the-nume",
@@ -1005,10 +1221,17 @@
           "description": "Provide a detailed constant-tracking appendix or Sage/arb notebook reproducing every numeric inequality.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "using-the-explicit-constants-from-magee",
+          "severity": "important",
+          "description": "Strengthen the caveat on the D\u2080 estimate to make clear this is not rigorous until a full constant-tracking notebook is available.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         }
       ],
-      "issues_found": 15,
-      "issues_resolved": 13,
+      "issues_found": 21,
+      "issues_resolved": 18,
       "last_reviewed": "2026-04-03T19:52:39Z"
     },
     "zaremba-density-phase-transition": {
@@ -1275,6 +1498,13 @@
           "resolved_commit": "5e89f99"
         },
         {
+          "issue_id": "density-drops-exponentially-with-k-and-i",
+          "severity": "important",
+          "description": "The claimed exponent 3-4 is wrong. OLS log-log regression on k=3..10 gives alpha=5.18, 95% CI [4.65, 5.71], R\u00b2=0.99. Fix body text and frontmatter scaling field.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "density-drops-exponentially-with-k-and-is-roughly",
           "severity": "minor",
           "description": "Include a log-log regression with confidence interval and discuss sensitivity to the chosen cut-off N.",
@@ -1289,11 +1519,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "digit-1-amplifies-density-by-42-243x-rel",
+          "severity": "important",
+          "description": "Add explicit log file references so the {1,k} vs {2,k} comparison is independently checkable. The amplification numbers are correct per the logs.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "digit-2-is-6-9-more-valuable-than-digit-3-as-see",
           "severity": "important",
           "description": "Clarify definition of \u2018value\u2019 and base claim on independently checkable data.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "digit-2-is-6-9x-more-valuable-than-digit",
+          "severity": "important",
+          "description": "Replace loose 'value' language with precise density-ratio definition. The 6.9x number is correct (76.55/11.06=6.92) but 'value' is undefined.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "digit-value-metric-ad-hoc",
@@ -1303,11 +1547,25 @@
           "resolved_commit": "5e89f99"
         },
         {
+          "issue_id": "each--1-k--pair-up-to-10-10-can-be-proce",
+          "severity": "important",
+          "description": "The 10-15s claim is wrong for {1,2} (88.4s) and {1,3} (18.0s). Only k>=4 fits 10-11s. The per-pair timing table in issue 1's fix replaces this claim. Also fix frontmatter scaling field from 'k^(-3 to -4)' to the correct regression.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "each-1-k-pair-up-to-10-10-can-be-processed-in-10",
           "severity": "important",
           "description": "Provide benchmark script, kernel occupancy report and total instruction count.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-each-k---2-----10--the-zaremba-densi",
+          "severity": "important",
+          "description": "Add full algorithmic description, memory layout, per-pair timing table, and log file references to the Reproduce section. The densities themselves are correct per the GPU logs.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "for-each-k-2-10-the-zaremba-density-of-the",
@@ -1324,6 +1582,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "four-closed-exception-sets-are-confirmed",
+          "severity": "important",
+          "description": "Strengthen disclaimers: no proof of finiteness exists. Add upper bounds searched, clarify exhaustiveness of the bitset search within [1,N], note that {1,2,3} and {1,2,4} at 10^11 are still running. Add pointer to full exception list for {1,2,4}.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "gpu-timing-implausible",
           "severity": "critical",
           "description": "Claimed 10-15s per {1,k} pair at 10^10 on a single B200 is inconsistent with hardware capabilities. Even idealized kernel performing one modular inversion per 3 GPU cycles would need >10 minutes for 10^10 inputs. Published benchmarks (Berkel & Fassler 2023) show 10^9 checks in 30s on 8xA100.",
@@ -1331,8 +1596,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 9,
-      "issues_resolved": 9,
+      "issues_found": 15,
+      "issues_resolved": 15,
       "last_reviewed": "2026-04-03T20:06:40Z"
     },
     "zaremba-exception-hierarchy": {
@@ -1387,10 +1652,10 @@
       "remediations": [
         {
           "issue_id": "adding-digit-4-resolves-25-of-the-27-exc",
-          "severity": "important",
-          "description": "Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
+          "severity": "minor",
+          "description": "Replace truncated witness table with complete table for all 25 resolved denominators, including CF expansions and which use the splitting identity.",
           "status": "resolved",
-          "resolved_commit": ""
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "adding-digit-4-resolves-25-of-the-27-exceptions-l",
@@ -1407,11 +1672,25 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "exactly-27-denominators--all---6234--fai",
+          "severity": "minor",
+          "description": "Add code path, SHA-256 checksum of exception list, and reproduction command for independent verification.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "exactly-27-denominators-all-6234-fail-to-admit",
           "severity": "minor",
           "description": "Release the complete list of 27 exceptions together with code and checksum so others can replicate the enumeration.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-d---54-and-d---150-every-coprime-num",
+          "severity": "minor",
+          "description": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "for-d-54-and-d-150-every-coprime-numerator-a-p",
@@ -1428,6 +1707,13 @@
           "resolved_commit": ""
         },
         {
+          "issue_id": "for-every-denominator-d---10--10--there",
+          "severity": "minor",
+          "description": "Add precise algorithm description with parallelization strategy, runtime, memory, and log paths from actual GPU kernel (zaremba_density_gpu.cu).",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "for-every-denominator-d-10-10-there-exists-a-c",
           "severity": "minor",
           "description": "Provide precise algorithm, parallelisation strategy, run-time, memory usage, and publicly accessible result logs or hashes.",
@@ -1442,8 +1728,8 @@
           "resolved_commit": ""
         }
       ],
-      "issues_found": 8,
-      "issues_resolved": 8,
+      "issues_found": 11,
+      "issues_resolved": 11,
       "last_reviewed": "2026-04-03T20:03:34Z"
     },
     "zaremba-representation-growth": {
@@ -1662,11 +1948,25 @@
       ],
       "remediations": [
         {
+          "issue_id": "all-1-214-square-free-moduli-m---1-999-h",
+          "severity": "minor",
+          "description": "The three tightest gaps (m=1469: 0.237, m=638: 0.258, m=34: 0.271) were computed at N=15 Chebyshev collocation only, which gives ~2-3 decimal accuracy. The N=40 FP64 computation was performed only for the 168 primes p \u2264 1000, not for composite moduli. To provide convergence data and rigorous enclosures, we need to re-run m=1469, 638, and 34 at N=20, 25, 30, 35, 40 with FP64 and compare the gap values across resolutions. The finding already notes the N=15 limitation (line 54) but the requested convergence study has not been performed yet.",
+          "status": "acknowledged",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "all-1-214-square-free-moduli-m-1-999-have-congru",
           "severity": "minor",
           "description": "Provide convergence data (e.g. N = 20, 25) and rigorous enclosures for at least the three tightest gaps.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "convergence-threshold-sigma---0-277-met",
+          "severity": "minor",
+          "description": "The threshold \u03c3 > 0.277 comes from the Bourgain-Kontorovich circle method framework with specific assumptions about exponential sum bounds. This dependency must be stated explicitly so readers understand the threshold is not absolute.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "convergence-threshold-sigma-0-277-met-with-margi",
@@ -1676,11 +1976,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "fp64-n---40-computations-for-all-168-pri",
+          "severity": "minor",
+          "description": "Add explicit eigensolver stopping criteria and computation parameters to the Method section, derived from the CUDA kernel source (spectral_gaps_primes.cu). The current text references 'source code' for details but reviewers rightly want the key parameters in the finding itself.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "fp64-n-40-computations-for-all-168-primes-p-1",
           "severity": "minor",
           "description": "Publish the N = 40 prime data and document the stopping criteria of the eigensolver.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-numerical-data-give-substantive-evid",
+          "severity": "important",
+          "description": "The summary in the frontmatter says 'property (\u03c4) confirmed with explicit constant' which overstates the result. The body text (line 54) already correctly qualifies this, but the summary \u2014 which is the most visible metadata \u2014 does not. Fix the summary to match the body's careful language.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "the-numerical-data-give-substantive-evidence-that",
@@ -1695,10 +2009,17 @@
           "description": "Reduce the strength of this forward-looking claim or supply a concrete analytic framework that converts the numerical constants into a proof.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "with-the-present-spectral-gap-data-plus",
+          "severity": "important",
+          "description": "The 'What This Enables' section presents the path to the full conjecture too assertively. While the qualifications in point 1 are already present, the opening sentence ('opens a concrete path to the full conjecture') and point 2 ('the conjecture would be resolved computationally') are too strong given that making B-K effective remains an open analytic problem. Weaken these claims.",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         }
       ],
-      "issues_found": 5,
-      "issues_resolved": 5,
+      "issues_found": 10,
+      "issues_resolved": 9,
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
@@ -1910,11 +2231,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "connection-to-1--5-phi--where-phi-is-gol",
+          "severity": "important",
+          "description": "Reframe golden ratio connection as heuristic, explicitly acknowledge the 13% discrepancy, and explain that the finite convergents 1/6 and 2/11 better bracket the observed mean",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "connection-to-1-5-phi-where-phi-is-golden-ratio",
           "severity": "minor",
           "description": "The claimed value 0.1514 vs observed 0.171 is a 13% discrepancy. The connection is interesting but needs more rigorous justification or the discrepanc",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "for-each-1---d---100-000--the-least-zare",
+          "severity": "important",
+          "description": "Add data availability section with checksum commitment and raw (d,\u03b1) pair reference, replacing vague 'Raw Data' section",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "for-each-1-d-100-000-the-least-zaremba-witnes",
@@ -1931,11 +2266,25 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "starting-the-search-at-a---0-170-d-inste",
+          "severity": "important",
+          "description": "Hedge the speedup claim: note no controlled ablation has been performed, and the factor ~6 is a naive search-range reduction, not a measured kernel speedup",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
+        },
+        {
           "issue_id": "starting-the-search-at-a-0-170-d-instead-of-1-yi",
           "severity": "minor",
           "description": "Include an ablation study measuring the effect of the starting offset independently of other code changes.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "the-bound-a---5-is-tight--99-9---of-modu",
+          "severity": "important",
+          "description": "Clarify that the 99.91% statistic refers only to the minimal witness, not global non-existence of A=4 witnesses",
+          "status": "resolved",
+          "resolved_commit": "5e8a56f"
         },
         {
           "issue_id": "the-bound-a-5-is-tight-99-9-of-moduli-would-h",
@@ -1952,8 +2301,8 @@
           "resolved_commit": "9428528"
         }
       ],
-      "issues_found": 7,
-      "issues_resolved": 7,
+      "issues_found": 11,
+      "issues_resolved": 11,
       "last_reviewed": "2026-04-03T19:48:03Z"
     }
   }

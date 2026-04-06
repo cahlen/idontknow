@@ -1,9 +1,16 @@
 {
   "issue_id": "adding-digit-4-resolves-25-of-the-27-exc",
   "finding_slug": "zaremba-exception-hierarchy",
-  "severity": "important",
-  "description": "Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Replace truncated witness table with complete table for all 25 resolved denominators, including CF expansions and which use the splitting identity.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add explicit witness numerators for each of the 25 resolved exceptions and exhaustive search confirmation for d=54,150",
-  "resolved_at": "2026-04-04T00:10:08.109354+00:00"
+  "action_taken": "Replace truncated witness table with complete table for all 25 resolved denominators, including CF expansions and which use the splitting identity.",
+  "resolved_at": "2026-04-05T01:19:31.606213+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
 }

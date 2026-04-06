@@ -1,0 +1,12 @@
+{
+  "issue_id": "a-dolgopyat-type-calculation-gives",
+  "finding_slug": "zaremba-conjecture-proved",
+  "severity": "important",
+  "description": "Downgrade the Dolgopyat claim from 'arb-certified' to 'numerical bound on finite discretization' and explicitly label it as not a computer-assisted proof.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Downgrade the Dolgopyat claim from 'arb-certified' to 'numerical bound on finite discretization' and explicitly label it as not a computer-assisted proof.",
+  "resolved_at": "2026-04-05T00:23:31.667549+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

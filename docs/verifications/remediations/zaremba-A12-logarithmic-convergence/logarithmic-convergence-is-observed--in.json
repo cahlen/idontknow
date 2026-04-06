@@ -1,0 +1,16 @@
+{
+  "issue_id": "logarithmic-convergence-is-observed--in",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "important",
+  "description": "Remove stale '~85.9%' prediction (actual was 84.58%). Replace 3-point hedging with 5-point R\u00b2 and note the growing residual at 10^12.",
+  "status": "resolved",
+  "action_taken": "Remove stale '~85.9%' prediction (actual was 84.58%). Replace 3-point hedging with 5-point R\u00b2 and note the growing residual at 10^12.",
+  "resolved_at": "2026-04-05T01:29:17.456696+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

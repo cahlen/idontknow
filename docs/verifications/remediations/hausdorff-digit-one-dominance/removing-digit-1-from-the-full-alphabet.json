@@ -1,0 +1,14 @@
+{
+  "issue_id": "removing-digit-1-from-the-full-alphabet",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "hausdorff-digit-one-dominance_o3pro-review",
+    "hausdorff-digit-one-dominance_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Convergence study requires running transfer operator at N=25,35 \u2014 cannot compute from existing data.",
+  "status": "acknowledged",
+  "action_taken": "Convergence study requires running transfer operator at N=25,35 \u2014 cannot compute from existing data.",
+  "resolved_at": null,
+  "commits": []
+}

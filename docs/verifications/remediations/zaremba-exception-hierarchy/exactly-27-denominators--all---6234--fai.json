@@ -1,0 +1,16 @@
+{
+  "issue_id": "exactly-27-denominators--all---6234--fai",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add code path, SHA-256 checksum of exception list, and reproduction command for independent verification.",
+  "status": "resolved",
+  "action_taken": "Add code path, SHA-256 checksum of exception list, and reproduction command for independent verification.",
+  "resolved_at": "2026-04-05T01:19:31.606145+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

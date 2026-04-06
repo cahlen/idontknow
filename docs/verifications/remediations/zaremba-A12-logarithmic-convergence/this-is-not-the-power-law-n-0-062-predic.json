@@ -1,0 +1,16 @@
+{
+  "issue_id": "this-is-not-the-power-law-n-0-062-predic",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Rewrite frontmatter summary to distinguish R(d) growth from density convergence, remove 'NOT power-law' framing, update fit coefficients to 5-point values.",
+  "status": "resolved",
+  "action_taken": "Rewrite frontmatter summary to distinguish R(d) growth from density convergence, remove 'NOT power-law' framing, update fit coefficients to 5-point values.",
+  "resolved_at": "2026-04-05T01:29:17.456933+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

@@ -2,8 +2,11 @@
   "issue_id": "random-sampling-of-1-000-triples-indicat",
   "finding_slug": "kronecker-s40-character-table",
   "severity": "important",
-  "description": "Already resolved in commit 9428528. The method section now specifies uniform sampling over unordered partition triples with replacement and notes the random seed is documented in the analysis script.",
+  "description": "Specify sampling distribution (uniform over unordered triples without replacement) and explicit random seed (42).",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Already resolved in commit 9428528. The method section now specifies uniform sampling over unordered partition triples with replacement and notes the random seed is documented in the analysis script.",
-  "resolved_at": "2026-04-04T00:06:24.089551+00:00"
+  "action_taken": "Auto-fixed by research agent: Specify sampling distribution (uniform over unordered triples without replacement) and explicit random seed (42).",
+  "resolved_at": "2026-04-05T00:34:16.136014+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
 }

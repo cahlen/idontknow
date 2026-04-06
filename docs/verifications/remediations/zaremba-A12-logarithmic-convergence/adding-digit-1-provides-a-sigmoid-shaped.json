@@ -1,0 +1,16 @@
+{
+  "issue_id": "adding-digit-1-provides-a-sigmoid-shaped",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add link to the published full sweep CSV (1,023 rows) with SHA-256 hash 4b052ecb952b... so others can reproduce the sigmoid plot.",
+  "status": "resolved",
+  "action_taken": "Add link to the published full sweep CSV (1,023 rows) with SHA-256 hash 4b052ecb952b... so others can reproduce the sigmoid plot.",
+  "resolved_at": "2026-04-05T01:29:17.456837+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

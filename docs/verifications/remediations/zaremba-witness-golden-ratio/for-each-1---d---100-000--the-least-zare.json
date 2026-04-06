@@ -1,0 +1,12 @@
+{
+  "issue_id": "for-each-1---d---100-000--the-least-zare",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "severity": "important",
+  "description": "Add data availability section with checksum commitment and raw (d,\u03b1) pair reference, replacing vague 'Raw Data' section",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add data availability section with checksum commitment and raw (d,\u03b1) pair reference, replacing vague 'Raw Data' section",
+  "resolved_at": "2026-04-05T00:16:25.167280+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

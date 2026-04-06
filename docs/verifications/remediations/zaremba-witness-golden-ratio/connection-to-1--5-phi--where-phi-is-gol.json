@@ -1,0 +1,12 @@
+{
+  "issue_id": "connection-to-1--5-phi--where-phi-is-gol",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "severity": "important",
+  "description": "Reframe golden ratio connection as heuristic, explicitly acknowledge the 13% discrepancy, and explain that the finite convergents 1/6 and 2/11 better bracket the observed mean",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Reframe golden ratio connection as heuristic, explicitly acknowledge the 13% discrepancy, and explain that the finite convergents 1/6 and 2/11 better bracket the observed mean",
+  "resolved_at": "2026-04-05T00:16:25.167455+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

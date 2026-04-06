@@ -1,0 +1,12 @@
+{
+  "issue_id": "this-is-the-first-complete-s-40-characte",
+  "finding_slug": "kronecker-s40-character-table",
+  "severity": "important",
+  "description": "Rephrase to 'first publicly archived explicit file' and remove duplicated GAP disclaimer paragraph.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Rephrase to 'first publicly archived explicit file' and remove duplicated GAP disclaimer paragraph.",
+  "resolved_at": "2026-04-05T00:34:16.136086+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

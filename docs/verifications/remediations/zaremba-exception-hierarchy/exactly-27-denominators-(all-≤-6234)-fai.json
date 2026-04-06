@@ -1,0 +1,9 @@
+{
+  "issue_id": "exactly-27-denominators-(all-\u2264-6234)-fai",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "severity": "important",
+  "description": "Add the complete list of all 27 exceptions with reference to verification code",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add the complete list of all 27 exceptions with reference to verification code",
+  "resolved_at": "2026-04-04T00:10:08.109315+00:00"
+}

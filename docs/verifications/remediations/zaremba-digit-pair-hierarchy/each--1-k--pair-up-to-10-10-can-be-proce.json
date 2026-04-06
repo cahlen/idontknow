@@ -1,0 +1,12 @@
+{
+  "issue_id": "each--1-k--pair-up-to-10-10-can-be-proce",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "severity": "important",
+  "description": "The 10-15s claim is wrong for {1,2} (88.4s) and {1,3} (18.0s). Only k>=4 fits 10-11s. The per-pair timing table in issue 1's fix replaces this claim. Also fix frontmatter scaling field from 'k^(-3 to -4)' to the correct regression.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The 10-15s claim is wrong for {1,2} (88.4s) and {1,3} (18.0s). Only k>=4 fits 10-11s. The per-pair timing table in issue 1's fix replaces this claim. Also fix frontmatter scaling field from 'k^(-3 to -4)' to the correct regression.",
+  "resolved_at": "2026-04-05T00:31:00.187470+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

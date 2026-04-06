@@ -1,0 +1,9 @@
+{
+  "issue_id": "full-bfs-over-|sl\u2082(1021)|-\u2248-1.06\u00d710\u2079-ele",
+  "finding_slug": "zaremba-cayley-diameters",
+  "severity": "important",
+  "description": "Add measured throughput and validation details to the Method section to rule out early termination.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add measured throughput and validation details to the Method section to rule out early termination.",
+  "resolved_at": "2026-04-04T00:12:46.473905+00:00"
+}

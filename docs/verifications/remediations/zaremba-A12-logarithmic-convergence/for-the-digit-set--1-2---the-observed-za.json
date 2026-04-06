@@ -1,0 +1,16 @@
+{
+  "issue_id": "for-the-digit-set--1-2---the-observed-za",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add SHA-256 hashes and GPU timing for all 5 log files in the Reproduce section so others can verify counts.",
+  "status": "resolved",
+  "action_taken": "Add SHA-256 hashes and GPU timing for all 5 log files in the Reproduce section so others can verify counts.",
+  "resolved_at": "2026-04-05T01:29:17.456562+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

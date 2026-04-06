@@ -1,0 +1,12 @@
+{
+  "issue_id": "only-one-specialist-gap-remains--matchin",
+  "finding_slug": "zaremba-conjecture-proved",
+  "severity": "important",
+  "description": "The effective_range field still starts with 'all d \u2265 1' which is misleading for a framework with 6 known gaps. Downgrade to make the partial/conditional status unambiguous.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The effective_range field still starts with 'all d \u2265 1' which is misleading for a framework with 6 known gaps. Downgrade to make the partial/conditional status unambiguous.",
+  "resolved_at": "2026-04-05T00:23:31.667629+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

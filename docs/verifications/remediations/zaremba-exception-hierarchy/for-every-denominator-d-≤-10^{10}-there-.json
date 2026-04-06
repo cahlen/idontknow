@@ -1,0 +1,9 @@
+{
+  "issue_id": "for-every-denominator-d-\u2264-10^{10}-there-",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "severity": "important",
+  "description": "Add computational details section with algorithm, parallelization, runtime, and reference to reproduction logs",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add computational details section with algorithm, parallelization, runtime, and reference to reproduction logs",
+  "resolved_at": "2026-04-04T00:10:08.109241+00:00"
+}

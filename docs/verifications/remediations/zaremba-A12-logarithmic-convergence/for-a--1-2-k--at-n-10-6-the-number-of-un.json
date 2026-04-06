@@ -1,0 +1,16 @@
+{
+  "issue_id": "for-a--1-2-k--at-n-10-6-the-number-of-un",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "important",
+  "description": "Replace qualitative statement with log-log OLS regression: exponent 6.42, 95% CI [5.80, 7.04], R\u00b2 = 0.986.",
+  "status": "resolved",
+  "action_taken": "Replace qualitative statement with log-log OLS regression: exponent 6.42, 95% CI [5.80, 7.04], R\u00b2 = 0.986.",
+  "resolved_at": "2026-04-05T01:29:17.456887+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

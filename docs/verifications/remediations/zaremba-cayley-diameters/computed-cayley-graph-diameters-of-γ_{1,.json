@@ -1,0 +1,9 @@
+{
+  "issue_id": "computed-cayley-graph-diameters-of-\u03b3_{1,",
+  "finding_slug": "zaremba-cayley-diameters",
+  "severity": "important",
+  "description": "The prime count 172 is correct (\u03c0(1021)=172); the reviewer's '669' does not appear in the finding. However, the body text ratio range [1.37, 2.89] is inconsistent with the data table (p=5 has ratio 3.11) and the frontmatter [1.37, 3.11]. Fix the display equation and add a clarifying note about the prime count.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The prime count 172 is correct (\u03c0(1021)=172); the reviewer's '669' does not appear in the finding. However, the body text ratio range [1.37, 2.89] is inconsistent with the data table (p=5 has ratio 3.11) and the frontmatter [1.37, 3.11]. Fix the display equation and add a clarifying note about the prime count.",
+  "resolved_at": "2026-04-04T00:12:46.473775+00:00"
+}

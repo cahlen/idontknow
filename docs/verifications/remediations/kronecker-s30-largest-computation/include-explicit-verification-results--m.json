@@ -1,0 +1,14 @@
+{
+  "issue_id": "include-explicit-verification-results--m",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "important",
+  "description": "The finding already includes explicit values: 'For S\u2099 with n=20, max absolute row/column orthogonality error is 8.2\u00d710\u207b\u2079 \u00d7 n!; for n=30, maximum error is 6.7\u00d710\u207b\u2077 \u00d7 n!. Intermediate sum overflow checked by repeating select computations with 256-bit arithmetic (GNU MP). All outputs are non-negative integers, as verified for random samples and all maxima.' All three requested items (error for n=20, error for n=30, overflow safeguards) are present.",
+  "status": "disputed",
+  "action_taken": "The finding already includes explicit values: 'For S\u2099 with n=20, max absolute row/column orthogonality error is 8.2\u00d710\u207b\u2079 \u00d7 n!; for n=30, maximum error is 6.7\u00d710\u207b\u2077 \u00d7 n!. Intermediate sum overflow checked by repeating select computations with 256-bit arithmetic (GNU MP). All outputs are non-negative integers, as verified for random samples and all maxima.' All three requested items (error for n=20, error for n=30, overflow safeguards) are present.",
+  "resolved_at": null,
+  "commits": []
+}

@@ -1,0 +1,14 @@
+{
+  "issue_id": "cite-the-highest-n-full-table-in-the-lit",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "important",
+  "description": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
+  "status": "disputed",
+  "action_taken": "The finding already states: 'The previous highest-n full table in the literature is for n=19 [Baldoni-Bergvelt-van Willigenburg, Exp. Math., 2006]; we are not aware of any published S_20 or S_30 tables.' This directly cites the highest-n full table and clarifies no larger ones are known.",
+  "resolved_at": null,
+  "commits": []
+}

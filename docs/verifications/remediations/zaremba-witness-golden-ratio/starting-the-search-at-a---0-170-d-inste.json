@@ -1,0 +1,12 @@
+{
+  "issue_id": "starting-the-search-at-a---0-170-d-inste",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "severity": "important",
+  "description": "Hedge the speedup claim: note no controlled ablation has been performed, and the factor ~6 is a naive search-range reduction, not a measured kernel speedup",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Hedge the speedup claim: note no controlled ablation has been performed, and the factor ~6 is a naive search-range reduction, not a measured kernel speedup",
+  "resolved_at": "2026-04-05T00:16:25.167412+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

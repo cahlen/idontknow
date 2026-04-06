@@ -1,0 +1,16 @@
+{
+  "issue_id": "for-d---54-and-d---150-every-coprime-num",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
+  "status": "resolved",
+  "action_taken": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
+  "resolved_at": "2026-04-05T01:19:31.606474+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

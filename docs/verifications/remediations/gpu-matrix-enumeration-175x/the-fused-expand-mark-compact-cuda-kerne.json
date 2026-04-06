@@ -1,0 +1,10 @@
+{
+  "issue_id": "the-fused-expand-mark-compact-cuda-kerne",
+  "finding_slug": "gpu-matrix-enumeration-175x",
+  "severity": "minor",
+  "description": "Kernel source is linked (matrix_enum.cu). Finding already states 'The speedup includes contributions from both the GPU migration and kernel-level optimizations (fusion, early-exit predicates), which have not been isolated via ablation.' A proper ablation requires re-implementing an unfused baseline, which is out of scope for now. Occupancy data would require re-running with nvprof/ncu on the B200 cluster.",
+  "status": "acknowledge",
+  "action_taken": "Auto-fixed by research agent: Kernel source is linked (matrix_enum.cu). Finding already states 'The speedup includes contributions from both the GPU migration and kernel-level optimizations (fusion, early-exit predicates), which have not been isolated via ablation.' A proper ablation requires re-implementing an unfused baseline, which is out of scope for now. Occupancy data would require re-running with nvprof/ncu on the B200 cluster.",
+  "resolved_at": "2026-04-05T00:13:57.876921+00:00",
+  "commits": []
+}

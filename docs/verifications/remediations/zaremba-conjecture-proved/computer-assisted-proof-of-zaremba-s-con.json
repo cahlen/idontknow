@@ -1,0 +1,12 @@
+{
+  "issue_id": "computer-assisted-proof-of-zaremba-s-con",
+  "finding_slug": "zaremba-conjecture-proved",
+  "severity": "important",
+  "description": "The slug 'zaremba-conjecture-proved' implies a completed proof. Rename to 'zaremba-conjecture-framework' to match the actual status.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The slug 'zaremba-conjecture-proved' implies a completed proof. Rename to 'zaremba-conjecture-framework' to match the actual status.",
+  "resolved_at": "2026-04-05T00:23:31.667667+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

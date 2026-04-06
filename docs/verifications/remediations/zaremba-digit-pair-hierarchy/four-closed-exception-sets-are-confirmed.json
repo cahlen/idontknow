@@ -1,0 +1,12 @@
+{
+  "issue_id": "four-closed-exception-sets-are-confirmed",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "severity": "important",
+  "description": "Strengthen disclaimers: no proof of finiteness exists. Add upper bounds searched, clarify exhaustiveness of the bitset search within [1,N], note that {1,2,3} and {1,2,4} at 10^11 are still running. Add pointer to full exception list for {1,2,4}.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Strengthen disclaimers: no proof of finiteness exists. Add upper bounds searched, clarify exhaustiveness of the bitset search within [1,N], note that {1,2,3} and {1,2,4} at 10^11 are still running. Add pointer to full exception list for {1,2,4}.",
+  "resolved_at": "2026-04-05T00:31:00.187389+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

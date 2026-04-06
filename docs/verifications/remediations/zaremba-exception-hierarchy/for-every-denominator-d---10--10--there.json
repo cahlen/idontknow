@@ -1,0 +1,16 @@
+{
+  "issue_id": "for-every-denominator-d---10--10--there",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add precise algorithm description with parallelization strategy, runtime, memory, and log paths from actual GPU kernel (zaremba_density_gpu.cu).",
+  "status": "resolved",
+  "action_taken": "Add precise algorithm description with parallelization strategy, runtime, memory, and log paths from actual GPU kernel (zaremba_density_gpu.cu).",
+  "resolved_at": "2026-04-05T01:19:31.606061+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

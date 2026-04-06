@@ -1,0 +1,16 @@
+{
+  "issue_id": "fp64-n---40-computations-for-all-168-pri",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "zaremba-spectral-gaps-uniform_o3pro-review",
+    "zaremba-spectral-gaps-uniform_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add explicit eigensolver stopping criteria and computation parameters to the Method section, derived from the CUDA kernel source (spectral_gaps_primes.cu). The current text references 'source code' for details but reviewers rightly want the key parameters in the finding itself.",
+  "status": "resolved",
+  "action_taken": "Add explicit eigensolver stopping criteria and computation parameters to the Method section, derived from the CUDA kernel source (spectral_gaps_primes.cu). The current text references 'source code' for details but reviewers rightly want the key parameters in the finding itself.",
+  "resolved_at": "2026-04-05T01:43:28.365887+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

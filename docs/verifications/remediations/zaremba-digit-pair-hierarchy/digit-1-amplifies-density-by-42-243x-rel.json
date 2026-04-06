@@ -1,0 +1,12 @@
+{
+  "issue_id": "digit-1-amplifies-density-by-42-243x-rel",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "severity": "important",
+  "description": "Add explicit log file references so the {1,k} vs {2,k} comparison is independently checkable. The amplification numbers are correct per the logs.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Add explicit log file references so the {1,k} vs {2,k} comparison is independently checkable. The amplification numbers are correct per the logs.",
+  "resolved_at": "2026-04-05T00:31:00.187431+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

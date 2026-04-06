@@ -1,0 +1,14 @@
+{
+  "issue_id": "cannot-rule-out-unpublished-computations",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "important",
+  "description": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
+  "status": "disputed",
+  "action_taken": "The finding already uses the standard academic hedge: 'These are, to our knowledge, the largest complete Kronecker coefficient tables published' and 'we are not aware of any published S_20 or S_30 tables.' No scientific publication claims absolute primacy \u2014 'to our knowledge' is the accepted convention. The claim is accurate as stated.",
+  "resolved_at": null,
+  "commits": []
+}

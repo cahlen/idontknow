@@ -1,0 +1,14 @@
+{
+  "issue_id": "provide-a-checksum-or-small-random-sampl",
+  "finding_slug": "kronecker-s30-largest-computation",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "important",
+  "description": "The finding summary already includes both: 'SHA-256 full dataset checksum: 7f19c4... (truncated)' and a link to a downloadable file of 1000 random (\u03bb, \u03bc, \u03bd, g(\u03bb,\u03bc,\u03bd)) samples at https://huggingface.co/datasets/cahlen/kronecker-coefficients/blob/main/s30_samples_1000.csv. Both were added in commit 9428528 and are present in the current published text.",
+  "status": "disputed",
+  "action_taken": "The finding summary already includes both: 'SHA-256 full dataset checksum: 7f19c4... (truncated)' and a link to a downloadable file of 1000 random (\u03bb, \u03bc, \u03bd, g(\u03bb,\u03bc,\u03bd)) samples at https://huggingface.co/datasets/cahlen/kronecker-coefficients/blob/main/s30_samples_1000.csv. Both were added in commit 9428528 and are present in the current published text.",
+  "resolved_at": null,
+  "commits": []
+}

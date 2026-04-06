@@ -1,0 +1,12 @@
+{
+  "issue_id": "a-a--1-a--gives-an-almost-perfect-ran",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "severity": "important",
+  "description": "We now provide the actual rank-correlation (Spearman's \u03c1 ~ 0.996 at n=15, 0.992 at n=20) and note the known failure cases (e.g., E_{1,2} vs E_{3,4}).",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: We now provide the actual rank-correlation (Spearman's \u03c1 ~ 0.996 at n=15, 0.992 at n=20) and note the known failure cases (e.g., E_{1,2} vs E_{3,4}).",
+  "resolved_at": "2026-04-05T00:21:36.270443+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "issue_id": "density-drops-exponentially-with-k-and-i",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "severity": "important",
+  "description": "The claimed exponent 3-4 is wrong. OLS log-log regression on k=3..10 gives alpha=5.18, 95% CI [4.65, 5.71], R\u00b2=0.99. Fix body text and frontmatter scaling field.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: The claimed exponent 3-4 is wrong. OLS log-log regression on k=3..10 gives alpha=5.18, 95% CI [4.65, 5.71], R\u00b2=0.99. Fix body text and frontmatter scaling field.",
+  "resolved_at": "2026-04-05T00:31:00.187301+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

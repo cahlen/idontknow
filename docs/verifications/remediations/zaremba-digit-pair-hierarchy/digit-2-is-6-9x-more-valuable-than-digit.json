@@ -1,0 +1,12 @@
+{
+  "issue_id": "digit-2-is-6-9x-more-valuable-than-digit",
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "severity": "important",
+  "description": "Replace loose 'value' language with precise density-ratio definition. The 6.9x number is correct (76.55/11.06=6.92) but 'value' is undefined.",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Replace loose 'value' language with precise density-ratio definition. The 6.9x number is correct (76.55/11.06=6.92) but 'value' is undefined.",
+  "resolved_at": "2026-04-05T00:31:00.187349+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

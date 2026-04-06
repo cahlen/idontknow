@@ -1,0 +1,14 @@
+{
+  "issue_id": "all-1-214-square-free-moduli-m---1-999-h",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "zaremba-spectral-gaps-uniform_o3pro-review",
+    "zaremba-spectral-gaps-uniform_peer-review"
+  ],
+  "severity": "minor",
+  "description": "The three tightest gaps (m=1469: 0.237, m=638: 0.258, m=34: 0.271) were computed at N=15 Chebyshev collocation only, which gives ~2-3 decimal accuracy. The N=40 FP64 computation was performed only for the 168 primes p \u2264 1000, not for composite moduli. To provide convergence data and rigorous enclosures, we need to re-run m=1469, 638, and 34 at N=20, 25, 30, 35, 40 with FP64 and compare the gap values across resolutions. The finding already notes the N=15 limitation (line 54) but the requested convergence study has not been performed yet.",
+  "status": "acknowledged",
+  "action_taken": "The three tightest gaps (m=1469: 0.237, m=638: 0.258, m=34: 0.271) were computed at N=15 Chebyshev collocation only, which gives ~2-3 decimal accuracy. The N=40 FP64 computation was performed only for the 168 primes p \u2264 1000, not for composite moduli. To provide convergence data and rigorous enclosures, we need to re-run m=1469, 638, and 34 at N=20, 25, 30, 35, 40 with FP64 and compare the gap values across resolutions. The finding already notes the N=15 limitation (line 54) but the requested convergence study has not been performed yet.",
+  "resolved_at": null,
+  "commits": []
+}

@@ -1,0 +1,14 @@
+{
+  "issue_id": "a-chebyshev-collocation-grid-with-n---15",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "hausdorff-digit-one-dominance_o3pro-review",
+    "hausdorff-digit-one-dominance_peer-review"
+  ],
+  "severity": "important",
+  "description": "Auto-demoted from fix: fix only adds hedging (2 hedge phrases, no concrete data). Tried to add hedge about truncation",
+  "status": "acknowledged",
+  "action_taken": "Auto-demoted from fix: fix only adds hedging (2 hedge phrases, no concrete data). Tried to add hedge about truncation",
+  "resolved_at": null,
+  "commits": []
+}

@@ -1,0 +1,16 @@
+{
+  "issue_id": "sum-1-a-2-gives-an-almost-perfect-rank-c",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "hausdorff-digit-one-dominance_o3pro-review",
+    "hausdorff-digit-one-dominance_peer-review"
+  ],
+  "severity": "important",
+  "description": "Added Spearman correlation from spectrum data",
+  "status": "resolved",
+  "action_taken": "Added Spearman correlation from spectrum data",
+  "resolved_at": "2026-04-05T00:34:42.905592+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

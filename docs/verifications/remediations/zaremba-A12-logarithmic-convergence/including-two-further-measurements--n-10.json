@@ -1,0 +1,16 @@
+{
+  "issue_id": "including-two-further-measurements--n-10",
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "found_by_reviews": [
+    "zaremba-A12-logarithmic-convergence_o3pro-review",
+    "zaremba-A12-logarithmic-convergence_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Update frontmatter: replace predicted_density_1e12 with measured 84.58%, add density_1e11/1e12, add R\u00b2=0.9984, note all 5 values are empirical.",
+  "status": "resolved",
+  "action_taken": "Update frontmatter: replace predicted_density_1e12 with measured 84.58%, add density_1e11/1e12, add R\u00b2=0.9984, note all 5 values are empirical.",
+  "resolved_at": "2026-04-05T01:29:17.456641+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}

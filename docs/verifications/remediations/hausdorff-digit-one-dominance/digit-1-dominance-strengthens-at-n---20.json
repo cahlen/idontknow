@@ -1,0 +1,14 @@
+{
+  "issue_id": "digit-1-dominance-strengthens-at-n---20",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "hausdorff-digit-one-dominance_o3pro-review",
+    "hausdorff-digit-one-dominance_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
+  "status": "acknowledged",
+  "action_taken": "Need to run N=25,35 convergence study to bound error on delta=0.002. Existing data only has N=15/40.",
+  "resolved_at": null,
+  "commits": []
+}

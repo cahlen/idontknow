@@ -1,0 +1,14 @@
+{
+  "issue_id": "the-finding-merits-a-gold-certification",
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "found_by_reviews": [
+    "hausdorff-digit-one-dominance_o3pro-review",
+    "hausdorff-digit-one-dominance_peer-review"
+  ],
+  "severity": "important",
+  "description": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
+  "status": "disputed",
+  "action_taken": "Already silver \u2014 the o3-pro reviewer is right and this was already fixed in a prior remediation.",
+  "resolved_at": null,
+  "commits": []
+}

@@ -1,0 +1,12 @@
+{
+  "issue_id": "the-bound-a---5-is-tight--99-9---of-modu",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "severity": "important",
+  "description": "Clarify that the 99.91% statistic refers only to the minimal witness, not global non-existence of A=4 witnesses",
+  "status": "resolved",
+  "action_taken": "Auto-fixed by research agent: Clarify that the 99.91% statistic refers only to the minimal witness, not global non-existence of A=4 witnesses",
+  "resolved_at": "2026-04-05T00:16:25.167366+00:00",
+  "commits": [
+    "5e8a56f"
+  ]
+}
