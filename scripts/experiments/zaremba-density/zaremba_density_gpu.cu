@@ -350,11 +350,15 @@ int main(int argc, char **argv) {
     printf("Density: %.10f%%\n", 100.0 * covered / max_d);
     printf("Uncovered: %llu\n", (unsigned long long)uncovered);
 
-    if (uncovered > 0 && uncovered <= 100) {
+    if (uncovered > 0 && uncovered <= 1000 && max_d <= 100000000ULL) {
+        // Only scan on CPU for small ranges — avoids minutes-long loop at 10^11+
         printf("Uncovered d:");
         for (uint64 d = 1; d <= max_d; d++)
             if (!(h_bs[d>>3] & (1 << (d&7)))) printf(" %llu", (unsigned long long)d);
         printf("\n");
+    } else if (uncovered > 0 && uncovered <= 1000) {
+        printf("(Uncovered list omitted for large range — %llu entries, use checkpoint to extract)\n",
+               (unsigned long long)uncovered);
     }
 
     printf("Time: %.1fs (enum: %.1fs)\n", total_time, enum_time);
