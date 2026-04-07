@@ -908,6 +908,133 @@ def deploy(dry_run=False, direct_push=False):
             )
 
 
+# ── Phase 7b: Upload large data to Hugging Face ─────────────
+
+# Map experiment directories to their HF dataset repo names.
+# The HF user/org is read from HF_USER env var (default: cahlen).
+HF_USER = os.environ.get("HF_USER", "cahlen")
+HF_REPO_NAMES = {
+    "ramanujan-machine": "ramanujan-machine-results",
+    "zaremba-density": "zaremba-density",
+    "kronecker-coefficients": "kronecker-coefficients",
+    "hausdorff-spectrum": "hausdorff-dimension-spectrum",
+    "class-numbers": "class-numbers-real-quadratic",
+    "lyapunov-spectrum": "continued-fraction-spectra",
+    "zaremba-transfer-operator": "zaremba-conjecture-data",
+    "zaremba-effective-bound": "zaremba-conjecture-data",
+}
+HF_DATASET_MAP = {k: f"{HF_USER}/{v}" for k, v in HF_REPO_NAMES.items()}
+
+# File patterns to upload (skip checkpoints and huge binaries)
+HF_UPLOAD_PATTERNS = ["*.csv", "*.log", "*.json", "*.parquet", "*.txt"]
+HF_SKIP_PATTERNS = ["checkpoint_*", "*.bin", "*.npz"]
+
+
+def upload_to_huggingface(dry_run=False):
+    """Upload experiment results to the corresponding HF dataset repo.
+
+    Per CLAUDE.md: small data (<100MB) stays in git, large data goes to HF.
+    Checks what's already in the HF repo to avoid uploading duplicates.
+    Files are placed in the repo's existing directory structure:
+      - hit CSVs → data/ or results/
+      - run logs → logs/
+    """
+    hf_token = os.environ.get("HF_TOKEN", "")
+    if not hf_token:
+        return
+
+    try:
+        from huggingface_hub import HfApi
+        import httpx
+    except ImportError:
+        log("huggingface_hub not installed — skipping HF upload", "WARN")
+        return
+
+    api = HfApi(token=hf_token)
+
+    def get_remote_files(repo_id):
+        """Get dict of {path: size} for all files in a HF dataset repo."""
+        remote = {}
+        try:
+            for entry in api.list_repo_tree(repo_id, repo_type="dataset", recursive=True):
+                if hasattr(entry, 'size') and entry.size is not None:
+                    remote[entry.rfilename] = entry.size
+        except Exception:
+            pass
+        return remote
+
+    exp_dir = REPO_ROOT / "scripts" / "experiments"
+    for exp in exp_dir.iterdir():
+        if not exp.is_dir():
+            continue
+        results_dir = exp / "results"
+        if not results_dir.exists():
+            continue
+
+        repo_id = HF_DATASET_MAP.get(exp.name)
+        if not repo_id:
+            continue
+
+        # Get what's already in the HF repo
+        remote_files = get_remote_files(repo_id)
+
+        # Collect local files to potentially upload
+        files_to_upload = []
+        for pattern in HF_UPLOAD_PATTERNS:
+            for f in results_dir.glob(pattern):
+                if any(f.match(skip) for skip in HF_SKIP_PATTERNS):
+                    continue
+
+                local_size = f.stat().st_size
+                if local_size == 0:
+                    continue
+
+                # Determine path in repo based on file type
+                if f.suffix == ".log":
+                    path_in_repo = f"logs/{f.name}"
+                elif f.suffix == ".csv":
+                    path_in_repo = f"results/{f.name}"
+                else:
+                    path_in_repo = f"results/{f.name}"
+
+                # Check against remote: skip if same file exists with same or larger size
+                # Check all possible paths — repos use various structures
+                remote_size = 0
+                for check_path in [path_in_repo, f"data/{f.name}", f"results/{f.name}",
+                                   f"logs/{f.name}", f.name]:
+                    remote_size = max(remote_size, remote_files.get(check_path, 0))
+
+                if remote_size >= local_size:
+                    continue  # already uploaded at this size or larger
+
+                files_to_upload.append((f, path_in_repo, local_size, remote_size))
+
+        if not files_to_upload:
+            continue
+
+        total_size = sum(s for _, _, s, _ in files_to_upload)
+        log(f"HF upload: {exp.name} → {repo_id} ({len(files_to_upload)} files, {total_size/1e6:.1f} MB)")
+
+        if dry_run:
+            for f, path, size, rsize in files_to_upload[:5]:
+                status = "NEW" if rsize == 0 else f"UPDATE {rsize/1e6:.1f}→{size/1e6:.1f} MB"
+                log(f"  [DRY RUN] {path} ({status})")
+            continue
+
+        for f, path_in_repo, local_size, remote_size in files_to_upload:
+            try:
+                api.upload_file(
+                    path_or_fileobj=str(f),
+                    path_in_repo=path_in_repo,
+                    repo_id=repo_id,
+                    repo_type="dataset",
+                )
+                status = "NEW" if remote_size == 0 else "UPDATED"
+                log(f"  {status}: {path_in_repo} ({local_size/1e6:.1f} MB)")
+            except Exception as e:
+                log(f"  HF upload failed for {f.name}: {e}", "WARN")
+
+
 # ── Phase 8: Plan Next ───────────────────────────────────────
 
 def get_launchable_binaries():
@@ -1181,6 +1308,10 @@ def tick(args, state):
     if not phase or phase == "deploy":
         if analyses or (phase == "deploy"):
             deploy(dry_run, direct_push=args.direct_push)
+
+    # Phase 7b: Upload large data to Hugging Face
+    if not phase or phase == "deploy":
+        upload_to_huggingface(dry_run)
 
     # Phase 8: Plan
     if not phase or phase == "plan":

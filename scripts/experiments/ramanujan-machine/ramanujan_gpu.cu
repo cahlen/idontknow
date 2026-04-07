@@ -442,6 +442,7 @@ int main(int argc, char **argv) {
                 }
                 total_hits = h_hit_count;
                 free(h_hits);
+                if (fout) fflush(fout);
             }
 
             clock_gettime(CLOCK_MONOTONIC, &t1);

@@ -17,6 +17,14 @@ The core mission is running expensive GPU computations on open problems (Zaremba
 Any raw data processed on the GPU cluster MUST be preserved and documented:
 - **Small data** (< 100MB): commit directly to the `data/` directory in this repo with a descriptive log file
 - **Large data** (> 100MB): upload to a corresponding Hugging Face dataset repo (https://huggingface.co/cahlen) with a README documenting the computation parameters, hardware, date, and how to reproduce
+- **HF dataset repos** (already exist — do NOT create new ones):
+  - `cahlen/ramanujan-machine-results` — hit CSVs and run logs
+  - `cahlen/zaremba-density` — density sweep results
+  - `cahlen/zaremba-conjecture-data` — transfer operator, spectral gaps, effective bound data
+  - `cahlen/kronecker-coefficients` — S20/S30/S40 character tables and Kronecker triples
+  - `cahlen/hausdorff-dimension-spectrum` — full spectrum CSVs and metadata
+  - `cahlen/continued-fraction-spectra` — Lyapunov, Minkowski, prime convergent, Flint Hills data
+  - `cahlen/class-numbers-real-quadratic` — class number Parquet files
 - **All computations** must have their output logged to a file (never just stdout) with timestamps, parameters, and aggregate statistics
 - **Intermediate results** (e.g., per-chunk statistics) should be saved incrementally so partial runs are not lost
 - **Log files** go in `logs/` or `data/<experiment>/` with descriptive names like `run_1e9_1e10.log`
