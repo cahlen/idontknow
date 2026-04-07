@@ -20,7 +20,7 @@ Any raw data processed on the GPU cluster MUST be preserved and documented:
 - **HF dataset repos** (already exist — do NOT create new ones):
   - `cahlen/ramanujan-machine-results` — hit CSVs and run logs
   - `cahlen/zaremba-density` — density sweep results (canonical for ALL density data)
-  - `cahlen/zaremba-conjecture-data` — proof infrastructure: transfer operator, spectral gaps, representation counts (NO density data — that goes in zaremba-density)
+  - `cahlen/zaremba-conjecture-data` — computational proof framework: transfer operator, spectral gaps, representation counts (NO density data — that goes in zaremba-density)
   - `cahlen/kronecker-coefficients` — S20/S30/S40 character tables and Kronecker triples
   - `cahlen/hausdorff-dimension-spectrum` — full spectrum CSVs and metadata
   - `cahlen/continued-fraction-spectra` — Lyapunov, Minkowski, prime convergent, Flint Hills data
