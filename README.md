@@ -27,7 +27,7 @@ Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigco
 | **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ infeasible (63 TB). | S₄₀ complete |
 | **Class Numbers** | Complete to 10¹¹. h=1 rate falls to 0 (genus theory). Extending to 10¹³. | In progress |
 | **Hausdorff Spectrum** | First complete dim_H for all 2²⁰-1 subsets of {1,...,20}. | Complete |
-| **Ramanujan Machine** | 586B+ candidates through degree 7, zero transcendental formulas. Degree 4-6 sweeps running. | In progress |
+| **Ramanujan Machine** | 586B+ equal-degree CFs exhausted (0 new formulas, 7K false positives disproven via PSLQ). v2 asymmetric-degree kernel built — deg(b)≈2×deg(a) required. | Pivoting to v2 |
 | **Prime Convergents** | 10M random CFs verified Erdős-Mahler bound. Worst-case ratio 4.87, constant ~10 suffices. | Complete |
 | **Erdős-Straus** | Solution counts f(p) for 4/p = 1/x + 1/y + 1/z. All primes to 10⁸. | In progress |
 | **Lyapunov Spectrum** | All 1,048,575 Lyapunov exponents. | Complete |

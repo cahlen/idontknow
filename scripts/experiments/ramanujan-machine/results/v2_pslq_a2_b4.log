@@ -1,0 +1,14 @@
+Multi-constant PSLQ scanner
+Precision: 100 digits
+Constants: pi, e, ln2, gamma, Catalan, zeta3, zeta5, sqrt2, phi, pi2, sqrtpi, Glaisher
+============================================================
+Sampling 3000 of 1000000 rows
+Processing 3000 unmatched CFs
+
+============================================================
+PSLQ SCAN COMPLETE — 146.0s
+============================================================
+  Checked: 899, Errors: 2101
+  Discoveries: 0
+
+  Results: scripts/experiments/ramanujan-machine/results/v2_pslq_discoveries_a2_b4_r6_6.json

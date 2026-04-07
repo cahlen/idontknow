@@ -1,0 +1,9 @@
+{
+  "input_file": "scripts/experiments/ramanujan-machine/results/v2_unmatched_a2_b4_r6_6.csv",
+  "total_rows": 3000,
+  "checked": 899,
+  "errors": 2101,
+  "discoveries": 0,
+  "discovery_details": [],
+  "elapsed_seconds": 146.0101761817932
+}

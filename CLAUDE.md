@@ -76,18 +76,28 @@ Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀
 ### Hausdorff Dimension Spectrum (Complete — RTX 5090)
 First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A ⊆ {1,...,20}. Transfer operator + Chebyshev collocation on RTX 5090. Validated against Jenkinson-Pollicott (E_{1,2}) and Zaremba (E_{1,...,5}). Dataset does not exist anywhere in the literature.
 
-### Ramanujan Machine (In Progress — GPU formula discovery)
+### Ramanujan Machine (Pivoting — v1 exhausted, v2 kernel built)
 *Discover new continued fraction formulas for mathematical constants.*
 
-**What's done:**
-- [x] CUDA kernel v3: 10 base constants + 29 compound expressions + zero-value filter
-- [x] Degree 1-7 complete: 586B+ candidates, zero confirmed transcendentals
-- [x] Degree 4 range [-4,4]: 3.5B candidates, 53M hits (all algebraic/sqrt(2)), 345s
-- [x] Degree 5 range [-2,2]: 244M candidates, 5.6M hits, 24s
-- [x] Degree 6 range [-2,2]: 6.1B candidates (in progress)
-- [x] Degree 3 range [-11,11]: 78B candidates (in progress)
-- [ ] Degree 4-6 full sweep with high-precision PSLQ verification
-- [ ] GPU PSLQ implementation for eliminating double-precision false positives
+**v1 kernel (same-degree, COMPLETE — no new discoveries):**
+- [x] CUDA kernel v1: 10 base constants + 29 compound expressions, deg(P)=deg(Q)
+- [x] Degree 1-8 complete: 586B+ candidates swept
+- [x] High-precision PSLQ verification (verify_hits.py): ALL 7,030 transcendental "hits" were double-precision false positives. Zero new transcendental CF formulas.
+- [x] 20 confirmed formulas — all classical (Euler's e, Brouncker's 4/pi, Leibniz pi/4, 1/ln(2))
+- **v1 is done. Equal-degree polynomial CFs with small integer coefficients are exhausted.**
+
+**Key finding: the v1 kernel searched the WRONG degree regime.** Every known CF formula for transcendentals has deg(numerator) ≈ 2× deg(denominator). v1 forced equal degrees (ratio=1), which only produces algebraic numbers.
+
+**v2 kernel (asymmetric-degree, IN PROGRESS):**
+- [x] CUDA kernel v2 (`ramanujan_v2.cu`): independent deg_a/deg_b, saves unmatched CFs for offline PSLQ
+- [x] Validation run (1,2) range 10: 48 confirmed transcendental formulas (pi/4, 4/pi, 1/pi, Gauss, 1/ln(2))
+- [x] (2,4) range 6: 816M candidates, 521M converged CFs, PSLQ scan of sample found 0 new formulas
+- [x] PSLQ scanner (`pslq_scan.py`): multi-constant PSLQ for offline discovery
+- [ ] (2,4) at larger ranges (range 15-20) — the productive zone per Raayoni et al.
+- [ ] (3,6) Apéry-type sweep — where zeta(3) formulas live
+- [ ] Conservative Matrix Field (CMF) search — matrix pairs, not individual CFs
+- **DO NOT launch v1 kernel runs** — they cannot find new transcendentals (proven)
+- **DO NOT launch deg6 range>=5 or deg5 range>=6 on v1** — 380T+ candidates, 400+ days
 
 ### Prime Convergents (NEW — GPU verification of Erdos-Mahler bound)
 *Extends Humphreys (2013, NCUR/Boise State) with GPU-scale computation.*

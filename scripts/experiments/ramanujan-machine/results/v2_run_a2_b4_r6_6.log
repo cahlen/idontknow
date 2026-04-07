@@ -1,0 +1,43 @@
+========================================
+Ramanujan Machine v2 (asymmetric degree)
+========================================
+a(n) degree: 2, coefficients: [-6, 6]
+b(n) degree: 4, coefficients: [-6, 6]
+Degree ratio: 2.00 (OPTIMAL for transcendentals)
+CF evaluation depth: 300 terms
+Total candidates: 815730721 (8.16e+08)
+GPU: 0
+========================================
+
+  HIT: a=(-5,-6,-5) b=(6,4,-5,-6,-6) → 2 = sqrt(2)^(2/1)
+  HIT: a=(6,6,5) b=(0,-4,-4,-6,-6) → 2 = sqrt(2)^(2/1)
+  HIT: a=(4,6,5) b=(0,0,-4,-6,-6) → 4 = sqrt(2)^(4/1)
+  0.1% (1000000/815730721) 3 matched, 306145 unmatched, 3384642/sec, ETA 241s
+  12.4% (101000000/815730721) 567757 matched, 32768443 unmatched, 9520620/sec, ETA 75s
+  24.6% (201000000/815730721) 1274573 matched, 69233916 unmatched, 9306687/sec, ETA 66s
+  36.9% (301000000/815730721) 2087990 matched, 124504169 unmatched, 8218081/sec, ETA 63s
+  49.2% (401000000/815730721) 2720219 matched, 175083069 unmatched, 8041044/sec, ETA 52s
+  61.4% (501000000/815730721) 3240459 matched, 232826321 unmatched, 7820011/sec, ETA 40s
+  73.7% (601000000/815730721) 4080521 matched, 324667758 unmatched, 6933871/sec, ETA 31s
+  85.9% (701000000/815730721) 4764842 matched, 416292961 unmatched, 6419967/sec, ETA 18s
+  98.2% (801000000/815730721) 5414437 matched, 507950567 unmatched, 6080780/sec, ETA 2s
+  100.0% (815730721/815730721) 5451356 matched, 521511138 unmatched, 6040538/sec, ETA 0s
+
+========================================
+Ramanujan Machine v2 Results
+========================================
+a(n): deg=2 range=[-6,6]
+b(n): deg=4 range=[-6,6]
+Degree ratio: 2.00
+Candidates: 815730721 (8.16e+08)
+Matched hits: 5451356
+Unmatched converged: 521511138 (saved for PSLQ)
+Time: 135.0s (6040537 candidates/sec)
+Hits CSV: scripts/experiments/ramanujan-machine/results/v2_hits_a2_b4_r6_6.csv
+Unmatched CSV: scripts/experiments/ramanujan-machine/results/v2_unmatched_a2_b4_r6_6.csv
+========================================
+
+Next step: run PSLQ verification on matched hits:
+  python3 scripts/experiments/ramanujan-machine/verify_hits.py scripts/experiments/ramanujan-machine/results/v2_hits_a2_b4_r6_6.csv
+Next step: run multi-constant PSLQ on unmatched CFs:
+  python3 scripts/experiments/ramanujan-machine/pslq_scan.py scripts/experiments/ramanujan-machine/results/v2_unmatched_a2_b4_r6_6.csv
