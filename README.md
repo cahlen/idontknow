@@ -22,19 +22,21 @@ Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigco
 | Experiment | Key Result | Status |
 |---|---|---|
 | **Zaremba Conjecture** | Proof framework (not complete proof). 210B verified, ρ_η ≤ 0.7606 (arb-certified, 77 digits). 4 gaps remain. | [Paper](paper/zaremba-proof.pdf) |
-| **Zaremba Density** | 4 closed exception sets: {1,2,3}=27, {1,2,4}=64, {1,2,5}=374, {1,2,6}=1,834. A={1,2} logarithmic convergence. | In progress |
+| **Zaremba Density** | 5 closed exception sets ({1,2,3}=27 through {1,2,7}=7,178). A={1,2} logarithmic convergence (31.5 + 4.47·log₁₀N). Inverse-square amplification law. | In progress |
 | **Ramsey R(5,5)** | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
-| **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ computing. | In progress |
-| **Class Numbers** | 30B discriminants. h=1 rate falls to 0 (genus theory). | In progress |
+| **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ infeasible (63 TB). | S₄₀ complete |
+| **Class Numbers** | Complete to 10¹¹. h=1 rate falls to 0 (genus theory). Extending to 10¹³. | In progress |
 | **Hausdorff Spectrum** | First complete dim_H for all 2²⁰-1 subsets of {1,...,20}. | Complete |
-| **Ramanujan Machine** | 586B candidates through degree 7, zero transcendental formulas. | In progress |
+| **Ramanujan Machine** | 586B+ candidates through degree 7, zero transcendental formulas. Degree 4-6 sweeps running. | In progress |
+| **Prime Convergents** | 10M random CFs verified Erdős-Mahler bound. Worst-case ratio 4.87, constant ~10 suffices. | Complete |
+| **Erdős-Straus** | Solution counts f(p) for 4/p = 1/x + 1/y + 1/z. All primes to 10⁸. | In progress |
 | **Lyapunov Spectrum** | All 1,048,575 Lyapunov exponents. | Complete |
 | **Minkowski ?(x)** | First numerical singularity spectrum f(α). | Complete |
 | **Flint Hills** | Partial sums to 10¹⁰. | Complete |
 
 ## Review Infrastructure
 
-Every finding is AI-audited claim-by-claim by multiple models. Currently **41 reviews** from **4 models** across **3 providers**.
+Every finding is AI-audited claim-by-claim by multiple models. Currently **53 reviews** from **7 models** across **3 providers**. 210 issues discovered, 207 resolved (98.6%).
 
 ```bash
 # Run a review (any OpenAI-compatible API)
