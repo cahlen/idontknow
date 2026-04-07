@@ -9,11 +9,11 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "minor",
-  "description": "Add SHA-256 checksum of the 10^10 bitset, explicit reproduction script/command, and require upload or inclusion of replication logs.",
+  "description": "Add the SHA256 checksum for the computed bitset and attach the reproduction script and SHA-256 of the log file for independent verification.",
   "status": "resolved",
-  "action_taken": "Add SHA-256 checksum of the 10^10 bitset, explicit reproduction script/command, and require upload or inclusion of replication logs.",
-  "resolved_at": "2026-04-06T22:18:58.754673+00:00",
+  "action_taken": "Add the SHA256 checksum for the computed bitset and attach the reproduction script and SHA-256 of the log file for independent verification.",
+  "resolved_at": "2026-04-07T00:10:55.887143+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

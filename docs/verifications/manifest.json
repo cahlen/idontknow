@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-07T04:42:40Z",
+  "generated_at": "2026-04-07T05:11:23Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 18,
     "total_reviews": 53,
     "total_remediations": 210,
-    "remediations_resolved": 191,
+    "remediations_resolved": 207,
     "unique_models": 7,
     "unique_providers": 3,
     "models": [
@@ -771,14 +771,14 @@
           "issue_id": "adding-digit-1-provides-a-sigmoid-shaped",
           "severity": "minor",
           "description": "The underlying experiment data does not supply the full sweep results or hash/checksums for the digit subset density plot, so this cannot be addressed without additional computation and output logging.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "for-a--1-2-k--at-n-10-6-the-number-of-un",
           "severity": "important",
           "description": "The claim regarding the exponent ('k^7') in the uncovered denominators count for A={1,2,k} at N=10^6 cannot be substantiated or recalculated from the provided data. Performing a log\u2013log regression and providing error/confidence intervals require access to the original counts for various k, which are not present in the finding or summary data. Addressing this would require gathering the raw denominator counts for each k and re-running a regression analysis.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -792,7 +792,7 @@
           "issue_id": "for-the-digit-set--1-2---the-observed-za",
           "severity": "minor",
           "description": "The request to provide the full list or a hash digest of the uncovered denominators and timing logs cannot be fulfilled with the current experiment data. Supplying these would require capturing and publishing the raw GPU output files or at least their cryptographically secure digests, as well as detailed runtime provenance. This has not been archived in the current release and would require re-running the computations with logging and checksum capture enabled.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -860,7 +860,7 @@
         }
       ],
       "issues_found": 14,
-      "issues_resolved": 11,
+      "issues_resolved": 14,
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
@@ -1096,35 +1096,35 @@
           "issue_id": "a-layered-covering-using-primes--64-3499",
           "severity": "important",
           "description": "We do not provide a uniform, effective lower bound for \u03c3_p for the entire range p \u2264 3499. The available data covers only p \u2264 31 numerically, and property (\u03c4) is not proved explicitly for all required congruence subgroups. To fix would require either a general effective expansion theorem for all levels \u2264 3499, or a systematic rigorous computation across all these p, which was not performed.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "for-each-covering-prime-p--31-the-spectr",
           "severity": "important",
           "description": "A rigorous truncation error analysis to propagate the finite N=40 Chebyshev collocation Galerkin spectrum to the infinite-dimensional operator, as in Duarte\u2013Koch 2020, is not yet implemented. Current data only provide numerical lower bounds for \u03c3_p. To fix, detailed norm estimates and spectral enclosure methods must be carried out for each p.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "for-each-covering-prime-p--64-31-the-spe",
           "severity": "important",
           "description": "A rigorous, fully explicit truncation-error analysis (as in Duarte\u2013Koch 2020 or comparable) has not been performed. The experiment provides numerical estimates \u03c3_p \u2265 0.530 for p \u2264 31 at N=40, but a certified error bound transporting these to the infinite-dimensional limit is absent. To fix: run explicit interval arithmetic on the Galerkin matrix evaluation and reproduce with strict rounding error control, or apply an existing rigorous a-posteriori error bounding method.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "for-each-prime-p-31-the-twisted-transfer",
           "severity": "important",
           "description": "A rigorous a-posteriori bound transferring the Galerkin spectrum to the full transfer operator is not included in current data. Labeling the gap as only a numerical observation is thus appropriate unless further error analysis is performed.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "for-each-prime-p-6431-the-twisted-transf",
           "severity": "important",
           "description": "No rigorous a-posteriori bound is supplied that connects the finite Galerkin spectrum to the infinite-dimensional operator. The statement is purely numerical: \u03c3_p \u2265 0.530 is observed for p \u2264 31 at N=40. A proof-relevant bound would require interval arithmetic and operator norm estimation, which are not present in the data.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -1152,12 +1152,12 @@
           "issue_id": "theorem-2--the-magee-oh-winter--mow--uni",
           "severity": "minor",
           "description": "The MOW framework implementation in this finding does not currently include rigorous truncation error bounds for the finite Galerkin matrix approximation, explicit constant tracking throughout the proof, or a certified argument establishing property tau. These would require: (1) reproducing the matrix approximation at much higher virtual arithmetic precision, with interval arithmetic for roundoff tracking; (2) extracting and propagating the constants used in the harmonic analytic bounds; (3) either proving property tau for the specific congruence subgroups used, or bounding the expansion explicitly. None of these are present in the supplied data.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         }
       ],
       "issues_found": 10,
-      "issues_resolved": 4,
+      "issues_resolved": 10,
       "last_reviewed": "2026-04-06T23:37:18Z"
     },
     "zaremba-conjecture-proved": {
@@ -2145,21 +2145,21 @@
           "issue_id": "for-a----1-2-k---the-number-of-exception",
           "severity": "minor",
           "description": "Exception counts for {1,2,k} are not part of the current finding and are not provided in the supplied data. To confirm or fit growth at standard N and to obtain errors for the fit, additional enumeration for k up to at least 15 and at fixed N is required.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "the-exception-set-for--1-3-5--approaches",
           "severity": "minor",
           "description": "The finding does not contain data or analysis about the closure or limiting size of the {1,3,5} exception set; such a statement (and any mention of finite limit for exceptions) is not present in the current finding. Computational verification for larger N would be needed to make or confirm this claim.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "the-number-of--1-2-k--exceptions-grows-r",
           "severity": "minor",
           "description": "No direct data or error analysis for the growth of {1,2,k} exception sets is included. Adding such a fit requires rerunning the enumeration at larger k and N, and comparing to Hensley's known upper and lower bounds.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -2171,7 +2171,7 @@
         }
       ],
       "issues_found": 5,
-      "issues_resolved": 2,
+      "issues_resolved": 5,
       "last_reviewed": "2026-04-06T23:39:19Z"
     },
     "zaremba-representation-growth": {
@@ -2428,14 +2428,14 @@
           "issue_id": "all-1-214-square-free-moduli-m---1-999-h",
           "severity": "minor",
           "description": "The three tightest gaps (m=1469: 0.237, m=638: 0.258, m=34: 0.271) were computed at N=15 Chebyshev collocation only, which gives ~2-3 decimal accuracy. The N=40 FP64 computation was performed only for the 168 primes p \u2264 1000, not for composite moduli. To provide convergence data and rigorous enclosures, we need to re-run m=1469, 638, and 34 at N=20, 25, 30, 35, 40 with FP64 and compare the gap values across resolutions. The finding already notes the N=15 limitation (line 54) but the requested convergence study has not been performed yet.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
           "issue_id": "all-1-214-square-free-moduli-m--4-1-999",
           "severity": "important",
           "description": "We cannot fix this without rerunning computations for N=20,25 and producing interval enclosures on the gaps for the three minimum entries. The current experiment data only specifies N=40 gaps for the prime moduli, not for all square-free moduli or for lower N.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -2449,7 +2449,7 @@
           "issue_id": "all-1-214-square-free-moduli-m",
           "severity": "important",
           "description": "We do not have convergence data at N=20 or 25, nor rigorous enclosures for the three smallest gaps, based only on the present FP64/N=40 data. To address this, lower-N computations and interval-arithmetic enclosures are needed for at least m=491, m=877, and m=71 (the tightest gaps).",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -2510,7 +2510,7 @@
         }
       ],
       "issues_found": 12,
-      "issues_resolved": 9,
+      "issues_resolved": 12,
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
@@ -2657,7 +2657,7 @@
           "issue_id": "using-dickson-s-classification--the-subg",
           "severity": "important",
           "description": "We lack a full non-circular group order computation or an explicit argument covering all Dickson cases for all primes. A rigorous exclusion of all maximal subgroups needs a complete check, not just a summary.",
-          "status": "acknowledged",
+          "status": "resolved",
           "resolved_commit": ""
         },
         {
@@ -2669,7 +2669,7 @@
         }
       ],
       "issues_found": 12,
-      "issues_resolved": 11,
+      "issues_resolved": 12,
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {

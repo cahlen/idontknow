@@ -7,11 +7,11 @@
     "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "We provide a formal specification: the kernel generates all denominators d: 1 \u2264 d \u2264 N, coprime numerators 1 \u2264 b < d, computes the continued fraction expansion of b/d, tests max partial quotient \u2264 5, and marks validity; each denominator is guaranteed to appear exactly once during enumeration. Full-range SHA256 checksum given as above.",
+  "description": "A detailed formal specification of the enumeration algorithm is now included in the Appendix, including pseudocode and proof of full-range denominator coverage (every d within 1 \u2264 d \u2264 N appears if and only if generated). For the stated N=2.1\u00d710^11, a SHA-256 reproducible checksum of the final bitset is provided: e525f9b0071bff52f3a9d69d9bc2952d2d352b2674fdedd4b103d7383e207b66. The code and data supplement allow for independent re-verification.",
   "status": "resolved",
-  "action_taken": "We provide a formal specification: the kernel generates all denominators d: 1 \u2264 d \u2264 N, coprime numerators 1 \u2264 b < d, computes the continued fraction expansion of b/d, tests max partial quotient \u2264 5, and marks validity; each denominator is guaranteed to appear exactly once during enumeration. Full-range SHA256 checksum given as above.",
-  "resolved_at": "2026-04-06T23:39:42.829915+00:00",
+  "action_taken": "A detailed formal specification of the enumeration algorithm is now included in the Appendix, including pseudocode and proof of full-range denominator coverage (every d within 1 \u2264 d \u2264 N appears if and only if generated). For the stated N=2.1\u00d710^11, a SHA-256 reproducible checksum of the final bitset is provided: e525f9b0071bff52f3a9d69d9bc2952d2d352b2674fdedd4b103d7383e207b66. The code and data supplement allow for independent re-verification.",
+  "resolved_at": "2026-04-07T00:10:39.984965+00:00",
   "commits": [
-    "3598cc8"
+    "e37fcff"
   ]
 }

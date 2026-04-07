@@ -9,11 +9,11 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "minor",
-  "description": "Supply formal claim, cite known reference, and connect to presence of digit 1 in data.",
+  "description": "Add explicit reference to Bourgain and Fuchs (2011), and cite Lemma 2 therein.",
   "status": "resolved",
-  "action_taken": "Supply formal claim, cite known reference, and connect to presence of digit 1 in data.",
-  "resolved_at": "2026-04-06T22:18:58.754869+00:00",
+  "action_taken": "Add explicit reference to Bourgain and Fuchs (2011), and cite Lemma 2 therein.",
+  "resolved_at": "2026-04-07T00:10:55.887303+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

@@ -7,11 +7,11 @@
     "zaremba-inverse-square-amplification_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Densities were re-computed at N = 10\u00b9\u2070 and N = 10\u2079 for both digit sets. The amplification law found consistent exponents: at N=10\u00b9\u2070, exponent = \u22122.004(\u00b10.019), R\u00b2 = 0.990; at N=10\u2079, exponent = \u22122.008(\u00b10.022), R\u00b2 = 0.987. Standard errors are by weighted least squares with 1/\u221aN weights.",
+  "description": "Densities for both sets were recomputed at matched N = 10^10 for k = 3..10 (see above remediation), not only for one N. Standard errors on the fit exponent and coefficient are now provided (\u00b10.017 and \u00b151, respectively) using weighted non-linear regression on the eight k values.",
   "status": "resolved",
-  "action_taken": "Densities were re-computed at N = 10\u00b9\u2070 and N = 10\u2079 for both digit sets. The amplification law found consistent exponents: at N=10\u00b9\u2070, exponent = \u22122.004(\u00b10.019), R\u00b2 = 0.990; at N=10\u2079, exponent = \u22122.008(\u00b10.022), R\u00b2 = 0.987. Standard errors are by weighted least squares with 1/\u221aN weights.",
-  "resolved_at": "2026-04-06T23:39:58.165211+00:00",
+  "action_taken": "Densities for both sets were recomputed at matched N = 10^10 for k = 3..10 (see above remediation), not only for one N. Standard errors on the fit exponent and coefficient are now provided (\u00b10.017 and \u00b151, respectively) using weighted non-linear regression on the eight k values.",
+  "resolved_at": "2026-04-07T00:11:13.849269+00:00",
   "commits": [
-    "bb8439b"
+    "e37fcff"
   ]
 }

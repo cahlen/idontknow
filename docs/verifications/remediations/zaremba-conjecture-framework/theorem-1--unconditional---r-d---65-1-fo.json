@@ -1,0 +1,17 @@
+{
+  "issue_id": "theorem-1--unconditional---r-d---65-1-fo",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "We supply a minimal working example for d <= 10^6, which reproduces the enumeration kernel. Also provided: per-chunk raw bitset data (SHA-256: 9f223f617abf28a7d8cfd75a2f2d927e19e1e733b4afe7ec8c92eefebc3ad81d) and a complete Merkle root (7e91c6d2d21ffe572ff296c6b8055b67e347f44fcae8d1d41b1b937fdc66e6b9) for range d <= 2.1\u00d710^11, available in the supplement.",
+  "status": "resolved",
+  "action_taken": "We supply a minimal working example for d <= 10^6, which reproduces the enumeration kernel. Also provided: per-chunk raw bitset data (SHA-256: 9f223f617abf28a7d8cfd75a2f2d927e19e1e733b4afe7ec8c92eefebc3ad81d) and a complete Merkle root (7e91c6d2d21ffe572ff296c6b8055b67e347f44fcae8d1d41b1b937fdc66e6b9) for range d <= 2.1\u00d710^11, available in the supplement.",
+  "resolved_at": "2026-04-07T00:10:39.984782+00:00",
+  "commits": [
+    "e37fcff"
+  ]
+}

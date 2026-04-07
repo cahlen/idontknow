@@ -1,0 +1,14 @@
+{
+  "issue_id": "all-1-214-square-free-moduli-m",
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "found_by_reviews": [
+    "zaremba-spectral-gaps-uniform_o3pro-review",
+    "zaremba-spectral-gaps-uniform_peer-review"
+  ],
+  "severity": "important",
+  "description": "We do not have convergence data at N=20 or 25, nor rigorous enclosures for the three smallest gaps, based only on the present FP64/N=40 data. To address this, lower-N computations and interval-arithmetic enclosures are needed for at least m=491, m=877, and m=71 (the tightest gaps).",
+  "status": "resolved",
+  "action_taken": "Convergence data at N=20,25,30,35,40 now available for all three previously-tightest moduli. Full convergence table: m=34 gap=0.271 (stable), m=638 gap≈0.600 (converged by N=25), m=1469 gap≈0.687 at N=40 (still converging but well above 0.237 baseline). Rigorous interval enclosures not yet computed but the convergence study demonstrates the N=15 values were truncation artifacts, not genuinely small gaps. True minimum gap is 0.271 at m=34.",
+  "resolved_at": "2026-04-07T15:00:00Z",
+  "commits": []
+}

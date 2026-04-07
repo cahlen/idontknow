@@ -404,9 +404,9 @@ void* congruence_worker(void *arg) {
     return NULL;
 }
 
-void compute_congruence_gaps(double delta, int N_poly, int max_m) {
+void compute_congruence_gaps(double delta, int N_poly, int max_m, int min_m) {
     printf("\n=== Phase 2: Congruence Spectral Gaps (implicit Kronecker, multi-GPU) ===\n");
-    printf("δ = %.15f, N_poly = %d, max m = %d\n", delta, N_poly, max_m);
+    printf("δ = %.15f, N_poly = %d, m range = [%d, %d]\n", delta, N_poly, min_m, max_m);
     printf("Memory per m: ~%.1f MB (3 vectors of N·m² doubles)\n\n",
            3.0 * N_poly * max_m * max_m * 8.0 / 1e6);
 
@@ -425,7 +425,7 @@ void compute_congruence_gaps(double delta, int N_poly, int max_m) {
 
     int m_vals[2000];
     int n_m = 0;
-    for (int m = 2; m <= max_m && n_m < 2000; m++)
+    for (int m = (min_m < 2 ? 2 : min_m); m <= max_m && n_m < 2000; m++)
         if (is_squarefree(m)) m_vals[n_m++] = m;
 
     for (int batch = 0; batch < n_m; batch += device_count) {
@@ -469,6 +469,7 @@ int main(int argc, char **argv) {
     int N = argc > 1 ? atoi(argv[1]) : 40;
     int phase = argc > 2 ? atoi(argv[2]) : 3;
     int max_m = argc > 3 ? atoi(argv[3]) : 100;
+    int min_m = argc > 4 ? atoi(argv[4]) : 2;
 
     printf("==========================================\n");
     printf("  Zaremba Transfer Operator (implicit GPU)\n");
@@ -482,8 +483,8 @@ int main(int argc, char **argv) {
         delta = compute_hausdorff_dimension(N);
     if (phase == 2 || phase == 3) {
         if (delta <= 0) delta = 0.836829443681208;
-        int cN = N < 15 ? N : 15;
-        compute_congruence_gaps(delta, cN, max_m);
+        int cN = N < 50 ? N : 50;
+        compute_congruence_gaps(delta, cN, max_m, min_m);
     }
 
     clock_gettime(CLOCK_MONOTONIC, &t1);

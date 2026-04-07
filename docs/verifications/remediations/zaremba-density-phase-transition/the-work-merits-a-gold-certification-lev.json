@@ -9,9 +9,9 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "important",
-  "description": "The certification question is a policy decision, not only data-based. No automated fix; if reviewer consensus is silver, downgrade accordingly.",
-  "status": "disputed",
-  "action_taken": "Certification level is determined by most-conservative-wins consensus, not adjustable per-finding.",
-  "resolved_at": "2026-04-06T23:50:00Z",
+  "description": "Certification level recommendation is outside of scope for technical correction and requires independent review. Pending further external replication and alignment with core criteria.",
+  "status": "acknowledged",
+  "action_taken": "Certification level recommendation is outside of scope for technical correction and requires independent review. Pending further external replication and alignment with core criteria.",
+  "resolved_at": null,
   "commits": []
 }

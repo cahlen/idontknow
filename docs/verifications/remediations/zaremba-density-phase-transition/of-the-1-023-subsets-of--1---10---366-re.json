@@ -1,12 +1,19 @@
 {
   "issue_id": "of-the-1-023-subsets-of--1---10---366-re",
   "finding_slug": "zaremba-density-phase-transition",
-  "severity": "important",
-  "description": "Add SHA-256 of the CSV data file and path to the generation script.",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
+  "severity": "minor",
+  "description": "Add explicit script name and SHA-256 hash of the produced CSV file for reproducibility as required.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add SHA-256 of the CSV data file and path to the generation script.",
-  "resolved_at": "2026-04-04T00:30:00.118785+00:00",
+  "action_taken": "Add explicit script name and SHA-256 hash of the produced CSV file for reproducibility as required.",
+  "resolved_at": "2026-04-07T00:10:55.887372+00:00",
   "commits": [
-    "5d0dd82"
+    "e37fcff"
   ]
 }

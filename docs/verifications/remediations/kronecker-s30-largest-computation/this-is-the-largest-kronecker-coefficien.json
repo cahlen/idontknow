@@ -1,12 +1,16 @@
 {
   "issue_id": "this-is-the-largest-kronecker-coefficien",
   "finding_slug": "kronecker-s30-largest-computation",
-  "severity": "important",
-  "description": "Add citation context. The prior systematic frontier appears to be Pak & Panova (2017) who computed selected Kronecker coefficients up to around S_16. No full table beyond S_20 exists in the published literature to our knowledge. Hedged appropriately.",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "minor",
+  "description": "We must clarify there is no prior S_n full table for higher n in the literature, and cite leading references. This is verifiable by a search.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add citation context. The prior systematic frontier appears to be Pak & Panova (2017) who computed selected Kronecker coefficients up to around S_16. No full table beyond S_20 exists in the published literature to our knowledge. Hedged appropriately.",
-  "resolved_at": "2026-04-03T23:56:45.284760+00:00",
+  "action_taken": "We must clarify there is no prior S_n full table for higher n in the literature, and cite leading references. This is verifiable by a search.",
+  "resolved_at": "2026-04-07T00:10:16.335155+00:00",
   "commits": [
-    "9428528"
+    "e37fcff"
   ]
 }

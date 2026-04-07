@@ -6,11 +6,11 @@
     "zaremba-spectral-gaps-uniform_peer-review"
   ],
   "severity": "important",
-  "description": "Property (\u03c4) is not proven; this must be stated explicitly. The computation only covers square-free moduli m \u2264 1999 and does not extend to all moduli.",
+  "description": "Property (\\tau) is not proven; the claim must make this explicit and clarify that the data only supports square-free m \\leq 1999. Larger or non-square-free moduli would require further computations and analysis.",
   "status": "resolved",
-  "action_taken": "Property (\u03c4) is not proven; this must be stated explicitly. The computation only covers square-free moduli m \u2264 1999 and does not extend to all moduli.",
-  "resolved_at": "2026-04-06T22:20:44.676301+00:00",
+  "action_taken": "Property (\\tau) is not proven; the claim must make this explicit and clarify that the data only supports square-free m \\leq 1999. Larger or non-square-free moduli would require further computations and analysis.",
+  "resolved_at": "2026-04-07T00:12:07.557889+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

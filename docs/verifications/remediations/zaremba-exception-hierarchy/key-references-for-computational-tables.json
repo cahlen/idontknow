@@ -7,11 +7,11 @@
     "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "important",
-  "description": "Cite more computational literature, tabular data, or online resources where prior exception sets are listed.",
+  "description": "Add Chuan & Rukavicka (Mathematics of Computation), Hensley (1992/1996), and explicit citations to existing tables.",
   "status": "resolved",
-  "action_taken": "Cite more computational literature, tabular data, or online resources where prior exception sets are listed.",
-  "resolved_at": "2026-04-06T22:21:18.788753+00:00",
+  "action_taken": "Add Chuan & Rukavicka (Mathematics of Computation), Hensley (1992/1996), and explicit citations to existing tables.",
+  "resolved_at": "2026-04-07T00:12:29.346814+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

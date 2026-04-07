@@ -6,11 +6,11 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "minor",
-  "description": "Clarify that the exponent 2\u03b4\u22121 = 0.062 (from the BK framework) governs the growth rate of R(d), the maximal number of representations of d, and not directly the density of covered denominators. BK only proves that the density approaches 1 as N \u2192 \u221e but does not provide an effective rate for the density convergence. Emphasize that the observed logarithmic fit is empirical and not theoretically derived from BK.",
+  "description": "Text is revised to clearly state that Bourgain-Kontorovich's 2\u03b4\u22121 exponent controls the growth of R(d)\u2014the count of d representable as n/d\u2014but does not provide an effective or quantitative rate for density convergence itself. States explicitly that BK proves density 1 non-effectively, and 'logarithmic' behavior observed here is not theoretically predicted by BK.",
   "status": "resolved",
-  "action_taken": "Clarify that the exponent 2\u03b4\u22121 = 0.062 (from the BK framework) governs the growth rate of R(d), the maximal number of representations of d, and not directly the density of covered denominators. BK only proves that the density approaches 1 as N \u2192 \u221e but does not provide an effective rate for the density convergence. Emphasize that the observed logarithmic fit is empirical and not theoretically derived from BK.",
-  "resolved_at": "2026-04-06T22:19:59.745440+00:00",
+  "action_taken": "Text is revised to clearly state that Bourgain-Kontorovich's 2\u03b4\u22121 exponent controls the growth of R(d)\u2014the count of d representable as n/d\u2014but does not provide an effective or quantitative rate for density convergence itself. States explicitly that BK proves density 1 non-effectively, and 'logarithmic' behavior observed here is not theoretically predicted by BK.",
+  "resolved_at": "2026-04-07T00:11:38.901967+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

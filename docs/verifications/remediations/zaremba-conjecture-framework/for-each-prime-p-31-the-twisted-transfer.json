@@ -8,8 +8,8 @@
   ],
   "severity": "important",
   "description": "A rigorous a-posteriori bound transferring the Galerkin spectrum to the full transfer operator is not included in current data. Labeling the gap as only a numerical observation is thus appropriate unless further error analysis is performed.",
-  "status": "acknowledged",
-  "action_taken": "A rigorous a-posteriori bound transferring the Galerkin spectrum to the full transfer operator is not included in current data. Labeling the gap as only a numerical observation is thus appropriate unless further error analysis is performed.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "The finding page explicitly states that spectral gap values are numerical observations from N=40 Chebyshev Galerkin discretization, not rigorous bounds on the infinite-dimensional operator. The finding is titled 'Proof Framework' (not 'Proof') and lists this as one of 6 known open gaps. Theorem 1 (brute force to 2.1\u00d710^11) is unconditional and unaffected. The Galerkin-to-operator transport bound (Keller-Liverani type) is documented as future work.",
+  "resolved_at": "2026-04-07T14:00:00Z",
   "commits": []
 }

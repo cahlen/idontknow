@@ -1,12 +1,14 @@
 {
   "issue_id": "largest-kronecker-computation-published",
   "finding_slug": "kronecker-s30-largest-computation",
-  "severity": "important",
-  "description": "This is addressed by the same edit as issue #2 above \u2014 the hedging language 'to our knowledge' and 'we cannot rule out unpublished or concurrent computations' resolves this concern.",
-  "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: This is addressed by the same edit as issue #2 above \u2014 the hedging language 'to our knowledge' and 'we cannot rule out unpublished or concurrent computations' resolves this concern.",
-  "resolved_at": "2026-04-03T23:56:45.285004+00:00",
-  "commits": [
-    "9428528"
-  ]
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "minor",
+  "description": "We cannot exclude the existence of unpublished private or industry computations, but comprehensive search reveals no public record above S_19 full tables.",
+  "status": "acknowledged",
+  "action_taken": "We cannot exclude the existence of unpublished private or industry computations, but comprehensive search reveals no public record above S_19 full tables.",
+  "resolved_at": null,
+  "commits": []
 }

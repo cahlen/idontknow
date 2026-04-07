@@ -6,11 +6,11 @@
     "zaremba-spectral-gaps-uniform_peer-review"
   ],
   "severity": "minor",
-  "description": "Insert explicit dependence of the threshold on the proof framework, with a forward-looking caveat.",
+  "description": "The threshold is specifically dependent on the Bourgain-Kontorovich proof framework; alternative frameworks may require different lower bounds for \\sigma.",
   "status": "resolved",
-  "action_taken": "Insert explicit dependence of the threshold on the proof framework, with a forward-looking caveat.",
-  "resolved_at": "2026-04-06T22:20:44.679805+00:00",
+  "action_taken": "The threshold is specifically dependent on the Bourgain-Kontorovich proof framework; alternative frameworks may require different lower bounds for \\sigma.",
+  "resolved_at": "2026-04-07T00:12:07.560861+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

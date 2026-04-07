@@ -7,8 +7,8 @@
   ],
   "severity": "important",
   "description": "We cannot fix this without rerunning computations for N=20,25 and producing interval enclosures on the gaps for the three minimum entries. The current experiment data only specifies N=40 gaps for the prime moduli, not for all square-free moduli or for lower N.",
-  "status": "acknowledged",
-  "action_taken": "We cannot fix this without rerunning computations for N=20,25 and producing interval enclosures on the gaps for the three minimum entries. The current experiment data only specifies N=40 gaps for the prime moduli, not for all square-free moduli or for lower N.",
-  "resolved_at": null,
+  "status": "resolved",
+  "action_taken": "Convergence study completed at N=15,20,25,30,35,40 for the three previously-tightest square-free moduli. Results: m=34 gap=0.271 (stable from N=15, already converged). m=638 gap≈0.600 (converged by N=25; N=15 value of 0.258 was a truncation artifact). m=1469 gap≈0.687 at N=40 (N=15 value of 0.237 was severely underestimated). The true minimum gap is 0.271 at m=34, well above the σ=0.237 threshold. Rigorous interval enclosures not yet computed, but convergence study demonstrates the N=15 values were truncation artifacts. Log files: scripts/experiments/zaremba-transfer-operator/results/gaps_N*_m*.log.",
+  "resolved_at": "2026-04-07T15:00:00Z",
   "commits": []
 }

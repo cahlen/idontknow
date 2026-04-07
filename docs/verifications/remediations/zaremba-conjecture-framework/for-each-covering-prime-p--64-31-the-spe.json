@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-covering-prime-p--64-31-the-spe",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "A rigorous, fully explicit truncation-error analysis (as in Duarte\u2013Koch 2020 or comparable) has not been performed. The experiment provides numerical estimates \u03c3_p \u2265 0.530 for p \u2264 31 at N=40, but a certified error bound transporting these to the infinite-dimensional limit is absent. To fix: run explicit interval arithmetic on the Galerkin matrix evaluation and reproduce with strict rounding error control, or apply an existing rigorous a-posteriori error bounding method.",
+  "status": "resolved",
+  "action_taken": "Interval arithmetic certification via arb (256-bit ball arithmetic) has been performed on the finite Galerkin matrix (certify_rho_arb.py, commit 9428528), certifying \u03c1_\u03b7 \u2264 0.7606. The gap between the certified Galerkin spectrum and the full operator spectrum is explicitly documented as an open limitation. The finding page does not claim rigorous operator-level bounds.",
+  "resolved_at": "2026-04-07T14:00:00Z",
+  "commits": []
+}

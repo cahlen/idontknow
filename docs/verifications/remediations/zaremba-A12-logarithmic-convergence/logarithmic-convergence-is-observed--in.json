@@ -6,11 +6,11 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "important",
-  "description": "Remove the '2.35\u00d7 faster' numeric speedup comparison, as no rigorous quantitative bridge is established between R(d) representation-count growth (Bourgain-Kontorovich asymptotics) and empirical density convergence. Explicitly specify that the exponent 2\u03b4\u22121 = 0.062 is relevant to the maximal number of representations R(d), not directly to unique covered denominator density.",
+  "description": "The sentence referring to '2.35\u00d7 faster' is removed as this comparison is unsupported\u2014the theoretical exponent 0.062 governs the growth rate of R(d), not density convergence. Language is amended to make clear that no such claim is made in the finding.",
   "status": "resolved",
-  "action_taken": "Remove the '2.35\u00d7 faster' numeric speedup comparison, as no rigorous quantitative bridge is established between R(d) representation-count growth (Bourgain-Kontorovich asymptotics) and empirical density convergence. Explicitly specify that the exponent 2\u03b4\u22121 = 0.062 is relevant to the maximal number of representations R(d), not directly to unique covered denominator density.",
-  "resolved_at": "2026-04-06T22:19:59.742934+00:00",
+  "action_taken": "The sentence referring to '2.35\u00d7 faster' is removed as this comparison is unsupported\u2014the theoretical exponent 0.062 governs the growth rate of R(d), not density convergence. Language is amended to make clear that no such claim is made in the finding.",
+  "resolved_at": "2026-04-07T00:11:38.901800+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

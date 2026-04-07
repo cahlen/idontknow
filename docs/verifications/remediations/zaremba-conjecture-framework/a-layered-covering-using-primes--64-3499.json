@@ -1,0 +1,15 @@
+{
+  "issue_id": "a-layered-covering-using-primes--64-3499",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "We do not provide a uniform, effective lower bound for \u03c3_p for the entire range p \u2264 3499. The available data covers only p \u2264 31 numerically, and property (\u03c4) is not proved explicitly for all required congruence subgroups. To fix would require either a general effective expansion theorem for all levels \u2264 3499, or a systematic rigorous computation across all these p, which was not performed.",
+  "status": "resolved",
+  "action_taken": "No uniform effective lower bound for \u03c3_p across all p \u2264 3499 exists. The finding page documents this: spectral gaps are computed numerically for covering primes p \u2264 31 (N=40 FP64) and p \u2264 50,000 (N=20 FP32). Layer 4 of the covering uses the non-constructive Bourgain-Gamburd property (\u03c4), which is listed as one of the 6 known gaps. The proof framework explicitly does NOT claim to have closed this gap.",
+  "resolved_at": "2026-04-07T14:00:00Z",
+  "commits": []
+}

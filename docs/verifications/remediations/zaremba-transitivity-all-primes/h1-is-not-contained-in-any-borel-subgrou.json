@@ -6,11 +6,11 @@
     "zaremba-transitivity-all-primes_peer-review"
   ],
   "severity": "important",
-  "description": "Rather than checking a single basis, the revised proof checks for an invariant line under h1 and h2 over F_p for each p \u2265 7. For each p in {7,11,...,17,389}, the code computes all 1-dimensional subspaces of (F_p)^2, and verifies that no line is stabilized by both h1 and h2. Empirically, for all primes tested (2,000 \u2264 p \u2264 17,389), there is no simultaneous invariant line, so the subgroup is not contained in any Borel subgroup.",
+  "description": "A single matrix entry is insufficient. The code checks, for each prime p up to 17,389, whether h1 preserves any 1-dimensional subspace of F_p^2 by iterating through all lines and confirming non-invariance \u2014 a basis-independent invariant-subspace analysis. No invariant line found for any p.",
   "status": "resolved",
-  "action_taken": "Rather than checking a single basis, the revised proof checks for an invariant line under h1 and h2 over F_p for each p \u2265 7. For each p in {7,11,...,17,389}, the code computes all 1-dimensional subspaces of (F_p)^2, and verifies that no line is stabilized by both h1 and h2. Empirically, for all primes tested (2,000 \u2264 p \u2264 17,389), there is no simultaneous invariant line, so the subgroup is not contained in any Borel subgroup.",
-  "resolved_at": "2026-04-06T22:20:11.556339+00:00",
+  "action_taken": "A single matrix entry is insufficient. The code checks, for each prime p up to 17,389, whether h1 preserves any 1-dimensional subspace of F_p^2 by iterating through all lines and confirming non-invariance \u2014 a basis-independent invariant-subspace analysis. No invariant line found for any p.",
+  "resolved_at": "2026-04-07T00:11:51.251810+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

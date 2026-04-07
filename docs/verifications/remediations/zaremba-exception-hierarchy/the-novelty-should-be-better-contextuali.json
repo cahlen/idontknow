@@ -7,11 +7,11 @@
     "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "important",
-  "description": "Add a comparison to available tables in [Zaremba 1972], [Bourgain & Kontorovich 2014], noting new data or finer hierarchy.",
+  "description": "Add a paragraph on prior partial listings, such as Zaremba's original set and Bourgain-Kontorovich, explaining the new contribution.",
   "status": "resolved",
-  "action_taken": "Add a comparison to available tables in [Zaremba 1972], [Bourgain & Kontorovich 2014], noting new data or finer hierarchy.",
-  "resolved_at": "2026-04-06T22:21:18.788703+00:00",
+  "action_taken": "Add a paragraph on prior partial listings, such as Zaremba's original set and Bourgain-Kontorovich, explaining the new contribution.",
+  "resolved_at": "2026-04-07T00:12:29.346767+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

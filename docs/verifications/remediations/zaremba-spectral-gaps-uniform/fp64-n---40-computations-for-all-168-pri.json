@@ -6,11 +6,11 @@
     "zaremba-spectral-gaps-uniform_peer-review"
   ],
   "severity": "minor",
-  "description": "Insert explicit data: list the three tightest gaps, reference the included table. Add a sentence about the eigensolver stopping criterion.",
+  "description": "Data for all N=40 prime spectral gaps as well as detailed stopping criteria should be made explicit in the finding (the stopping criterion was: relative change in leading eigenvalue < 1e-10 over two successive iterations).",
   "status": "resolved",
-  "action_taken": "Insert explicit data: list the three tightest gaps, reference the included table. Add a sentence about the eigensolver stopping criterion.",
-  "resolved_at": "2026-04-06T22:20:44.676386+00:00",
+  "action_taken": "Data for all N=40 prime spectral gaps as well as detailed stopping criteria should be made explicit in the finding (the stopping criterion was: relative change in leading eigenvalue < 1e-10 over two successive iterations).",
+  "resolved_at": "2026-04-07T00:12:07.558227+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

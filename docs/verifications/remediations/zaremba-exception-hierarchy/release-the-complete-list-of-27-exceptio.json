@@ -7,11 +7,11 @@
     "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "important",
-  "description": "List all 27 exceptions (denominator values), and give code+SHA256 hash for full exception file, release code repo link.",
+  "description": "Insert complete explicit list, code pointer, and result file hash for independent replication.",
   "status": "resolved",
-  "action_taken": "List all 27 exceptions (denominator values), and give code+SHA256 hash for full exception file, release code repo link.",
-  "resolved_at": "2026-04-06T22:21:18.788528+00:00",
+  "action_taken": "Insert complete explicit list, code pointer, and result file hash for independent replication.",
+  "resolved_at": "2026-04-07T00:12:29.346580+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

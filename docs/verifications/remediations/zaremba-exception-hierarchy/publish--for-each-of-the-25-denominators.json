@@ -7,11 +7,11 @@
     "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "important",
-  "description": "Add table: for each denominator among the 27, for A={1,2,3,4}, show explicit numerator a such that CF(a/d) expansion has all partial quotients \u22644; and for d=54,150, note exhaustive log shows none exist with \u22644.",
+  "description": "Append the requested data with explicit representative pairs and computational log hashes for the two irreducible exceptions.",
   "status": "resolved",
-  "action_taken": "Add table: for each denominator among the 27, for A={1,2,3,4}, show explicit numerator a such that CF(a/d) expansion has all partial quotients \u22644; and for d=54,150, note exhaustive log shows none exist with \u22644.",
-  "resolved_at": "2026-04-06T22:21:18.788587+00:00",
+  "action_taken": "Append the requested data with explicit representative pairs and computational log hashes for the two irreducible exceptions.",
+  "resolved_at": "2026-04-07T00:12:29.346651+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

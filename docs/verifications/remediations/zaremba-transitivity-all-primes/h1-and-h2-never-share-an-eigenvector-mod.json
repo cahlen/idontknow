@@ -6,11 +6,11 @@
     "zaremba-transitivity-all-primes_peer-review"
   ],
   "severity": "important",
-  "description": "For every prime in the tested set (2,000 primes \u226417,389), the code explicitly computes all eigenvectors of h\u2081 and h\u2082 in F_p^2 and found no overlap. For all these p, h\u2081 and h\u2082 have distinct eigenlines or no eigenvector at all, hence no common eigenvector. Data and code provided prove this numerically up to p=17,389.",
+  "description": "For all 2,000 primes tested (up to p = 17,389), eigenvectors of h1 and h2 are computed modulo p and compared; no p is found where they coincide. This supports the claim computationally for the tested range.",
   "status": "resolved",
-  "action_taken": "For every prime in the tested set (2,000 primes \u226417,389), the code explicitly computes all eigenvectors of h\u2081 and h\u2082 in F_p^2 and found no overlap. For all these p, h\u2081 and h\u2082 have distinct eigenlines or no eigenvector at all, hence no common eigenvector. Data and code provided prove this numerically up to p=17,389.",
-  "resolved_at": "2026-04-06T22:20:11.556397+00:00",
+  "action_taken": "For all 2,000 primes tested (up to p = 17,389), eigenvectors of h1 and h2 are computed modulo p and compared; no p is found where they coincide. This supports the claim computationally for the tested range.",
+  "resolved_at": "2026-04-07T00:11:51.251879+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

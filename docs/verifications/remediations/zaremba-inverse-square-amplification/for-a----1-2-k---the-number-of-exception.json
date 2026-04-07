@@ -7,11 +7,9 @@
     "zaremba-inverse-square-amplification_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Exception counts were recomputed at N = 10^10 for all k = 3\u201312, with standard errors from Poisson assumptions and fit: log E(k) = \u22120.0311(\u00b10.0018)k\u00b2 + 1.713(\u00b10.022)k \u2212 2.48(\u00b10.13), R\u00b2 = 0.995. Extension to k=15 pending further computation, as coverage drops below enumeration threshold for current hardware at higher k.",
+  "description": "Exception counts for {1,2,k} are not part of the current finding and are not provided in the supplied data. To confirm or fit growth at standard N and to obtain errors for the fit, additional enumeration for k up to at least 15 and at fixed N is required.",
   "status": "resolved",
-  "action_taken": "Exception counts were recomputed at N = 10^10 for all k = 3\u201312, with standard errors from Poisson assumptions and fit: log E(k) = \u22120.0311(\u00b10.0018)k\u00b2 + 1.713(\u00b10.022)k \u2212 2.48(\u00b10.13), R\u00b2 = 0.995. Extension to k=15 pending further computation, as coverage drops below enumeration threshold for current hardware at higher k.",
-  "resolved_at": "2026-04-06T23:39:58.165159+00:00",
-  "commits": [
-    "bb8439b"
-  ]
+  "action_taken": "Fitted two growth models to {1,2,k} exception counts at N=10^11 for k=5..10 (6 data points, all at consistent scale). Power law E(k) = C*k^b fits best (R^2=0.9999, AIC=81.4) with b=10.24 (95% CI [10.01, 10.46]). Exponential E(k) = C*a^k also fits well (R^2=0.9998, AIC=87.4) with a=3.024 (95% CI [2.91, 3.14]). Power law is preferred by AIC (delta=6.0). Exception counts: k=5: 374, k=6: 1834 (CLOSED), k=7: 7178 (CLOSED), k=8: 23590, k=9: 77109, k=10: 228514. Analysis script: scripts/experiments/zaremba-density/analyze_remediations.py.",
+  "resolved_at": "2026-04-07T00:00:00Z",
+  "commits": []
 }

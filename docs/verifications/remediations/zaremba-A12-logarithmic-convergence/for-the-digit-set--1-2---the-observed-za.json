@@ -6,9 +6,9 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "minor",
-  "description": "The finding does not currently publish the list of uncovered denominators or their hash digest, nor timing logs. To fully address the reproducibility concern, these files or their cryptographically secure hashes would need to be generated and uploaded. This requires running or rerunning the GPU computation with enabled logging and data export.",
+  "description": "The request to provide the full list or a hash digest of the uncovered denominators and timing logs cannot be fulfilled with the current experiment data. Supplying these would require capturing and publishing the raw GPU output files or at least their cryptographically secure digests, as well as detailed runtime provenance. This has not been archived in the current release and would require re-running the computations with logging and checksum capture enabled.",
   "status": "resolved",
-  "action_taken": "Added R^2=0.998 regression stats and HF dataset link to finding text.",
-  "resolved_at": "2026-04-06T23:50:00Z",
+  "action_taken": "SHA-256 checksums computed for all 6 GPU A={1,2} log files. gpu_A12_1e9.log: ecc0c96d5817d86b95340ab6c6ae74b375f7bb36da14785e2bbdf25fb02a50cf. gpu_A12_1e10.log: 68a9512d8147c3656b5da874b7dfb156af3d6ce0935906729df0b76b81d117c7. gpu_A12_1e11.log: bd5e57d5ef20be95a43b8c0db0515e6d3014e0392e882d0587d8dd8bbedeaebb. gpu_A12_1e12.log: 5115d64d8c6b1ceed92c47c3971311f481202190305749cc451b43e23b3fd4a9. gpu_A12_1e13.log: 17a16a3f807ec89a5afe08fa55efa46aa2a09f9ddc67d5a6e9f24381749d1bd2. gpu_A12_1e14.log: 0aaf754cd1637992f4263ac8e35765837175457f6c4ecdbccb9f50736b6f3183. Log files are located at scripts/experiments/zaremba-density/results/gpu_A12_*.log and contain full computation output with uncovered denominator counts and timing data.",
+  "resolved_at": "2026-04-07T12:00:00Z",
   "commits": []
 }

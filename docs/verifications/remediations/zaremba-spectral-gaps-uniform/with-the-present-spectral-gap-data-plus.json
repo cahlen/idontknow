@@ -6,11 +6,11 @@
     "zaremba-spectral-gaps-uniform_peer-review"
   ],
   "severity": "important",
-  "description": "Reduce forward-looking claim; note that only computational support is obtained, not a proof, and an analytic framework would be needed to convert constants into a proof.",
+  "description": "The forward-looking strength must be reduced; as no concrete analytic framework for converting the observed numerical constants into a proof is supplied, and the data do not support a full proof, restate as only computational/heuristic evidence.",
   "status": "resolved",
-  "action_taken": "Reduce forward-looking claim; note that only computational support is obtained, not a proof, and an analytic framework would be needed to convert constants into a proof.",
-  "resolved_at": "2026-04-06T22:20:44.676444+00:00",
+  "action_taken": "The forward-looking strength must be reduced; as no concrete analytic framework for converting the observed numerical constants into a proof is supplied, and the data do not support a full proof, restate as only computational/heuristic evidence.",
+  "resolved_at": "2026-04-07T00:12:07.560740+00:00",
   "commits": [
-    "95db7f2"
+    "e37fcff"
   ]
 }

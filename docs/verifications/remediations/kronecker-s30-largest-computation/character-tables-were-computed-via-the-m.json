@@ -1,12 +1,16 @@
 {
   "issue_id": "character-tables-were-computed-via-the-m",
   "finding_slug": "kronecker-s30-largest-computation",
-  "severity": "important",
-  "description": "Add explicit orthogonality verification metrics for both n=20 and n=30, including max absolute error and integer overflow safeguards.",
+  "found_by_reviews": [
+    "kronecker-s30-largest-computation_o3pro-review",
+    "kronecker-s30-largest-computation_peer-review"
+  ],
+  "severity": "minor",
+  "description": "Add explicit verification stats from experiment logs: max absolute orthogonality error for S_20 and S_30, and handling of integer overflow.",
   "status": "resolved",
-  "action_taken": "Auto-fixed by research agent: Add explicit orthogonality verification metrics for both n=20 and n=30, including max absolute error and integer overflow safeguards.",
-  "resolved_at": "2026-04-03T23:56:45.284957+00:00",
+  "action_taken": "Add explicit verification stats from experiment logs: max absolute orthogonality error for S_20 and S_30, and handling of integer overflow.",
+  "resolved_at": "2026-04-07T00:10:16.335444+00:00",
   "commits": [
-    "9428528"
+    "e37fcff"
   ]
 }

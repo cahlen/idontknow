@@ -1,0 +1,16 @@
+{
+  "issue_id": "computed-cayley-graph-diameters-of----1",
+  "finding_slug": "zaremba-cayley-diameters",
+  "found_by_reviews": [
+    "zaremba-cayley-diameters_o3pro-review",
+    "zaremba-cayley-diameters_peer-review"
+  ],
+  "severity": "important",
+  "description": "The original text claimed 669 primes, but only 172 primes \u2264 1021 exist. The manuscript and data confirm 172 checked. Fix misstatement.",
+  "status": "resolved",
+  "action_taken": "The original text claimed 669 primes, but only 172 primes \u2264 1021 exist. The manuscript and data confirm 172 checked. Fix misstatement.",
+  "resolved_at": "2026-04-07T00:11:25.171102+00:00",
+  "commits": [
+    "e37fcff"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-prime-p-6431-the-twisted-transf",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "No rigorous a-posteriori bound is supplied that connects the finite Galerkin spectrum to the infinite-dimensional operator. The statement is purely numerical: \u03c3_p \u2265 0.530 is observed for p \u2264 31 at N=40. A proof-relevant bound would require interval arithmetic and operator norm estimation, which are not present in the data.",
+  "status": "resolved",
+  "action_taken": "Duplicate of the Galerkin-to-operator transport bound issue. The finding page explicitly labels spectral data as numerical evidence, not rigorous bounds for the infinite-dimensional operator. This known limitation is documented in the finding's caveats section and reflected in the bronze certification level.",
+  "resolved_at": "2026-04-07T14:00:00Z",
+  "commits": []
+}

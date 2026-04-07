@@ -1,0 +1,16 @@
+==========================================
+  Zaremba Transfer Operator (implicit GPU)
+==========================================
+
+
+=== Phase 2: Congruence Spectral Gaps (implicit Kronecker, multi-GPU) ===
+δ = 0.836829443681208, N_poly = 20, m range = [638, 638]
+Memory per m: ~195.4 MB (3 vectors of N·m² doubles)
+
+GPUs: 1
+
+   m    full_dim  orbits     |λ_triv|      |λ_non|           gap      gap/triv
+----  ----------  ------  ------------  ------------  ------------  ------------
+ 638     8140880       8      1.000000      0.329099      0.670901      0.670901
+
+Total: 9.3s
