@@ -170,13 +170,23 @@ def summarize_review(review_data):
     valid_verdicts = {"ACCEPT", "ACCEPT_WITH_REVISION", "REVISE_AND_RESUBMIT", "REJECT"}
     overall_verdict = verdict_raw if verdict_raw in valid_verdicts else "ACCEPT_WITH_REVISION"
 
+    # Normalize provider casing
+    PROVIDER_CANONICAL = {
+        "openai": "OpenAI",
+        "anthropic": "Anthropic",
+        "xai": "xAI",
+        "google": "Google",
+    }
+    raw_provider = reviewer.get("model_provider", "unknown")
+    norm_provider = PROVIDER_CANONICAL.get(raw_provider.lower(), raw_provider) if raw_provider and raw_provider != "unknown" else "unknown"
+
     return {
         "review_id": data.get("review_id", "unknown"),
         "file": review_data["file"],
         "reviewer": {
             "type": reviewer.get("type", "unknown"),
             "model": reviewer.get("model", reviewer.get("verified_by", "unknown")),
-            "provider": reviewer.get("model_provider", "unknown"),
+            "provider": norm_provider,
         },
         "reviewed_at": data.get("reviewed_at", data.get("verified_at", "")),
         "overall_verdict": overall_verdict,
@@ -212,16 +222,29 @@ def build_manifest(verifications_dir, findings_dir):
         for r in slugremds if r.get("status") == "resolved"
     )
 
+    # Normalize provider names (case-insensitive dedup)
+    PROVIDER_CANONICAL = {
+        "openai": "OpenAI",
+        "anthropic": "Anthropic",
+        "xai": "xAI",
+        "google": "Google",
+    }
+
     unique_models = set()
     unique_providers = set()
+    identified_reviews = 0
     for slug_reviews in reviews_by_slug.values():
         for r in slug_reviews:
             reviewer = r["data"].get("reviewer", {})
             model = reviewer.get("model", reviewer.get("verified_by", ""))
             provider = reviewer.get("model_provider", "")
-            if model:
-                unique_models.add(model)
+            # Normalize provider casing
             if provider:
+                provider = PROVIDER_CANONICAL.get(provider.lower(), provider)
+            if model and model != "unknown":
+                unique_models.add(model)
+                identified_reviews += 1
+            if provider and provider != "unknown":
                 unique_providers.add(provider)
 
     # Build per-finding entries
