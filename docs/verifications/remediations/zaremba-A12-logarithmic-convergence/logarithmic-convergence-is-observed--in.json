@@ -6,11 +6,11 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "important",
-  "description": "The sentence referring to '2.35\u00d7 faster' is removed as this comparison is unsupported\u2014the theoretical exponent 0.062 governs the growth rate of R(d), not density convergence. Language is amended to make clear that no such claim is made in the finding.",
+  "description": "The phrase '2.35\u00d7 faster' is not rigorously supported in the absence of a mathematical derivation connecting R(d) asymptotics to density convergence; discussion of this numerical comparison should be removed.",
   "status": "resolved",
-  "action_taken": "The sentence referring to '2.35\u00d7 faster' is removed as this comparison is unsupported\u2014the theoretical exponent 0.062 governs the growth rate of R(d), not density convergence. Language is amended to make clear that no such claim is made in the finding.",
-  "resolved_at": "2026-04-07T00:11:38.901800+00:00",
+  "action_taken": "The phrase '2.35\u00d7 faster' is not rigorously supported in the absence of a mathematical derivation connecting R(d) asymptotics to density convergence; discussion of this numerical comparison should be removed.",
+  "resolved_at": "2026-04-08T00:36:29.686147+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

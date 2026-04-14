@@ -148,3 +148,23 @@ scripts/experiments/kronecker-coefficients/results/char_table_n45.txt
 .DS_Store
 *.swp
 *~
+
+# Compiled CUDA binaries (built from .cu source)
+prime_convergents_v2
+zaremba_density_v2
+ramanujan_v2
+erdos_straus
+scripts/experiments/*/kronecker_fast
+scripts/experiments/prime-convergents/prime_convergents
+scripts/experiments/ramanujan-machine/ramanujan_gpu_v2
+scripts/experiments/zaremba-density/zaremba_density_gpu_v2
+
+# Large data files (go to HuggingFace, not git)
+*.dbin
+*.npz
+scripts/experiments/kronecker-coefficients/results/kronecker_n20_nonzero.csv
+scripts/experiments/ramanujan-machine/results/v2_unmatched_*.csv
+scripts/experiments/prime-convergents/results/stats_random_10000000_*.csv
+scripts/experiments/prime-convergents/results/v2_stats_random_10000000_*.csv
+scripts/experiments/prime-convergents/results/stats_pi_*.csv
+scripts/experiments/prime-convergents/results/stats_e_100000_*.csv

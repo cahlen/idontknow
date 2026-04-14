@@ -1,0 +1,19 @@
+{
+  "experiment": "prime_convergents_v2",
+  "kernel_version": 2,
+  "arithmetic": "uint128 recurrence (vs uint64 in v1)",
+  "mode": "random (Gauss-Kuzmin)",
+  "num_samples": 10000000,
+  "max_depth": 500,
+  "avg_depth_reached": 75.4,
+  "avg_prime_An": 5.8984,
+  "avg_prime_Bn": 5.9181,
+  "avg_doubly_prime": 0.968455,
+  "total_doubly_prime": 9684553,
+  "max_doubly_prime_in_one_cf": 8,
+  "erdos_bound_avg_ratio": 165.430265,
+  "erdos_bound_min_ratio": 5.191208,
+  "bound_always_holds_pct": 100.00,
+  "gpu": "NVIDIA B200",
+  "gpu_time_sec": 3453.343
+}

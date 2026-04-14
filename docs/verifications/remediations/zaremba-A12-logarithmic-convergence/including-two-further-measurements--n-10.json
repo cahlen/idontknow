@@ -6,11 +6,11 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "minor",
-  "description": "Clarification added to the data section explicitly marking all five values as empirical and clearly distinguishing predictions. The five-point fit is relabeled as being based solely on measured (empirical) data at N=10^6, 10^9, 10^10, 10^11, and 10^12, with predictions (for N > 10^12) named as such.",
+  "description": "The five logarithmic fit points are all empirical (N=10^6, 10^9, 10^10, 10^11, 10^12); forecasted values (like N=10^15) are extrapolations. The report should make this distinction explicit.",
   "status": "resolved",
-  "action_taken": "Clarification added to the data section explicitly marking all five values as empirical and clearly distinguishing predictions. The five-point fit is relabeled as being based solely on measured (empirical) data at N=10^6, 10^9, 10^10, 10^11, and 10^12, with predictions (for N > 10^12) named as such.",
-  "resolved_at": "2026-04-07T00:11:38.901725+00:00",
+  "action_taken": "The five logarithmic fit points are all empirical (N=10^6, 10^9, 10^10, 10^11, 10^12); forecasted values (like N=10^15) are extrapolations. The report should make this distinction explicit.",
+  "resolved_at": "2026-04-08T00:36:29.686080+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

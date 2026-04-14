@@ -7,11 +7,9 @@
     "zaremba-inverse-square-amplification_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Wall-clock timings and GPU logs are provided for the core runs, and a reproducibility script (Python, using the same enumeration strategy and a deterministic bitset hash check) is attached, along with a random-sample checker against independently generated continued fractions.",
-  "status": "resolved",
-  "action_taken": "Wall-clock timings and GPU logs are provided for the core runs, and a reproducibility script (Python, using the same enumeration strategy and a deterministic bitset hash check) is attached, along with a random-sample checker against independently generated continued fractions.",
-  "resolved_at": "2026-04-07T00:11:13.849068+00:00",
-  "commits": [
-    "e37fcff"
-  ]
+  "description": "The raw data does not include wall-clock timings or GPU logs. To resolve this, next computation should record execution time, per-GPU utilization logs, and scripts for reproducibility including a randomized verification step against an independent checker.",
+  "status": "acknowledged",
+  "action_taken": "The raw data does not include wall-clock timings or GPU logs. To resolve this, next computation should record execution time, per-GPU utilization logs, and scripts for reproducibility including a randomized verification step against an independent checker.",
+  "resolved_at": null,
+  "commits": []
 }

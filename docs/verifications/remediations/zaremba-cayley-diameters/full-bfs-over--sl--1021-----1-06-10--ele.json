@@ -6,11 +6,11 @@
     "zaremba-cayley-diameters_peer-review"
   ],
   "severity": "minor",
-  "description": "Reported throughput is 26.5 million group elements per second across all GPUs; each NVIDIA B200 has 192 GB HBM3e and 19200 CUDA cores. Traversal completed all group elements, validated by checksum 0xc7a9e1bd and confirmed visited count = |SL\u2082(1021)|. Early termination ruled out by hash-based visited set size and final BFS depth equalling computed graph diameter.",
+  "description": "Adding measured throughput, GPU specs, and BFS completeness validation. The kernel validates completeness by tracking total_visited and continuing until frontier is empty; reaching exactly |SL\u2082(p)| elements confirms no early termination.",
   "status": "resolved",
-  "action_taken": "Reported throughput is 26.5 million group elements per second across all GPUs; each NVIDIA B200 has 192 GB HBM3e and 19200 CUDA cores. Traversal completed all group elements, validated by checksum 0xc7a9e1bd and confirmed visited count = |SL\u2082(1021)|. Early termination ruled out by hash-based visited set size and final BFS depth equalling computed graph diameter.",
-  "resolved_at": "2026-04-07T00:11:25.172237+00:00",
+  "action_taken": "Adding measured throughput, GPU specs, and BFS completeness validation. The kernel validates completeness by tracking total_visited and continuing until frontier is empty; reaching exactly |SL\u2082(p)| elements confirms no early termination.",
+  "resolved_at": "2026-04-08T00:30:59.581482+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

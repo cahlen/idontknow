@@ -1,0 +1,15 @@
+{
+  "issue_id": "for-each-covering-prime-p---31-the-spect",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "A rigorous truncation-error analysis as used in Duarte\u2013Koch (2020) has not yet been carried out for our N = 40 Chebyshev-collocation Galerkin matrices. Until this is computed (e.g., via decay of singular values or explicit estimates on the norm of the omitted spectral tail), the numerical estimates for \u03c3_p remain non-rigorous.",
+  "status": "acknowledged",
+  "action_taken": "A rigorous truncation-error analysis as used in Duarte\u2013Koch (2020) has not yet been carried out for our N = 40 Chebyshev-collocation Galerkin matrices. Until this is computed (e.g., via decay of singular values or explicit estimates on the norm of the omitted spectral tail), the numerical estimates for \u03c3_p remain non-rigorous.",
+  "resolved_at": null,
+  "commits": []
+}

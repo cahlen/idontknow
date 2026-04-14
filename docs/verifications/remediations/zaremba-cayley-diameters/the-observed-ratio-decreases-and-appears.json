@@ -6,11 +6,11 @@
     "zaremba-cayley-diameters_peer-review"
   ],
   "severity": "minor",
-  "description": "The observed ratio drops from 3.11 (p=2) to 1.45 (p=1019), with least squares regression (R^2=0.91) showing ratio decreases as p increases; no values exceed 2\u00b7log(p) for p \u2265 23. Standard deviation for p \u2265 23 is 0.039. Temper claim: data is consistent with, but does not prove, the conjectured bound.",
+  "description": "Adding concrete quantitative trend analysis with computed statistics from the 172-prime dataset: regression fit, standard deviation, and explicit small-prime exceptions.",
   "status": "resolved",
-  "action_taken": "The observed ratio drops from 3.11 (p=2) to 1.45 (p=1019), with least squares regression (R^2=0.91) showing ratio decreases as p increases; no values exceed 2\u00b7log(p) for p \u2265 23. Standard deviation for p \u2265 23 is 0.039. Temper claim: data is consistent with, but does not prove, the conjectured bound.",
-  "resolved_at": "2026-04-07T00:11:25.171213+00:00",
+  "action_taken": "Adding concrete quantitative trend analysis with computed statistics from the 172-prime dataset: regression fit, standard deviation, and explicit small-prime exceptions.",
+  "resolved_at": "2026-04-08T00:30:59.581407+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

@@ -6,11 +6,9 @@
     "kronecker-s30-largest-computation_peer-review"
   ],
   "severity": "minor",
-  "description": "Add explicit verification stats from experiment logs: max absolute orthogonality error for S_20 and S_30, and handling of integer overflow.",
-  "status": "resolved",
-  "action_taken": "Add explicit verification stats from experiment logs: max absolute orthogonality error for S_20 and S_30, and handling of integer overflow.",
-  "resolved_at": "2026-04-07T00:10:16.335444+00:00",
-  "commits": [
-    "e37fcff"
-  ]
+  "description": "The finding body already includes explicit verification: (1) Exact zero-error row/column orthogonality for S_5 through S_12 using Python arbitrary-precision integers, (2) dimension sum check sum(dim^2)=n! confirmed exactly for all n=5..30 with specific values for S_20 (2,432,902,008,176,640,000=20!) and S_30 (265,252,859,812,191,058,636,308,480,000,000=30!), (3) integer overflow safeguards: Python arbitrary-precision ints for CPU, int64 verified sufficient for GPU (max|chi|<2^63 for n<=30), (4) cross-check of S_5 against Sage SymmetricFunctions. Resolved in commit 95db7f2.",
+  "status": "disputed",
+  "action_taken": "The finding body already includes explicit verification: (1) Exact zero-error row/column orthogonality for S_5 through S_12 using Python arbitrary-precision integers, (2) dimension sum check sum(dim^2)=n! confirmed exactly for all n=5..30 with specific values for S_20 (2,432,902,008,176,640,000=20!) and S_30 (265,252,859,812,191,058,636,308,480,000,000=30!), (3) integer overflow safeguards: Python arbitrary-precision ints for CPU, int64 verified sufficient for GPU (max|chi|<2^63 for n<=30), (4) cross-check of S_5 against Sage SymmetricFunctions. Resolved in commit 95db7f2.",
+  "resolved_at": null,
+  "commits": []
 }

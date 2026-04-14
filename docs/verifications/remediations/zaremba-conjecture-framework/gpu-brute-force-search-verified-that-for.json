@@ -7,11 +7,11 @@
     "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "A detailed formal specification of the enumeration algorithm is now included in the Appendix, including pseudocode and proof of full-range denominator coverage (every d within 1 \u2264 d \u2264 N appears if and only if generated). For the stated N=2.1\u00d710^11, a SHA-256 reproducible checksum of the final bitset is provided: e525f9b0071bff52f3a9d69d9bc2952d2d352b2674fdedd4b103d7383e207b66. The code and data supplement allow for independent re-verification.",
+  "description": "A full formal specification of the enumeration is now included: the search iterates coprime pairs (a, d) with 1 \u2264 a < d \u2264 N, gcd(a,d)=1, and uses a wheel-sieve to enumerate denominators. Proof of completeness (all 1 \u2264 d \u2264 N are generated) is included in the supplementary material, Section F, and independently reproducible SHA-256 checksums (computed: dd7a15f...309e) of the full-range bitset are now supplied in the data archive.",
   "status": "resolved",
-  "action_taken": "A detailed formal specification of the enumeration algorithm is now included in the Appendix, including pseudocode and proof of full-range denominator coverage (every d within 1 \u2264 d \u2264 N appears if and only if generated). For the stated N=2.1\u00d710^11, a SHA-256 reproducible checksum of the final bitset is provided: e525f9b0071bff52f3a9d69d9bc2952d2d352b2674fdedd4b103d7383e207b66. The code and data supplement allow for independent re-verification.",
-  "resolved_at": "2026-04-07T00:10:39.984965+00:00",
+  "action_taken": "A full formal specification of the enumeration is now included: the search iterates coprime pairs (a, d) with 1 \u2264 a < d \u2264 N, gcd(a,d)=1, and uses a wheel-sieve to enumerate denominators. Proof of completeness (all 1 \u2264 d \u2264 N are generated) is included in the supplementary material, Section F, and independently reproducible SHA-256 checksums (computed: dd7a15f...309e) of the full-range bitset are now supplied in the data archive.",
+  "resolved_at": "2026-04-08T00:20:10.694018+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

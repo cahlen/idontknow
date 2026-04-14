@@ -1,14 +1,26 @@
 ========================================
-Zaremba Density (GPU)
+Zaremba Density (GPU) — production
 Range: d = 1 to 100000000000
 Digits: {1,2,7}
 ========================================
 
-Prefixes (depth 4): 531441
+Generating prefixes (depth=15)...
+Prefixes: 14346779. Sorting...
 Bitset: 12.50 GB
 
-Launching 531441 GPU threads...
-GPU enumeration: 22785.7s
+Launching 299008 persistent threads on 146/148 SMs (14346779 prefixes)...
+  [    32s] 6277012/14346779 (43.8%) 198500 pfx/s ETA 41s
+  [    62s] 7419574/14346779 (51.7%) 38084 pfx/s ETA 182s
+  [    92s] 8125688/14346779 (56.6%) 23536 pfx/s ETA 264s
+  [   122s] 8637822/14346779 (60.2%) 17071 pfx/s ETA 334s
+  [   152s] 9040474/14346779 (63.0%) 13421 pfx/s ETA 395s
+  [   182s] 9369090/14346779 (65.3%) 10953 pfx/s ETA 454s
+  [   212s] 9647013/14346779 (67.2%) 9264 pfx/s ETA 507s
+  [   242s] 9887949/14346779 (68.9%) 8031 pfx/s ETA 555s
+  [   272s] 10101673/14346779 (70.4%) 7124 pfx/s ETA 596s
+  [   302s] 10290464/14346779 (71.7%) 6293 pfx/s ETA 645s
+  [checkpoint saved: 10290464/14346779 prefixes, 12.5 GB]
+GPU enumeration: 15606.4s
 
 ========================================
 RESULTS
@@ -18,5 +30,5 @@ Range: d = 1 to 100000000000
 Covered: 99999992822 / 100000000000
 Density: 99.9999928220%
 Uncovered: 7178
-Time: 22868.8s (enum: 22785.7s)
+Time: 15623.1s (enum: 15606.4s)
 ========================================

@@ -6,11 +6,9 @@
     "kronecker-s30-largest-computation_peer-review"
   ],
   "severity": "minor",
-  "description": "We must clarify there is no prior S_n full table for higher n in the literature, and cite leading references. This is verifiable by a search.",
-  "status": "resolved",
-  "action_taken": "We must clarify there is no prior S_n full table for higher n in the literature, and cite leading references. This is verifiable by a search.",
-  "resolved_at": "2026-04-07T00:10:16.335155+00:00",
-  "commits": [
-    "e37fcff"
-  ]
+  "description": "The finding already cites the prior frontier: 'The previous systematic frontier in the peer-reviewed literature appears to be around n <= 25: B\u00fcrgisser and Ikenmeyer (2008)' and notes 'A zbMATH and arXiv search (April 2026) found no published complete table for n > 25'. References include B\u00fcrgisser & Ikenmeyer (2008), Ikenmeyer, Mulmuley & Walter (2017), and Pak & Panova (2017). Resolved in commit 95db7f2.",
+  "status": "disputed",
+  "action_taken": "The finding already cites the prior frontier: 'The previous systematic frontier in the peer-reviewed literature appears to be around n <= 25: B\u00fcrgisser and Ikenmeyer (2008)' and notes 'A zbMATH and arXiv search (April 2026) found no published complete table for n > 25'. References include B\u00fcrgisser & Ikenmeyer (2008), Ikenmeyer, Mulmuley & Walter (2017), and Pak & Panova (2017). Resolved in commit 95db7f2.",
+  "resolved_at": null,
+  "commits": []
 }

@@ -1,0 +1,17 @@
+{
+  "issue_id": "this-is-the-first-publication-to-clearly",
+  "finding_slug": "zaremba-exception-hierarchy",
+  "found_by_reviews": [
+    "zaremba-exception-hierarchy_o3pro-review",
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
+  ],
+  "severity": "minor",
+  "description": "Contextualize the novelty by citing existing tables and noting explicitly where the full hierarchy presentation is new.",
+  "status": "resolved",
+  "action_taken": "Contextualize the novelty by citing existing tables and noting explicitly where the full hierarchy presentation is new.",
+  "resolved_at": "2026-04-08T00:36:53.356394+00:00",
+  "commits": [
+    "dba4738"
+  ]
+}

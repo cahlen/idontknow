@@ -1,0 +1,17 @@
+{
+  "issue_id": "a-layered-covering-using-primes---3499-t",
+  "finding_slug": "zaremba-conjecture-framework",
+  "found_by_reviews": [
+    "zaremba-conjecture-framework_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
+    "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
+  ],
+  "severity": "important",
+  "description": "We now label Layer 4 calculations as heuristic, due to the present absence of an effective, uniform lower bound on \u03c3_p as p increases. The change clarifies the non-rigorous nature of this step unless and until such bounds are constructed.",
+  "status": "resolved",
+  "action_taken": "We now label Layer 4 calculations as heuristic, due to the present absence of an effective, uniform lower bound on \u03c3_p as p increases. The change clarifies the non-rigorous nature of this step unless and until such bounds are constructed.",
+  "resolved_at": "2026-04-08T00:20:10.693963+00:00",
+  "commits": [
+    "dba4738"
+  ]
+}

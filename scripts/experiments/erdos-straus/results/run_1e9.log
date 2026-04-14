@@ -1,0 +1,10 @@
+Erdos-Straus solution counting: f(p) for all primes p <= 1,000,000,000
+=====================================================
+
+GPU: NVIDIA B200 (191.5 GB, SM 10.0)
+
+Sieving primes up to 1,000,000,000 ... done. Found 50,847,534 primes in 5.20 s
+
+GPU memory: 406.8 MB for primes + 203.4 MB for counts
+
+Launching kernel (256 threads/block, 1017 batches of 50000) ...

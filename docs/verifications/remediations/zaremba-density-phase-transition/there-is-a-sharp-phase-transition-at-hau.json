@@ -9,11 +9,11 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "important",
-  "description": "Clarify that computational data shows the phase transition is not solely governed by \u03b4 = 1/2, as {2,3,4,5} is a counterexample.",
+  "description": "This claim as stated is contradicted by the supplied data: {2,3,4,5} has Hausdorff dimension \u03b4 > 1/2 (per Hensley, approx. \u03b4 \u2248 0.71145) but its density at 10^9 is only 0.972937480. The finding is updated to explicitly state this, as well as the current status relative to BK14 and Hensley's conjecture.",
   "status": "resolved",
-  "action_taken": "Clarify that computational data shows the phase transition is not solely governed by \u03b4 = 1/2, as {2,3,4,5} is a counterexample.",
-  "resolved_at": "2026-04-07T00:10:55.887244+00:00",
+  "action_taken": "This claim as stated is contradicted by the supplied data: {2,3,4,5} has Hausdorff dimension \u03b4 > 1/2 (per Hensley, approx. \u03b4 \u2248 0.71145) but its density at 10^9 is only 0.972937480. The finding is updated to explicitly state this, as well as the current status relative to BK14 and Hensley's conjecture.",
+  "resolved_at": "2026-04-08T00:25:29.531501+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

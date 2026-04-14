@@ -6,9 +6,9 @@
     "zaremba-cayley-diameters_peer-review"
   ],
   "severity": "minor",
-  "description": "The manuscript does not contain a proof or citation connecting Cayley graph diameter mod p to integer continued-fraction lengths. This requires a referenced argument or further computation/theory.",
+  "description": "The connection between Cayley graph diameter in SL\u2082(\u2124/p\u2124) and worst-case continued fraction length over \u2124 requires a careful lifting argument. The semigroup \u0393_{1,...,5} acts on \u2124 via continued fraction matrices, but the mod-p diameter only bounds the mod-p representation length \u2014 lifting to integer CF length needs either an effective Bourgain-Kontorovich bound or a separate argument about the surjectivity of the reduction map on short words. This is a theoretical gap that cannot be resolved by additional computation alone; it requires a mathematical proof or explicit citation. The finding text should weaken 'translates directly' to 'suggests an analogy with' until a formal argument is provided.",
   "status": "acknowledged",
-  "action_taken": "The manuscript does not contain a proof or citation connecting Cayley graph diameter mod p to integer continued-fraction lengths. This requires a referenced argument or further computation/theory.",
+  "action_taken": "The connection between Cayley graph diameter in SL\u2082(\u2124/p\u2124) and worst-case continued fraction length over \u2124 requires a careful lifting argument. The semigroup \u0393_{1,...,5} acts on \u2124 via continued fraction matrices, but the mod-p diameter only bounds the mod-p representation length \u2014 lifting to integer CF length needs either an effective Bourgain-Kontorovich bound or a separate argument about the surjectivity of the reduction map on short words. This is a theoretical gap that cannot be resolved by additional computation alone; it requires a mathematical proof or explicit citation. The finding text should weaken 'translates directly' to 'suggests an analogy with' until a formal argument is provided.",
   "resolved_at": null,
   "commits": []
 }

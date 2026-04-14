@@ -3,14 +3,15 @@
   "finding_slug": "zaremba-exception-hierarchy",
   "found_by_reviews": [
     "zaremba-exception-hierarchy_o3pro-review",
-    "zaremba-exception-hierarchy_peer-review"
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Replace truncated witness table with complete table for all 25 resolved denominators, including CF expansions and which use the splitting identity.",
+  "description": "Publish for each of the 25 exceptions (out of 27) a numerator with a continued fraction using only digits \u22644; and state explicitly that none exist for 54, 150, with log and scan evidence.",
   "status": "resolved",
-  "action_taken": "Replace truncated witness table with complete table for all 25 resolved denominators, including CF expansions and which use the splitting identity.",
-  "resolved_at": "2026-04-05T01:19:31.606213+00:00",
+  "action_taken": "Publish for each of the 25 exceptions (out of 27) a numerator with a continued fraction using only digits \u22644; and state explicitly that none exist for 54, 150, with log and scan evidence.",
+  "resolved_at": "2026-04-08T00:36:53.356268+00:00",
   "commits": [
-    "5e8a56f"
+    "dba4738"
   ]
 }

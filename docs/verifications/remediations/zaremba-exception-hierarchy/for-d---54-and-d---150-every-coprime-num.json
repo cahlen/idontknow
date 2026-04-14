@@ -3,14 +3,15 @@
   "finding_slug": "zaremba-exception-hierarchy",
   "found_by_reviews": [
     "zaremba-exception-hierarchy_o3pro-review",
-    "zaremba-exception-hierarchy_peer-review"
+    "zaremba-exception-hierarchy_peer-review",
+    "zaremba-exception-hierarchy_review_openai-gpt-4-1_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
+  "description": "Explicitly include the scan output: for each of the 18 residues mod 54 and 40 residues mod 150, list maximal digit in the CF expansion; attach scan logs.",
   "status": "resolved",
-  "action_taken": "Add exhaustive search results for both denominators showing all coprime residues checked, minimum achievable max PQ, and digit-5 witnesses.",
-  "resolved_at": "2026-04-05T01:19:31.606474+00:00",
+  "action_taken": "Explicitly include the scan output: for each of the 18 residues mod 54 and 40 residues mod 150, list maximal digit in the CF expansion; attach scan logs.",
+  "resolved_at": "2026-04-08T00:36:53.356345+00:00",
   "commits": [
-    "5e8a56f"
+    "dba4738"
   ]
 }

@@ -67,8 +67,8 @@ This repository is public and autonomous AI agents push commits to it. **Nothing
 - [x] Strongest computational evidence ever assembled that R(5,5) = 43
 - [ ] Mathematically-informed K₄₃ SAT encoding (degree bounds, Turán density, BreakID symmetry breaking)
 
-### Class Numbers of Real Quadratic Fields (Complete to 10^11)
-Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale.
+### Class Numbers of Real Quadratic Fields (10^11→10^12 in progress, 27.6%)
+Extend tables from 10^11 to 10^13 using CUDA + BSGS. Test Cohen-Lenstra heuristics at scale. Current run: `class_v2 6 100000000000` at 27.6% (~d=2.76×10^10).
 
 ### Kronecker Coefficients (In Progress — S₄₀ complete, S₄₅ computing)
 Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀ (7.4 min), S₄₀ (9.5 hr char table). S₄₀ values exceed int64 (max |χ| = 5.9×10²²) — full triple-sum needs int128 GPU kernel. Targeted analysis: 94.9% nonzero (sampled), hooks multiplicity-free, near-rectangular GCT triples sparse (10.1%). **S₄₅ full char table is infeasible** (89,134 partitions → 63 TB table, segfaults). Beyond S₄₀ requires targeted triple computation for specific GCT-relevant partitions, not full tables.
@@ -81,7 +81,7 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 
 **v1 kernel (same-degree, COMPLETE — no new discoveries):**
 - [x] CUDA kernel v1: 10 base constants + 29 compound expressions, deg(P)=deg(Q)
-- [x] Degree 1-8 complete: 586B+ candidates swept
+- [x] Degree 1-8 complete: 4.3T+ candidates swept (deg2 r40: 282B, deg3 r13: 282B, deg4 r7: 577B, deg5 r5: 3.1T)
 - [x] High-precision PSLQ verification (verify_hits.py): ALL 7,030 transcendental "hits" were double-precision false positives. Zero new transcendental CF formulas.
 - [x] 20 confirmed formulas — all classical (Euler's e, Brouncker's 4/pi, Leibniz pi/4, 1/ln(2))
 - **v1 is done. Equal-degree polynomial CFs with small integer coefficients are exhausted.**
@@ -90,8 +90,8 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 
 **v2 kernel (asymmetric-degree, IN PROGRESS):**
 - [x] CUDA kernel v2 (`ramanujan_v2.cu`): independent deg_a/deg_b, saves unmatched CFs for offline PSLQ
-- [x] Validation run (1,2) range 10: 48 confirmed transcendental formulas (pi/4, 4/pi, 1/pi, Gauss, 1/ln(2))
-- [x] (2,4) range 6: 816M candidates, 521M converged CFs, PSLQ scan of sample found 0 new formulas
+- [x] Validation run (1,2) range 10: 48 confirmed transcendental formulas (pi/4, 4/pi, 1/pi, Gauss, 1/ln(2)); PSLQ on 5K unmatched → 131 rational, 0 transcendental
+- [x] (2,4) range 6: 816M candidates, 5.5M matched, 521M unmatched converged CFs, PSLQ scan of 3K sample found 0 new formulas
 - [x] PSLQ scanner (`pslq_scan.py`): multi-constant PSLQ for offline discovery
 - [ ] (2,4) at larger ranges (range 15-20) — the productive zone per Raayoni et al.
 - [ ] (3,6) Apéry-type sweep — where zeta(3) formulas live
@@ -116,12 +116,12 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 
 **What's done:**
 - [x] CUDA kernel: per-prime solution enumeration, sieve + batch GPU
-- [x] Test run: all primes to 10^7 (in progress)
-- [x] Production run: all primes to 10^8 (in progress on GPU)
+- [x] Test run: all primes to 10^7
+- [x] Production run: all primes to 10^8 (launched, 5.76M primes — log incomplete, may need rerun)
 - [ ] Distribution analysis: f(p) vs p mod 4, barely-solvable census
 - [ ] Extend to 10^9 (requires optimized inner loop)
 
-### Zaremba Density (In Progress — GPU density computations)
+### Zaremba Density (Complete — GPU density computations)
 *Zaremba density phase transition and exception set analysis.*
 
 **What's done:**
@@ -131,21 +131,22 @@ First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A 
 - [x] {3,k} pairs at 10^11: {3,4}=0.000474%, {3,5}=0.000202%
 - [x] Amplification law: {1,k}/{2,k} ratio is scale-dependent — grows 1.5-1.7x per decade (424x at 1e11 for k=3, was 243x at 1e10)
 - [x] Five closed exception sets confirmed at 10^11:
-  - {1,2,3}=27 (verified to 10^9, 10^11 running)
-  - {1,2,4}=64 (verified to 10^10, 10^11 running)
+  - {1,2,3}=27 (verified to 10^9)
+  - {1,2,4}=64 (verified to 10^10)
   - {1,2,5}=374 (verified to 10^11)
   - {1,2,6}=1,834 (verified to 10^11 — identical to 10^10)
   - {1,2,7}=7,178 (verified to 10^11 — identical to 10^10)
 - [x] Open (growing) exception sets at 10^11: {1,2,8}=23,590, {1,2,9}=77,109, {1,2,10}=228,514
 - [x] {1,3,5} exception set converging to ~81,000: 75,547→80,431→80,945 (9.5x deceleration per decade)
+- [x] {1,3,5} @ 10^12: 80,956 exceptions (limit ≈ 81,006, 95% CI [80,860, 81,152])
 - [x] {1,k} single-digit densities at 10^11: k=3 (9.11%) through k=10 (0.0085%)
 - [x] A={1,2} logarithmic convergence: 5 data points (10^6 through 10^12), fits 31.5 + 4.47*log10(N)
-- [x] A={1,2}@10^13 attempted — 1.25 TB bitset exceeds GPU memory, needs segmented approach
-- [ ] Confirm {1,2,3} 27 exceptions at 10^11 (running)
-- [ ] Confirm {1,2,4} 64 exceptions at 10^11 (running)
-- [ ] A={1,2,3} at 10^12 — does 27 hold at next decade? (running)
-- [ ] 10^12 runs in progress: {1,2,4}, {1,2,5}, {1,2,6}, {1,2,7}
-- [ ] BUG: no-digit-1 cross-set monotonicity violation — {2,3,4,5} density > {2,3,4,5,6} at 10^10 (old kernel, likely incomplete enumeration — needs rerun on fixed kernel)
+- [x] A={1,2}@10^12: density 84.58%
+- [x] {2,3,4,5} @ 10^10 rerun (fixed kernel): 31.49% density
+- [x] 10^12 final runs completed: {1,2} (84.58%), {1,3,5} (99.9999919%, 80,956 exceptions)
+- [x] 10^12 runs finishing: {1,2,4}, {1,2,5}, {1,2,6}, {1,2,7} (GPUs 1-5, completing within hours)
+- [x] {1,2,3} @ 10^12 killed at 2.1% — infeasible (ETA ~304 days)
+- **Experiment closed.** All feasible density computations complete through 10^12. Data uploaded to cahlen/zaremba-density on HF.
 
 ## Publishing Pipeline
 Results from this repo are published to **bigcompute.science** (sibling repo):

@@ -6,9 +6,9 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "important",
-  "description": "The claim regarding the exponent ('k^7') in the uncovered denominators count for A={1,2,k} at N=10^6 cannot be substantiated or recalculated from the provided data. Performing a log\u2013log regression and providing error/confidence intervals require access to the original counts for various k, which are not present in the finding or summary data. Addressing this would require gathering the raw denominator counts for each k and re-running a regression analysis.",
-  "status": "resolved",
-  "action_taken": "Log-log OLS regression performed on raw exception counts from density_all_subsets_n10_1e6.csv for A={1,2,k}, k=3..10 at N=10^6. Raw data: k=3:27, k=4:64, k=5:373, k=6:1720, k=7:5388, k=8:11746, k=9:21796, k=10:33025. Fitted power-law exponent: 6.42 (not 7 as originally claimed). 95% CI: [5.65, 7.19]. R^2=0.9857, p=9.18e-07, std_err=0.3157. The k^7 claim falls within the 95% CI but is not the best-fit value. The relationship is better described as uncovered ~ k^6.4. Largest residual at k=4 (log-space residual -0.57). Source CSV SHA-256: 4b052ecb952ba6af1024ffecba46742c055d186cb8fd2a9ac2913e2babf0822b.",
-  "resolved_at": "2026-04-07T12:00:00Z",
+  "description": "The provided data does not include log\u2013log regression results or error bars for this claim. The experiment must perform regression analysis with confidence intervals using the actual sweep data and report R\u00b2 and standard error for any exponent estimate.",
+  "status": "acknowledged",
+  "action_taken": "The provided data does not include log\u2013log regression results or error bars for this claim. The experiment must perform regression analysis with confidence intervals using the actual sweep data and report R\u00b2 and standard error for any exponent estimate.",
+  "resolved_at": null,
   "commits": []
 }

@@ -6,11 +6,9 @@
     "zaremba-cayley-diameters_peer-review"
   ],
   "severity": "important",
-  "description": "The original text claimed 669 primes, but only 172 primes \u2264 1021 exist. The manuscript and data confirm 172 checked. Fix misstatement.",
-  "status": "resolved",
-  "action_taken": "The original text claimed 669 primes, but only 172 primes \u2264 1021 exist. The manuscript and data confirm 172 checked. Fix misstatement.",
-  "resolved_at": "2026-04-07T00:11:25.171102+00:00",
-  "commits": [
-    "e37fcff"
-  ]
+  "description": "The reviewer states 669 primes, but the finding correctly states 172. \u03c0(1021) = 172, confirmed by the actual computation log (cayley_gpu1.log) which outputs exactly 172 data rows for primes 2 through 1021. The number 669 does not correspond to any known prime-counting value in this range (\u03c0(5000) \u2248 669). The finding's prime count is correct and needs no correction.",
+  "status": "disputed",
+  "action_taken": "The reviewer states 669 primes, but the finding correctly states 172. \u03c0(1021) = 172, confirmed by the actual computation log (cayley_gpu1.log) which outputs exactly 172 data rows for primes 2 through 1021. The number 669 does not correspond to any known prime-counting value in this range (\u03c0(5000) \u2248 669). The finding's prime count is correct and needs no correction.",
+  "resolved_at": null,
+  "commits": []
 }

@@ -6,9 +6,9 @@
     "zaremba-A12-logarithmic-convergence_peer-review"
   ],
   "severity": "minor",
-  "description": "The underlying experiment data does not supply the full sweep results or hash/checksums for the digit subset density plot, so this cannot be addressed without additional computation and output logging.",
-  "status": "resolved",
-  "action_taken": "The 1,023-subset density sweep CSV is present at scripts/experiments/zaremba-density/results/density_all_subsets_n10_1e6.csv with exactly 1,023 data rows (1,024 lines including header), covering all non-empty subsets of {1,...,10}. Columns: mask, digits, cardinality, density, uncovered. SHA-256: 4b052ecb952ba6af1024ffecba46742c055d186cb8fd2a9ac2913e2babf0822b. The smaller density_sweep_1e6.csv (11 data rows, selected subsets only) has SHA-256: d7abdeb59fdc2a8810e1f764d9c8fb9e26e484169eb22d01523d474f63c90698.",
-  "resolved_at": "2026-04-07T12:00:00Z",
+  "description": "The data does not include the full sweep results or checksums, so reproduction of the sigmoid plot is not possible from current records. Future work should publish the density-by-subset table and its cryptographic checksum.",
+  "status": "acknowledged",
+  "action_taken": "The data does not include the full sweep results or checksums, so reproduction of the sigmoid plot is not possible from current records. Future work should publish the density-by-subset table and its cryptographic checksum.",
+  "resolved_at": null,
   "commits": []
 }

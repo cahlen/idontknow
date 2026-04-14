@@ -6,10 +6,12 @@
     "zaremba-conjecture-framework_review_openai-o3-pro_2026-04-06",
     "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
   ],
-  "severity": "important",
-  "description": "A rigorous a-posteriori bound transferring the Galerkin spectrum to the full transfer operator is not included in current data. Labeling the gap as only a numerical observation is thus appropriate unless further error analysis is performed.",
+  "severity": "minor",
+  "description": "We now explicitly state the numerical nature of the \u03c3_p result. For example, for p=17, the singular value (gap) computed is \u03c3\u2081\u2087 = 0.564, but without an explicit truncation error bound transporting this to the full operator, it is a numerical observation. The text precisely distinguishes this.",
   "status": "resolved",
-  "action_taken": "The finding page explicitly states that spectral gap values are numerical observations from N=40 Chebyshev Galerkin discretization, not rigorous bounds on the infinite-dimensional operator. The finding is titled 'Proof Framework' (not 'Proof') and lists this as one of 6 known open gaps. Theorem 1 (brute force to 2.1\u00d710^11) is unconditional and unaffected. The Galerkin-to-operator transport bound (Keller-Liverani type) is documented as future work.",
-  "resolved_at": "2026-04-07T14:00:00Z",
-  "commits": []
+  "action_taken": "We now explicitly state the numerical nature of the \u03c3_p result. For example, for p=17, the singular value (gap) computed is \u03c3\u2081\u2087 = 0.564, but without an explicit truncation error bound transporting this to the full operator, it is a numerical observation. The text precisely distinguishes this.",
+  "resolved_at": "2026-04-08T00:20:10.694076+00:00",
+  "commits": [
+    "dba4738"
+  ]
 }

@@ -1,0 +1,178 @@
+========================================
+Prime Convergents v2 (uint128 recurrence)
+========================================
+Samples:   10000000
+Max depth: 500 convergents per sample
+Mode:      random (Gauss-Kuzmin)
+
+GPU: NVIDIA B200 (191.5 GB)
+
+Launching 100 batches of 100000 samples...
+[   34.5s] 100000/10000000 samples (1.0%) ETA 3415s
+[   69.0s] 200000/10000000 samples (2.0%) ETA 3383s
+[  104.0s] 300000/10000000 samples (3.0%) ETA 3361s
+[  139.0s] 400000/10000000 samples (4.0%) ETA 3337s
+[  173.7s] 500000/10000000 samples (5.0%) ETA 3299s
+[  207.8s] 600000/10000000 samples (6.0%) ETA 3255s
+[  242.6s] 700000/10000000 samples (7.0%) ETA 3223s
+[  277.7s] 800000/10000000 samples (8.0%) ETA 3194s
+[  312.3s] 900000/10000000 samples (9.0%) ETA 3158s
+[  346.9s] 1000000/10000000 samples (10.0%) ETA 3122s
+[  381.8s] 1100000/10000000 samples (11.0%) ETA 3089s
+[  416.6s] 1200000/10000000 samples (12.0%) ETA 3055s
+[  451.0s] 1300000/10000000 samples (13.0%) ETA 3018s
+[  485.3s] 1400000/10000000 samples (14.0%) ETA 2981s
+[  519.8s] 1500000/10000000 samples (15.0%) ETA 2946s
+[  554.3s] 1600000/10000000 samples (16.0%) ETA 2910s
+[  588.7s] 1700000/10000000 samples (17.0%) ETA 2874s
+[  623.5s] 1800000/10000000 samples (18.0%) ETA 2840s
+[  657.8s] 1900000/10000000 samples (19.0%) ETA 2804s
+[  692.2s] 2000000/10000000 samples (20.0%) ETA 2769s
+[  726.5s] 2100000/10000000 samples (21.0%) ETA 2733s
+[  760.5s] 2200000/10000000 samples (22.0%) ETA 2696s
+[  794.8s] 2300000/10000000 samples (23.0%) ETA 2661s
+[  830.5s] 2400000/10000000 samples (24.0%) ETA 2630s
+[  864.5s] 2500000/10000000 samples (25.0%) ETA 2593s
+[  899.2s] 2600000/10000000 samples (26.0%) ETA 2559s
+[  933.7s] 2700000/10000000 samples (27.0%) ETA 2525s
+[  968.1s] 2800000/10000000 samples (28.0%) ETA 2490s
+[ 1003.3s] 2900000/10000000 samples (29.0%) ETA 2456s
+[ 1037.7s] 3000000/10000000 samples (30.0%) ETA 2421s
+[ 1072.0s] 3100000/10000000 samples (31.0%) ETA 2386s
+[ 1106.3s] 3200000/10000000 samples (32.0%) ETA 2351s
+[ 1140.8s] 3300000/10000000 samples (33.0%) ETA 2316s
+[ 1175.0s] 3400000/10000000 samples (34.0%) ETA 2281s
+[ 1209.6s] 3500000/10000000 samples (35.0%) ETA 2246s
+[ 1243.8s] 3600000/10000000 samples (36.0%) ETA 2211s
+[ 1278.2s] 3700000/10000000 samples (37.0%) ETA 2176s
+[ 1313.0s] 3800000/10000000 samples (38.0%) ETA 2142s
+[ 1348.2s] 3900000/10000000 samples (39.0%) ETA 2109s
+[ 1383.0s] 4000000/10000000 samples (40.0%) ETA 2075s
+[ 1417.7s] 4100000/10000000 samples (41.0%) ETA 2040s
+[ 1451.9s] 4200000/10000000 samples (42.0%) ETA 2005s
+[ 1486.4s] 4300000/10000000 samples (43.0%) ETA 1970s
+[ 1520.7s] 4400000/10000000 samples (44.0%) ETA 1935s
+[ 1555.6s] 4500000/10000000 samples (45.0%) ETA 1901s
+[ 1589.9s] 4600000/10000000 samples (46.0%) ETA 1866s
+[ 1624.0s] 4700000/10000000 samples (47.0%) ETA 1831s
+[ 1658.0s] 4800000/10000000 samples (48.0%) ETA 1796s
+[ 1692.7s] 4900000/10000000 samples (49.0%) ETA 1762s
+[ 1727.9s] 5000000/10000000 samples (50.0%) ETA 1728s
+[ 1762.4s] 5100000/10000000 samples (51.0%) ETA 1693s
+[ 1796.9s] 5200000/10000000 samples (52.0%) ETA 1659s
+[ 1831.4s] 5300000/10000000 samples (53.0%) ETA 1624s
+[ 1866.1s] 5400000/10000000 samples (54.0%) ETA 1590s
+[ 1900.7s] 5500000/10000000 samples (55.0%) ETA 1555s
+[ 1934.9s] 5600000/10000000 samples (56.0%) ETA 1520s
+[ 1969.2s] 5700000/10000000 samples (57.0%) ETA 1486s
+[ 2004.2s] 5800000/10000000 samples (58.0%) ETA 1451s
+[ 2038.9s] 5900000/10000000 samples (59.0%) ETA 1417s
+[ 2073.4s] 6000000/10000000 samples (60.0%) ETA 1382s
+[ 2107.9s] 6100000/10000000 samples (61.0%) ETA 1348s
+[ 2142.5s] 6200000/10000000 samples (62.0%) ETA 1313s
+[ 2177.1s] 6300000/10000000 samples (63.0%) ETA 1279s
+[ 2211.2s] 6400000/10000000 samples (64.0%) ETA 1244s
+[ 2245.9s] 6500000/10000000 samples (65.0%) ETA 1209s
+[ 2280.0s] 6600000/10000000 samples (66.0%) ETA 1175s
+[ 2314.6s] 6700000/10000000 samples (67.0%) ETA 1140s
+[ 2349.4s] 6800000/10000000 samples (68.0%) ETA 1106s
+[ 2383.5s] 6900000/10000000 samples (69.0%) ETA 1071s
+[ 2417.7s] 7000000/10000000 samples (70.0%) ETA 1036s
+[ 2452.3s] 7100000/10000000 samples (71.0%) ETA 1002s
+[ 2486.9s] 7200000/10000000 samples (72.0%) ETA 967s
+[ 2521.0s] 7300000/10000000 samples (73.0%) ETA 932s
+[ 2555.6s] 7400000/10000000 samples (74.0%) ETA 898s
+[ 2590.1s] 7500000/10000000 samples (75.0%) ETA 863s
+[ 2624.8s] 7600000/10000000 samples (76.0%) ETA 829s
+[ 2658.7s] 7700000/10000000 samples (77.0%) ETA 794s
+[ 2693.1s] 7800000/10000000 samples (78.0%) ETA 760s
+[ 2727.8s] 7900000/10000000 samples (79.0%) ETA 725s
+[ 2762.0s] 8000000/10000000 samples (80.0%) ETA 691s
+[ 2796.5s] 8100000/10000000 samples (81.0%) ETA 656s
+[ 2831.3s] 8200000/10000000 samples (82.0%) ETA 621s
+[ 2866.0s] 8300000/10000000 samples (83.0%) ETA 587s
+[ 2900.7s] 8400000/10000000 samples (84.0%) ETA 553s
+[ 2934.8s] 8500000/10000000 samples (85.0%) ETA 518s
+[ 2969.9s] 8600000/10000000 samples (86.0%) ETA 483s
+[ 3004.3s] 8700000/10000000 samples (87.0%) ETA 449s
+[ 3038.6s] 8800000/10000000 samples (88.0%) ETA 414s
+[ 3072.8s] 8900000/10000000 samples (89.0%) ETA 380s
+[ 3107.4s] 9000000/10000000 samples (90.0%) ETA 345s
+[ 3142.4s] 9100000/10000000 samples (91.0%) ETA 311s
+[ 3177.4s] 9200000/10000000 samples (92.0%) ETA 276s
+[ 3212.1s] 9300000/10000000 samples (93.0%) ETA 242s
+[ 3246.5s] 9400000/10000000 samples (94.0%) ETA 207s
+[ 3280.7s] 9500000/10000000 samples (95.0%) ETA 173s
+[ 3315.2s] 9600000/10000000 samples (96.0%) ETA 138s
+[ 3349.6s] 9700000/10000000 samples (97.0%) ETA 104s
+[ 3384.3s] 9800000/10000000 samples (98.0%) ETA 69s
+[ 3418.7s] 9900000/10000000 samples (99.0%) ETA 35s
+[ 3453.3s] 10000000/10000000 samples (100.0%) ETA 0s
+
+GPU time: 3453.34 s
+
+========================================
+RESULTS (v2 — uint128 recurrence)
+========================================
+Samples:              10000000
+Mode:                 random (Gauss-Kuzmin)
+Avg depth reached:    75.4 (max 500)
+
+--- Depth Distribution ---
+  depth  56: 13712 samples (0.1%)
+  depth  57: 20312 samples (0.2%)
+  depth  58: 29094 samples (0.3%)
+  depth  59: 40622 samples (0.4%)
+  depth  60: 55819 samples (0.6%)
+  depth  61: 74828 samples (0.7%)
+  depth  62: 98546 samples (1.0%)
+  depth  63: 126924 samples (1.3%)
+  depth  64: 160361 samples (1.6%)
+  depth  65: 197772 samples (2.0%)
+  depth  66: 239847 samples (2.4%)
+  depth  67: 284273 samples (2.8%)
+  depth  68: 331875 samples (3.3%)
+  depth  69: 377598 samples (3.8%)
+  depth  70: 422872 samples (4.2%)
+  depth  71: 463171 samples (4.6%)
+  depth  72: 498734 samples (5.0%)
+  depth  73: 525669 samples (5.3%)
+  depth  74: 544216 samples (5.4%)
+  depth  75: 551405 samples (5.5%)
+  depth  76: 549720 samples (5.5%)
+  depth  77: 537183 samples (5.4%)
+  depth  78: 515357 samples (5.2%)
+  depth  79: 484302 samples (4.8%)
+  depth  80: 448446 samples (4.5%)
+  depth  81: 405738 samples (4.1%)
+  depth  82: 359552 samples (3.6%)
+  depth  83: 314651 samples (3.1%)
+  depth  84: 269179 samples (2.7%)
+  depth  85: 227246 samples (2.3%)
+  depth  86: 186631 samples (1.9%)
+  depth  87: 150427 samples (1.5%)
+  depth  88: 119550 samples (1.2%)
+  depth  89: 93511 samples (0.9%)
+  depth  90: 71978 samples (0.7%)
+  depth  91: 54225 samples (0.5%)
+  depth  92: 39550 samples (0.4%)
+  depth  93: 28367 samples (0.3%)
+  depth  94: 20182 samples (0.2%)
+  depth  95: 14173 samples (0.1%)
+
+--- Primality ---
+Avg prime A_n per CF: 5.90
+Avg prime B_n per CF: 5.92
+Avg doubly-prime:     0.9685
+Total doubly-prime:   9684553 across all samples
+Max doubly-prime:     8 (sample #6618135)
+
+--- Erdos-Mahler Bound: G(A_n) >= e^{n/(50 ln n)} ---
+Avg ratio log(G(A_n)) / (n/(50 ln n)): 165.4303
+Min ratio (worst case):                 5.1912
+Samples where bound always holds:       10000000 / 10000000 (100.0%)
+
+Time: 3453.34 s
+========================================
+CSV written: scripts/experiments/prime-convergents/results/v2_stats_random_10000000_500.csv
+Metadata written: scripts/experiments/prime-convergents/results/v2_metadata_random_10000000_500.json

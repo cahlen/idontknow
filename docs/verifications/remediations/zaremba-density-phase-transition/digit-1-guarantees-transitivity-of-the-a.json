@@ -9,11 +9,11 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "minor",
-  "description": "Add explicit reference to Bourgain and Fuchs (2011), and cite Lemma 2 therein.",
+  "description": "Fix provides formal statement and source, per Bourgain\u2013Fuchs (2011): Lemma 2 and Theorem 1.1.",
   "status": "resolved",
-  "action_taken": "Add explicit reference to Bourgain and Fuchs (2011), and cite Lemma 2 therein.",
-  "resolved_at": "2026-04-07T00:10:55.887303+00:00",
+  "action_taken": "Fix provides formal statement and source, per Bourgain\u2013Fuchs (2011): Lemma 2 and Theorem 1.1.",
+  "resolved_at": "2026-04-08T00:25:29.531573+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

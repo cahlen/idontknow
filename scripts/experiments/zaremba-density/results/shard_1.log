@@ -1,0 +1,26 @@
+========================================
+Zaremba Density (GPU) — shard 1/8
+Range: d = 1 to 100000000000
+Digits: {1,2,3}
+========================================
+
+Generating prefixes (adaptive, cost_threshold=1e+08)...
+Total prefixes: 50000000. Sorting by q descending...
+Prefixes: 6250000 (shard 1/8, total 50000000)
+Bitset: 12.50 GB
+Work queue: 16777216 items (537 MB)
+
+Launching 299008 persistent threads on 146/148 SMs (6250000 initial prefixes)...
+  [    16s] prefixes: 189440/6250000 | queue: 1188888 pending (1188888 donated, 0 dequeued) | active: 299008
+  [    32s] prefixes: 189440/6250000 | queue: 3443173 pending (3443171 donated, 0 dequeued) | active: 299008
+  [    48s] prefixes: 189440/6250000 | queue: 5594797 pending (5594794 donated, 0 dequeued) | active: 299008
+  [    64s] prefixes: 189440/6250000 | queue: 7698835 pending (7698835 donated, 0 dequeued) | active: 299008
+  [    80s] prefixes: 189440/6250000 | queue: 9770130 pending (9770130 donated, 0 dequeued) | active: 299008
+  [    96s] prefixes: 189440/6250000 | queue: 11820028 pending (11820027 donated, 0 dequeued) | active: 299008
+  [   112s] prefixes: 189440/6250000 | queue: 13852717 pending (13852715 donated, 0 dequeued) | active: 299008
+  [   128s] prefixes: 189440/6250000 | queue: 15875833 pending (15875831 donated, 0 dequeued) | active: 299008
+  [   144s] prefixes: 189440/6250000 | queue: 16777214 pending (16777214 donated, 0 dequeued) | active: 299008
+  [   160s] prefixes: 189440/6250000 | queue: 16777214 pending (16777214 donated, 0 dequeued) | active: 299008
+  [   176s] prefixes: 189440/6250000 | queue: 16777214 pending (16777214 donated, 0 dequeued) | active: 299008
+  [   192s] prefixes: 189440/6250000 | queue: 16777214 pending (16777214 donated, 0 dequeued) | active: 299008
+  [   208s] prefixes: 189440/6250000 | queue: 16777214 pending (16777214 donated, 0 dequeued) | active: 299008

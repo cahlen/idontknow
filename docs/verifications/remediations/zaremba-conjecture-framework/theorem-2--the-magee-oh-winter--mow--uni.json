@@ -7,9 +7,9 @@
     "zaremba-conjecture-framework_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "The MOW framework implementation in this finding does not currently include rigorous truncation error bounds for the finite Galerkin matrix approximation, explicit constant tracking throughout the proof, or a certified argument establishing property tau. These would require: (1) reproducing the matrix approximation at much higher virtual arithmetic precision, with interval arithmetic for roundoff tracking; (2) extracting and propagating the constants used in the harmonic analytic bounds; (3) either proving property tau for the specific congruence subgroups used, or bounding the expansion explicitly. None of these are present in the supplied data.",
-  "status": "resolved",
-  "action_taken": "The MOW framework implementation lacks: (1) rigorous truncation error bounds, (2) explicit constant propagation throughout harmonic analysis bounds, (3) certified property-\u03c4. All three are explicitly listed as known gaps in the finding page. The \u03c1_\u03b7 \u2264 0.7606 bound is interval-certified (arb, 256-bit, commit 9428528) for the Galerkin matrix. Extracting fully explicit constants from the MOW/Dolgopyat framework and proving property-\u03c4 with effective bounds are substantial mathematical projects documented as future work.",
-  "resolved_at": "2026-04-07T14:00:00Z",
+  "description": "The main issue is that our current implementation of the finite matrix Galerkin approach does not include a rigorously computed upper bound for the truncation error. Furthermore, the explicit constants from MOW are not carried through into our propagation of estimates. Finally, property tau is stated without constructive constants for the spectral gap. Resolving all would require a full numerical certification of (a) the decay of tail matrix norms and (b) extraction of explicit constants from MOW's proof trace.",
+  "status": "acknowledged",
+  "action_taken": "The main issue is that our current implementation of the finite matrix Galerkin approach does not include a rigorously computed upper bound for the truncation error. Furthermore, the explicit constants from MOW are not carried through into our propagation of estimates. Finally, property tau is stated without constructive constants for the spectral gap. Resolving all would require a full numerical certification of (a) the decay of tail matrix norms and (b) extraction of explicit constants from MOW's proof trace.",
+  "resolved_at": null,
   "commits": []
 }

@@ -1,0 +1,2 @@
+sample_id,depth,prime_An,prime_Bn,doubly_prime,mean_ratio,min_ratio,overflow_depth
+0,42,7,8,3,86.638535,10.349608,42

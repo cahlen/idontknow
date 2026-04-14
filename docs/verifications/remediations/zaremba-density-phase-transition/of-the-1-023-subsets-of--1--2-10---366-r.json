@@ -1,0 +1,19 @@
+{
+  "issue_id": "of-the-1-023-subsets-of--1--2-10---366-r",
+  "finding_slug": "zaremba-density-phase-transition",
+  "found_by_reviews": [
+    "zaremba-density-phase-transition_o3pro-review",
+    "zaremba-density-phase-transition_peer-review",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-04",
+    "zaremba-density-phase-transition_review_openai-gpt-4-1_2026-04-06",
+    "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
+  ],
+  "severity": "important",
+  "description": "Fix adds the script/GitHub link and the SHA-256 checksum for the data file, derived from the experiment setup.",
+  "status": "resolved",
+  "action_taken": "Fix adds the script/GitHub link and the SHA-256 checksum for the data file, derived from the experiment setup.",
+  "resolved_at": "2026-04-08T00:25:29.531661+00:00",
+  "commits": [
+    "dba4738"
+  ]
+}

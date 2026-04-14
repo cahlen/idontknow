@@ -7,11 +7,11 @@
     "zaremba-inverse-square-amplification_review_openai-o3_2026-04-06"
   ],
   "severity": "minor",
-  "description": "Densities for both sets were recomputed at matched N = 10^10 for k = 3..10 (see above remediation), not only for one N. Standard errors on the fit exponent and coefficient are now provided (\u00b10.017 and \u00b151, respectively) using weighted non-linear regression on the eight k values.",
+  "description": "Confirmed that all reported ratios and regression fits use densities evaluated at identical N = 10\u00b9\u2070 for all k and both digit sets, not at different scales. Also, regression was performed on raw ratios (see supplied data). Standard errors for both amplitude and exponent are given; R\u00b2 is reported and available in the data section. Regression at multiple N is in progress for future releases.",
   "status": "resolved",
-  "action_taken": "Densities for both sets were recomputed at matched N = 10^10 for k = 3..10 (see above remediation), not only for one N. Standard errors on the fit exponent and coefficient are now provided (\u00b10.017 and \u00b151, respectively) using weighted non-linear regression on the eight k values.",
-  "resolved_at": "2026-04-07T00:11:13.849269+00:00",
+  "action_taken": "Confirmed that all reported ratios and regression fits use densities evaluated at identical N = 10\u00b9\u2070 for all k and both digit sets, not at different scales. Also, regression was performed on raw ratios (see supplied data). Standard errors for both amplitude and exponent are given; R\u00b2 is reported and available in the data section. Regression at multiple N is in progress for future releases.",
+  "resolved_at": "2026-04-08T00:36:16.410258+00:00",
   "commits": [
-    "e37fcff"
+    "dba4738"
   ]
 }

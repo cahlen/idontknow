@@ -6,9 +6,9 @@
     "kronecker-s30-largest-computation_peer-review"
   ],
   "severity": "minor",
-  "description": "We cannot exclude the existence of unpublished private or industry computations, but comprehensive search reveals no public record above S_19 full tables.",
-  "status": "acknowledged",
-  "action_taken": "We cannot exclude the existence of unpublished private or industry computations, but comprehensive search reveals no public record above S_19 full tables.",
+  "description": "The finding already qualifies this claim with 'to our knowledge' and explicitly states 'we cannot rule out unpublished or internal computations at comparable scale' (line 61 of the finding). The claim is appropriately hedged while noting that a zbMATH and arXiv search found no published complete table for n > 25.",
+  "status": "disputed",
+  "action_taken": "The finding already qualifies this claim with 'to our knowledge' and explicitly states 'we cannot rule out unpublished or internal computations at comparable scale' (line 61 of the finding). The claim is appropriately hedged while noting that a zbMATH and arXiv search found no published complete table for n > 25.",
   "resolved_at": null,
   "commits": []
 }

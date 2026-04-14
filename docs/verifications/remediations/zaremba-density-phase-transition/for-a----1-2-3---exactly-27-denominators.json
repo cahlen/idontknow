@@ -9,11 +9,9 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "minor",
-  "description": "Add the SHA256 checksum for the computed bitset and attach the reproduction script and SHA-256 of the log file for independent verification.",
-  "status": "resolved",
-  "action_taken": "Add the SHA256 checksum for the computed bitset and attach the reproduction script and SHA-256 of the log file for independent verification.",
-  "resolved_at": "2026-04-07T00:10:55.887143+00:00",
-  "commits": [
-    "e37fcff"
-  ]
+  "description": "Auto-demoted from fix: fix only adds hedging (1 hedge phrases, no concrete data). Fix supplies reproducibility information explicitly: SHA-256 checksum for the 10",
+  "status": "acknowledged",
+  "action_taken": "Auto-demoted from fix: fix only adds hedging (1 hedge phrases, no concrete data). Fix supplies reproducibility information explicitly: SHA-256 checksum for the 10",
+  "resolved_at": null,
+  "commits": []
 }

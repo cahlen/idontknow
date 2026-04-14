@@ -47,7 +47,6 @@ __global__ void kronecker_slab_tiled(
     const double *__restrict__ ct,    /* P × C, row-major */
     const double *__restrict__ z_inv, /* C */
     int P, int C, int j,
-    int64_t *__restrict__ out,         /* (j+1) × (P-j) output slab */
     unsigned long long *__restrict__ nz_count,
     unsigned long long *__restrict__ max_abs)
 {
@@ -76,35 +75,25 @@ __global__ void kronecker_slab_tiled(
         }
         __syncthreads();
 
-        /* Each thread reads its own i and k rows from global (coalesced
-         * across threads in the same warp if i values are adjacent). */
-        if (i <= j && k < P) {
-            for (int t = 0; t < tile_len; t++) {
-                double val = s_zi[t]
-                    * ct[(int64_t)i * C + c0 + t]
-                    * s_row_j[t]
-                    * ct[(int64_t)k * C + c0 + t];
-                /* Kahan summation */
-                double y = val - comp;
-                double t2 = sum + y;
-                comp = (t2 - sum) - y;
-                sum = t2;
-            }
+        for (int t = 0; t < tile_len; t++) {
+            double val = s_zi[t]
+                * ct[(int64_t)i * C + c0 + t]
+                * s_row_j[t]
+                * ct[(int64_t)k * C + c0 + t];
+            /* Kahan summation */
+            double y = val - comp;
+            double t2 = sum + y;
+            comp = (t2 - sum) - y;
+            sum = t2;
         }
         __syncthreads();
     }
 
-    if (i <= j && k < P) {
-        int64_t g = llround(sum);
-        /* Store in compact slab: row=i (0..j), col=dk (0..P-j-1) */
-        int slab_w = P - j;
-        out[(int64_t)i * slab_w + dk] = g;
-        /* Fused stats */
-        if (g != 0) {
-            atomicAdd(nz_count, 1ULL);
-            unsigned long long av = (unsigned long long)(g > 0 ? g : -g);
-            atomicMax(max_abs, av);
-        }
+    int64_t g = llround(sum);
+    if (g != 0) {
+        atomicAdd(nz_count, 1ULL);
+        unsigned long long av = (unsigned long long)(g > 0 ? g : -g);
+        atomicMax(max_abs, av);
     }
 }
 
@@ -146,34 +135,20 @@ int main(int argc, char **argv) {
     fread(h_ct, 1, ct_sz, fc); fclose(fc);
     fread(h_z, sizeof(double), C, fz); fclose(fz);
 
-    /* GPU alloc */
+    /* GPU alloc — no output buffer needed, stats accumulated atomically */
     double *d_ct, *d_z;
-    int64_t *d_out;
     unsigned long long *d_nz, *d_mx;
 
     cudaMalloc(&d_ct, ct_sz);
     cudaMalloc(&d_z, C * sizeof(double));
-    /* Slab size: max (j+1) × (P-j) ≈ P²/4 at j=P/2 */
-    int64_t max_slab = (int64_t)(P / 2 + 1) * (P - P / 2);
-    /* Cap slab memory at available GPU memory (leave 2 GB headroom) */
-    size_t free_mem, total_mem;
-    cudaMemGetInfo(&free_mem, &total_mem);
-    int64_t slab_budget = (int64_t)(free_mem - ct_sz - C * 8 - 2000000000LL);
-    if (slab_budget < 0) slab_budget = (int64_t)1 << 30;  /* 1 GB minimum */
-    int64_t max_slab_entries = slab_budget / sizeof(int64_t);
-    if (max_slab > max_slab_entries) max_slab = max_slab_entries;
-
-    cudaMalloc(&d_out, max_slab * sizeof(int64_t));
     cudaMalloc(&d_nz, sizeof(unsigned long long));
     cudaMalloc(&d_mx, sizeof(unsigned long long));
     cudaMemcpy(d_ct, h_ct, ct_sz, cudaMemcpyHostToDevice);
     cudaMemcpy(d_z, h_z, C * sizeof(double), cudaMemcpyHostToDevice);
 
-    printf("GPU memory: %.1f GB char table, %.1f GB slab buffer\n",
-           ct_sz / 1e9, max_slab * 8.0 / 1e9);
+    printf("GPU memory: %.1f GB char table (no slab buffer needed)\n", ct_sz / 1e9);
     fflush(stdout);
 
-    unsigned long long total_nz = 0, global_max = 0;
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
@@ -184,24 +159,13 @@ int main(int argc, char **argv) {
     for (int j = 0; j < P; j++) {
         int num_i = j + 1;        /* i = 0..j */
         int num_k = P - j;        /* k = j..P-1 */
-        int64_t slab_size = (int64_t)num_i * num_k;
-
-        /* If slab too big for GPU memory, skip (shouldn't happen for S40) */
-        if (slab_size > max_slab) {
-            if (j % 1000 == 0)
-                printf("  j=%d: slab too big (%lld > %lld), skipping\n",
-                       j, (long long)slab_size, (long long)max_slab);
-            continue;
-        }
-
-        cudaMemset(d_out, 0, slab_size * sizeof(int64_t));
 
         dim3 block(BLOCK_X, BLOCK_Y);
         dim3 grid((num_i + BLOCK_X - 1) / BLOCK_X,
                   (num_k + BLOCK_Y - 1) / BLOCK_Y);
 
         kronecker_slab_tiled<<<grid, block>>>(
-            d_ct, d_z, P, C, j, d_out, d_nz, d_mx);
+            d_ct, d_z, P, C, j, d_nz, d_mx);
 
         if (j % 500 == 0 || j == P - 1) {
             cudaDeviceSynchronize();
@@ -253,7 +217,7 @@ int main(int argc, char **argv) {
     remove(ckpt);
 
     free(h_ct); free(h_z);
-    cudaFree(d_ct); cudaFree(d_z); cudaFree(d_out);
+    cudaFree(d_ct); cudaFree(d_z);
     cudaFree(d_nz); cudaFree(d_mx);
     return 0;
 }

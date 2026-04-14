@@ -9,9 +9,9 @@
     "zaremba-density-phase-transition_review_openai-o3-pro_2026-04-04"
   ],
   "severity": "important",
-  "description": "Certification level recommendation is outside of scope for technical correction and requires independent review. Pending further external replication and alignment with core criteria.",
+  "description": "Auto-demoted from fix: fix only adds hedging (1 hedge phrases, no concrete data). Fix: Based on reproducibility and coverage, downgrade to silver until all indepe",
   "status": "acknowledged",
-  "action_taken": "Certification level recommendation is outside of scope for technical correction and requires independent review. Pending further external replication and alignment with core criteria.",
+  "action_taken": "Auto-demoted from fix: fix only adds hedging (1 hedge phrases, no concrete data). Fix: Based on reproducibility and coverage, downgrade to silver until all indepe",
   "resolved_at": null,
   "commits": []
 }
