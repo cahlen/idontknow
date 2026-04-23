@@ -16,7 +16,7 @@
   "claim_reviews": [
     {
       "claim": "Gamma_{1,...,5} acts transitively on (Z/pZ)* for all primes p",
-      "verdict": "VERIFIED (argument sound, not formalized)",
+      "verdict": "NEEDS_CLARIFICATION",
       "evidence": "The argument proceeds by Dickson's classification (1901): the image of Gamma in PGL(2,p) must be one of: cyclic, dihedral, A4, S4, A5, Borel, Cartan normalizer, or PSL(2,p)/PGL(2,p). Each non-transitive case is eliminated: not Borel (matrix [[1,1],[1,2]] has nonzero (2,1) entry), not Cartan (specific matrices don't share eigenvectors), not exceptional for p>=13 (order bounds). Small primes p<13 verified by BFS computation. This is a valid mathematical argument using a 125-year-old classification theorem.",
       "sources": [
         {

@@ -48,7 +48,7 @@
     },
     {
       "claim": "This suggests Zaremba's conjecture holds with A=3, not A=5",
-      "verdict": "VERIFIED with caveat",
+      "verdict": "VERIFIED",
       "evidence": "For A={1,2,3}, 27 exceptions all <= 6234 with 10^10 verified is extremely strong computational evidence. However, 'A=3 suffices' means 'with finitely many exceptions'. Zaremba's original conjecture states EVERY integer is covered, so strictly A=3 does NOT suffice (27 exceptions). The correct statement: A=3 suffices for all d > 6234. For all d (including d <= 6234), A=5 suffices (zero exceptions to 10^10).",
       "sources": [
         {

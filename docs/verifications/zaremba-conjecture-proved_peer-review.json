@@ -34,7 +34,7 @@
     },
     {
       "claim": "D0 ~ 3.4 x 10^10, brute-force verified to 2.1 x 10^11",
-      "verdict": "VERIFIED (conditional on gap closure)",
+      "verdict": "NEEDS_CLARIFICATION",
       "evidence": "D0 depends on certified rho_eta. With rho_eta <= 0.756 (mpmath, not interval arithmetic), D0 ~ 3.4e10. The brute-force verification to 2.1e11 provides a 6x margin. If rho_eta is interval-certified to <= 0.80, D0 would still be < 2.1e11.",
       "sources": [
         {

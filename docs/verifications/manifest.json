@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-08T00:36:53Z",
+  "generated_at": "2026-04-23T21:56:10Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
-    "total_findings": 18,
+    "total_findings": 17,
     "total_reviews": 53,
     "total_remediations": 217,
     "remediations_resolved": 200,
@@ -751,7 +751,7 @@
           "certification_recommendation": "bronze",
           "claims": {
             "total": 7,
-            "verified": 2,
+            "verified": 4,
             "disputed": 1,
             "needs_clarification": 2,
             "unverifiable": 0
@@ -864,7 +864,7 @@
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
-      "title": "Cayley Graph Diameters of Zaremba's Semigroup: diam(p)/log(p) \u2192 1.45 for Primes to 1021",
+      "title": "Exploratory BFS Depths for Zaremba Generators: Short-Word Expansion Data to p=1021",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -1019,7 +1019,7 @@
       "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 8,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1082,6 +1082,106 @@
             "unverifiable": 1
           },
           "key_finding": "The computational component is impressive and the reported performance numbers are believable, but several key mathematical claims hinge on heuristically extracted or non-rigorous constants.  Without "
+        },
+        {
+          "review_id": "external-chatgpt-2026-04-01",
+          "file": "zaremba-conjecture-proved_external-review-1.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Grok",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-04-01T08:00:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 5,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Strong preprint/framework that provides the best computational evidence for Zaremba A=5. With the three gaps closed (all fixable with existing tools in the repo), it would constitute a genuine compute"
+        },
+        {
+          "review_id": "gpt-5.2-openai-2026-04-02",
+          "file": "zaremba-conjecture-proved_external-review-2.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "GPT-5.2",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-02T00:00:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 3,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "GPT-5.2 provided the most detailed line-by-line review yet. Found one real proof error (transitivity |H| bound \u2014 fixed), one valid concern (c1 FP64 \u2014 acknowledged with tolerance analysis), one false a"
+        },
+        {
+          "review_id": "unknown",
+          "file": "zaremba-conjecture-proved_mcp-auto.json",
+          "reviewer": {
+            "type": "unknown",
+            "model": "unknown",
+            "provider": "unknown"
+          },
+          "reviewed_at": "2026-04-01T04:30:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 0,
+            "verified": 0,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "MOW framework is established. Our proof framework applies it effectively but is NOT peer-reviewed. The gap between our D0 and brute-force frontier needs independent verification."
+        },
+        {
+          "review_id": "o3-pro-openai-2026-04-03",
+          "file": "zaremba-conjecture-proved_o3pro-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-04-03T19:52:39Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 1,
+            "disputed": 2,
+            "needs_clarification": 3,
+            "unverifiable": 1
+          },
+          "key_finding": "The project contains interesting large-scale computations and plausible numerical evidence, but the logical chain from raw data to a fully rigorous proof is incomplete. Key analytic steps\u2014rigorous tra"
+        },
+        {
+          "review_id": "claude-opus-4.6-2026-04-01",
+          "file": "zaremba-conjecture-proved_peer-review.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "Claude Opus 4.6",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-04-01T05:30:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 3,
+            "verified": 0,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a co"
         }
       ],
       "remediations": [
@@ -1168,122 +1268,7 @@
           "description": "The main issue is that our current implementation of the finite matrix Galerkin approach does not include a rigorously computed upper bound for the truncation error. Furthermore, the explicit constants from MOW are not carried through into our propagation of estimates. Finally, property tau is stated without constructive constants for the spectral gap. Resolving all would require a full numerical certification of (a) the decay of tail matrix norms and (b) extraction of explicit constants from MOW's proof trace.",
           "status": "acknowledged",
           "resolved_commit": ""
-        }
-      ],
-      "issues_found": 12,
-      "issues_resolved": 10,
-      "last_reviewed": "2026-04-06T23:37:18Z"
-    },
-    "zaremba-conjecture-proved": {
-      "title": "zaremba-conjecture-proved",
-      "certification": {
-        "level": "bronze",
-        "review_count": 5,
-        "consensus_method": "most_conservative"
-      },
-      "reviews": [
-        {
-          "review_id": "external-chatgpt-2026-04-01",
-          "file": "zaremba-conjecture-proved_external-review-1.json",
-          "reviewer": {
-            "type": "ai-model",
-            "model": "Grok",
-            "provider": "xAI"
-          },
-          "reviewed_at": "2026-04-01T08:00:00Z",
-          "overall_verdict": "ACCEPT_WITH_REVISION",
-          "certification_recommendation": "silver",
-          "claims": {
-            "total": 6,
-            "verified": 4,
-            "disputed": 0,
-            "needs_clarification": 0,
-            "unverifiable": 0
-          },
-          "key_finding": "Strong preprint/framework that provides the best computational evidence for Zaremba A=5. With the three gaps closed (all fixable with existing tools in the repo), it would constitute a genuine compute"
         },
-        {
-          "review_id": "gpt-5.2-openai-2026-04-02",
-          "file": "zaremba-conjecture-proved_external-review-2.json",
-          "reviewer": {
-            "type": "ai-model",
-            "model": "GPT-5.2",
-            "provider": "OpenAI"
-          },
-          "reviewed_at": "2026-04-02T00:00:00Z",
-          "overall_verdict": "ACCEPT_WITH_REVISION",
-          "certification_recommendation": "silver",
-          "claims": {
-            "total": 5,
-            "verified": 0,
-            "disputed": 0,
-            "needs_clarification": 0,
-            "unverifiable": 0
-          },
-          "key_finding": "GPT-5.2 provided the most detailed line-by-line review yet. Found one real proof error (transitivity |H| bound \u2014 fixed), one valid concern (c1 FP64 \u2014 acknowledged with tolerance analysis), one false a"
-        },
-        {
-          "review_id": "unknown",
-          "file": "zaremba-conjecture-proved_mcp-auto.json",
-          "reviewer": {
-            "type": "unknown",
-            "model": "unknown",
-            "provider": "unknown"
-          },
-          "reviewed_at": "2026-04-01T04:30:00Z",
-          "overall_verdict": "ACCEPT_WITH_REVISION",
-          "certification_recommendation": "silver",
-          "claims": {
-            "total": 0,
-            "verified": 0,
-            "disputed": 0,
-            "needs_clarification": 0,
-            "unverifiable": 0
-          },
-          "key_finding": "MOW framework is established. Our proof framework applies it effectively but is NOT peer-reviewed. The gap between our D0 and brute-force frontier needs independent verification."
-        },
-        {
-          "review_id": "o3-pro-openai-2026-04-03",
-          "file": "zaremba-conjecture-proved_o3pro-review.json",
-          "reviewer": {
-            "type": "ai-model",
-            "model": "o3-pro",
-            "provider": "OpenAI"
-          },
-          "reviewed_at": "2026-04-03T19:52:39Z",
-          "overall_verdict": "REVISE_AND_RESUBMIT",
-          "certification_recommendation": "bronze",
-          "claims": {
-            "total": 7,
-            "verified": 1,
-            "disputed": 2,
-            "needs_clarification": 3,
-            "unverifiable": 1
-          },
-          "key_finding": "The project contains interesting large-scale computations and plausible numerical evidence, but the logical chain from raw data to a fully rigorous proof is incomplete. Key analytic steps\u2014rigorous tra"
-        },
-        {
-          "review_id": "claude-opus-4.6-2026-04-01",
-          "file": "zaremba-conjecture-proved_peer-review.json",
-          "reviewer": {
-            "type": "ai-model",
-            "model": "Claude Opus 4.6",
-            "provider": "Anthropic"
-          },
-          "reviewed_at": "2026-04-01T05:30:00Z",
-          "overall_verdict": "REVISE_AND_RESUBMIT",
-          "certification_recommendation": "silver",
-          "claims": {
-            "total": 3,
-            "verified": 0,
-            "disputed": 1,
-            "needs_clarification": 1,
-            "unverifiable": 0
-          },
-          "key_finding": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a co"
-        }
-      ],
-      "remediations": [
         {
           "issue_id": "a-complete-brute-force-enumeration-on-8-nvidia-b2",
           "severity": "minor",
@@ -1432,9 +1417,9 @@
           "resolved_commit": "5e8a56f"
         }
       ],
-      "issues_found": 21,
-      "issues_resolved": 21,
-      "last_reviewed": "2026-04-03T19:52:39Z"
+      "issues_found": 33,
+      "issues_resolved": 31,
+      "last_reviewed": "2026-04-06T23:37:18Z"
     },
     "zaremba-density-phase-transition": {
       "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
@@ -1497,7 +1482,7 @@
           "certification_recommendation": "gold",
           "claims": {
             "total": 5,
-            "verified": 3,
+            "verified": 4,
             "disputed": 0,
             "needs_clarification": 1,
             "unverifiable": 0
@@ -1724,7 +1709,7 @@
           "certification_recommendation": "silver",
           "claims": {
             "total": 4,
-            "verified": 3,
+            "verified": 4,
             "disputed": 0,
             "needs_clarification": 0,
             "unverifiable": 0
@@ -2114,7 +2099,7 @@
       "last_reviewed": "2026-04-06T17:37:39Z"
     },
     "zaremba-inverse-square-amplification": {
-      "title": "Inverse-Square Amplification: Digit 1 Boosts Zaremba Density by 1600/k\u00b2",
+      "title": "Digit 1 Amplification in Zaremba Density: Strong Effect, Inverse-Square Law Still Unconfirmed",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2464,7 +2449,7 @@
           "certification_recommendation": "silver",
           "claims": {
             "total": 3,
-            "verified": 1,
+            "verified": 2,
             "disputed": 0,
             "needs_clarification": 1,
             "unverifiable": 0
@@ -2563,7 +2548,7 @@
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
-      "title": "Zaremba's Semigroup Acts Transitively on (Z/pZ)\u00b2 for ALL Primes (Algebraic Argument + Computation)",
+      "title": "Zaremba Transitivity: Verified to p=17,389; All-Prime Algebraic Argument Still Provisional",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2625,7 +2610,7 @@
             "total": 1,
             "verified": 0,
             "disputed": 0,
-            "needs_clarification": 0,
+            "needs_clarification": 1,
             "unverifiable": 0
           },
           "key_finding": "Sound application of Dickson's classical classification. The argument is short, verifiable, and correct. Small primes cross-checked computationally. The only reservation is that it hasn't been indepen"
@@ -2782,7 +2767,7 @@
           "certification_recommendation": "bronze",
           "claims": {
             "total": 3,
-            "verified": 1,
+            "verified": 2,
             "disputed": 0,
             "needs_clarification": 1,
             "unverifiable": 0

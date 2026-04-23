@@ -13,7 +13,7 @@
   "claim_reviews": [
     {
       "claim": "A={1,2} density fits density = 30.1 + 4.65 * log10(N) with residuals < 0.1%",
-      "verdict": "VERIFIED (but fragile)",
+      "verdict": "VERIFIED",
       "evidence": "Three data points (57.98% at 10^6, 72.06% at 10^9, 76.55% at 10^10) do fit a logarithmic model with small residuals. However, THREE POINTS can fit many functions — a power law, a log, or even a linear function in log-space. The fit is real but the model selection is underdetermined. A 4th data point at 10^12 would distinguish between logarithmic and power-law convergence (the models diverge: log predicts 85.9%, power-law predicts ~80%).",
       "sources": [{"type": "mathematical", "reference": "Standard curve fitting — 2 parameters, 3 points", "relationship": "qualifies"}],
       "concerns": "Three points fitting a 2-parameter model is necessary but not sufficient. Could equally fit density = 100 - 101*N^(-0.146). The logarithmic claim needs more data points."
@@ -58,7 +58,7 @@
     },
     {
       "claim": "{1,2,k} exception count scales as k^7",
-      "verdict": "VERIFIED (approximate)",
+      "verdict": "VERIFIED",
       "evidence": "The power-law fit gives exponent ~7 for k=4 to k=10. However, the ratios between consecutive k values are not constant (range from 1.5 to 5.8), suggesting the true scaling may be more complex. A single power law is an approximation. The qualitative conclusion — larger digits help much less — is robust.",
       "sources": [],
       "concerns": "The k^7 fit is rough. The ratios suggest the exponent may vary with k."

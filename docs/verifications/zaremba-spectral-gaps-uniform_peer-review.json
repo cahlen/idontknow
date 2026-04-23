@@ -16,7 +16,7 @@
   "claim_reviews": [
     {
       "claim": "Spectral gap sigma_m >= 0.237 across all 1214 square-free moduli to m=1999",
-      "verdict": "VERIFIED (computational)",
+      "verdict": "VERIFIED",
       "evidence": "The spectral gap is computed as sigma_m = 1 - |lambda_2(L_m)| where L_m is the transfer operator restricted to level m. The computation uses cuBLAS FP64 matrix eigenvalue decomposition. FP64 gives ~15 digits of precision, more than sufficient for a gap of 0.237. The finding page reports a minimum at p=491 with sigma=0.344 (for primes to 1000). The updated data extends to 1214 moduli to m=1999.",
       "sources": [
         {

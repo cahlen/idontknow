@@ -22,7 +22,7 @@
     },
     {
       "claim": "Theorem 2: MOW framework + Tauberian lemma yields R(d) = c1*d^(2delta-1) + O(d^(2delta-1-2epsilon))",
-      "verdict": "VERIFIED (framework sound, gaps acknowledged)",
+      "verdict": "VERIFIED",
       "evidence": "Reviewer confirmed: 'The norm-ball counting (MOW) is applied correctly to the Schottky semigroup. The differentiation/Tauberian step is standard. No errors in the displayed math.' Also: 'The logical structure is sound: brute-force covers small d; asymptotic + error term covers large d; constants show overlap. The margin (6×) is generous and conservative.'",
       "sources": [
         {"type": "peer-review", "reference": "MOW2019 (Crelle) correctly cited", "relationship": "supports"},
@@ -32,7 +32,7 @@
     },
     {
       "claim": "D0 ~ 3.4x10^10, margin 6x below brute-force frontier",
-      "verdict": "VERIFIED (conditional on gap closure)",
+      "verdict": "NEEDS_CLARIFICATION",
       "evidence": "Reviewer: 'These numbers are plausible given delta ≈ 0.837 and typical MOW exponents.' Constants C_err ≈ 536, epsilon ≈ 0.140 are consistent.",
       "sources": [],
       "concerns": "Depends on rho_eta certification (gap 1) and C_eta bound (gap 3)."

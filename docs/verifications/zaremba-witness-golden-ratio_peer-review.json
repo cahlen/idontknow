@@ -16,7 +16,7 @@
   "claim_reviews": [
     {
       "claim": "Optimal witnesses concentrate at a/d ~ 0.171",
-      "verdict": "VERIFIED (computational observation)",
+      "verdict": "VERIFIED",
       "evidence": "The smallest a (in coprime a/d with CF quotients <= 5) tends to have a/d near 0.171. This is a direct output of the verification computation \u2014 for each d, the smallest valid a is recorded. The concentration is a statistical pattern in the data.",
       "sources": [
         {

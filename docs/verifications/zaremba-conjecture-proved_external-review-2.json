@@ -15,35 +15,35 @@
   "claim_reviews": [
     {
       "claim": "D0 arithmetic: (536/0.6046)^(1/0.280) = 886^3.57 = 3.4e10",
-      "verdict": "VERIFIED (reviewer misread LaTeX)",
+      "verdict": "VERIFIED",
       "evidence": "GPT-5.2 flagged '8863.57' as wrong — this was a misread of 886^{3.57} in the LaTeX. Actual math: 536/0.6046 = 886.5, exponent = 3.571, 886.5^3.571 = 3.37e10. The computation is correct. LaTeX clarified to use \\left(\\frac{}{} notation to prevent misreading.",
       "sources": [],
       "concerns": "LaTeX formatting was ambiguous. Fixed."
     },
     {
       "claim": "Transitivity proof: |H| >= p^2-1 step unsupported",
-      "verdict": "DISPUTED — valid criticism, proof step was incomplete",
+      "verdict": "DISPUTED",
       "evidence": "GPT-5.2 correctly identified that line 304 claimed |H| >= p^2-1 without justification. The correct argument is that H is not contained in any maximal proper subgroup (Borel, Cartan, exceptional) by steps (i)-(iii), so H = SL_2(F_p) by Dickson's theorem. The order bound was the wrong approach. Proof rewritten.",
       "sources": [{"type": "textbook", "reference": "Dickson (1901) classification theorem", "relationship": "supports corrected proof"}],
       "concerns": "This was a real error in the proof. Fixed."
     },
     {
       "claim": "c1 = 0.6046 computed in FP64, not interval-certified",
-      "verdict": "VERIFIED — valid concern",
+      "verdict": "VERIFIED",
       "evidence": "GPT-5.2 correctly noted that c1 is FP64 while other constants are arb-certified. Added note that the 6x margin tolerates ~20% error in c1 (1.2^3.57 = 1.9x shift in D0).",
       "sources": [],
       "concerns": "Acknowledged with tolerance analysis."
     },
     {
       "claim": "MOW matching AI-assisted, needs independent verification",
-      "verdict": "VERIFIED — correctly identified as key remaining gap",
+      "verdict": "VERIFIED",
       "evidence": "GPT-5.2 noted Remark 9 as the load-bearing admission. This is already flagged in the paper's abstract and in the MOW matching remark itself.",
       "sources": [],
       "concerns": "This is the principal remaining step. Already acknowledged."
     },
     {
       "claim": "Paper is still a draft (Section ??, AI-review language)",
-      "verdict": "PARTIALLY VALID",
+      "verdict": "NEEDS_CLARIFICATION",
       "evidence": "No 'Section ??' found in current version (may have been in an older PDF). The AI-review language and no-journal-submission stance are intentional, not oversights.",
       "sources": [],
       "concerns": ""

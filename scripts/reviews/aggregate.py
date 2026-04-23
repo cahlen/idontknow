@@ -27,6 +27,17 @@ CERT_ORDER = {"uncertified": 0, "bronze": 1, "silver": 2, "gold": 3}
 VERDICT_SEVERITY = {
     "REJECT": 0, "REVISE_AND_RESUBMIT": 1, "ACCEPT_WITH_REVISION": 2, "ACCEPT": 3
 }
+CANONICAL_SLUGS = {
+    # The original finding was published under this slug, but review
+    # remediation renamed it to a framework because the proof is not complete.
+    # Keep old review files append-only while aggregating their evidence under
+    # the public canonical finding.
+    "zaremba-conjecture-proved": "zaremba-conjecture-framework",
+}
+
+
+def canonical_slug(slug):
+    return CANONICAL_SLUGS.get(slug, slug)
 
 
 def load_finding_titles(findings_dir):
@@ -47,7 +58,7 @@ def load_finding_titles(findings_dir):
                     if slug and title:
                         break
             if slug:
-                titles[slug] = title or slug
+                    titles[canonical_slug(slug)] = title or canonical_slug(slug)
 
     # Fallback: extract titles from review JSONs (always available)
     if not titles:
@@ -57,6 +68,7 @@ def load_finding_titles(findings_dir):
                 with open(f) as fh:
                     data = json.load(fh)
                 slug = data.get("finding_slug", "")
+                slug = canonical_slug(slug)
                 if slug and slug not in titles:
                     titles[slug] = slug.replace("-", " ").title()
             except:
@@ -83,7 +95,7 @@ def load_reviews(verifications_dir):
             skipped.append((basename, "invalid JSON"))
             continue
 
-        slug = data.get("finding_slug")
+        slug = canonical_slug(data.get("finding_slug"))
         if not slug:
             skipped.append((basename, "no finding_slug"))
             continue
@@ -114,7 +126,7 @@ def load_remediations(verifications_dir):
     for slug_dir in sorted(rem_dir.iterdir()):
         if not slug_dir.is_dir():
             continue
-        slug = slug_dir.name
+        slug = canonical_slug(slug_dir.name)
         for f in sorted(slug_dir.glob("*.json")):
             try:
                 with open(f) as fh:
