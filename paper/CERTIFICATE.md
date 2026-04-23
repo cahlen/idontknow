@@ -152,15 +152,16 @@ run's 2 × 10⁹ buffer, which means our local abort threshold is
 **deliberately more sensitive** than the B200 run's.
 
 **Probe mode** (single RTX 5090, 119,210 seeds per chunk, matching the
-210B configuration):
+210B configuration, `ZAREMBA_PROBE=1` so overflow continues rather
+than aborting):
 
-| max_d | num_rounds | `h_out` peak observed | `overflow_count` total | Interpretation |
-|-------|-----------|-----------------------|------------------------|----------------|
-| 10⁸ | 2048 | **1.91 × 10⁹** | 0 | True peak measured; under local BUF_SLOTS×5 ceiling; safe |
-| 10⁹ | 2048 | 2.00 × 10⁹ (saturated at 5 × BUF_SLOTS) | **17.5 × 10¹² (17.5 trillion)** | Clipping happened; true peak ≥ 4 × 10⁸ but exact value not recoverable from this probe |
-| 10¹⁰ | 2048 | *pending* (probe 3 running) | *pending* | Expected similar saturation |
+| max_d | num_rounds | `h_out` peak observed | `overflow_count` total | Wall time | Interpretation |
+|-------|-----------|-----------------------|------------------------|-----------|----------------|
+| 10⁸ | 2048 | 1.91 × 10⁹ | 0 | 1,407 s | **True unclipped peak**; no overflow at local BUF_SLOTS=4e8; 95.5% of B200 BUF_SLOTS=2e9 |
+| 10⁹ | 2048 | 2.00 × 10⁹ (saturated) | 17.5 × 10¹² | 6,987 s | True peak > 4e8; saturation artifact at 5× BUF_SLOTS |
+| 10¹⁰ | 2048 | 4.29 × 10⁹ (saturated higher) | 25.2 × 10¹² | 7,491 s | Higher saturation level; confirms peak grows with max_d |
 
-Full logs: `idontknow/logs/v6_1_suite/v6_1_PROBE_d*.log`.
+Full probe logs: `idontknow/logs/v6_1_suite/v6_1_PROBE_d*.log`.
 
 ### Interpreting the probe data correctly (2026-04-22)
 
@@ -242,6 +243,63 @@ page's "scaling table" that used `num_rounds = 1` (the `d ≤ 10⁹` row
 at 21.8 s, and corresponding intermediate rows) was clipping heavily.
 Only the 210B headline run, with its 256-round chunking, is in the
 candidate-safe regime.
+
+### Local certified runs (CERTIFY mode, hard abort on overflow)
+
+These runs use the same binary but without `ZAREMBA_PROBE`, so any
+overflow immediately triggers a fatal abort with exit status 2. A
+successful CERTIFY run produces a machine-checkable no-overflow
+certificate in its tail.
+
+| max_d | num_rounds | Chunk seeds | Outcome | Phase B peak | Overflow |
+|-------|-----------|-------------|---------|--------------|----------|
+| 10⁶ | 2048 | 105,631 | **CERTIFIED** (Uncovered=0, 226.4 s) | 262,804,169 (65.7 % of BUF_SLOTS) | 0 |
+| 10⁷ | 2048 | 119,051 | hard abort at round 1 | Phase B round 1 h_out = 1.14 × 10⁹ | 7.42 × 10⁸ |
+| 10⁸ | 16,384 | 14,902 | hard abort at round 1 | Phase B round 1 h_out = 1.01 × 10⁹ | 6.12 × 10⁸ |
+| 10⁹ | 16,384 | 14,902 | hard abort at round 1 | Phase B round 1 h_out = 1.16 × 10⁹ | 7.61 × 10⁸ |
+
+Logs: `idontknow/logs/v6_1_suite/v6_1_CERTIFY_*_v2.log`.
+
+**First certified result (frozen).** The `max_d = 10⁶` run produced:
+
+```
+--- NO-OVERFLOW CERTIFICATE ---
+BUF_SLOTS                 : 400000000
+Phase A peak frontier     : 216330790  (0.5408 of BUF_SLOTS)
+Phase A overflow events   : 0
+Phase B peak frontier     : 262804169  (0.6570 of BUF_SLOTS)
+Phase B overflow events   : 0
+All peaks < BUF_SLOTS     : YES
+No-overflow abort fired   : NO
+
+RESULT: ALL d in [1, 1000000] are Zaremba denominators (A=5).
+        Run is buffer-safe (no frontier ever reached BUF_SLOTS).
+```
+
+This is the first machine-checkable computational artifact produced
+by the project: a v6.1 run whose tail proves every expansion landed
+in-buffer and whose bitset count proves every integer in [1, 10⁶] is
+covered. A full log is at
+`idontknow/logs/v6_1_suite/v6_1_CERTIFY_d1000000_r2048_v2.log`.
+
+**What this does and does not establish.** It establishes that the
+v6.1 kernel is *auditable* (it emits a real certificate) and that the
+`max_d = 10⁶` sub-range of the 210B claim is now certified, not
+merely computationally-evident. It does **not** certify the full 210B
+range — that requires a re-run on hardware where `BUF_SLOTS ≥ 2 × 10⁹`
+(nominally the original 8× B200 configuration, since the local RTX
+5090 is five times too small). See section 7.
+
+**Failures on larger max_d are themselves informative.** The hard
+aborts at `max_d ≥ 10⁷` at 119,051 seeds per chunk prove that even
+for chunk sizes smaller than the 210B configuration, Phase B peak
+frontier exceeds the local 4 × 10⁸ buffer on the very first round.
+At `max_d = 10⁸` with `num_rounds = 16,384` (chunk size reduced to
+14,902 seeds — 1/8 of the 210B per-chunk seeds), Phase B peak still
+reaches ~10⁹. This strongly suggests that on the B200's 2 × 10⁹
+buffer, the 210B configuration (119,210 seeds per chunk,
+`max_d = 2.1 × 10¹¹`) was operating close to or past the buffer
+wall — consistent with the probe-mode observations.
 
 ---
 
