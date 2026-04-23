@@ -421,7 +421,7 @@ $R(d) \geq 1$ for all $d \leq 2.1 \times 10^{11}$.
 \end{lemma}
 
 \begin{proof}
-The v6 multi-pass GPU kernel enumerates all matrix products $g_{a_1} \cdots g_{a_K}$ with depth $\leq 62$, marking each denominator $q_K \leq 2.1 \times 10^{11}$ in a bitset. After complete enumeration (64 rounds $\times$ 8 GPUs), every integer in $[1, 2.1 \times 10^{11}]$ is marked. Runtime: $\sim 60$ minutes on $8\times$ NVIDIA B200.
+The v6 multi-pass GPU kernel enumerates all matrix products $g_{a_1} \cdots g_{a_K}$ with depth $\leq 62$, marking each denominator $q_K \leq 2.1 \times 10^{11}$ in a bitset. After complete enumeration (256 rounds $\times$ 8 GPUs, 119{,}210 seeds per chunk), every integer in $[1, 2.1 \times 10^{11}]$ is marked. Runtime: $6{,}962.2$ seconds (116 minutes) on $8\times$ NVIDIA B200, CUDA 13.0, driver 580.126.09. The verification manifest records the SHA256 checksum of the kernel source, the run log, and the Dolgopyat profile CSV. A hardened replacement kernel (v6.1) with a hard no-overflow abort and a per-round peak-frontier certificate is provided in the same directory; reproducing the 210B claim at certified status requires running v6.1 on equivalent hardware and checking that the emitted certificate reports \texttt{All peaks < BUF\_SLOTS: YES} and \texttt{No-overflow abort fired: NO}.
 \end{proof}
 
 \subsection{Layered Covering (supplementary)}
@@ -469,7 +469,7 @@ CPUs & $2\times$ Intel Xeon Platinum 8570 \\
 
 \subsection{Brute-Force Kernel}
 
-The v6 multi-pass kernel reformulates continued fraction enumeration as batched $2\times 2$ matrix multiplication on GPU. Phase~A builds the CF tree to depth 12 ($2.44 \times 10^8$ matrices). Phase~B distributes these across 8 GPUs in 64 rounds, expanding each to depth~62. Each GPU marks denominators in a shared bitset via \texttt{atomicOr}.
+The v6 multi-pass kernel reformulates continued fraction enumeration as batched $2\times 2$ matrix multiplication on GPU. Phase~A builds the CF tree to depth 12 ($2.44 \times 10^8$ matrices). Phase~B distributes these across 8 GPUs in 256 rounds of 119{,}210 seeds per chunk, expanding each to depth~62. Each GPU marks denominators in a shared bitset via \texttt{atomicOr}. A hardened replacement (\texttt{matrix\_enum\_multipass\_v6\_1.cu}) adds (i)~a hard overflow abort at every Phase~A expansion and every Phase~B \texttt{expand\_mark\_compact\_safe} call, and (ii)~a final \emph{no-overflow certificate} block reporting peak frontiers against \texttt{BUF\_SLOTS}. Re-running the 210B configuration with v6.1 on equivalent hardware is required to upgrade the claim from "strong computational evidence" to "certified computational result".
 
 \subsection{Spectral Gap Kernel}
 
