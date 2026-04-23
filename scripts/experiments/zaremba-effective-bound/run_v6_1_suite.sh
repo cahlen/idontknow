@@ -78,17 +78,31 @@ run_one PROBE 1000000000  2048
 run_one PROBE 10000000000 2048
 
 # --- Certification runs: hard abort on overflow, produce real certificates.
-echo "### PHASE 2: CERTIFY ###"
-echo "Purpose: produce genuine no-overflow certificates for the largest"
-echo "         max_d we can finish overnight on a single RTX 5090."
+#
+# NOTE: probe 1 (max_d=1e8) reported Phase B peak = 1.91e9, far above the
+# local BUF_SLOTS of 4e8. Under this BUF_SLOTS, CERTIFY at the original
+# 210B chunk size (2048 rounds / 119,210 seeds per chunk) is guaranteed
+# to fast-fail with a hard abort at every max_d. Running them would be a
+# waste of wall time and would not produce a real no-overflow log.
+#
+# Instead, certify at smaller max_d with enough rounds that the Phase B
+# per-chunk peak stays well below 4e8. A rough scaling argument: peak
+# scales roughly with (per-chunk seeds x typical survival rate), so to
+# get peak under ~2e8 we need per-chunk seeds around 5,000-15,000. That
+# means num_rounds between 16,000 and 50,000 for max_d = 1e8, or just
+# running at smaller max_d where the intrinsic Phase B working set is
+# smaller.
+
+echo "### PHASE 2: CERTIFY (local-hardware safe bounds) ###"
+echo "Purpose: produce at least one genuine no-overflow certificate on"
+echo "         the RTX 5090 at 400M BUF_SLOTS for the CERTIFICATE.md"
+echo "         self-audit section."
 echo ""
 
-# Certify at 1e8 and 1e9; if time permits, try 1e10.
-run_one CERTIFY 100000000   2048
-run_one CERTIFY 1000000000  2048
-
-# 1e10 may take many hours. Allow it to run but don't block on errors.
-run_one CERTIFY 10000000000 2048 || true
+# Start tiny and walk up until we find the largest max_d that certifies.
+run_one CERTIFY 1000000   2048 || true
+run_one CERTIFY 10000000  2048 || true
+run_one CERTIFY 100000000 16384 || true
 
 echo ""
 echo "### SUITE COMPLETE ###"

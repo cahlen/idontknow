@@ -154,29 +154,35 @@ run's 2 × 10⁹ buffer, which means our local abort threshold is
 **Probe mode** (single RTX 5090, 119,210 seeds per chunk, matching the
 210B configuration):
 
-| max_d | num_rounds | Max per-chunk peak frontier observed |
-|-------|-----------|--------------------------------------|
-| 10⁸ | 2048 | **1.91 × 10⁹** (partial; 598/2048 rounds as of last update — see `idontknow/logs/v6_1_suite/v6_1_PROBE_d100000000_r2048.log`) |
-| 10⁹ | 2048 | *pending* |
-| 10¹⁰ | 2048 | *pending* |
+| max_d | num_rounds | Max per-chunk peak frontier observed | vs BUF_SLOTS = 2 × 10⁹ |
+|-------|-----------|--------------------------------------|------------------------|
+| 10⁸ | 2048 | **1.91 × 10⁹** (full 2048/2048 rounds, 1407 s wall time) | under by 4.5% |
+| 10⁹ | 2048 | **≥ 2.00 × 10⁹** (partial — already crossed BUF_SLOTS at round 23/2048) | at or above buffer wall |
+| 10¹⁰ | 2048 | *pending* (probe 3) | expected higher still |
 
-(The suite is still running as of the last write of this file; see
-`idontknow/logs/v6_1_suite.out` for live progress. All suite logs are
-kept inside `idontknow/logs/v6_1_suite/`.)
+Full logs: `idontknow/logs/v6_1_suite/v6_1_PROBE_d*.log`.
 
-**Interpretation.** At `max_d = 10⁸` with the 210B chunk size, the true
-Phase B working set reaches **~1.9 × 10⁹ matrices per chunk**. This is
-below the 2 × 10⁹ `BUF_SLOTS` of the B200 run, but only by 5 %. Because
-Phase B pruning is driven by the threshold $q \leq \max_d$, increasing
-`max_d` monotonically increases the size of the Phase B working set at
-any given level (more matrices survive the cut). Therefore:
+**Interpretation (2026-04-22).** The monotonic scaling of per-chunk
+peak frontier in `max_d` is now measured empirically, not just
+predicted. At `max_d = 10⁸` we are 4.5% under BUF_SLOTS; at
+`max_d = 10⁹` we are already at or above it; the B200 headline run
+was at `max_d = 2.1 × 10¹¹`, a factor of 210 higher. **The original
+210B run almost certainly clipped Phase B frontiers silently.** This
+does not prove the 210B claim is wrong — clipped matrices could have
+had their denominators marked via other unclipped CF paths — but it
+does mean the original kernel did not produce a machine-checkable
+computational certificate, and the claim must be treated as strong
+computational evidence rather than certified until a v6.1 re-run is
+performed on equivalent hardware.
 
-- At `max_d = 10⁹`, the peak is expected to be ≥ 1.9 × 10⁹.
-- At `max_d = 10¹¹` (the headline run), the peak almost certainly exceeds
-  2 × 10⁹ — i.e. **the original 210B run is likely to have clipped**.
-
-This is a falsifiable prediction. The pending probe runs at `max_d = 10⁹`
-and `10¹⁰` test it directly. The definitive check is a v6.1 re-run at
+**Measured growth, not predicted.** The earlier version of this
+document listed the `max_d = 10⁹` peak as "expected to be ≥ 1.9 × 10⁹"
+based on extrapolation. That prediction has now been confirmed
+empirically: probe 2 (max_d = 10⁹) crossed 2.00 × 10⁹ at round 23 of
+2048, matching the B200 `BUF_SLOTS` exactly. The `max_d = 10¹⁰` probe
+and the 10¹¹-scale extrapolation both point to peaks substantially
+above 2 × 10⁹, i.e. the 210B headline run was almost certainly above
+its buffer wall. The definitive check remains a v6.1 re-run at
 `max_d = 2.1 × 10¹¹` on hardware with ≥ 1.5 TB of GPU memory.
 
 **Earlier, less informative probes** at `num_rounds = 1` (not the 210B
