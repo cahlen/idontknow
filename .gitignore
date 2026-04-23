@@ -149,6 +149,18 @@ scripts/experiments/kronecker-coefficients/results/char_table_n45.txt
 *.swp
 *~
 
+# LaTeX build artifacts (paper/)
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.synctex.gz
+paper/*.bbl
+paper/*.blg
+paper/*.run.xml
+
 # Compiled CUDA binaries (built from .cu source)
 prime_convergents_v2
 zaremba_density_v2
