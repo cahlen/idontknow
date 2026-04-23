@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  22 APR 2026 23:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  23 APR 2026 02:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -547,6 +547,9 @@ Overfull \hbox (7.06593pt too wide) in paragraph at lines 563--564
  []
 
 
+Underfull \vbox (badness 3199) has occurred while \output is active []
+
+ [15]
 Overfull \hbox (3.3561pt too wide) in paragraph at lines 575--576
  \OT1/cmr/m/n/10.95 A.1.\OT1/cmr/bx/n/10.95 The pres-sure func-tion.[][] \OT1/c
 mr/m/n/10.95 The pres-sure func-tion $\OML/cmm/m/it/10.95 P\OT1/cmr/m/n/10.95 (
@@ -554,13 +557,13 @@ mr/m/n/10.95 The pres-sure func-tion $\OML/cmm/m/it/10.95 P\OT1/cmr/m/n/10.95 (
 m/n/10.95 (\OML/cmm/m/it/10.95 s\OT1/cmr/m/n/10.95 )$, where
  []
 
-[15]
+[16]
 Overfull \hbox (36.89624pt too wide) detected at line 634
 \OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 d\OT1/cmr/m/n/10.9
 5 ) = [] + [] \OML/cmm/m/it/10.95 :
  []
 
-[16]
+
 Overfull \hbox (39.43784pt too wide) detected at line 658
 [][][]\OMS/cmsy/m/n/10.95 j[][]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 d\OT1/cm
 r/m/n/10.95 )\OMS/cmsy/m/n/10.95 j ^^T k\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95
@@ -585,7 +588,7 @@ Here is how much of TeX's memory you used:
  28850 multiletter control sequences out of 15000+600000
  480835 words of font info for 72 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 69i,14n,76p,2253b,653s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,14n,76p,2293b,653s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/tex
@@ -608,7 +611,7 @@ blic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on zaremba-proof.pdf (18 pages, 415552 bytes).
+Output written on zaremba-proof.pdf (18 pages, 416215 bytes).
 PDF statistics:
  568 PDF objects out of 1000 (max. 8388607)
  497 compressed objects within 5 object streams

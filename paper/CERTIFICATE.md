@@ -154,45 +154,94 @@ run's 2 × 10⁹ buffer, which means our local abort threshold is
 **Probe mode** (single RTX 5090, 119,210 seeds per chunk, matching the
 210B configuration):
 
-| max_d | num_rounds | Max per-chunk peak frontier observed | vs BUF_SLOTS = 2 × 10⁹ |
-|-------|-----------|--------------------------------------|------------------------|
-| 10⁸ | 2048 | **1.91 × 10⁹** (full 2048/2048 rounds, 1407 s wall time) | under by 4.5% |
-| 10⁹ | 2048 | **≥ 2.00 × 10⁹** (partial — already crossed BUF_SLOTS at round 23/2048) | at or above buffer wall |
-| 10¹⁰ | 2048 | *pending* (probe 3) | expected higher still |
+| max_d | num_rounds | `h_out` peak observed | `overflow_count` total | Interpretation |
+|-------|-----------|-----------------------|------------------------|----------------|
+| 10⁸ | 2048 | **1.91 × 10⁹** | 0 | True peak measured; under local BUF_SLOTS×5 ceiling; safe |
+| 10⁹ | 2048 | 2.00 × 10⁹ (saturated at 5 × BUF_SLOTS) | **17.5 × 10¹² (17.5 trillion)** | Clipping happened; true peak ≥ 4 × 10⁸ but exact value not recoverable from this probe |
+| 10¹⁰ | 2048 | *pending* (probe 3 running) | *pending* | Expected similar saturation |
 
 Full logs: `idontknow/logs/v6_1_suite/v6_1_PROBE_d*.log`.
 
-**Interpretation (2026-04-22).** The monotonic scaling of per-chunk
-peak frontier in `max_d` is now measured empirically, not just
-predicted. At `max_d = 10⁸` we are 4.5% under BUF_SLOTS; at
-`max_d = 10⁹` we are already at or above it; the B200 headline run
-was at `max_d = 2.1 × 10¹¹`, a factor of 210 higher. **The original
-210B run almost certainly clipped Phase B frontiers silently.** This
-does not prove the 210B claim is wrong — clipped matrices could have
-had their denominators marked via other unclipped CF paths — but it
-does mean the original kernel did not produce a machine-checkable
-computational certificate, and the claim must be treated as strong
-computational evidence rather than certified until a v6.1 re-run is
-performed on equivalent hardware.
+### Interpreting the probe data correctly (2026-04-22)
 
-**Measured growth, not predicted.** The earlier version of this
-document listed the `max_d = 10⁹` peak as "expected to be ≥ 1.9 × 10⁹"
-based on extrapolation. That prediction has now been confirmed
-empirically: probe 2 (max_d = 10⁹) crossed 2.00 × 10⁹ at round 23 of
-2048, matching the B200 `BUF_SLOTS` exactly. The `max_d = 10¹⁰` probe
-and the 10¹¹-scale extrapolation both point to peaks substantially
-above 2 × 10⁹, i.e. the 210B headline run was almost certainly above
-its buffer wall. The definitive check remains a v6.1 re-run at
-`max_d = 2.1 × 10¹¹` on hardware with ≥ 1.5 TB of GPU memory.
+The observed `h_out` peak at `max_d = 10⁸` (1.91 × 10⁹) is the **true
+unclipped frontier**: no overflow was recorded, so the atomic counter
+was not saturating. This is the directly-measurable upper bound on the
+Phase B working-set size at that `max_d`, and it sits at 95.5 % of
+the B200's 2 × 10⁹ `BUF_SLOTS`.
+
+For `max_d ≥ 10⁹`, the probe's observed `h_out` peak does **not**
+measure the true unclipped frontier. Because the input buffer to each
+`expand_mark_compact_safe` call is itself clipped to `BUF_SLOTS = 4 ×
+10⁸` by the previous level, each thread produces at most 5 children
+(BOUND = 5), giving a structural upper bound `h_out ≤ 5 × BUF_SLOTS =
+2 × 10⁹` that has nothing to do with the true CF-tree frontier. What
+*is* informative at those max_d values is:
+
+- **Overflow happens.** The probe recorded 17.5 × 10¹² overflow events
+  at `max_d = 10⁹` (summed over all rounds and depths). These are
+  events in which the atomic counter attempted to write past
+  `BUF_SLOTS`. This confirms that at our 4 × 10⁸ buffer, the true
+  per-level frontier exceeded 4 × 10⁸ repeatedly across the 2048
+  rounds.
+- **What this says about the B200 run.** The B200 had `BUF_SLOTS =
+  2 × 10⁹`, five times our local buffer. We cannot directly observe
+  from the 4 × 10⁸ probe whether the true peak at `max_d = 2.1 × 10¹¹`
+  exceeds 2 × 10⁹. What we *can* say is:
+    - At `max_d = 10⁸` the measured peak was 95.5 % of 2 × 10⁹.
+    - Per-chunk peak is non-decreasing in `max_d` (more matrices
+      survive the `q ≤ max_d` filter at every level), so at `max_d =
+      2.1 × 10¹¹` the true peak is at least 1.91 × 10⁹ and almost
+      certainly strictly larger.
+    - Whether the excess is small enough (say, ≤ 4.5 %, keeping it
+      under B200's 2 × 10⁹) or large (multiplying past 2 × 10⁹) is
+      not determined by our local probes. The honest answer is
+      "likely over the B200 buffer wall, but we cannot quantify by how
+      much without a B200 v6.1 re-run".
+
+### What this does and does not say about `Uncovered = 0`
+
+Clipping **does not** directly invalidate the 210B `Uncovered = 0`
+claim. In `expand_mark_compact_safe`, the bitset mark
+
+```c
+atomicOr(&bitset[n10 / 32], 1u << (n10 % 32));
+atomicAdd(marks, 1);
+```
+
+fires *before* the `pos < max_out` check. Every child matrix with
+`n10 ≤ max_d` marks its denominator, regardless of whether the
+matrix itself survives into the next level's frontier. What a clipped
+matrix loses is its *descendants* — the denominators its subtree
+would have marked at greater depth. Because the 244M Phase A seeds
+produce massively redundant CF coverage (most integers `d ≤ 2.1 ×
+10¹¹` have many `A = 5` representations), a clipped subtree's
+denominators are typically still marked by other, unclipped CF paths.
+
+**So the accurate characterization is:**
+
+- It is very likely that the v6 B200 run clipped a meaningful
+  portion of its per-chunk Phase B frontier at `max_d = 2.1 × 10¹¹`.
+- This does **not** mean `Uncovered = 0` is wrong. It is entirely
+  consistent that `Uncovered = 0` is in fact correct even with
+  significant clipping, because seed coverage is redundant.
+- But the v6 kernel does not *prove* this. It emits no
+  machine-checkable certificate. The only way to turn the 210B
+  headline claim into a certified computational artifact is a v6.1
+  re-run on equivalent hardware, whose tail must read
+  `All peaks < BUF_SLOTS: YES` and `No-overflow abort fired: NO`.
+
+This is a *software-audit* gap, not a mathematical one. The headline
+claim is best described as **strong computational evidence, pending
+certification by a v6.1 re-run**.
 
 **Earlier, less informative probes** at `num_rounds = 1` (not the 210B
-chunk size): peak frontier > 25 × 10⁹, i.e. an order of magnitude beyond
-`BUF_SLOTS`. This means any earlier row in the experiment page's "scaling
-table" that used `num_rounds = 1` (the `d ≤ 10⁹` row at 21.8 s, and
-corresponding intermediate rows) was almost certainly clipping silently.
-**Only the 210B headline run, with its 256-round chunking, is in the
-candidate-safe regime, and even it is within 5 % of the buffer wall at
-`max_d = 10⁸` — far from comfortable at `max_d = 2.1 × 10¹¹`.**
+chunk size): peak frontier > 25 × 10⁹ — more than an order of magnitude
+beyond the B200 buffer. This means any earlier row in the experiment
+page's "scaling table" that used `num_rounds = 1` (the `d ≤ 10⁹` row
+at 21.8 s, and corresponding intermediate rows) was clipping heavily.
+Only the 210B headline run, with its 256-round chunking, is in the
+candidate-safe regime.
 
 ---
 
