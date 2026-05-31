@@ -108,7 +108,6 @@ CUDA kernel: [cahlen/bigcompute-cuda-kernels](https://huggingface.co/cahlen/bigc
 
 - Experiment: [bigcompute.science/experiments/cfd-chaotic-advection](https://bigcompute.science/experiments/cfd-chaotic-advection/)
 - Finding: [Standard Map Chaos Onset](https://bigcompute.science/findings/cfd-standard-map-chaos-onset/)
-- Aerospace CFD context: [enfuse/cfd-ai-poc](https://github.com/enfuse/cfd-ai-poc)
 
 ## Citation
 

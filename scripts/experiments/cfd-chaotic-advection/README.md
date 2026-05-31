@@ -78,7 +78,6 @@ python3 scripts/experiments/cfd-chaotic-advection/upload_hf.py
 
 ## Related repos
 
-- **cfd** (`~/dev/cfd`) — aerospace RANS demo; no custom CUDA yet
 - **bigcompute.science** — publication layer for this experiment
 
 ## References
