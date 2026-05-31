@@ -799,21 +799,32 @@ def deploy(dry_run=False, direct_push=False):
     # Update changelog from git history
     log("Updating changelog...")
     try:
-        git_log = subprocess.run(
-            ["git", "log", "--oneline", "--format={\"hash\":\"%h\",\"date\":\"%ad\",\"message\":\"%s\"}",
-             "--date=format:%b %d", "-10"],
-            cwd=str(WEBSITE_ROOT), capture_output=True, text=True, timeout=10
-        )
-        if git_log.returncode == 0:
-            entries = []
-            for line in git_log.stdout.strip().split("\n"):
-                try:
-                    entries.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-            changelog_path = WEBSITE_ROOT / "src" / "data" / "changelog.json"
-            with open(changelog_path, "w") as f:
-                json.dump(entries, f, indent=2)
+        changelog_script = WEBSITE_ROOT / "scripts" / "generate_changelog.py"
+        if changelog_script.exists():
+            subprocess.run(
+                [sys.executable, str(changelog_script)],
+                cwd=str(WEBSITE_ROOT),
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        else:
+            git_log = subprocess.run(
+                ["git", "log", "--oneline", "--format={\"hash\":\"%h\",\"date\":\"%ad\",\"message\":\"%s\"}",
+                 "--date=format:%b %d", "-10"],
+                cwd=str(WEBSITE_ROOT), capture_output=True, text=True, timeout=10
+            )
+            if git_log.returncode == 0:
+                entries = []
+                for line in git_log.stdout.strip().split("\n"):
+                    try:
+                        entries.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        pass
+                changelog_path = WEBSITE_ROOT / "src" / "data" / "changelog.json"
+                with open(changelog_path, "w") as f:
+                    json.dump(entries, f, indent=2)
     except Exception as e:
         log(f"Changelog update failed: {e}", "WARN")
 

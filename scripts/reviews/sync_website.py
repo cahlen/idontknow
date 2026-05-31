@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -212,6 +213,20 @@ def main():
         with open(meta_path, "w") as f:
             json.dump(meta, f, indent=2)
         print(f"Meta written: {meta_path}")
+
+    site_root = output_path.parent.parent.parent
+    changelog_script = site_root / "scripts" / "generate_changelog.py"
+    if changelog_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(changelog_script)],
+            cwd=str(site_root),
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            print(result.stdout.strip())
+        else:
+            print(f"Changelog update skipped: {result.stderr.strip()}", file=sys.stderr)
 
 
 if __name__ == "__main__":
