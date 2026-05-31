@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-23T21:56:10Z",
+  "generated_at": "2026-05-31T05:41:42Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
-    "total_findings": 17,
-    "total_reviews": 53,
+    "total_findings": 18,
+    "total_reviews": 54,
     "total_remediations": 217,
     "remediations_resolved": 200,
     "unique_models": 7,
@@ -59,8 +59,42 @@
       "issues_resolved": 0,
       "last_reviewed": "2026-04-03T21:30:00Z"
     },
+    "cfd-standard-map-chaos-onset": {
+      "title": "Standard Map Chaos Onset: \u039b(K) Crosses Literature K_crit on RTX 5090",
+      "certification": {
+        "level": "silver",
+        "review_count": 1,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "openai-gpt-4.1-2026-05-31",
+          "file": "cfd-standard-map-chaos-onset_review_openai-gpt-4-1_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T05:41:30Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 10,
+            "verified": 10,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The finding provides a thorough, reproducible computational confirmation of the standard map chaos onset using high-performance GPU computing. All critical claims match established literature, and the"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-05-31T05:41:30Z"
+    },
     "class-number-convergence": {
-      "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
+      "title": "class-number-convergence",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -184,7 +218,7 @@
       "last_reviewed": "2026-04-03T19:55:49Z"
     },
     "gpu-matrix-enumeration-175x": {
-      "title": "GPU Matrix Enumeration: 175\u00d7 Faster Zaremba Verification via Batched 2\u00d72 Multiply",
+      "title": "gpu-matrix-enumeration-175x",
       "certification": {
         "level": "bronze",
         "review_count": 2,
@@ -281,7 +315,7 @@
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
     "hausdorff-digit-one-dominance": {
-      "title": "Digit 1 Dominance: Five Digits With 1 Beat Fourteen Digits Without",
+      "title": "hausdorff-digit-one-dominance",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -447,7 +481,7 @@
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
-      "title": "Kronecker Coefficients: Complete S_30 Table \u2014 26.4 Billion Nonzero Triples in 7 Minutes",
+      "title": "kronecker-s30-largest-computation",
       "certification": {
         "level": "silver",
         "review_count": 2,
@@ -586,7 +620,7 @@
       "last_reviewed": "2026-04-03T19:58:04Z"
     },
     "kronecker-s40-character-table": {
-      "title": "Kronecker S_40: Complete Character Table and Targeted Coefficients \u2014 94.9% Nonzero",
+      "title": "kronecker-s40-character-table",
       "certification": {
         "level": "silver",
         "review_count": 2,
@@ -711,7 +745,7 @@
       "last_reviewed": "2026-04-03T20:09:44Z"
     },
     "zaremba-A12-logarithmic-convergence": {
-      "title": "A={1,2} Density Fits Logarithmic Growth: 30 + 4.65\u00b7log\u2081\u2080(N), Testable at 10^12",
+      "title": "zaremba-A12-logarithmic-convergence",
       "certification": {
         "level": "bronze",
         "review_count": 2,
@@ -864,7 +898,7 @@
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
-      "title": "Exploratory BFS Depths for Zaremba Generators: Short-Word Expansion Data to p=1021",
+      "title": "zaremba-cayley-diameters",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -1016,7 +1050,7 @@
       "last_reviewed": "2026-04-03T19:50:28Z"
     },
     "zaremba-conjecture-framework": {
-      "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
+      "title": "zaremba-conjecture-framework",
       "certification": {
         "level": "bronze",
         "review_count": 8,
@@ -1422,7 +1456,7 @@
       "last_reviewed": "2026-04-06T23:37:18Z"
     },
     "zaremba-density-phase-transition": {
-      "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
+      "title": "zaremba-density-phase-transition",
       "certification": {
         "level": "silver",
         "review_count": 6,
@@ -1669,7 +1703,7 @@
       "last_reviewed": "2026-04-06T17:38:52Z"
     },
     "zaremba-digit-pair-hierarchy": {
-      "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 9x More Than Digit 3",
+      "title": "zaremba-digit-pair-hierarchy",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -1863,7 +1897,7 @@
       "last_reviewed": "2026-04-06T17:36:30Z"
     },
     "zaremba-exception-hierarchy": {
-      "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
+      "title": "zaremba-exception-hierarchy",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2099,7 +2133,7 @@
       "last_reviewed": "2026-04-06T17:37:39Z"
     },
     "zaremba-inverse-square-amplification": {
-      "title": "Digit 1 Amplification in Zaremba Density: Strong Effect, Inverse-Square Law Still Unconfirmed",
+      "title": "zaremba-inverse-square-amplification",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2209,7 +2243,7 @@
       "last_reviewed": "2026-04-06T23:39:19Z"
     },
     "zaremba-representation-growth": {
-      "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",
+      "title": "zaremba-representation-growth",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2389,7 +2423,7 @@
       "last_reviewed": "2026-04-03T19:54:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
-      "title": "Congruence Spectral Gaps for Zaremba's Semigroup Are Uniform",
+      "title": "zaremba-spectral-gaps-uniform",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -2548,7 +2582,7 @@
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
-      "title": "Zaremba Transitivity: Verified to p=17,389; All-Prime Algebraic Argument Still Provisional",
+      "title": "zaremba-transitivity-all-primes",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2707,7 +2741,7 @@
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {
-      "title": "Zaremba Witnesses Concentrate at \u03b1(d)/d \u2248 0.171, Connected to the Golden Ratio",
+      "title": "zaremba-witness-golden-ratio",
       "certification": {
         "level": "bronze",
         "review_count": 3,
