@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-31T05:47:22Z",
+  "generated_at": "2026-05-31T05:55:49Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
@@ -97,17 +97,17 @@
             "model": "gpt-4.1",
             "provider": "OpenAI"
           },
-          "reviewed_at": "2026-05-31T05:41:30Z",
+          "reviewed_at": "2026-05-31T05:55:36Z",
           "overall_verdict": "ACCEPT_WITH_REVISION",
           "certification_recommendation": "silver",
           "claims": {
-            "total": 10,
-            "verified": 10,
+            "total": 15,
+            "verified": 14,
             "disputed": 0,
-            "needs_clarification": 0,
+            "needs_clarification": 1,
             "unverifiable": 0
           },
-          "key_finding": "The finding provides a thorough, reproducible computational confirmation of the standard map chaos onset using high-performance GPU computing. All critical claims match established literature, and the"
+          "key_finding": "The mathematical and computational claims are fully in line with canonical literature on the standard map and Lyapunov exponents, and the experiment's results (mean values, computational throughput, n"
         },
         {
           "review_id": "openai-o3-pro-2026-05-31",
@@ -133,7 +133,7 @@
       "remediations": [],
       "issues_found": 0,
       "issues_resolved": 0,
-      "last_reviewed": "2026-05-31T05:47:19Z"
+      "last_reviewed": "2026-05-31T05:55:36Z"
     },
     "class-number-convergence": {
       "title": "class-number-convergence",
