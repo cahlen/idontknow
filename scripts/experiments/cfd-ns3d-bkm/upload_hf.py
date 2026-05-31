@@ -18,6 +18,7 @@ RUNS = [
     ("blowup_search", "bkm3d_n256_nu1e-04_steps500.csv", "run_n256_nu0.0001_steps500_random.log"),
     ("blowup_search_long", "bkm3d_n256_nu1e-04_steps2000.csv", "run_n256_nu0.0001_steps2000_random.log"),
     ("taylor_green_256", "bkm3d_n256_nu1e-03_steps1000.csv", "run_n256_nu0.001_steps1000_taylor-green.log"),
+    ("blowup_search_5000", "bkm3d_n256_nu1e-04_steps5000.csv", "run_n256_nu0.0001_steps5000_random.log"),
 ]
 
 

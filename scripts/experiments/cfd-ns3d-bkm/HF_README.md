@@ -31,6 +31,9 @@ configs:
   - config_name: taylor_green_256
     data_files: "data/taylor_green_256/*.csv"
     description: "256³, ν=1e-3, Taylor–Green IC, 1000 steps — structured higher-Re benchmark"
+  - config_name: blowup_search_5000
+    data_files: "data/blowup_search_5000/*.csv"
+    description: "256³, ν=1e-4, random IC, 5000 steps — extended Phase 4 BKM monitor (t=5)"
 dataset_info:
   - config_name: smoke_taylor_green
     features:
@@ -107,6 +110,21 @@ dataset_info:
     splits:
       - name: train
         num_examples: 92
+  - config_name: blowup_search_5000
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 100
 ---
 
 # 3D Navier–Stokes BKM Blowup Search
@@ -153,6 +171,7 @@ Certifying logs in `logs/`. Metadata in `metadata.json`.
 | `standard_random` | \\(128^3\\) | \\(10^{-3}\\) | Random blob | 1000 | 0.002 | 0.614 at \\(t=2.0\\) | 1.24 |
 | `blowup_search` | \\(256^3\\) | \\(10^{-4}\\) | Random blob | 500 | 0.001 | 0.878 at \\(t=0.5\\) | 0.44 |
 | `blowup_search_long` | \\(256^3\\) | \\(10^{-4}\\) | Random blob | 2000 | 0.001 | 0.887 at \\(t=2.0\\) | 1.76 |
+| `blowup_search_5000` | \\(256^3\\) | \\(10^{-4}\\) | Random blob | 5000 | 0.001 | 0.903 at \\(t=5.0\\) | 4.45 |
 | `taylor_green_256` | \\(256^3\\) | \\(10^{-3}\\) | Taylor–Green | 1000 | 0.001 | 4.44 at \\(t=1.0\\) | 4.23 |
 
 All runs: **zero NaN/Inf**.
@@ -167,7 +186,7 @@ All runs: **zero NaN/Inf**.
 
 - First certifying **3D pseudospectral BKM** runs on RTX 5090
 - Random IC at \\(128^3\\): BKM **≈ 1.24** by \\(t=2\\); vorticity remains bounded at tested Re
-- **256³ blowup search** at \\(\nu=10^{-4}\\): BKM **≈ 0.44** by \\(t=0.5\\); extended to **≈ 1.76** by \\(t=2.0\\) (2000 steps); **2.3 steps/s**; no blowup signal
+- **256³ blowup search** at \\(\nu=10^{-4}\\): BKM **≈ 0.44** by \\(t=0.5\\); extended to **≈ 1.76** by \\(t=2.0\\); **≈ 4.45** by \\(t=5.0\\) (5000 steps); **2.3 steps/s**; no blowup signal
 - **256³ Taylor–Green** at \\(\nu=10^{-3}\\): BKM **≈ 4.23** by \\(t=1.0\\); max \\(\lVert \omega \rVert_{L^\infty} \approx 4.44\\)
 - **512³** exceeds 32 GB VRAM on RTX 5090 (cuFFT allocation OOM); **256³** is the practical ceiling on this hardware
 - No finite-time blowup signal at this resolution — consistent with viscous DNS at moderate Re
