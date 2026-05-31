@@ -1,25 +1,27 @@
 {
-  "generated_at": "2026-05-31T05:41:42Z",
+  "generated_at": "2026-05-31T05:47:22Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 18,
-    "total_reviews": 54,
+    "total_reviews": 56,
     "total_remediations": 217,
     "remediations_resolved": 200,
-    "unique_models": 7,
-    "unique_providers": 3,
+    "unique_models": 8,
+    "unique_providers": 4,
     "models": [
       "ChatGPT",
       "Claude Opus 4.6",
       "GPT-5.2",
       "Grok",
+      "gemini-2.5-pro",
       "gpt-4.1",
       "o3",
       "o3-pro"
     ],
     "providers": [
       "Anthropic",
+      "Google",
       "OpenAI",
       "xAI"
     ]
@@ -63,10 +65,30 @@
       "title": "Standard Map Chaos Onset: \u039b(K) Crosses Literature K_crit on RTX 5090",
       "certification": {
         "level": "silver",
-        "review_count": 1,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "google-gemini-2.5-pro-2026-05-31",
+          "file": "cfd-standard-map-chaos-onset_review_google-gemini-2-5-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gemini-2.5-pro",
+            "provider": "Google"
+          },
+          "reviewed_at": "2026-05-31T05:47:19Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This is a high-quality computational finding that successfully reproduces canonical results about the Chirikov standard map at a large scale. The claims are mathematically sound, computationally plaus"
+        },
         {
           "review_id": "openai-gpt-4.1-2026-05-31",
           "file": "cfd-standard-map-chaos-onset_review_openai-gpt-4-1_2026-05-31.json",
@@ -86,12 +108,32 @@
             "unverifiable": 0
           },
           "key_finding": "The finding provides a thorough, reproducible computational confirmation of the standard map chaos onset using high-performance GPU computing. All critical claims match established literature, and the"
+        },
+        {
+          "review_id": "openai-o3-pro-2026-05-31",
+          "file": "cfd-standard-map-chaos-onset_review_openai-o3-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T05:46:39Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Mathematically the results are consistent with established analyses of the standard map and the reported performance numbers are credible for modern GPUs. The main quantitative claims match published "
         }
       ],
       "remediations": [],
       "issues_found": 0,
       "issues_resolved": 0,
-      "last_reviewed": "2026-05-31T05:41:30Z"
+      "last_reviewed": "2026-05-31T05:47:19Z"
     },
     "class-number-convergence": {
       "title": "class-number-convergence",

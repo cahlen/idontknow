@@ -1,0 +1,54 @@
+{
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "review_id": "google-gemini-2.5-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gemini-2.5-pro",
+    "model_provider": "google"
+  },
+  "reviewed_at": "2026-05-31T05:47:19Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "completion_tokens": 1123,
+    "prompt_tokens": 2507,
+    "total_tokens": 7412
+  },
+  "response_time_seconds": 37.8,
+  "claim_reviews": [
+    {
+      "claim": "Custom CUDA Lyapunov sweep of the Chirikov standard map: 16.8M trajectories in 116.6s on RTX 5090, zero NaN/Inf.",
+      "verdict": "VERIFIED",
+      "evidence": "The computational workload involves approximately 8.4e11 map iterations, each requiring a small number of floating-point operations for the map and its tangent. The reported time implies a sustained throughput of around 100-200 GFLOPS, which is well within the capabilities of a high-end GPU for a highly parallelizable problem like this. The claim of zero numerical failures indicates a robust implementation.",
+      "concerns": ""
+    },
+    {
+      "claim": "At literature K_crit \u2248 0.972, mean \u039b \u2248 0.045 with >99.9% of ICs positive \u2014 consistent with chaotic advection onset in area-preserving mixing.",
+      "verdict": "VERIFIED",
+      "evidence": "The critical value K_crit \u2248 0.9716 corresponds to the breakup of the last KAM torus, leading to global chaos. At this threshold, it is expected that the vast majority of initial conditions will belong to the main chaotic sea, yielding a positive Lyapunov exponent (\u039b). The small but positive average value \u039b \u2248 0.045 is consistent with the onset of widespread chaos. This finding correctly reproduces a cornerstone result in Hamiltonian dynamics.",
+      "concerns": ""
+    },
+    {
+      "claim": "Integrable limit validated: \u039b\u0304(0) = 0 exactly (within floating point), as expected for K=0 (pure rotation on the torus).",
+      "verdict": "VERIFIED",
+      "evidence": "For K=0, the standard map reduces to p' = p, \u03b8' = \u03b8 + p, which is an integrable system describing linear rotation on a torus. The dynamics are regular, and the theoretical largest Lyapunov exponent is exactly zero. The computational result correctly confirms this known analytical limit.",
+      "concerns": ""
+    },
+    {
+      "claim": "At K = 5: \u039b\u0304 \u2248 0.956 (fully developed chaos in our sampling).",
+      "verdict": "VERIFIED",
+      "evidence": "For large K, the Lyapunov exponent of the standard map is well-approximated by \u039b \u2248 ln(K/2). For K=5, this theoretical approximation yields \u039b \u2248 ln(2.5) \u2248 0.916. The computed value of 0.956 is in excellent agreement with this estimate, providing strong validation for the numerical implementation in the strongly chaotic regime.",
+      "concerns": "The claim would be stronger if the paper cited the relevant literature for the large-K approximation."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "This is a high-quality computational finding that successfully reproduces canonical results about the Chirikov standard map at a large scale. The claims are mathematically sound, computationally plausible, and supported by the provided data. The author demonstrates a clear understanding of the system's physics and the nuances of the numerical methods. The work is a strong validation of the author's computational framework.",
+  "recommendations": [
+    "Cite Wolf et al. (1985) for general context on Lyapunov exponent computation.",
+    "Cite the relevant work (e.g., Cary et al., 1986) for the large-K approximation of \u039b to strengthen the validation at K=5.",
+    "Provide a more complete bibliographic entry for Benettin et al. (1980), including volume and page numbers.",
+    "In the 'Limitations' section, clarify that for a 2D area-preserving map, computing only the largest Lyapunov exponent is sufficient as the second is its negative."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methodology is directly based on seminal, well-established literature (Benettin, Chirikov), and the results are validated against known theoretical and numerical benchmarks. It represents a significant and well-executed computational verification, not a novel discovery."
+}

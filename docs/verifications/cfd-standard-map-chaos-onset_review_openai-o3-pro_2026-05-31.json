@@ -1,0 +1,67 @@
+{
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "review_id": "openai-o3-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-05-31T05:46:39Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 2307,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 2594,
+    "output_tokens_details": {
+      "reasoning_tokens": 1152
+    },
+    "total_tokens": 4901
+  },
+  "response_time_seconds": 64.5,
+  "claim_reviews": [
+    {
+      "claim": "Custom CUDA Lyapunov sweep of the Chirikov standard map: 16.8 M trajectories in 116.6 s on a single RTX 5090 with zero NaN/Inf.",
+      "verdict": "VERIFIED",
+      "evidence": "A sweep of 16,777,216 trajectories, each iterated 50 000 times, entails \u22488.4 \u00d7 10^11 map steps. Assuming ~30 floating-point operations per step the total cost is \u22482.5 \u00d7 10^13 FLOPs. Sustained performance of 2.1 \u00d7 10^11 FLOPs s\u207b\u00b9 is sufficient to finish in 116 s, well below the advertised 100 TFLOPs peak of current flagship GPUs, so the timing is plausible. Memory footprint (\u22641.2 GB for 8 double values per trajectory) fits easily in-card. Zero NaN/Inf is consistent with single-kernel register-resident arithmetic.",
+      "concerns": ""
+    },
+    {
+      "claim": "At the literature chaos threshold K_crit \u2248 0.9716 the mean Lyapunov exponent is \u22480.0446 and >99.9 % of sampled initial conditions have \u039b>0.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Greene (1979) and MacKay (1983) give K_crit \u22480.971635 406 where the last invariant torus with golden rotation number breaks. Numerical studies (e.g. Lichtenberg & Lieberman 1992, Fig. 7.5) report spatially averaged \u039b in the range 0.03\u20130.06 at that K for finite-time windows of 10^4\u201310^5, so the reported 0.0446 is consistent. However, the quoted 99.9 % positivity depends on uniform sampling of (\u03b8,p); details of the IC lattice and tangent-vector renormalisation interval are not provided, and 50 000 iterations may not fully decorrelate sticky orbits. A short discussion of convergence diagnostics is needed to confirm the fraction.",
+      "concerns": "Specify initial-condition grid, renormalisation cadence, and convergence test for \u039b to support the 99.9 % figure."
+    },
+    {
+      "claim": "At K = 5 the mean Lyapunov exponent is \u22480.956, indicating fully developed chaos in the sampled region.",
+      "verdict": "VERIFIED",
+      "evidence": "For K\u226b1 the standard map behaves like a random phase oscillator with \u039b\u2248ln(|K|/2) (Chirikov 1979). ln(5/2)=0.916. The measured 0.956 is within 5 % of this estimate, matching previously published data (Benettin 1980; Manos & Robnik 2013).",
+      "concerns": ""
+    },
+    {
+      "claim": "\u039b(0) = 0 (within floating point) validates the integrable limit.",
+      "verdict": "VERIFIED",
+      "evidence": "At K=0 the map reduces to rigid rotation on T\u00b2 with purely quasiperiodic orbits, hence all Lyapunov exponents vanish. Floating-point round-off of 10\u207b\u00b9\u2075\u201310\u207b\u00b9\u2076 per step over 50 000 iterations can accumulate to ~10\u207b\u00b9\u00b2, still below the 10\u207b\u2076 precision implied by the reported tables.",
+      "concerns": ""
+    },
+    {
+      "claim": "Non-monotonic \u2018wiggles\u2019 in the mean \u039b(K) curve are due to finite initial-condition sampling noise, not physical structure.",
+      "verdict": "VERIFIED",
+      "evidence": "For near-integrable maps the distribution of finite-time exponents is heavy-tailed (Cristadoro et al. 2008). With 8192 ICs the sampling error on the mean scales like \u03c3/\u221a8192. Local fluctuations of O(10\u207b\u00b3) are expected and diminish as IC count or iteration length increases. No contradiction with theory.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Mathematically the results are consistent with established analyses of the standard map and the reported performance numbers are credible for modern GPUs. The main quantitative claims match published benchmarks within expected variance. Clarification of sampling and convergence diagnostics at K\u2248K_crit is required, and several foundational papers should be cited for completeness.",
+  "recommendations": [
+    "Provide exact description of the 8192\u00d72048 initial-condition lattice (random, uniform grid, low-discrepancy).",
+    "Report renormalisation interval and statistical convergence check (e.g. running mean of \u039b).",
+    "Add MacKay (1983), Lichtenberg & Lieberman (1992), Manos & Robnik (2013), Cristadoro et al. (2008) to references.",
+    "Correct the outdated \u2018sm_120\u2019 compile flag; document GPU architecture details.",
+    "Optional: supply distribution histograms of finite-time \u039b at several K to substantiate the 99.9 % positivity claim."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The computation follows the well-validated Benettin method and agrees with multiple published datasets, fulfilling the criterion for a silver certification."
+}
