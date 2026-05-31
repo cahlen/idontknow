@@ -67,6 +67,15 @@ Adjust `-arch=sm_89` for RTX 4090, `sm_120` for RTX 5090.
 
 Exit code **2** = numerical certificate failure (NaN/Inf).
 
+## Hugging Face
+
+```bash
+python3 scripts/experiments/cfd-chaotic-advection/upload_hf.py
+```
+
+- **Dataset:** [cahlen/cfd-chaotic-advection](https://huggingface.co/datasets/cahlen/cfd-chaotic-advection)
+- **CUDA kernel:** [bigcompute-cuda-kernels/cfd-chaotic-advection](https://huggingface.co/cahlen/bigcompute-cuda-kernels/tree/main/cfd-chaotic-advection)
+
 ## Related repos
 
 - **cfd** (`~/dev/cfd`) — aerospace RANS demo; no custom CUDA yet
