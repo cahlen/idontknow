@@ -31,8 +31,16 @@ One CUDA thread per $(K, \mathrm{IC})$ pair. Sized for **single RTX 5090** (32 G
 | Target | Parameters | ~Runtime |
 |--------|------------|----------|
 | Smoke test | `64 512 5000 2.0` | ~1 s |
-| Overnight (5090) | `512 4096 20000 5.0` | ~1–3 h |
-| Deep sweep | `2048 8192 50000 8.0` | ~8–12 h |
+| Standard (5090) | `512 4096 20000 5.0` | ~6 s |
+| Deep certifying | `2048 8192 50000 5.0` | ~2 min |
+
+## Plot
+
+```bash
+python3 scripts/experiments/cfd-chaotic-advection/plot_lyapunov.py \
+  scripts/experiments/cfd-chaotic-advection/results/lyapunov_k2048_ic8192_iter50000.csv \
+  -o lyapunov_spectrum.svg
+```
 
 ## Reproduction
 
