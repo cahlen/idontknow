@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-05-31T07:13:14Z",
+  "generated_at": "2026-05-31T08:24:27Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 20,
     "total_reviews": 62,
-    "total_remediations": 217,
-    "remediations_resolved": 200,
+    "total_remediations": 249,
+    "remediations_resolved": 232,
     "unique_models": 8,
     "unique_providers": 4,
     "models": [
@@ -130,9 +130,52 @@
           "key_finding": "The infrastructure appears sound and the numerical scheme is conventional, with open code and data supporting the core functionality. However, quantitative validation, performance evidence, and litera"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "benchmark-comparison-brachet",
+          "severity": "minor",
+          "description": "Compare to published 2D/3D benchmark DNS where appropriate.",
+          "status": "resolved",
+          "resolved_commit": "401154d"
+        },
+        {
+          "issue_id": "dealiasing-2-3-rule",
+          "severity": "minor",
+          "description": "Document 2/3 Orszag dealiasing explicitly.",
+          "status": "resolved",
+          "resolved_commit": "32736a9"
+        },
+        {
+          "issue_id": "limitations-fp64-dt",
+          "severity": "important",
+          "description": "State fp64, timestep, and resolution limitations.",
+          "status": "resolved",
+          "resolved_commit": "32736a9"
+        },
+        {
+          "issue_id": "missing-spectral-ns-references",
+          "severity": "minor",
+          "description": "Add spectral/NS references (BKM 1984, Orszag 1971, Ladyzhenskaya, Canuto, Brachet).",
+          "status": "resolved",
+          "resolved_commit": "32736a9"
+        },
+        {
+          "issue_id": "random-ic-definition",
+          "severity": "important",
+          "description": "Define random vorticity initial condition for reproducibility.",
+          "status": "resolved",
+          "resolved_commit": "32736a9"
+        },
+        {
+          "issue_id": "rtx-5090-hardware-clarification",
+          "severity": "minor",
+          "description": "Clarify RTX 5090 is physical hardware with on-machine measurements, not speculative.",
+          "status": "resolved",
+          "resolved_commit": "32736a9"
+        }
+      ],
+      "issues_found": 6,
+      "issues_resolved": 6,
       "last_reviewed": "2026-05-31T06:10:53Z"
     },
     "cfd-ns3d-bkm-infrastructure": {
@@ -204,9 +247,66 @@
           "key_finding": "The infrastructure report is technically sound and the computational claims are plausible, but several reproducibility details (time-step, CFL, hardware evidence) and key literature citations are miss"
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "add-bkm-orszag-kerr-references",
+          "severity": "minor",
+          "description": "Add References for BKM (1984), Orszag dealiasing, Canuto/Rogallo pseudospectral methods, Kerr (1993).",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "dt-parameters-in-results-table",
+          "severity": "important",
+          "description": "Include \u0394t (and viscosity) in results table for reproducibility.",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "fp64-explicit-in-method",
+          "severity": "minor",
+          "description": "Confirm fp64 usage explicitly in the method section.",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "gpu-device-logs-in-dataset",
+          "severity": "minor",
+          "description": "Include GPU device-query evidence in published dataset/logs.",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "ic-context-taylor-green-random",
+          "severity": "minor",
+          "description": "Clarify Taylor\u2013Green vs random-blob IC roles relative to benchmark literature.",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "k-zero-mode-velocity-inversion",
+          "severity": "minor",
+          "description": "Document k=0 handling in velocity inversion to avoid division by zero.",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        },
+        {
+          "issue_id": "limitations-resolution-vram-scalability",
+          "severity": "important",
+          "description": "State resolution limits, scalability ceiling, and comparison to blowup-search DNS literature.",
+          "status": "resolved",
+          "resolved_commit": "f5835c4"
+        },
+        {
+          "issue_id": "stability-certificate-nan-inf",
+          "severity": "important",
+          "description": "Provide solver stability evidence (NaN/Inf certificate; enstrophy/BKM monitoring).",
+          "status": "resolved",
+          "resolved_commit": "ccac623"
+        }
+      ],
+      "issues_found": 8,
+      "issues_resolved": 8,
       "last_reviewed": "2026-05-31T07:15:00Z"
     },
     "cfd-standard-map-chaos-onset": {
@@ -278,13 +378,140 @@
           "key_finding": "Mathematically the results are consistent with established analyses of the standard map and the reported performance numbers are credible for modern GPUs. The main quantitative claims match published "
         }
       ],
-      "remediations": [],
-      "issues_found": 0,
-      "issues_resolved": 0,
+      "remediations": [
+        {
+          "issue_id": "add-benettin-et-al-1980-citation-with-full-bibliographic-entry",
+          "severity": "minor",
+          "description": "Add Benettin et al. (1980) citation with full bibliographic entry",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "add-external-validation-table-vs-literature-benchmarks",
+          "severity": "important",
+          "description": "Add external validation table vs literature benchmarks",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "add-validate-claims-py-convergence-and-symplectic-checks",
+          "severity": "important",
+          "description": "Add validate_claims.py convergence and symplectic checks",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "cite-greene-1979-as-primary-k-crit-source",
+          "severity": "minor",
+          "description": "Cite Greene (1979) as primary K_crit source",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "cite-mackay-1983-lichtenberg-lieberman-1992-manos-robnik-2013-cristadoro",
+          "severity": "minor",
+          "description": "Cite MacKay (1983), Lichtenberg & Lieberman (1992), Manos & Robnik (2013), Cristadoro et al. (2008)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "cite-meiss-1992-for-symplectic-context",
+          "severity": "minor",
+          "description": "Cite Meiss (1992) for symplectic context",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "cite-wolf-et-al-1985-and-cary-et-al-1986",
+          "severity": "minor",
+          "description": "Cite Wolf et al. (1985) and Cary et al. (1986)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "clarify-2d-area-preserving-second-lyapunov-exponent-pairing",
+          "severity": "minor",
+          "description": "Clarify 2D area-preserving second Lyapunov exponent pairing",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "clarify-largest-maximal-lce-terminology-not-world-records",
+          "severity": "important",
+          "description": "Clarify largest = maximal LCE terminology, not world records",
+          "status": "resolved",
+          "resolved_commit": "71e94b4"
+        },
+        {
+          "issue_id": "clarify-novelty-claim-open-pipeline-vs-new-k-crit",
+          "severity": "minor",
+          "description": "Clarify novelty claim (open pipeline vs new K_crit)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "document-benettin-renormalization-interval-every-iteration",
+          "severity": "important",
+          "description": "Document Benettin renormalization interval (every iteration)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "document-fp64-arithmetic-and-nan-inf-certificate",
+          "severity": "minor",
+          "description": "Document fp64 arithmetic and NaN/Inf certificate",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "document-ic-sampling-random-uniform-splitmix64-seeding",
+          "severity": "important",
+          "description": "Document IC sampling (random uniform, SplitMix64 seeding)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "document-k-crit-iteration-count-sensitivity-50k-vs-100k",
+          "severity": "important",
+          "description": "Document K_crit iteration-count sensitivity (50k vs 100k)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "document-rtx-5090-compute-capability-12-0-sm-120",
+          "severity": "minor",
+          "description": "Document RTX 5090 compute capability 12.0 (sm_120)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "link-transfer-operator-connection-to-hausdorff-finding",
+          "severity": "minor",
+          "description": "Link transfer-operator connection to Hausdorff finding",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "report-exact-fraction-positive-at-k-crit-99-91",
+          "severity": "minor",
+          "description": "Report exact fraction_positive at K_crit (99.91%)",
+          "status": "resolved",
+          "resolved_commit": "6b755aa"
+        },
+        {
+          "issue_id": "update-outdated-ai-audit-pending-language",
+          "severity": "minor",
+          "description": "Update outdated AI audit pending language",
+          "status": "resolved",
+          "resolved_commit": "1d33dfd"
+        }
+      ],
+      "issues_found": 18,
+      "issues_resolved": 18,
       "last_reviewed": "2026-05-31T05:55:36Z"
     },
     "class-number-convergence": {
-      "title": "class-number-convergence",
+      "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -408,7 +635,7 @@
       "last_reviewed": "2026-04-03T19:55:49Z"
     },
     "gpu-matrix-enumeration-175x": {
-      "title": "gpu-matrix-enumeration-175x",
+      "title": "GPU Matrix Enumeration: 175\u00d7 Faster Zaremba Verification via Batched 2\u00d72 Multiply",
       "certification": {
         "level": "bronze",
         "review_count": 2,
@@ -505,7 +732,7 @@
       "last_reviewed": "2026-04-03T19:42:14Z"
     },
     "hausdorff-digit-one-dominance": {
-      "title": "hausdorff-digit-one-dominance",
+      "title": "Digit 1 Dominance: Five Digits With 1 Beat Fourteen Digits Without",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -671,7 +898,7 @@
       "last_reviewed": "2026-04-03T19:49:03Z"
     },
     "kronecker-s30-largest-computation": {
-      "title": "kronecker-s30-largest-computation",
+      "title": "Kronecker Coefficients: Complete S_30 Table \u2014 26.4 Billion Nonzero Triples in 7 Minutes",
       "certification": {
         "level": "silver",
         "review_count": 2,
@@ -810,7 +1037,7 @@
       "last_reviewed": "2026-04-03T19:58:04Z"
     },
     "kronecker-s40-character-table": {
-      "title": "kronecker-s40-character-table",
+      "title": "Kronecker S_40: Complete Character Table and Targeted Coefficients \u2014 94.9% Nonzero",
       "certification": {
         "level": "silver",
         "review_count": 2,
@@ -935,7 +1162,7 @@
       "last_reviewed": "2026-04-03T20:09:44Z"
     },
     "zaremba-A12-logarithmic-convergence": {
-      "title": "zaremba-A12-logarithmic-convergence",
+      "title": "A={1,2} Density Fits Logarithmic Growth: 30 + 4.65\u00b7log\u2081\u2080(N), Testable at 10^12",
       "certification": {
         "level": "bronze",
         "review_count": 2,
@@ -1088,7 +1315,7 @@
       "last_reviewed": "2026-04-03T20:04:56Z"
     },
     "zaremba-cayley-diameters": {
-      "title": "zaremba-cayley-diameters",
+      "title": "Exploratory BFS Depths for Zaremba Generators: Short-Word Expansion Data to p=1021",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -1240,7 +1467,7 @@
       "last_reviewed": "2026-04-03T19:50:28Z"
     },
     "zaremba-conjecture-framework": {
-      "title": "zaremba-conjecture-framework",
+      "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
       "certification": {
         "level": "bronze",
         "review_count": 8,
@@ -1646,7 +1873,7 @@
       "last_reviewed": "2026-04-06T23:37:18Z"
     },
     "zaremba-density-phase-transition": {
-      "title": "zaremba-density-phase-transition",
+      "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
       "certification": {
         "level": "silver",
         "review_count": 6,
@@ -1893,7 +2120,7 @@
       "last_reviewed": "2026-04-06T17:38:52Z"
     },
     "zaremba-digit-pair-hierarchy": {
-      "title": "zaremba-digit-pair-hierarchy",
+      "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 9x More Than Digit 3",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2087,7 +2314,7 @@
       "last_reviewed": "2026-04-06T17:36:30Z"
     },
     "zaremba-exception-hierarchy": {
-      "title": "zaremba-exception-hierarchy",
+      "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2323,7 +2550,7 @@
       "last_reviewed": "2026-04-06T17:37:39Z"
     },
     "zaremba-inverse-square-amplification": {
-      "title": "zaremba-inverse-square-amplification",
+      "title": "Digit 1 Amplification in Zaremba Density: Strong Effect, Inverse-Square Law Still Unconfirmed",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2433,7 +2660,7 @@
       "last_reviewed": "2026-04-06T23:39:19Z"
     },
     "zaremba-representation-growth": {
-      "title": "zaremba-representation-growth",
+      "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2613,7 +2840,7 @@
       "last_reviewed": "2026-04-03T19:54:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
-      "title": "zaremba-spectral-gaps-uniform",
+      "title": "Congruence Spectral Gaps for Zaremba's Semigroup Are Uniform",
       "certification": {
         "level": "silver",
         "review_count": 3,
@@ -2772,7 +2999,7 @@
       "last_reviewed": "2026-04-03T19:44:30Z"
     },
     "zaremba-transitivity-all-primes": {
-      "title": "zaremba-transitivity-all-primes",
+      "title": "Zaremba Transitivity: Verified to p=17,389; All-Prime Algebraic Argument Still Provisional",
       "certification": {
         "level": "bronze",
         "review_count": 3,
@@ -2931,7 +3158,7 @@
       "last_reviewed": "2026-04-03T19:46:50Z"
     },
     "zaremba-witness-golden-ratio": {
-      "title": "zaremba-witness-golden-ratio",
+      "title": "Zaremba Witnesses Concentrate at \u03b1(d)/d \u2248 0.171, Connected to the Golden Ratio",
       "certification": {
         "level": "bronze",
         "review_count": 3,

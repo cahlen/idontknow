@@ -1,0 +1,17 @@
+{
+  "issue_id": "add-bkm-orszag-kerr-references",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Add References for BKM (1984), Orszag dealiasing, Canuto/Rogallo pseudospectral methods, Kerr (1993).",
+  "action_taken": "References section added to finding.",
+  "commits": [
+    "ccac623"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

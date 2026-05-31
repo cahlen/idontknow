@@ -1,0 +1,16 @@
+{
+  "issue_id": "rtx-5090-hardware-clarification",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Clarify RTX 5090 is physical hardware with on-machine measurements, not speculative.",
+  "action_taken": "Hardware block and certifying logs document Device query output.",
+  "commits": [
+    "32736a9"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

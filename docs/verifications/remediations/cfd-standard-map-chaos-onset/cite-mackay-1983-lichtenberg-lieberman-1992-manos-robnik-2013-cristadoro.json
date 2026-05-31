@@ -1,0 +1,15 @@
+{
+  "issue_id": "cite-mackay-1983-lichtenberg-lieberman-1992-manos-robnik-2013-cristadoro",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Cite MacKay (1983), Lichtenberg & Lieberman (1992), Manos & Robnik (2013), Cristadoro et al. (2008)",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

@@ -1,6 +1,6 @@
 # Remediations: cfd-standard-map-chaos-onset
 
-12/16 resolved (2026-05-31)
+19/19 resolved (2026-05-31)
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|

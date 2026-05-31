@@ -1,0 +1,15 @@
+{
+  "issue_id": "gpu-device-logs-in-dataset",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Include GPU device-query evidence in published dataset/logs.",
+  "action_taken": "Certifying run logs include device name and compute capability; uploaded to Hugging Face logs/.",
+  "commits": [
+    "ccac623"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

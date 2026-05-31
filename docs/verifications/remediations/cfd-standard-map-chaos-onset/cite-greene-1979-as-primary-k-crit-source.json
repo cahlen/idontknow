@@ -1,0 +1,16 @@
+{
+  "issue_id": "cite-greene-1979-as-primary-k-crit-source",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Cite Greene (1979) as primary K_crit source",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

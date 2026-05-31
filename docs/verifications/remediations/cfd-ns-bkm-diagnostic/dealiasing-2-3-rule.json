@@ -1,0 +1,16 @@
+{
+  "issue_id": "dealiasing-2-3-rule",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Document 2/3 Orszag dealiasing explicitly.",
+  "action_taken": "Method section states 2/3 rule (zero modes with |k|>2N/3).",
+  "commits": [
+    "32736a9"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

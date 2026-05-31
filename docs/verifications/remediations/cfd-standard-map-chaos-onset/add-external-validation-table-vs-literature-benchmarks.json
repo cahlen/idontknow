@@ -1,0 +1,17 @@
+{
+  "issue_id": "add-external-validation-table-vs-literature-benchmarks",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "important",
+  "description": "Add external validation table vs literature benchmarks",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

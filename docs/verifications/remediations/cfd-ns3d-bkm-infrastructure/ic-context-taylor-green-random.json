@@ -1,0 +1,16 @@
+{
+  "issue_id": "ic-context-taylor-green-random",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Clarify Taylor\u2013Green vs random-blob IC roles relative to benchmark literature.",
+  "action_taken": "Results table labels IC types; Taylor\u2013Green smoke and random-blob certifying runs documented.",
+  "commits": [
+    "ccac623",
+    "f5835c4"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

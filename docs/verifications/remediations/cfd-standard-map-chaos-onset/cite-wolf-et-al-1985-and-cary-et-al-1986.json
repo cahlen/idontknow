@@ -1,0 +1,15 @@
+{
+  "issue_id": "cite-wolf-et-al-1985-and-cary-et-al-1986",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Cite Wolf et al. (1985) and Cary et al. (1986)",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

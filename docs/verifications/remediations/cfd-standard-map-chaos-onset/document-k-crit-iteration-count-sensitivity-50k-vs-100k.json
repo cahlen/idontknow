@@ -1,0 +1,13 @@
+{
+  "issue_id": "document-k-crit-iteration-count-sensitivity-50k-vs-100k",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [],
+  "severity": "important",
+  "description": "Document K_crit iteration-count sensitivity (50k vs 100k)",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "issue_id": "clarify-largest-maximal-lce-terminology-not-world-records",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [],
+  "severity": "important",
+  "description": "Clarify largest = maximal LCE terminology, not world records",
+  "action_taken": "Addressed in finding revision (71e94b4).",
+  "commits": [
+    "71e94b4"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "issue_id": "update-outdated-ai-audit-pending-language",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [],
+  "severity": "minor",
+  "description": "Update outdated AI audit pending language",
+  "action_taken": "Addressed in finding revision (1d33dfd).",
+  "commits": [
+    "1d33dfd"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

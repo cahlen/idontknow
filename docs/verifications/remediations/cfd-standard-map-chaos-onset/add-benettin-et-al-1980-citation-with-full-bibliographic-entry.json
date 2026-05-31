@@ -1,0 +1,16 @@
+{
+  "issue_id": "add-benettin-et-al-1980-citation-with-full-bibliographic-entry",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Add Benettin et al. (1980) citation with full bibliographic entry",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

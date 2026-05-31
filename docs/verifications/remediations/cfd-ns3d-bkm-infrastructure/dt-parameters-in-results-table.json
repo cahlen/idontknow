@@ -1,0 +1,16 @@
+{
+  "issue_id": "dt-parameters-in-results-table",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "important",
+  "description": "Include \u0394t (and viscosity) in results table for reproducibility.",
+  "action_taken": "Results table now lists \u0394t, \u03bd, IC, and steps for each run.",
+  "commits": [
+    "ccac623",
+    "1ddc43b"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

@@ -1,0 +1,15 @@
+{
+  "issue_id": "document-fp64-arithmetic-and-nan-inf-certificate",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Document fp64 arithmetic and NaN/Inf certificate",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

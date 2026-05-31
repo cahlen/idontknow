@@ -1,0 +1,16 @@
+{
+  "issue_id": "random-ic-definition",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "important",
+  "description": "Define random vorticity initial condition for reproducibility.",
+  "action_taken": "Documented SplitMix64-seeded Gaussian blob IC in finding and kernel.",
+  "commits": [
+    "32736a9"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

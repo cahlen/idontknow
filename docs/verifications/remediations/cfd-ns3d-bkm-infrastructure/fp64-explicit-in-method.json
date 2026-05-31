@@ -1,0 +1,15 @@
+{
+  "issue_id": "fp64-explicit-in-method",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Confirm fp64 usage explicitly in the method section.",
+  "action_taken": "Method states fp64 throughout.",
+  "commits": [
+    "ccac623"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

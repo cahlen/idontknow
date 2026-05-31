@@ -1,0 +1,15 @@
+{
+  "issue_id": "clarify-2d-area-preserving-second-lyapunov-exponent-pairing",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Clarify 2D area-preserving second Lyapunov exponent pairing",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

@@ -1,0 +1,17 @@
+{
+  "issue_id": "missing-spectral-ns-references",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Add spectral/NS references (BKM 1984, Orszag 1971, Ladyzhenskaya, Canuto, Brachet).",
+  "action_taken": "Added References section to finding.",
+  "commits": [
+    "32736a9"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

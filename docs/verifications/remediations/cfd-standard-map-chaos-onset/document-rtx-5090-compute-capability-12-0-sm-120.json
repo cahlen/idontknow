@@ -1,0 +1,15 @@
+{
+  "issue_id": "document-rtx-5090-compute-capability-12-0-sm-120",
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "found_by_reviews": [
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Document RTX 5090 compute capability 12.0 (sm_120)",
+  "action_taken": "Addressed in finding revision (6b755aa).",
+  "commits": [
+    "6b755aa"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

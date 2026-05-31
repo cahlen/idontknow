@@ -1,0 +1,16 @@
+{
+  "issue_id": "benchmark-comparison-brachet",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "google-gemini-2-5-pro-2026-05-31"
+  ],
+  "severity": "minor",
+  "description": "Compare to published 2D/3D benchmark DNS where appropriate.",
+  "action_taken": "Added Brachet et al. context in validation table and references.",
+  "commits": [
+    "401154d"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

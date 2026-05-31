@@ -1,0 +1,16 @@
+{
+  "issue_id": "limitations-fp64-dt",
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "important",
+  "description": "State fp64, timestep, and resolution limitations.",
+  "action_taken": "Added Limitations paragraph with fp64, moderate Re, and grid scope.",
+  "commits": [
+    "32736a9"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}

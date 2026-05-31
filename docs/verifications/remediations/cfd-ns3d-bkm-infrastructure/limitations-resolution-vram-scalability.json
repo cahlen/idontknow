@@ -1,0 +1,17 @@
+{
+  "issue_id": "limitations-resolution-vram-scalability",
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "found_by_reviews": [
+    "openai-gpt-4-1-2026-05-31",
+    "openai-o3-pro-2026-05-31"
+  ],
+  "severity": "important",
+  "description": "State resolution limits, scalability ceiling, and comparison to blowup-search DNS literature.",
+  "action_taken": "Limitations cover moderate Re, 512\u00b3 OOM on 32 GB, and Kerr-scale resolution gap; Phase 4 section documents 256\u00b3 production grid.",
+  "commits": [
+    "f5835c4",
+    "1ddc43b"
+  ],
+  "status": "resolved",
+  "resolved_at": "2026-05-31T12:00:00+00:00"
+}
