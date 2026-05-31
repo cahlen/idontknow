@@ -132,7 +132,7 @@ CUDA kernel: [ns2d_bkm.cu](https://github.com/cahlen/idontknow/blob/main/scripts
 
 - CFD program hub: [cfd-chaotic-advection experiment](https://bigcompute.science/experiments/cfd-chaotic-advection/)
 - Experiment page: [cfd-ns-bkm](https://bigcompute.science/experiments/cfd-ns-bkm/)
-- Finding: [2D NS BKM diagnostic](https://bigcompute.science/findings/cfd-ns-bkm-diagnostic/) — silver / ACCEPT (3-model review)
+- Finding: [2D NS BKM diagnostic](https://bigcompute.science/findings/cfd-ns-bkm-diagnostic/) — **bronze** / ACCEPT w/ revision (3-model review; consensus = most conservative: 2× silver + 1× bronze)
 - Phase 3 dataset: [cahlen/cfd-ns3d-bkm](https://huggingface.co/datasets/cahlen/cfd-ns3d-bkm)
 - Code: [idontknow/scripts/experiments/cfd-ns-bkm](https://github.com/cahlen/idontknow/tree/main/scripts/experiments/cfd-ns-bkm)
 

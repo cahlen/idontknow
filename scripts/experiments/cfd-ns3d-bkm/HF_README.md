@@ -43,6 +43,12 @@ configs:
   - config_name: kerr_nu1e-05
     data_files: "data/kerr_nu1e-05/*.csv"
     description: "256³, ν=1e-5, Kerr tubes, 2000 steps — toward Euler limit"
+  - config_name: random_nu1e-03
+    data_files: "data/random_nu1e-03/*.csv"
+    description: "256³, ν=1e-3, random IC, 1000 steps — Phase 5a baseline vs Kerr"
+  - config_name: smoke_kerr
+    data_files: "data/smoke_kerr/*.csv"
+    description: "64³, ν=0.01, Kerr tubes, 200 steps — Kerr IC smoke validation"
 dataset_info:
   - config_name: smoke_taylor_green
     features:
@@ -88,7 +94,7 @@ dataset_info:
         dtype: float64
     splits:
       - name: train
-        num_examples: 84
+        num_examples: 85
   - config_name: blowup_search_long
     features:
       - name: step
@@ -134,6 +140,81 @@ dataset_info:
     splits:
       - name: train
         num_examples: 100
+  - config_name: kerr_nu1e-03
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 92
+  - config_name: kerr_nu1e-04
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 97
+  - config_name: kerr_nu1e-05
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 97
+  - config_name: random_nu1e-03
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 92
+  - config_name: smoke_kerr
+    features:
+      - name: step
+        dtype: int64
+      - name: time
+        dtype: float64
+      - name: max_vorticity
+        dtype: float64
+      - name: enstrophy
+        dtype: float64
+      - name: bkm_cumulative
+        dtype: float64
+    splits:
+      - name: train
+        num_examples: 68
 ---
 
 # 3D Navier–Stokes BKM Blowup Search
