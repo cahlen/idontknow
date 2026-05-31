@@ -12,13 +12,26 @@ Usage:
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 DEFAULT_MANIFEST = REPO_ROOT / "docs" / "verifications" / "manifest.json"
-DEFAULT_OUTPUT = REPO_ROOT.parent / "bigcompute.science" / "src" / "data" / "certifications.json"
+
+
+def _site_repo() -> Path:
+    for candidate in (
+        REPO_ROOT.parent / "research" / "bigcompute.science",
+        REPO_ROOT.parent / "bigcompute.science",
+    ):
+        if (candidate / "src" / "data").exists():
+            return candidate
+    return REPO_ROOT.parent / "bigcompute.science"
+
+
+DEFAULT_OUTPUT = _site_repo() / "src" / "data" / "certifications.json"
 
 
 def build_certifications(manifest):
@@ -116,6 +129,127 @@ def build_certifications(manifest):
     }
 
 
+def _read_frontmatter_field(text: str, field: str) -> str:
+    m = re.search(rf"^{field}:\s*\"(.+?)\"", text, re.M)
+    if m:
+        return m.group(1)
+    m = re.search(rf"^{field}:\s*(\S+)", text, re.M)
+    return m.group(1) if m else ""
+
+
+def _truncate(s: str, n: int = 110) -> str:
+    return s if len(s) <= n else s[: n - 3] + "..."
+
+
+def generate_llms_txt(site_root: Path, certs: dict) -> None:
+    """Regenerate public/llms.txt from certifications and experiment frontmatter."""
+    llms_path = site_root / "public" / "llms.txt"
+    if not llms_path.parent.exists():
+        return
+
+    exp_dir = site_root / "src" / "content" / "experiments"
+    findings_dir = site_root / "src" / "content" / "findings"
+    summaries: dict[str, str] = {}
+    for md in findings_dir.glob("*.md"):
+        text = md.read_text()
+        slug = _read_frontmatter_field(text, "slug")
+        summary = _read_frontmatter_field(text, "summary")
+        if slug and summary:
+            summaries[slug] = summary
+
+    experiments = []
+    for md in exp_dir.glob("*.md"):
+        text = md.read_text()
+        slug = _read_frontmatter_field(text, "slug")
+        if not slug:
+            continue
+        experiments.append({
+            "slug": slug,
+            "title": _read_frontmatter_field(text, "title"),
+            "status": _read_frontmatter_field(text, "status") or "unknown",
+            "summary": _read_frontmatter_field(text, "summary"),
+            "date": _read_frontmatter_field(text, "date"),
+        })
+    experiments.sort(key=lambda e: e["date"], reverse=True)
+
+    stats = certs["stats"]
+    models = stats.get("unique_models", 0)
+    providers = stats.get("unique_providers", 0)
+
+    exp_lines = [
+        f"- [{e['title']}](/experiments/{e['slug']}/): {_truncate(e['summary'])} ({e['status']})"
+        for e in experiments
+    ]
+
+    finding_lines = []
+    for entry in certs["certifications"]:
+        slug = entry["slug"]
+        if slug.startswith("_"):
+            continue
+        summary = _truncate(summaries.get(slug, entry["title"]))
+        level = entry.get("level", "uncertified").upper()
+        finding_lines.append(
+            f"- [{entry['title']}](/findings/{slug}/): {summary} [{level}]"
+        )
+
+    body = f"""# bigcompute.science
+
+> Open computational mathematics. GPU clusters, CUDA kernels, open data. Human-AI collaborative. AI-audited, not peer-reviewed.
+
+All work produced through human-AI collaboration (Cahlen Humphreys + Claude). AI-audited against published literature (arXiv, zbMATH, OEIS). Not independently peer-reviewed. CC BY 4.0.
+
+## Experiments ({len(experiments)} total)
+
+{chr(10).join(exp_lines)}
+
+## Findings ({stats['findings_audited']} total, all AI-audited)
+
+{chr(10).join(finding_lines)}
+
+## Datasets (Hugging Face)
+
+- [Zaremba Density](https://huggingface.co/datasets/cahlen/zaremba-density): 65 GPU experiments, exception sets, density measurements to 10^12
+- [Zaremba Data](https://huggingface.co/datasets/cahlen/zaremba-conjecture-data): Dolgopyat profile, transfer operator data, proof framework
+- [Hausdorff Spectrum](https://huggingface.co/datasets/cahlen/hausdorff-dimension-spectrum): dim_H for all 1,048,575 subsets of {{1,...,20}} — first complete computation
+- [Ramanujan Machine](https://huggingface.co/datasets/cahlen/ramanujan-machine-results): 586B candidate evaluations through deg 7
+- [Kronecker Coefficients](https://huggingface.co/datasets/cahlen/kronecker-coefficients): S_20, S_30, S_40 character tables + Kronecker triples
+- [Class Numbers](https://huggingface.co/datasets/cahlen/class-numbers-real-quadratic): Real quadratic fields to 10^11
+- [Continued Fraction Spectra](https://huggingface.co/datasets/cahlen/continued-fraction-spectra): Hausdorff, Lyapunov, Minkowski, Flint Hills
+- [CFD Chaotic Advection](https://huggingface.co/datasets/cahlen/cfd-chaotic-advection): Standard map Lyapunov sweeps (16.8M trajectories)
+- [CFD 2D NS BKM](https://huggingface.co/datasets/cahlen/cfd-ns-bkm): 2D pseudospectral BKM diagnostic CSVs
+- [CFD 3D NS BKM](https://huggingface.co/datasets/cahlen/cfd-ns3d-bkm): 3D BKM blowup-monitor CSVs (incl. Phase 5 Kerr IC sweep)
+
+## Tools
+
+- [MCP Server](https://mcp.bigcompute.science/mcp): 23 tools, no auth. arXiv, zbMATH, OEIS, LMFDB, Lean/Mathlib + experiment data.
+- [Colab Notebook](https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_mcp_explorer.ipynb): Pre-loaded MCP client + HF datasets.
+- [Experiment code](https://github.com/cahlen/idontknow): CUDA kernels, Python harnesses
+- [Website source](https://github.com/cahlen/bigcompute.science): Astro + KaTeX
+- [Agent guide](https://github.com/cahlen/idontknow/blob/main/AGENTS.md): How to contribute
+- [Audit Ledger](/verification/): AI audit process + all reviews
+- [Citation](https://github.com/cahlen/idontknow/blob/main/CITATION.cff): CITATION.cff
+
+## Review Infrastructure
+
+All findings are AI-audited claim-by-claim. Current: {stats['total_reviews']} reviews from {models} models across {providers} providers. {stats['issues_discovered']} issues discovered, {stats['issues_fixed']} fixed. Certification uses most-conservative-wins consensus.
+
+- [Review scripts](https://github.com/cahlen/idontknow/tree/main/scripts/reviews): `run_review.py` (any OpenAI-compatible API), `aggregate.py`, `validate.py`, `sync_website.py`
+- [Review schema](https://github.com/cahlen/idontknow/blob/main/docs/verifications/SCHEMA.md): JSON format for reviews
+- [Manifest](https://github.com/cahlen/idontknow/blob/main/docs/verifications/manifest.json): Generated aggregate of all reviews
+- [Remediations](https://github.com/cahlen/idontknow/tree/main/docs/verifications/remediations): Issue tracking with full lineage (review → issue → fix → commit)
+- To contribute: write review JSON per schema, submit PR to [cahlen/idontknow](https://github.com/cahlen/idontknow)
+
+## Machine-Readable Metadata
+
+- [/meta.json](/meta.json): Complete machine-readable index of all structured data, pages, repos, datasets, notebooks, and citation guidance
+- [/cite/](/cite/): Citation page with BibTeX/APA for every finding
+- Every finding page has: ScholarlyArticle JSON-LD, Dataset JSON-LD (when applicable), Highwire Press meta tags (citation_title, citation_author, citation_date), Dublin Core metadata
+- [Sitemap](/sitemap-index.xml) · [RSS](/rss.xml) · [robots.txt](/robots.txt)
+"""
+    llms_path.write_text(body)
+    print(f"llms.txt written: {llms_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate website certification data from manifest")
     parser.add_argument("--manifest", default=str(DEFAULT_MANIFEST), help="Path to manifest.json")
@@ -195,8 +329,12 @@ def main():
             },
             "datasets": {
                 "zaremba": "https://huggingface.co/datasets/cahlen/zaremba-conjecture-data",
+                "zaremba_density": "https://huggingface.co/datasets/cahlen/zaremba-density",
                 "kronecker": "https://huggingface.co/datasets/cahlen/kronecker-coefficients",
                 "spectra": "https://huggingface.co/datasets/cahlen/continued-fraction-spectra",
+                "cfd_chaotic_advection": "https://huggingface.co/datasets/cahlen/cfd-chaotic-advection",
+                "cfd_ns_bkm": "https://huggingface.co/datasets/cahlen/cfd-ns-bkm",
+                "cfd_ns3d_bkm": "https://huggingface.co/datasets/cahlen/cfd-ns3d-bkm",
             },
             "colab_notebooks": {
                 "research_agent": "https://colab.research.google.com/github/cahlen/bigcompute.science/blob/main/public/notebooks/bigcompute_research_agent.ipynb",
@@ -215,6 +353,8 @@ def main():
         print(f"Meta written: {meta_path}")
 
     site_root = output_path.parent.parent.parent
+    generate_llms_txt(site_root, certs)
+
     changelog_script = site_root / "scripts" / "generate_changelog.py"
     if changelog_script.exists():
         result = subprocess.run(

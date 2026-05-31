@@ -39,7 +39,7 @@ See `scripts/research_agent.py` for the full source (single file, no framework d
 ### Other Ways to Help
 
 1. **Reproduce our results.** Pick any experiment, run the code, verify independently. If you find an error, open an issue.
-2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run full S_40 Kronecker triple-sum (8.68T triples, needs int128 GPU kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges.
+2. **Extend our computations.** Push Zaremba density to 10^13+ or extend A={1,2} convergence beyond 10^12. Run full S_40 Kronecker triple-sum (8.68T triples, needs int128 GPU kernel) or compute S_45/S_50 char tables. Run the class number kernel on new ranges. **CFD program:** shell energy spectra, 128³/256³ Kerr IC convergence, longer ν=1e-5 runs, 512³ memory optimization on RTX 5090.
 3. **Connect to your own research.** Our Hausdorff dimension spectrum, Kronecker tables, and class number data may relate to problems you're working on. Use the data freely (CC BY 4.0).
 4. **Discover new formulas.** The Ramanujan Machine kernel searches for CF formulas. Run it with wider coefficient ranges or higher polynomial degree.
 5. **Contribute findings back.** See "How to Contribute" below.
@@ -107,6 +107,10 @@ All datasets: https://huggingface.co/cahlen
 - `cahlen/kronecker-coefficients` — S_20 + S_30 complete tables + S_40 character table (370+ GB)
 - `cahlen/continued-fraction-spectra` — Hausdorff, Lyapunov, Minkowski, Flint Hills
 - `cahlen/zaremba-conjecture-data` — Dolgopyat profile, representation counts
+- `cahlen/zaremba-density` — density sweep results to 10^12
+- `cahlen/cfd-chaotic-advection` — standard map Lyapunov sweeps
+- `cahlen/cfd-ns-bkm` — 2D NS BKM diagnostic CSVs
+- `cahlen/cfd-ns3d-bkm` — 3D NS BKM blowup-monitor CSVs (incl. Kerr IC Phase 5a)
 
 ### Conventions
 
@@ -120,6 +124,7 @@ All datasets: https://huggingface.co/cahlen
 ### Active Experiments
 
 See `CLAUDE.md` for the full experiment status. Key open problems:
+- **CFD program (RTX 5090):** Phase 5a Kerr IC + ν sweep complete (256³, BKM ≈ 9.99 vs random 1.76 at ν=1e-4). Next: shell energy spectrum, grid convergence, longer ν=1e-5 runs, 512³ memory work. See `scripts/experiments/cfd-ns3d-bkm/`.
 - Zaremba density for A={1,2,3} — confirmed 27 exceptions to 10^10 — exception set is closed
 - Ramsey R(5,5) — structural attack toward R(5,5) ≤ 45 via Angeltveit-McKay method
 - Kronecker S_40 — character table complete (37,338 partitions, 9.5 hr), targeted analysis done (94.9% nonzero), full triple-sum needs int128 GPU kernel
@@ -147,5 +152,7 @@ https://mcp.bigcompute.science/mcp
 ```
 
 Tools available: `list_experiments`, `get_experiment`, `get_cuda_kernel`, `get_zaremba_exceptions`, `list_datasets`, `get_open_problems`, `search`
+
+CFD experiments on MCP: `cfd-chaotic-advection`, `cfd-ns-bkm`, `cfd-ns3d-bkm`.
 
 No auth required. No API keys. Fully open.
