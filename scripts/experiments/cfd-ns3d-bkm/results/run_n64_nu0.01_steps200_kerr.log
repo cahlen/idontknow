@@ -1,0 +1,10 @@
+==========================================
+  CFD Phase 3 — 3D NS pseudospectral BKM
+  Device: NVIDIA GeForce RTX 5090 (cc 12.0)
+  Grid: 64³, nu=1.000000e-02, dt=0.0020, steps=200, IC=kerr
+==========================================
+
+Wrote scripts/experiments/cfd-ns3d-bkm/results/bkm3d_n64_nu1e-02_steps200_kerr.csv
+Elapsed: 1.23 s (163.4 steps/s)
+Final BKM integral: 1.971062
+NaN/Inf diagnostics: 0

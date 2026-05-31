@@ -34,6 +34,15 @@ configs:
   - config_name: blowup_search_5000
     data_files: "data/blowup_search_5000/*.csv"
     description: "256³, ν=1e-4, random IC, 5000 steps — extended Phase 4 BKM monitor (t=5)"
+  - config_name: kerr_nu1e-03
+    data_files: "data/kerr_nu1e-03/*.csv"
+    description: "256³, ν=1e-3, Kerr antiparallel tubes, 1000 steps — Phase 5a structured IC"
+  - config_name: kerr_nu1e-04
+    data_files: "data/kerr_nu1e-04/*.csv"
+    description: "256³, ν=1e-4, Kerr tubes, 2000 steps — 5.7× BKM vs random at t=2"
+  - config_name: kerr_nu1e-05
+    data_files: "data/kerr_nu1e-05/*.csv"
+    description: "256³, ν=1e-5, Kerr tubes, 2000 steps — toward Euler limit"
 dataset_info:
   - config_name: smoke_taylor_green
     features:
@@ -173,6 +182,8 @@ Certifying logs in `logs/`. Metadata in `metadata.json`.
 | `blowup_search_long` | \\(256^3\\) | \\(10^{-4}\\) | Random blob | 2000 | 0.001 | 0.887 at \\(t=2.0\\) | 1.76 |
 | `blowup_search_5000` | \\(256^3\\) | \\(10^{-4}\\) | Random blob | 5000 | 0.001 | 0.903 at \\(t=5.0\\) | 4.45 |
 | `taylor_green_256` | \\(256^3\\) | \\(10^{-3}\\) | Taylor–Green | 1000 | 0.001 | 4.44 at \\(t=1.0\\) | 4.23 |
+| `kerr_nu1e-04` | \\(256^3\\) | \\(10^{-4}\\) | Kerr tubes | 2000 | 0.001 | 5.0 at \\(t=2.0\\) | 9.99 |
+| `kerr_nu1e-03` | \\(256^3\\) | \\(10^{-3}\\) | Kerr tubes | 1000 | 0.001 | 5.0 at \\(t=1.0\\) | 4.99 |
 
 All runs: **zero NaN/Inf**.
 
@@ -188,7 +199,7 @@ All runs: **zero NaN/Inf**.
 - Random IC at \\(128^3\\): BKM **≈ 1.24** by \\(t=2\\); vorticity remains bounded at tested Re
 - **256³ blowup search** at \\(\nu=10^{-4}\\): BKM **≈ 0.44** by \\(t=0.5\\); extended to **≈ 1.76** by \\(t=2.0\\); **≈ 4.45** by \\(t=5.0\\) (5000 steps); **2.3 steps/s**; no blowup signal
 - **256³ Taylor–Green** at \\(\nu=10^{-3}\\): BKM **≈ 4.23** by \\(t=1.0\\); max \\(\lVert \omega \rVert_{L^\infty} \approx 4.44\\)
-- **512³** exceeds 32 GB VRAM on RTX 5090 (cuFFT allocation OOM); **256³** is the practical ceiling on this hardware
+- **Phase 5 Kerr IC** at \\(256^3\\), \\(\nu=10^{-4}\\): BKM **≈ 9.99** by \\(t=2\\) vs random **≈ 1.76** (**5.7×**); structured vortex tubes drive stronger BKM growth
 - No finite-time blowup signal at this resolution — consistent with viscous DNS at moderate Re
 
 ## Reproduction

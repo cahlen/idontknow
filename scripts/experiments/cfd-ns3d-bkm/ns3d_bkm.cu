@@ -110,6 +110,41 @@ __global__ void init_taylor_green_vorticity(cufftDoubleComplex *wx, cufftDoubleC
     wz[idx].y = 0.0;
 }
 
+/* Kerr-type antiparallel vortex tubes aligned with z (Kerr 1993 class). */
+__global__ void init_kerr_vorticity(cufftDoubleComplex *wx, cufftDoubleComplex *wy,
+                                    cufftDoubleComplex *wz, int N, double L) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int j = blockIdx.y * blockDim.y + threadIdx.y;
+    int k = blockIdx.z * blockDim.z + threadIdx.z;
+    if (i >= N || j >= N || k >= N) return;
+    int idx = k * N * N + j * N + i;
+    double x = i * L / N;
+    double y = j * L / N;
+    double z = k * L / N;
+
+    const double sep = 0.55;
+    const double sigma = 0.32;
+    const double gamma = 5.0;
+    const double eps = 0.08;
+    const double cx1 = PI - sep;
+    const double cx2 = PI + sep;
+    const double cy = PI;
+
+    double dx1 = x - cx1, dy1 = y - cy;
+    double dx2 = x - cx2, dy2 = y - cy;
+    double g1 = exp(-(dx1 * dx1 + dy1 * dy1) / (sigma * sigma));
+    double g2 = exp(-(dx2 * dx2 + dy2 * dy2) / (sigma * sigma));
+    double tube = g1 - g2;
+    double sumg = g1 + g2;
+
+    wz[idx].x = gamma * tube;
+    wz[idx].y = 0.0;
+    wx[idx].x = eps * sin(2.0 * z) * sumg;
+    wx[idx].y = 0.0;
+    wy[idx].x = eps * cos(2.0 * z) * tube;
+    wy[idx].y = 0.0;
+}
+
 __global__ void init_random_vorticity3d(cufftDoubleComplex *wx, cufftDoubleComplex *wy,
                                         cufftDoubleComplex *wz, int N, double L,
                                         unsigned long long seed) {
@@ -562,8 +597,13 @@ int main(int argc, char **argv) {
 
     if (strcmp(ic, "random") == 0) {
         init_random_vorticity3d<<<grid, block>>>(f.wx, f.wy, f.wz, N, g.L, 0xDEADBEEFULL);
-    } else {
+    } else if (strcmp(ic, "kerr") == 0) {
+        init_kerr_vorticity<<<grid, block>>>(f.wx, f.wy, f.wz, N, g.L);
+    } else if (strcmp(ic, "taylor-green") == 0) {
         init_taylor_green_vorticity<<<grid, block>>>(f.wx, f.wy, f.wz, N, g.L);
+    } else {
+        fprintf(stderr, "Unknown IC '%s' (use random, kerr, or taylor-green)\n", ic);
+        return 1;
     }
 
     cufftHandle plan_fwd, plan_inv;
@@ -578,8 +618,8 @@ int main(int argc, char **argv) {
     apply_dealias3<<<(g.n + 255) / 256, 256>>>(f.wz, g.dealias_dev, (int)g.n);
 
     char csv_path[512];
-    snprintf(csv_path, sizeof(csv_path), "%s/bkm3d_n%d_nu%.0e_steps%d.csv", out_dir, N, nu,
-             n_steps);
+    snprintf(csv_path, sizeof(csv_path), "%s/bkm3d_n%d_nu%.0e_steps%d_%s.csv", out_dir, N, nu,
+             n_steps, ic);
     FILE *csv = fopen(csv_path, "w");
     if (!csv) {
         fprintf(stderr, "CERTIFICATE_ERROR: cannot open %s\n", csv_path);
