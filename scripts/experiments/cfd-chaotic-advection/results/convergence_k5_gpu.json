@@ -1,0 +1,32 @@
+{
+  "study": "iteration_convergence_at_k5",
+  "hardware": "RTX 5090",
+  "note": "65536 ICs at K=5 only; mean stable to ~1e-4 across 5k-100k iterations",
+  "results": {
+    "5000": {
+      "mean_at_k5": 0.9567348653,
+      "n_ic": 65536,
+      "theory_ln_k_over_2": 0.9162907318741551
+    },
+    "10000": {
+      "mean_at_k5": 0.9566402393,
+      "n_ic": 65536,
+      "theory_ln_k_over_2": 0.9162907318741551
+    },
+    "20000": {
+      "mean_at_k5": 0.9566426069,
+      "n_ic": 65536,
+      "theory_ln_k_over_2": 0.9162907318741551
+    },
+    "50000": {
+      "mean_at_k5": 0.956605446,
+      "n_ic": 65536,
+      "theory_ln_k_over_2": 0.9162907318741551
+    },
+    "100000": {
+      "mean_at_k5": 0.9566133229,
+      "n_ic": 65536,
+      "theory_ln_k_over_2": 0.9162907318741551
+    }
+  }
+}

@@ -8,7 +8,7 @@ in periodically driven incompressible flows.
 
 - **Integrability → chaos transition:** for small $K$, orbits are mostly regular; above
   $K_{\mathrm{crit}} \approx 0.971635406$, a chaotic sea dominates (Chirikov, 1979).
-- **Mixing rate:** the largest Lyapunov exponent $\Lambda(K)$ quantifies how fast
+- **Mixing rate:** the maximal Lyapunov exponent $\Lambda(K)$ quantifies how fast
   nearby fluid parcels diverge — directly tied to **stretching rates** in laminar
   advection–diffusion problems.
 
@@ -59,6 +59,14 @@ nvcc -O3 -arch=sm_120 -o standard_map_lyapunov \
 ```
 
 Adjust `-arch=sm_89` for RTX 4090, `sm_120` for RTX 5090.
+
+## Claim validation
+
+```bash
+python3 scripts/experiments/cfd-chaotic-advection/validate_claims.py
+```
+
+Checks convergence vs iteration count, symplectic pairing ($\lambda_1+\lambda_2=0$), literature cross-checks, and documents what “maximal/largest LCE” does **not** mean (no world-record scale claims). Results: `results/convergence_k5_gpu.json`.
 
 ## Outputs
 

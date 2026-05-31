@@ -19,3 +19,6 @@
 | Clarify novelty claim (open pipeline vs new K_crit) | minor | gpt-4.1 re-review | resolved |
 | Link transfer-operator connection to Hausdorff finding | minor | gpt-4.1 re-review | resolved |
 | Document fp64 arithmetic and NaN/Inf certificate | minor | gpt-4.1 re-review | resolved |
+| Clarify "largest" = maximal LCE terminology, not world records | important | user audit | resolved |
+| Add validate_claims.py convergence and symplectic checks | important | user audit | resolved |
+| Document K_crit iteration-count sensitivity (50k vs 100k) | important | user audit | resolved |
