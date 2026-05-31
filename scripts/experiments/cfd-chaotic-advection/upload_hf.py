@@ -2,7 +2,9 @@
 """
 Upload CFD chaotic advection Lyapunov sweep data to Hugging Face.
 
-Creates/updates cahlen/cfd-chaotic-advection with CSVs, logs, and metadata.
+Creates/updates cahlen/cfd-chaotic-advection with CSVs, logs, validation
+artifacts, and metadata. All experiment/finding data must live here and be
+linked from bigcompute.science.
 
 Usage:
   python3 scripts/experiments/cfd-chaotic-advection/upload_hf.py
@@ -25,6 +27,18 @@ SWEEPS = [
     ("smoke_test", "lyapunov_k64_ic512_iter5000.csv", "run_k64_ic512_iter5000.log"),
 ]
 
+CONVERGENCE_CSVS = [
+    "lyapunov_k2_ic65536_iter5000.csv",
+    "lyapunov_k2_ic65536_iter10000.csv",
+    "lyapunov_k2_ic65536_iter20000.csv",
+    "lyapunov_k2_ic65536_iter50000.csv",
+    "lyapunov_k2_ic65536_iter100000.csv",
+]
+
+VALIDATION_JSON = [
+    "convergence_k5_gpu.json",
+]
+
 
 def main():
     with tempfile.TemporaryDirectory() as tmp:
@@ -42,14 +56,33 @@ def main():
                 log_dest.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(log_src, log_dest / log_name)
 
+        val_dir = staging / "validation"
+        val_dir.mkdir(parents=True, exist_ok=True)
+        for name in CONVERGENCE_CSVS:
+            src = RESULTS / name
+            if src.exists():
+                shutil.copy2(src, val_dir / name)
+        for name in VALIDATION_JSON:
+            src = RESULTS / name
+            if src.exists():
+                shutil.copy2(src, val_dir / name)
+
         metadata = {
             "experiment": "cfd-chaotic-advection",
+            "finding": "cfd-standard-map-chaos-onset",
+            "experiment_url": "https://bigcompute.science/experiments/cfd-chaotic-advection/",
+            "finding_url": "https://bigcompute.science/findings/cfd-standard-map-chaos-onset/",
             "dataset_repo": f"https://huggingface.co/datasets/{REPO_ID}",
             "kernel_repo": "https://huggingface.co/cahlen/bigcompute-cuda-kernels",
             "code": "https://github.com/cahlen/idontknow/tree/main/scripts/experiments/cfd-chaotic-advection",
             "sweeps": {
                 name: {"csv": csv, "log": log}
                 for name, csv, log in SWEEPS
+            },
+            "validation": {
+                "convergence_k5_gpu": "validation/convergence_k5_gpu.json",
+                "convergence_csvs": CONVERGENCE_CSVS,
+                "script": "validate_claims.py",
             },
         }
         (staging / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
@@ -64,7 +97,7 @@ def main():
             folder_path=str(staging),
             repo_id=REPO_ID,
             repo_type="dataset",
-            commit_message="Add Chirikov standard map Lyapunov spectrum (RTX 5090 certifying sweeps)",
+            commit_message="Add validation artifacts and bidirectional bigcompute links",
         )
 
     print(f"\nDone! Dataset: https://huggingface.co/datasets/{REPO_ID}")
