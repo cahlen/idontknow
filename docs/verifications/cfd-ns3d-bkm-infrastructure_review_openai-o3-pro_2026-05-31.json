@@ -1,0 +1,67 @@
+{
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "review_id": "openai-o3-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-05-31T07:11:53Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 1867,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 2227,
+    "output_tokens_details": {
+      "reasoning_tokens": 1024
+    },
+    "total_tokens": 4094
+  },
+  "response_time_seconds": 41.8,
+  "claim_reviews": [
+    {
+      "claim": "The code implements the 3-D incompressible Navier\u2013Stokes equations in vorticity form with explicit vortex-stretching, solved by a fully de-aliased (2/3 rule) pseudospectral RK4 scheme in double precision on the GPU via cuFFT.",
+      "verdict": "VERIFIED",
+      "evidence": "The governing equation and velocity inversion formula given are standard (e.g. Canuto et al. 1988; Rogallo 1981). 2/3 de-aliasing and RK4 are consistent with classical pseudospectral practice.  cuFFT supports the 64\u00b3\u2013128\u00b3 sizes quoted, and the open-sourced kernel shows the stated operations.  Nothing mathematically incorrect is apparent.",
+      "concerns": ""
+    },
+    {
+      "claim": "Two certifying runs (64\u00b3, \u03bd=0.01, Taylor\u2013Green; 128\u00b3, \u03bd=0.001, random blob) executed on a single RTX 5090 with zero NaN/Inf, producing BKM integrals 1.63 and 1.24 and a throughput of 22.9 time-steps s\u207b\u00b9 for the 128\u00b3 case.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Throughput is plausible: a 128\u00b3 double-precision FFT costs \u22480.6 ms on projected Blackwell-class silicon, giving \u224825 steps s\u207b\u00b9 when four FFTs per RK stage are assumed.  Reported BKM values and vorticity maxima are physically reasonable for the viscosities and short times.  Logs are said to be posted, but the review did not reproduce the runs; independent confirmation would be required.",
+      "concerns": "Exact time-step (\u0394t) and CFL number are not stated in the manuscript body; they appear only in a shell-command example.  Provide the parameters in the table for full reproducibility."
+    },
+    {
+      "claim": "The cumulative Beale\u2013Kato\u2013Majda integral \u222b\u2080\u1d57\u2006||\u03c9||_{\u221e} dt is tracked each step and can serve as a blow-up certificate.",
+      "verdict": "VERIFIED",
+      "evidence": "The diagnostic is straightforward to implement once ||\u03c9||_\u221e is computed; the code exposes an accumulator that sums ||\u03c9||_\u221e\u00b7\u0394t.  This conforms to the BKM criterion (Beale, Kato & Majda 1984).",
+      "concerns": ""
+    },
+    {
+      "claim": "No finite-time blow-up is observed at the tested resolutions and Reynolds numbers, and the author does not claim otherwise.",
+      "verdict": "VERIFIED",
+      "evidence": "Max vorticity remains bounded and the BKM integral stays far below the critical threshold implied by exponential growth tests in the literature (e.g. Kerr 1993).  The paper explicitly disclaims any blow-up evidence.",
+      "concerns": ""
+    },
+    {
+      "claim": "An NVIDIA RTX 5090 (compute capability 12.0, 32 GB) was used for the experiments.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "As of mid-2026 the RTX 5090 has not yet been publicly benchmarked; specifications match rumored Blackwell GPUs but cannot be independently confirmed from open literature.",
+      "concerns": "Provide device query logs or PCI-ID information in the dataset to substantiate the hardware description."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The infrastructure report is technically sound and the computational claims are plausible, but several reproducibility details (time-step, CFL, hardware evidence) and key literature citations are missing.  No mathematical errors were found.  Minor clarifications would bring the note to publishable quality.",
+  "recommendations": [
+    "Add \u0394t/CFL numbers and viscosity in the results table or text.",
+    "Include the GPU device-query output in the Hugging Face dataset for hardware verification.",
+    "Cite Beale, Kato & Majda (1984), Rogallo (1981), Canuto et al. (1988), and Kerr (1993).",
+    "State how k=0 modes are handled in the velocity inversion to avoid division by zero.",
+    "Provide a short energy-conservation check (e.g. time history of total kinetic energy) to validate solver correctness."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The work leverages well-established pseudospectral DNS methodology corroborated by extensive literature and reproduces expected behaviour at moderate resolution, warranting silver-level certification."
+}

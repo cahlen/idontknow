@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-31T05:55:49Z",
+  "generated_at": "2026-05-31T07:13:14Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
-    "total_findings": 18,
-    "total_reviews": 56,
+    "total_findings": 20,
+    "total_reviews": 62,
     "total_remediations": 217,
     "remediations_resolved": 200,
     "unique_models": 8,
@@ -60,6 +60,154 @@
       "issues_found": 0,
       "issues_resolved": 0,
       "last_reviewed": "2026-04-03T21:30:00Z"
+    },
+    "cfd-ns-bkm-diagnostic": {
+      "title": "2D NS BKM Diagnostic: Certifying Pseudospectral Vorticity Tracking on RTX 5090",
+      "certification": {
+        "level": "bronze",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "google-gemini-2.5-pro-2026-05-31",
+          "file": "cfd-ns-bkm-diagnostic_review_google-gemini-2-5-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gemini-2.5-pro",
+            "provider": "Google"
+          },
+          "reviewed_at": "2026-05-31T06:09:32Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The finding presents a sound validation of a 2D pseudospectral Navier-Stokes solver. The methodology is standard, the validation against the Taylor-Green vortex is correct, and the author appropriatel"
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-05-31",
+          "file": "cfd-ns-bkm-diagnostic_review_openai-gpt-4-1_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T06:10:53Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 8,
+            "verified": 7,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The mathematics and computational methodology are fully standard, well-implemented, and justified by references. The claims about accuracy, diagnostics, and lack of blowup are correct and conservative"
+        },
+        {
+          "review_id": "openai-o3-pro-2026-05-31",
+          "file": "cfd-ns-bkm-diagnostic_review_openai-o3-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T06:10:24Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 8,
+            "verified": 4,
+            "disputed": 1,
+            "needs_clarification": 3,
+            "unverifiable": 0
+          },
+          "key_finding": "The infrastructure appears sound and the numerical scheme is conventional, with open code and data supporting the core functionality. However, quantitative validation, performance evidence, and litera"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-05-31T06:10:53Z"
+    },
+    "cfd-ns3d-bkm-infrastructure": {
+      "title": "3D NS BKM Infrastructure: First Certifying Pseudospectral Blowup-Monitor Runs on RTX 5090",
+      "certification": {
+        "level": "silver",
+        "review_count": 3,
+        "consensus_method": "most_conservative"
+      },
+      "reviews": [
+        {
+          "review_id": "google-gemini-2.5-pro-2026-05-31",
+          "file": "cfd-ns3d-bkm-infrastructure_review_google-gemini-2-5-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gemini-2.5-pro",
+            "provider": "Google"
+          },
+          "reviewed_at": "2026-05-31T07:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Sound computational experiment demonstrating working 3D NS infrastructure with blowup monitoring. Methods are standard and limitations are honestly stated. Add citations to BKM, Orszag dealiasing, and"
+        },
+        {
+          "review_id": "openai-gpt-4.1-2026-05-31",
+          "file": "cfd-ns3d-bkm-infrastructure_review_openai-gpt-4-1_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "gpt-4.1",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T07:11:24Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 6,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This is a competent report of a careful, reproducible infrastructure result: GPU-based 3D vorticity-form NS integrating the BKM diagnostic. All mathematical and computational descriptions are correct "
+        },
+        {
+          "review_id": "openai-o3-pro-2026-05-31",
+          "file": "cfd-ns3d-bkm-infrastructure_review_openai-o3-pro_2026-05-31.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "o3-pro",
+            "provider": "OpenAI"
+          },
+          "reviewed_at": "2026-05-31T07:11:53Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 1
+          },
+          "key_finding": "The infrastructure report is technically sound and the computational claims are plausible, but several reproducibility details (time-step, CFL, hardware evidence) and key literature citations are miss"
+        }
+      ],
+      "remediations": [],
+      "issues_found": 0,
+      "issues_resolved": 0,
+      "last_reviewed": "2026-05-31T07:15:00Z"
     },
     "cfd-standard-map-chaos-onset": {
       "title": "Standard Map Chaos Onset: \u039b(K) Crosses Literature K_crit on RTX 5090",

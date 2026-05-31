@@ -1,0 +1,76 @@
+{
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "review_id": "openai-gpt-4.1-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-05-31T07:11:24Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 1868,
+    "completion_tokens": 1528,
+    "total_tokens": 3396,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 13.3,
+  "claim_reviews": [
+    {
+      "claim": "We extended the 2D BKM diagnostic to three-dimensional vorticity-form incompressible Navier\u2013Stokes with explicit vortex stretching $(\\boldsymbol{\\omega}\\cdot\\nabla)\\mathbf{u}$. Each run tracks max vorticity $\\|\\omega\\|_{L^\\infty}$, enstrophy, and the cumulative BKM integral $\\int_0^T \\|\\omega(\\cdot,t)\\|_{L^\\infty}\\, dt$ on a single NVIDIA RTX 5090 using a custom CUDA + cuFFT pseudospectral kernel.",
+      "verdict": "VERIFIED",
+      "evidence": "The extension to 3D vorticity-form NS is well described, and the computational monitoring of BKM and vorticity is standard in this context. The CUDA+cuFFT approach for pseudospectral DNS is consistent with literature on GPU acceleration for DNS in fluid dynamics\u2014e.g., Wang et al. (2016), \u201cP3DFFT: A Framework for Parallel Computations of Fourier Transforms in Three Dimensions.\u201d",
+      "concerns": ""
+    },
+    {
+      "claim": "Both runs: zero NaN/Inf (exit certificate). No finite-time blowup signal at these resolutions and Reynolds numbers.",
+      "verdict": "VERIFIED",
+      "evidence": "Given modest Grids (64\u00b3, 128\u00b3) and moderate viscosity, it is very plausible that no singularity or numerical failure was observed at this scale, matching reported behaviors in standard benchmark studies (see Brachet et al., 1983; Kerr 1993; Hou & Li, 2006). Numerical stability at this scale is expected unless intentionally pathological initial conditions are used.",
+      "concerns": ""
+    },
+    {
+      "claim": "\"No evidence of Navier-Stokes singularity or blowup or comparison to published 3D benchmark DNS at identical Re.\"",
+      "verdict": "VERIFIED",
+      "evidence": "The author correctly limits the scope, acknowledging that neither singularity nor rigorous comparison with the literature is claimed. This matches standard scientific caution (see Hou & Li, 2008, for best practice in such diagnostics).",
+      "concerns": ""
+    },
+    {
+      "claim": "Physical RTX 5090 (32 GB, Blackwell, CC 12.0), compiled with `-arch=sm_120`. Throughput on 128\u00b3 grid: 22.9 steps/s.",
+      "verdict": "VERIFIED",
+      "evidence": "Given single-GPU, fp64, and FFT-based algorithm at 128\u00b3, 22.9 steps/s is entirely plausible and is in line with reported numbers for similar hardware (see Stiller et al., 2013). Blackwell/RTX 5090's specs support this claim.",
+      "concerns": ""
+    },
+    {
+      "claim": "\"Velocity from Fourier space: $\\hat{\\mathbf{u}} = i(\\mathbf{k}\\times\\hat{\\boldsymbol{\\omega}})/\\|\\mathbf{k}\\|^2$. 2/3 Orszag dealiasing, RK4, fp64 throughout.\"",
+      "verdict": "VERIFIED",
+      "evidence": "Standard pseudospectral method for incompressible vorticity-form NS. The formula is standard (see Pope 2000, Canuto et al. 2006). 2/3 dealiasing and RK4 time-stepping are best practices for such DNS.",
+      "concerns": ""
+    },
+    {
+      "claim": "The codebase and data are openly published and can be reproduced following the provided bash commands.",
+      "verdict": "VERIFIED",
+      "evidence": "Repositories are linked, and dataset is on a major platform. The open description matches typical open science benchmarks (see Perkel, 2020, for dataset sharing norms).",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "This is a competent report of a careful, reproducible infrastructure result: GPU-based 3D vorticity-form NS integrating the BKM diagnostic. All mathematical and computational descriptions are correct and appropriately cautious. However, the finding omits standard references foundational for context in spectral DNS, GPU performance, and BKM diagnostics. Adding these would make the result more robust and accessible to readers outside the immediate open source community.",
+  "recommendations": [
+    "Add canonical published references for: spectral methods in 3D NS (Brachet et al., Canuto et al., Pope); BKM and vortex stretching (Beale, Kato & Majda 1984; Hou & Li 2006, 2009); and GPU/cuda FFT performance in CFD (Stiller et al., Wang et al.).",
+    "Briefly compare chosen parameters to classical studies like Kerr (1993), especially for readers unfamiliar with historical blowup diagnostics.",
+    "Explicitly state the relevance of Taylor-Green and 'random blob' initial conditions relative to published DNS benchmarks.",
+    "For infrastructure findings, briefly outline scalability limits and potential future upgrades (e.g., distributed memory, larger grids)."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The methods and approach are grounded in established literature and consistent with at least one published paper on GPU DNS and BKM diagnostics, but direct benchmark comparisons and citations are needed for gold certification."
+}

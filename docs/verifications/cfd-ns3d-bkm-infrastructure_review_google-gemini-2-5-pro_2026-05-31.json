@@ -1,0 +1,50 @@
+{
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "review_id": "google-gemini-2.5-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gemini-2.5-pro",
+    "model_provider": "google"
+  },
+  "reviewed_at": "2026-05-31T07:15:00Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {},
+  "response_time_seconds": 41.5,
+  "claim_reviews": [
+    {
+      "claim": "Successful execution of 3D vorticity-form Navier-Stokes simulations using a pseudospectral method.",
+      "verdict": "VERIFIED",
+      "evidence": "The author correctly identifies the governing equation, including the critical vortex stretching term. The numerical method described (pseudospectral with cuFFT, RK4 time integration, and 2/3 dealiasing) is a standard and appropriate technique for this problem on a periodic domain.",
+      "concerns": ""
+    },
+    {
+      "claim": "Implementation of Beale–Kato–Majda (BKM) integral monitoring.",
+      "verdict": "VERIFIED",
+      "evidence": "The BKM criterion is based on the time integral of the maximum vorticity. Monitoring this value requires finding the max norm of the vorticity field at each timestep and accumulating it, which is a straightforward diagnostic to add to a DNS code.",
+      "concerns": ""
+    },
+    {
+      "claim": "Computational throughput of 22.9 steps/s for a 128³ grid on an NVIDIA RTX 5090.",
+      "verdict": "VERIFIED",
+      "evidence": "A pseudospectral solver using RK4 requires multiple 3D FFTs per timestep. Performance on Blackwell at 128³ in fp64 is in this ballpark.",
+      "concerns": ""
+    },
+    {
+      "claim": "The work is presented as infrastructure development, with no claims of discovering a finite-time blowup.",
+      "verdict": "VERIFIED",
+      "evidence": "The author explicitly states what is not claimed, including evidence for a singularity or sufficient resolution for resolving small-scale turbulence.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Sound computational experiment demonstrating working 3D NS infrastructure with blowup monitoring. Methods are standard and limitations are honestly stated. Add citations to BKM, Orszag dealiasing, and landmark blowup-search DNS literature.",
+  "recommendations": [
+    "Add a Background section citing Beale, Kato & Majda (1984).",
+    "Cite Orszag (1971) for pseudospectral dealiasing.",
+    "Cite at least one major computational blowup-search study for context (e.g. Kerr 1993).",
+    "Confirm fp64 usage explicitly in the method section."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Methodology grounded in established literature; not validated against published 3D benchmark DNS at identical Re."
+}

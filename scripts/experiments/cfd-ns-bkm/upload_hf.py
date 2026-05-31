@@ -43,8 +43,10 @@ def main() -> None:
             "experiment": "cfd-ns-bkm",
             "experiment_url": "https://bigcompute.science/experiments/cfd-ns-bkm/",
             "dataset_repo": f"https://huggingface.co/datasets/{REPO_ID}",
-            "kernel_repo": "https://huggingface.co/cahlen/bigcompute-cuda-kernels",
+            "kernel": "https://github.com/cahlen/idontknow/blob/main/scripts/experiments/cfd-ns-bkm/ns2d_bkm.cu",
             "code": "https://github.com/cahlen/idontknow/tree/main/scripts/experiments/cfd-ns-bkm",
+            "finding": "https://bigcompute.science/findings/cfd-ns-bkm-diagnostic/",
+            "related_dataset": "https://huggingface.co/datasets/cahlen/cfd-ns3d-bkm",
             "runs": {name: {"csv": csv, "log": log} for name, csv, log in RUNS},
         }
         (staging / "metadata.json").write_text(json.dumps(metadata, indent=2))

@@ -1,0 +1,8 @@
+CERTIFICATE_ERROR: cudaMalloc(&p, n * sizeof(cufftDoubleComplex)): out of memory
+=================CERTIFICATE_ERROR: cudaMalloc(&p, n * sizeof(cufftDoubleComplex)): out of memory
+==========================================
+  CFD Phase 3 — 3D NS pseudospectral BKM
+  Device: NVIDIA GeForce RTX 5090 (cc 12.0)
+  Grid: 512³, nu=1.000000e-03, dt=0.0005, steps=50, IC=random
+==========================================
+

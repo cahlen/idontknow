@@ -15,6 +15,9 @@ RESULTS = SCRIPT_DIR / "results"
 RUNS = [
     ("smoke_taylor_green", "bkm3d_n64_nu1e-02_steps200.csv", "run_n64_nu0.01_steps200_taylor-green.log"),
     ("standard_random", "bkm3d_n128_nu1e-03_steps1000.csv", "run_n128_nu0.001_steps1000_random.log"),
+    ("blowup_search", "bkm3d_n256_nu1e-04_steps500.csv", "run_n256_nu0.0001_steps500_random.log"),
+    ("blowup_search_long", "bkm3d_n256_nu1e-04_steps2000.csv", "run_n256_nu0.0001_steps2000_random.log"),
+    ("taylor_green_256", "bkm3d_n256_nu1e-03_steps1000.csv", "run_n256_nu0.001_steps1000_taylor-green.log"),
 ]
 
 
@@ -43,7 +46,10 @@ def main() -> None:
             "experiment": "cfd-ns3d-bkm",
             "experiment_url": "https://bigcompute.science/experiments/cfd-ns3d-bkm/",
             "dataset_repo": f"https://huggingface.co/datasets/{REPO_ID}",
+            "kernel": "https://github.com/cahlen/idontknow/blob/main/scripts/experiments/cfd-ns3d-bkm/ns3d_bkm.cu",
             "code": "https://github.com/cahlen/idontknow/tree/main/scripts/experiments/cfd-ns3d-bkm",
+            "finding": "https://bigcompute.science/findings/cfd-ns3d-bkm-infrastructure/",
+            "related_dataset": "https://huggingface.co/datasets/cahlen/cfd-ns-bkm",
             "runs": {name: {"csv": csv, "log": log} for name, csv, log in RUNS},
         }
         (staging / "metadata.json").write_text(json.dumps(metadata, indent=2))
