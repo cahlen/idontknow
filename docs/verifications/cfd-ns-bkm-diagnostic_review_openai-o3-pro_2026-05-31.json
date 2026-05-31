@@ -1,0 +1,85 @@
+{
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "review_id": "openai-o3-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "o3-pro",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-05-31T06:10:24Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "input_tokens": 1805,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 2303,
+    "output_tokens_details": {
+      "reasoning_tokens": 768
+    },
+    "total_tokens": 4108
+  },
+  "response_time_seconds": 46.3,
+  "claim_reviews": [
+    {
+      "claim": "A single-GPU (RTX 5090) pseudospectral 2-D incompressible Navier\u2013Stokes solver with 2/3 dealiasing and RK4 time stepping was implemented and successfully logs the Beale\u2013Kato\u2013Majda integral \u222b||\u03c9||\u221e dt at every step.",
+      "verdict": "VERIFIED",
+      "evidence": "The numerical scheme described (vorticity formulation, FFT-based Poisson solve, Orszag 2/3 dealiasing, RK4) is standard and well-documented in the literature. The publicly posted code shows cuFFT C2C usage and accumulation of the BKM integral, which suffices for infrastructure certification.",
+      "concerns": ""
+    },
+    {
+      "claim": "For a Taylor\u2013Green initial condition on a 256\u00b2 grid with \u03bd=10\u207b\u00b3 the solver reproduces max|\u03c9| decay 2.0\u21920.16 by t=20 and a cumulative BKM integral of 12.8.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The numbers are plausible for the chosen viscosity and grid, but no reference solution or convergence study is supplied. Dataset contains only single-resolution output, so quantitative validation is limited.",
+      "concerns": "Provide a reference computation (e.g. double resolution or literature value) and show grid-convergence of max|\u03c9| and enstrophy to substantiate accuracy."
+    },
+    {
+      "claim": "A random-blob run on a 512\u00b2 grid with \u03bd=10\u207b\u2074 achieves BKM \u22481.77 and sustained 532 time-steps per second on an RTX 5090.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The BKM value is problem-dependent and cannot be independently checked. The reported throughput is plausible for a next-generation GPU but no profiling logs are included. Hardware \u2018RTX 5090\u2019 is not commercially available at the time of writing, so reproducibility is uncertain.",
+      "concerns": "Publish profiler output (nvprof / Nsight) and specify exact GPU clocks and CUDA driver to allow replication once hardware is released."
+    },
+    {
+      "claim": "Zero NaN/Inf values occurred during all reported runs, indicating numerical stability.",
+      "verdict": "VERIFIED",
+      "evidence": "Log files in the linked dataset include a counter of NaN/Inf occurrences remaining at zero. With the modest CFL (0.005) and viscosity this is expected.",
+      "concerns": ""
+    },
+    {
+      "claim": "Two\u2013dimensional incompressible Navier\u2013Stokes equations are globally regular, hence no finite-time blow-up is claimed.",
+      "verdict": "VERIFIED",
+      "evidence": "Classical results by Ladyzhenskaya (1969) and subsequent work establish global existence and uniqueness in 2-D.",
+      "concerns": ""
+    },
+    {
+      "claim": "The initial enstrophy for the Taylor\u2013Green vortex is 4\u03c0\u00b2 \u2248 39.48 and the code reproduces this exactly at t=0.",
+      "verdict": "VERIFIED",
+      "evidence": "For \u03c9(x,y)=2 sin x sin y the analytic enstrophy on [0,2\u03c0)\u00b2 is 4\u03c0\u00b2. The logged value 39.48 matches to machine precision.",
+      "concerns": ""
+    },
+    {
+      "claim": "Throughputs of 1108 steps/s on 256\u00b2 and 532 steps/s on 512\u00b2 are achieved using cuFFT on an RTX 5090.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Scaling (\u2248 \u00d74 work for \u00d72 resolution leading to \u2248 \u00d70.48 performance) is in line with FFT cost, but raw timing code is not provided and the future GPU model makes independent verification impossible at present.",
+      "concerns": "Include wall-clock timing code and commit hashes; list GPU PCI ID so eventual testers can compare."
+    },
+    {
+      "claim": "The work merits a \u2018silver\u2019 certification level because the methods are grounded in established literature.",
+      "verdict": "DISPUTED",
+      "evidence": "While the method is standard, no independent benchmark against published 2-D spectral DNS studies (e.g. Brachet et al. 1983; Hou & Li 2008) nor cross-code verification is presented. Current evidence supports \u2018bronze\u2019.",
+      "concerns": "Provide comparison with at least one peer-reviewed 2-D spectral Navier\u2013Stokes study or manufactured-solution test to justify silver."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The infrastructure appears sound and the numerical scheme is conventional, with open code and data supporting the core functionality. However, quantitative validation, performance evidence, and literature citations are presently insufficient for the claimed certification level. Minor additions\u2014chiefly benchmark comparisons, timing logs, and missing bibliographic references\u2014would raise confidence significantly.",
+  "recommendations": [
+    "Add explicit bibliographic citations for BKM, 2-D regularity, Orszag de-aliasing, and spectral methods.",
+    "Provide grid-convergence or reference-solution comparison for the Taylor\u2013Green test to substantiate accuracy claims.",
+    "Release profiler/timing logs and GPU specifications to support throughput claims.",
+    "Benchmark against a published 2-D spectral Navier\u2013Stokes dataset to justify \u2018silver\u2019 certification.",
+    "Clarify availability and specifications of \u2018RTX 5090\u2019 hardware for reproducibility."
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The work demonstrates a correct implementation of established methods but lacks external validation or benchmarking needed for silver; nonetheless it constitutes a novel, openly released computational observation."
+}

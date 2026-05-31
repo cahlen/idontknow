@@ -1,0 +1,11 @@
+==========================================
+  CFD Phase 2 — 2D NS pseudospectral BKM
+  Device: NVIDIA GeForce RTX 5090 (cc 12.0)
+  Grid: 512 x 512, nu=1.000000e-04, dt=0.0050, steps=5000
+  IC: random
+==========================================
+
+Wrote scripts/experiments/cfd-ns-bkm/results/bkm_n512_nu1e-04_steps5000.csv
+Elapsed: 9.40 s (531.9 steps/s)
+Final BKM integral: 1.771399
+NaN/Inf diagnostics: 0

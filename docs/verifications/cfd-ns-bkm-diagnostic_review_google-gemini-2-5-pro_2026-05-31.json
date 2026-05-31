@@ -1,0 +1,60 @@
+{
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "review_id": "google-gemini-2.5-pro-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gemini-2.5-pro",
+    "model_provider": "google"
+  },
+  "reviewed_at": "2026-05-31T06:09:32Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "completion_tokens": 1198,
+    "prompt_tokens": 1955,
+    "total_tokens": 7186
+  },
+  "response_time_seconds": 41.0,
+  "claim_reviews": [
+    {
+      "claim": "A pseudospectral 2D incompressible Navier\u2013Stokes solver was built and validated against the Taylor\u2013Green vortex.",
+      "verdict": "VERIFIED",
+      "evidence": "The author correctly reports the initial maximum vorticity (2.0) and total enstrophy (4\u03c0\u00b2 \u2248 39.48) for the standard Taylor\u2013Green vortex initial condition. The reported monotonic decay of enstrophy is the expected physical behavior for this viscous flow, confirming a plausible implementation of the solver's dynamics.",
+      "concerns": ""
+    },
+    {
+      "claim": "The solver tracks the Beale\u2013Kato\u2013Majda (BKM) diagnostic \u222b||\u03c9(\u00b7,t)||L\u221e dt.",
+      "verdict": "VERIFIED",
+      "evidence": "The methodology describes logging the maximum vorticity (L-infinity norm) at each timestep and maintaining a running cumulative sum (integral). This is a direct implementation of the BKM criterion. The author correctly notes that this is for infrastructure validation, as the integral is known to be finite for all time in 2D.",
+      "concerns": ""
+    },
+    {
+      "claim": "Performance of 532 steps/s was achieved on a 512\u00b2 grid using an NVIDIA RTX 5090.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The NVIDIA RTX 5090 is speculative hardware as of the review date. While the claimed performance is plausible based on performance scaling from current-generation GPUs (e.g., H100), the claim is presented as an achieved result on existing hardware. Without clarification on whether this is a projection, an emulation, or a result from pre-release hardware, the claim is not fully substantiated.",
+      "concerns": "The use of a speculative hardware name without qualification could be misleading. The author should clarify the basis of this performance metric."
+    },
+    {
+      "claim": "The implementation uses the standard 2/3 Orszag dealiasing rule and RK4 time integration.",
+      "verdict": "VERIFIED",
+      "evidence": "These are standard, well-established, and appropriate numerical methods for pseudospectral simulations of the Navier-Stokes equations. The explicit mention of the 1/N\u00b2 FFT scaling convention demonstrates attention to implementation details.",
+      "concerns": ""
+    },
+    {
+      "claim": "The author correctly states that 2D incompressible flow is globally regular and does not claim any evidence of blowup.",
+      "verdict": "VERIFIED",
+      "evidence": "This statement is mathematically correct and is a classical result in the theory of the Navier-Stokes equations. The author's explicit disclaimer shows a correct understanding of the underlying theory and appropriately scopes the finding as a methods-validation paper, not a search for singularities.",
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The finding presents a sound validation of a 2D pseudospectral Navier-Stokes solver. The methodology is standard, the validation against the Taylor-Green vortex is correct, and the author appropriately frames the work as infrastructure certification. The primary issues are a lack of citations for foundational literature and a performance claim based on speculative hardware that requires clarification.",
+  "recommendations": [
+    "Add citations to the key papers establishing the BKM criterion (Beale, Kato, Majda, 1984), pseudospectral dealiasing (Orszag, 1971), and 2D global regularity (e.g., Ladyzhenskaya, 1969).",
+    "Clarify the status of the 'RTX 5090' hardware. State explicitly if the performance figures are projections, emulations, or based on pre-release hardware.",
+    "Improve reproducibility by providing a brief description of how the 'Random blob' initial condition was generated (e.g., its spectral characteristics).",
+    "While not essential for this validation study, future work should include a convergence study (spatial and temporal) to rigorously demonstrate the solver's accuracy."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The work correctly implements and validates methods that are well-established and grounded in multiple foundational papers in computational fluid dynamics. It does not claim novel physics but successfully demonstrates a robust software tool."
+}

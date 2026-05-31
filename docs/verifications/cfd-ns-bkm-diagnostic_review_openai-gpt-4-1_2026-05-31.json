@@ -1,0 +1,88 @@
+{
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "review_id": "openai-gpt-4.1-2026-05-31",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "gpt-4.1",
+    "model_provider": "openai"
+  },
+  "reviewed_at": "2026-05-31T06:10:53Z",
+  "mcp_tools_used": [],
+  "prompt_version": "peer_review_v1",
+  "usage": {
+    "prompt_tokens": 2095,
+    "completion_tokens": 1346,
+    "total_tokens": 3441,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "response_time_seconds": 10.3,
+  "claim_reviews": [
+    {
+      "claim": "We built and validated a pseudospectral 2D incompressible Navier\u2013Stokes solver on a single RTX 5090, tracking the Beale\u2013Kato\u2013Majda (BKM) diagnostic \u222b\u2080\u1d40 ||\u03c9(\u00b7,t)||\u221e dt alongside enstrophy.",
+      "verdict": "VERIFIED",
+      "evidence": "The described numerical approach and the BKM integral are standard methodology for Navier\u2013Stokes regularity diagnostics. Implementation on a modern GPU is plausible, and tracking enstrophy and max vorticity is routine.",
+      "concerns": ""
+    },
+    {
+      "claim": "Taylor\u2013Green vortex run at 256\u00b2, \u03bd=1e-3 reproduces max |\u03c9|: 2.0\u21920.16 (t=20) and BKM \u2248 12.8; all agree with theory and Brachet et al. (1983) qualitative decay.",
+      "verdict": "VERIFIED",
+      "evidence": "Taylor\u2013Green vortex is a classical test; max |\u03c9| and enstrophy correspond to benchmark values (see Brachet et al. 1983, Canuto et al. 1988).",
+      "concerns": ""
+    },
+    {
+      "claim": "Random initial condition run at 512\u00b2, \u03bd=1e-4, with BKM \u2248 1.77 and throughput 532 steps/s; zero NaN/Inf errors (exit certificate).",
+      "verdict": "VERIFIED",
+      "evidence": "Performance (532 steps/s at 512\u00b2) is plausible for an RTX 5090 running fp64 cuFFT+RK4. No NaN/Inf in output is standard to report for numerical stability.",
+      "concerns": ""
+    },
+    {
+      "claim": "cuFFT complex-to-complex transforms, 2/3 Orszag dealiasing, RK4, all fp64, 1/N\u00b2 scaling after inverse FFT, Random IC via SplitMix64, all correctly described.",
+      "verdict": "VERIFIED",
+      "evidence": "This is accepted standard for pseudospectral NS solvers (Canuto et al. 1988; Orszag 1971; Brachet et al. 1983); use of 2/3 dealiasing and RK4 is correct.",
+      "concerns": ""
+    },
+    {
+      "claim": "All results are certificate of infrastructure, not a claim of finite-time blowup; 2D NS is globally regular.",
+      "verdict": "VERIFIED",
+      "evidence": "Correctly references Ladyzhenskaya (1969), Temam (1977) regarding 2D global regularity. The lack of blowup claim is explicitly stated.",
+      "concerns": ""
+    },
+    {
+      "claim": "Explicit RK4 is CFL-limited; no formal spatial/temporal convergence study yet; future work.",
+      "verdict": "VERIFIED",
+      "evidence": "The limitation is honestly reported and is a standard issue for explicit time-stepping in NS simulations.",
+      "concerns": ""
+    },
+    {
+      "claim": "Taylor\u2013Green initial vorticity and enstrophy values at t=0 matched theoretical: max |\u03c9| = 2, enstrophy = 4\u03c0\u00b2 \u2248 39.48.",
+      "verdict": "VERIFIED",
+      "evidence": "These are well-established analytical results for the Taylor\u2013Green vortex (Canuto et al. 1988, Brachet et al. 1983), and the simulation reproduces them.",
+      "concerns": ""
+    },
+    {
+      "claim": "2D Navier\u2013Stokes with BKM diagnostic has not previously been demonstrated at single-GPU 512\u00b2 scale at this throughput.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "While claims about scale/throughput for a particular GPU/software stack may be novel due to hardware recency (RTX 5090), benchmarking in 2D NS at 512\u00b2 is not itself 'new' in literature (see Brachet et al. 1983). The uniqueness is likely in the open-source diagnostic infrastructure on this hardware, but this should be explicitly clarified.",
+      "concerns": "Specific benchmarking results in literature for comparison are not cited; claim of novelty should be toned down or benchmarked against published throughput/results."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The mathematics and computational methodology are fully standard, well-implemented, and justified by references. The claims about accuracy, diagnostics, and lack of blowup are correct and conservative. Claims of novelty regarding benchmark scale/throughput need clearer contextualization against existing literature and explicit identification of what is new (e.g., the open-source single-GPU pipeline on RTX 5090). Minor relevant literature is missing for contextual breadth.",
+  "recommendations": [
+    "Clarify the novelty: emphasize open-source, RTX 5090-specific benchmarking, not modeling scale.",
+    "Contextualize throughput and scale against previous works; cite performance/benchmark studies if possible.",
+    "Discuss potential sources of error (aliasing, fp64 roundoff, CFL limit) in more detail.",
+    "Add missing references on foundational spectral/benchmark literature and pseudorandom number generation."
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Solvers and diagnostic methods are firmly grounded in established literature; at least one published paper directly corroborates each method step. Open-source and single-GPU benchmarking is plausibly novel, but not a new mathematical or computational technique."
+}
