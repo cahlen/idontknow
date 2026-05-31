@@ -76,6 +76,9 @@ Complete character tables and Kronecker coefficients for S₂₀ (3.7s), S₃₀
 ### Hausdorff Dimension Spectrum (Complete — RTX 5090)
 First complete computation of dim_H(E_A) for all 2^20 - 1 = 1,048,575 subsets A ⊆ {1,...,20}. Transfer operator + Chebyshev collocation on RTX 5090. Validated against Jenkinson-Pollicott (E_{1,2}) and Zaremba (E_{1,...,5}). Dataset does not exist anywhere in the literature.
 
+### CFD Chaotic Advection (Active — RTX 5090)
+First CFD experiment on bigcompute: **Chirikov standard map** Lyapunov spectrum via custom CUDA (`scripts/experiments/cfd-chaotic-advection/`). Models chaotic advection in 2D incompressible flows. Targets integrability→chaos transition (K_crit ≈ 0.972). Sized for single RTX 5090 (no B200 cluster).
+
 ### Ramanujan Machine (Complete — v1 exhausted, v2 validated)
 *Discover new continued fraction formulas for mathematical constants.*
 

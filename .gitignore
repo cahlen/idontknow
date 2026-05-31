@@ -47,6 +47,7 @@ zaremba_verify_v4
 erdos_straus
 flint_hills
 hausdorff_spectrum
+standard_map_lyapunov
 lyapunov_spectrum
 minkowski_spectrum
 
@@ -96,6 +97,7 @@ exp_sum
 extract_ef
 flat_gap
 hausdorff_spectrum
+standard_map_lyapunov
 kronecker
 kronecker_dump
 kronecker_gpu

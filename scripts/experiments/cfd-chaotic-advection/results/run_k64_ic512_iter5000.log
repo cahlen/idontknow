@@ -1,0 +1,15 @@
+==========================================
+  CFD Chaotic Advection — Standard Map
+  Device: NVIDIA GeForce RTX 5090 (cc 12.0)
+  K grid: 64 points in [0, 2.000000]
+  ICs per K: 512
+  Iterations: 5000
+  Total trajectories: 32768
+==========================================
+
+Wrote scripts/experiments/cfd-chaotic-advection/results/lyapunov_k64_ic512_iter5000.csv
+Elapsed: 0.03 s (1041515.1 trajectories/s)
+NaN/Inf samples: 0 / 32768
+Validation K=0 mean Λ = 0.000000e+00 (expect ~0)
+Empirical bulk-chaos onset (mean>0.01, >95% ICs positive): K ≈ 0.7619
+Literature K_crit (standard map): ≈ 0.971635406
