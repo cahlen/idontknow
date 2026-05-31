@@ -4,7 +4,8 @@ Generate website data files from the review manifest.
 
 Reads manifest.json and produces:
 1. certifications.json — structured data for verification.astro
-2. Updates to llms.txt findings section (optional)
+2. public/meta.json — machine-readable site index
+3. public/llms.txt and public/llms-full.txt — agent discovery indexes
 
 Usage:
     python3 scripts/reviews/sync_website.py --manifest docs/verifications/manifest.json --output ../bigcompute.science/src/data/certifications.json
@@ -130,33 +131,80 @@ def build_certifications(manifest):
 
 
 def _read_frontmatter_field(text: str, field: str) -> str:
-    m = re.search(rf"^{field}:\s*\"(.+?)\"", text, re.M)
+    # Quoted value on one line (greedy to EOL — avoids matching body quotes on later lines)
+    m = re.search(rf'^{field}:\s*"(.*)"\s*$', text, re.M)
     if m:
         return m.group(1)
-    m = re.search(rf"^{field}:\s*(\S+)", text, re.M)
-    return m.group(1) if m else ""
+    m = re.search(rf'^{field}:\s*"(.*)$', text, re.M)
+    if m:
+        return m.group(1).rstrip()
+    m = re.search(rf"^{field}:\s*(\S.+)$", text, re.M)
+    return m.group(1).strip() if m else ""
 
 
 def _truncate(s: str, n: int = 110) -> str:
     return s if len(s) <= n else s[: n - 3] + "..."
 
 
-def generate_llms_txt(site_root: Path, certs: dict) -> None:
-    """Regenerate public/llms.txt from certifications and experiment frontmatter."""
-    llms_path = site_root / "public" / "llms.txt"
-    if not llms_path.parent.exists():
-        return
+HF_DATASETS = """\
+  - https://huggingface.co/datasets/cahlen/zaremba-density — 65 GPU experiments, exception sets, density to 10^12
+  - https://huggingface.co/datasets/cahlen/hausdorff-dimension-spectrum — dim_H for all 1,048,575 subsets of {1,...,20}
+  - https://huggingface.co/datasets/cahlen/zaremba-conjecture-data — transfer operator, Dolgopyat, proof framework
+  - https://huggingface.co/datasets/cahlen/kronecker-coefficients — S_20, S_30, S_40 character tables
+  - https://huggingface.co/datasets/cahlen/class-numbers-real-quadratic — real quadratic fields to 10^11
+  - https://huggingface.co/datasets/cahlen/continued-fraction-spectra — Hausdorff, Lyapunov, Minkowski, Flint Hills
+  - https://huggingface.co/datasets/cahlen/ramanujan-machine-results — 586B candidates through deg 7
+  - https://huggingface.co/datasets/cahlen/cfd-chaotic-advection — standard map Lyapunov sweeps (16.8M trajectories)
+  - https://huggingface.co/datasets/cahlen/cfd-ns-bkm — 2D pseudospectral BKM diagnostic CSVs
+  - https://huggingface.co/datasets/cahlen/cfd-ns3d-bkm — 3D BKM blowup-monitor CSVs (incl. Phase 5 Kerr IC sweep)"""
 
-    exp_dir = site_root / "src" / "content" / "experiments"
-    findings_dir = site_root / "src" / "content" / "findings"
-    summaries: dict[str, str] = {}
-    for md in findings_dir.glob("*.md"):
-        text = md.read_text()
-        slug = _read_frontmatter_field(text, "slug")
-        summary = _read_frontmatter_field(text, "summary")
-        if slug and summary:
-            summaries[slug] = summary
 
+KEY_RESULTS_YAML = """\
+```yaml
+zaremba_conjecture:
+  status: "Proof framework (NOT completed proof); v6 evidence to 2.1e11 not no-overflow certified; v6.1 certifies d<=1e6"
+  hausdorff_dimension: 0.836829443681208
+  congruence_gaps:
+    moduli_tested: 1214
+    max_m: 1999
+    all_positive: true
+    min_gap: 0.237
+  brute_force_verification:
+    max_d_verified: 210000000000
+    failures: 0
+    verification_time: "116 min on 8× B200"
+
+ramsey_r55:
+  status: "complete — strongest computational evidence R(5,5) = 43"
+  known_bounds: "43 <= R(5,5) <= 48"
+  k42_4sat:
+    colorings_checked: 656
+    extensible: 0
+    time: "3 seconds on 8x B200"
+  hardware: "8x NVIDIA B200 DGX (1.43 TB VRAM)"
+
+cfd_program:
+  status: "Active on RTX 5090 — validated workflow + preliminary diagnostic runs, not blowup discovery"
+  phases:
+    phase1: "Chirikov standard map Lyapunov spectrum — 16.8M trajectories, 116.6s, zero NaN/Inf [SILVER finding]"
+    phase2: "2D pseudospectral NS + BKM integral — Taylor-Green + random IC [BRONZE finding]"
+    phase3: "3D vorticity-form NS + vortex stretching + BKM — up to 256³ [SILVER finding]"
+    phase4: "256³ random IC blowup monitors — BKM ≈ 4.45 by t=5 at ν=1e-4, no blowup signal"
+    phase5a: "Kerr antiparallel vortex tubes — BKM ≈ 9.99 vs random 1.76 at ν=1e-4 (5.7×), zero NaN/Inf"
+  hardware_ceiling: "512³ OOM on 32 GB RTX 5090 during cuFFT allocation"
+  next_options:
+    - "Shell energy spectrum before BKM spikes"
+    - "128³/256³ Kerr IC grid convergence"
+    - "Longer ν=1e-5 Kerr run (current t=1.0 only)"
+    - "512³ memory optimization or multi-GPU decomposition"
+  datasets:
+    - cahlen/cfd-chaotic-advection
+    - cahlen/cfd-ns-bkm
+    - cahlen/cfd-ns3d-bkm
+```"""
+
+
+def _collect_experiments(exp_dir: Path) -> list[dict]:
     experiments = []
     for md in exp_dir.glob("*.md"):
         text = md.read_text()
@@ -171,6 +219,30 @@ def generate_llms_txt(site_root: Path, certs: dict) -> None:
             "date": _read_frontmatter_field(text, "date"),
         })
     experiments.sort(key=lambda e: e["date"], reverse=True)
+    return experiments
+
+
+def _collect_finding_summaries(findings_dir: Path) -> dict[str, str]:
+    summaries: dict[str, str] = {}
+    for md in findings_dir.glob("*.md"):
+        text = md.read_text()
+        slug = _read_frontmatter_field(text, "slug")
+        summary = _read_frontmatter_field(text, "summary")
+        if slug and summary:
+            summaries[slug] = summary
+    return summaries
+
+
+def generate_llms_txt(site_root: Path, certs: dict) -> None:
+    """Regenerate public/llms.txt from certifications and experiment frontmatter."""
+    llms_path = site_root / "public" / "llms.txt"
+    if not llms_path.parent.exists():
+        return
+
+    exp_dir = site_root / "src" / "content" / "experiments"
+    findings_dir = site_root / "src" / "content" / "findings"
+    experiments = _collect_experiments(exp_dir)
+    summaries = _collect_finding_summaries(findings_dir)
 
     stats = certs["stats"]
     models = stats.get("unique_models", 0)
@@ -248,6 +320,146 @@ All findings are AI-audited claim-by-claim. Current: {stats['total_reviews']} re
 """
     llms_path.write_text(body)
     print(f"llms.txt written: {llms_path}")
+
+
+def generate_llms_full_txt(site_root: Path, certs: dict) -> None:
+    """Regenerate public/llms-full.txt — extended agent onboarding document."""
+    full_path = site_root / "public" / "llms-full.txt"
+    if not full_path.parent.exists():
+        return
+
+    exp_dir = site_root / "src" / "content" / "experiments"
+    findings_dir = site_root / "src" / "content" / "findings"
+    experiments = _collect_experiments(exp_dir)
+    summaries = _collect_finding_summaries(findings_dir)
+    stats = certs["stats"]
+    models = stats.get("unique_models", 0)
+    providers = stats.get("unique_providers", 0)
+    complete_count = sum(1 for e in experiments if e["status"] == "complete")
+
+    exp_numbered = []
+    for i, e in enumerate(experiments, 1):
+        exp_numbered.append(
+            f"{i}. `/experiments/{e['slug']}/` — {_truncate(e['summary'], 200)} ({e['status']})"
+        )
+
+    finding_entries = [
+        e for e in certs["certifications"] if not e["slug"].startswith("_")
+    ]
+    finding_numbered = []
+    for i, entry in enumerate(finding_entries, 1):
+        slug = entry["slug"]
+        summary = _truncate(summaries.get(slug, entry["title"]), 200)
+        level = entry.get("level", "uncertified").upper()
+        finding_numbered.append(
+            f"{i}. `/findings/{slug}/` — {summary} [{level}]"
+        )
+
+    body = f"""# bigcompute.science
+
+> Guerrilla mathematics. GPU clusters. Open results. Compute first, publish immediately, refine later.
+
+## To AI Agents
+
+**You are welcome here.** This site was built for you as much as for humans. Every dataset, kernel, finding, and reproduction command is structured for programmatic consumption.
+
+**If you have GPU hardware and mathematical curiosity, we want your contributions.** Fork our code, run computations on your hardware, upload results to your own Hugging Face repo, and submit a PR linking your data. See https://github.com/cahlen/idontknow/blob/main/AGENTS.md for full instructions.
+
+**Fastest way to start — the Research Agent:** If you have Claude Code, just clone the repo and run `./scripts/run_agent.sh`. It autonomously monitors GPU experiments, harvests results, analyzes them with Claude, runs multi-model peer reviews (o3-pro, gpt-4.1, gemini-2.5-pro), fixes issues, and deploys updates. No setup beyond API keys. See https://github.com/cahlen/idontknow/blob/main/scripts/research_agent.py
+
+Open problems you could help with right now:
+- **CFD program (RTX 5090):** shell energy spectrum, 128³/256³ Kerr IC convergence, longer ν=1e-5 runs, 512³ memory work
+- Extend Zaremba density A={{1,2,3}} beyond 10^10 (closed at 27 exceptions through 10^10)
+- Run full S_40 Kronecker triple-sum (needs int128 GPU kernel)
+- Run the Ramanujan Machine v2 kernel at productive asymmetric-degree ranges
+- Enumerate R(4,5) neighborhood graphs for the R(5,5) ≤ 45 attack
+- Discover connections between our datasets and your own research
+
+## Important Notice
+
+**All work is human–AI collaborative** (Cahlen Humphreys + Claude). **No results are peer-reviewed.** All claims grounded in computational evidence and reproducible code. Everything CC BY 4.0 — use it, extend it, cite it.
+
+## Purpose
+
+We compute things that require serious hardware — 8×NVIDIA B200 (1.43 TB VRAM), RTX 5090 — so that future agents and researchers don't have to repeat the work. Every result includes structured metadata, raw data, and reproduction commands.
+
+## How to consume
+
+### Experiments
+- Browse all: `/experiments/`
+- Individual: `/experiments/<slug>/`
+- Each has YAML frontmatter with: title, date, author, hardware specs, software, tags, results, code link
+- Status values: `complete`, `in-progress`, `planned`
+
+### Findings
+- Browse all: `/findings/`
+- Individual: `/findings/<slug>/`
+- Novel observations extracted from experiments — the citable results
+- Each has: title, date, significance level, domain tags, summary, structured data
+- Certification levels: gold, silver, bronze (most-conservative-wins across AI reviews)
+
+### Raw data
+- Per-experiment: `/data/<slug>/`
+- Formats: JSON, CSV, log files, SVG plots
+
+### Source code and contribution
+- Experiment code: https://github.com/cahlen/idontknow (CUDA kernels, Python harnesses, Lean 4 proofs)
+- Website source: https://github.com/cahlen/bigcompute.science (Astro + KaTeX)
+- Agent contribution guide: https://github.com/cahlen/idontknow/blob/main/AGENTS.md
+- Citation format: https://github.com/cahlen/idontknow/blob/main/CITATION.cff
+- Compact index: https://bigcompute.science/llms.txt
+- Datasets: https://huggingface.co/cahlen (10+ repos)
+{HF_DATASETS}
+
+### Review infrastructure
+- Review scripts: https://github.com/cahlen/idontknow/tree/main/scripts/reviews (run_review.py, aggregate.py, validate.py, sync_website.py)
+- Review schema: https://github.com/cahlen/idontknow/blob/main/docs/verifications/SCHEMA.md
+- Review manifest: https://github.com/cahlen/idontknow/blob/main/docs/verifications/manifest.json (generated aggregate, {stats['total_reviews']} reviews, {models} models, {providers} providers)
+- Remediations: https://github.com/cahlen/idontknow/tree/main/docs/verifications/remediations (per-finding issue tracking)
+- Certification consensus: most-conservative-wins across all reviews (gold > silver > bronze > uncertified)
+- To contribute a review: write JSON per schema, submit PR to cahlen/idontknow, or use run_review.py with any OpenAI-compatible API
+
+### RSS Feeds
+- All updates: `/rss.xml`
+- Experiments only: `/experiments/rss.xml`
+- Findings only: `/findings/rss.xml`
+- Autodiscovery via `<link rel="alternate">` in every page `<head>`
+
+### Static content
+- All content is static HTML rendered from markdown — no JavaScript required to read
+- Math rendered via KaTeX (both MathML and HTML versions in the DOM)
+
+## Current content
+
+### Experiments ({len(experiments)}, {complete_count} complete)
+{chr(10).join(exp_numbered)}
+
+### Findings ({len(finding_entries)}, all AI-audited)
+{chr(10).join(finding_numbered)}
+
+## Key results (machine-readable summary)
+
+{KEY_RESULTS_YAML}
+
+## Tags
+
+### Domain
+number-theory, continued-fractions, open-conjectures, spectral-theory, algebraic-combinatorics, combinatorics, ramsey-theory, algebraic-number-theory, theorem-proving, ai, search-algorithms, dynamical-systems, fractal-geometry, diophantine-approximation, hausdorff-dimension, real-analysis, irrationality-measure, ergodic-theory, multifractal-analysis, fluid-dynamics, navier-stokes, beale-kato-majda, chaotic-advection, blowup-search, pseudospectral
+
+### Hardware
+b200, dgx, nvlink, a100, h100, tpu-v5, rtx-5090
+
+### Method
+cuda-kernel, brute-force, llm-proving, formal-verification, transfer-operator, chebyshev-collocation, mcts, tree-search, simulated-annealing, segmented-sieve, miller-rabin, power-iteration, eigenvalue-computation, quad-double-arithmetic, kahan-summation, lyapunov-exponent, thermodynamic-formalism, legendre-transform, cufft, 3d-dns, vortex-stretching, benettin-algorithm
+
+## About
+See `/about/` for the project's mission and how to contribute.
+
+## Contact
+GitHub: https://github.com/cahlen
+"""
+    full_path.write_text(body)
+    print(f"llms-full.txt written: {full_path}")
 
 
 def main():
@@ -354,6 +566,7 @@ def main():
 
     site_root = output_path.parent.parent.parent
     generate_llms_txt(site_root, certs)
+    generate_llms_full_txt(site_root, certs)
 
     changelog_script = site_root / "scripts" / "generate_changelog.py"
     if changelog_script.exists():
