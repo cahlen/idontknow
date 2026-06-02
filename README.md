@@ -2,7 +2,7 @@
 
 GPU-accelerated computational mathematics — exploring open conjectures with custom CUDA kernels, interval arithmetic, and heavy compute on NVIDIA B200 + RTX 5090.
 
-**Human–AI collaborative research.** CUDA kernels, mathematical arguments, review infrastructure, and documentation developed jointly by [Cahlen Humphreys](https://github.com/cahlen) and AI agents (Claude Opus 4.6, o3-pro, GPT-5.2, Grok). Not peer-reviewed. All claims grounded in computational evidence and reproducible code. Everything open for independent verification.
+**Human–AI collaborative research.** CUDA kernels, mathematical arguments, review infrastructure, and documentation developed jointly by [Cahlen Humphreys](https://github.com/cahlen) and AI agents (Claude, GPT-5.2/o3-pro, Gemini, Grok across Anthropic, OpenAI, Google, and xAI). Not peer-reviewed. All claims grounded in computational evidence and reproducible code. Everything open for independent verification.
 
 Results: [bigcompute.science](https://bigcompute.science) · Data: [Hugging Face](https://huggingface.co/cahlen) · MCP: [mcp.bigcompute.science](https://mcp.bigcompute.science/mcp) (23 tools, no auth)
 
@@ -25,7 +25,7 @@ Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigco
 | **Zaremba Density** | 5 closed exception sets ({1,2,3}=27 through {1,2,7}=7,178). A={1,2} logarithmic convergence (31.5 + 4.47·log₁₀N). Inverse-square amplification law. | In progress |
 | **Ramsey R(5,5)** | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
 | **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ infeasible (63 TB). | S₄₀ complete |
-| **Class Numbers** | Complete to 10¹¹. h=1 rate falls to 0 (genus theory). Extending to 10¹³. | In progress |
+| **Class Numbers** | Complete to 10¹¹ (10¹² partial). Cohen–Lenstra confirmed at scale; h=1 rate falls to 15% by 10¹⁰ (genus theory). | 10¹² partial |
 | **Hausdorff Spectrum** | First complete dim_H for all 2²⁰-1 subsets of {1,...,20}. | Complete |
 | **Ramanujan Machine** | 586B+ equal-degree CFs exhausted (0 new formulas, 7K false positives disproven via PSLQ). v2 asymmetric-degree kernel built — deg(b)≈2×deg(a) required. | Pivoting to v2 |
 | **Prime Convergents** | 10M random CFs verified Erdős-Mahler bound. Worst-case ratio 4.87, constant ~10 suffices. | Complete |
@@ -33,10 +33,13 @@ Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigco
 | **Lyapunov Spectrum** | All 1,048,575 Lyapunov exponents. | Complete |
 | **Minkowski ?(x)** | First numerical singularity spectrum f(α). | Complete |
 | **Flint Hills** | Partial sums to 10¹⁰. | Complete |
+| **Navier–Stokes 3D BKM** | First certifying pseudospectral 3D DNS blowup monitor (RTX 5090). Kerr antiparallel tubes yield 5.7× the BKM vorticity integral of random IC at t=2. | Active (silver) |
+| **Navier–Stokes 2D BKM** | Certifying pseudospectral vorticity tracking; Taylor–Green validated. Infrastructure toward 3D BKM searches. | Complete (bronze) |
+| **Chaotic Advection** | Chirikov standard map Lyapunov spectrum Λ(K) crosses literature K_crit ≈ 0.972 (integrability→chaos). | Complete (silver) |
 
 ## Review Infrastructure
 
-Every finding is AI-audited claim-by-claim by multiple models. Currently **53 reviews** from **7 models** across **3 providers**. 210 issues discovered, 207 resolved (98.6%).
+Every finding is AI-audited claim-by-claim by multiple models. Currently **62 reviews** from **8 models** across **4 providers**. 249 issues discovered, 232 resolved (93.2%).
 
 ```bash
 # Run a review (any OpenAI-compatible API)
