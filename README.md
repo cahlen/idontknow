@@ -23,7 +23,7 @@ Or open a [Colab notebook](https://colab.research.google.com/github/cahlen/bigco
 |---|---|---|
 | **Zaremba Conjecture** | Proof framework (not complete proof). 210B verified, ρ_η ≤ 0.7606 (arb-certified, 77 digits). 4 gaps remain. | [Paper](paper/zaremba-proof.pdf) |
 | **Zaremba Density** | 5 closed exception sets ({1,2,3}=27 through {1,2,7}=7,178). A={1,2} logarithmic convergence (31.5 + 4.47·log₁₀N). Inverse-square amplification law. | In progress |
-| **Ramsey R(5,5)** | 656/656 K₄₂ colorings UNSAT. Strongest computational evidence R(5,5) = 43. | Complete |
+| **Ramsey R(5,5)** | All 656 known K₄₂ colorings proven non-extendable by one vertex (656/656 UNSAT, independently re-verified + DRAT-certified, [VERIFICATION.md](scripts/experiments/ramsey-r55/VERIFICATION.md)). Corroborates R(5,5)=43; not a proof — direct K₄₃ remains open. | Verified |
 | **Kronecker Coefficients** | S₂₀, S₃₀ (26.4B nonzero), S₄₀ char table (37,338 partitions). 94.9% nonzero. S₄₅ infeasible (63 TB). | S₄₀ complete |
 | **Class Numbers** | Complete to 10¹¹ (10¹² partial). Cohen–Lenstra confirmed at scale; h=1 rate falls to 15% by 10¹⁰ (genus theory). | 10¹² partial |
 | **Hausdorff Spectrum** | First complete dim_H for all 2²⁰-1 subsets of {1,...,20}. | Complete |

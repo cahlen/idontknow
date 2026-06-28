@@ -103,4 +103,10 @@ Despite correct and fast kernels, no R(5,5) >= 44 evidence was found:
 3. **4-SAT over all 656 known K42 colorings:** 656/656 UNSAT (3 sec)
 4. **Direct K43 SAT:** 903 vars, 1.9M clauses — this IS the open problem
 
-**Conclusion:** Strongest computational evidence ever assembled that R(5,5) = 43.
+**Conclusion:** Strong, fully reproducible corroboration of the long-standing
+R(5,5) = 43 conjecture — *not* a proof. The 656 *known* K₄₂ colorings admit no
+one-vertex extension (656/656 UNSAT, independently re-verified with kissat and
+DRAT-certified — see `VERIFICATION.md`), but this settles R(5,5)=43 only if
+those 656 are the complete set of K₄₂ Ramsey graphs (conjectured, unproven —
+Lieby–McKay 2014), and the direct K₄₃ search remains intractable. Published
+bounds stand at 43 ≤ R(5,5) ≤ 46 (Angeltveit–McKay, arXiv:2409.15709, 2024).

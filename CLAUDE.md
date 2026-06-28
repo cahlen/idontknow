@@ -56,7 +56,7 @@ This repository is public and autonomous AI agents push commits to it. **Nothing
 - [x] Witness distribution: a/d ≈ 0.171 concentration, golden ratio connection
 - [ ] Make Bourgain-Kontorovich bound effective (Q₀ extraction)
 
-### Ramsey R(5,5) (Complete — strongest computational evidence R(5,5) = 43)
+### Ramsey R(5,5) (Verified — corroborates R(5,5) = 43; not a proof)
 *Search for 2-colorings of K₄₄ with no monochromatic K₅.*
 
 **What's done:**
@@ -64,7 +64,8 @@ This repository is public and autonomous AI agents push commits to it. **Nothing
 - [x] Incremental K₅ counter verified correct: 0 drift in 100 steps at n=43, 332M flips/sec on 8xB200
 - [x] Exhaustive extension: checked ALL 2^42 = 4.4x10^12 extensions of Exoo's K₄₂ coloring to K₄₃ — zero valid (130 sec on 8xB200)
 - [x] 4-SAT reformulation: checked ALL 656 known K₄₂ colorings (McKay-Radziszowski database) — NONE extend to K₄₃ (3 sec on 8xB200)
-- [x] Strongest computational evidence ever assembled that R(5,5) = 43
+- [x] Independently re-verified (GPU-free, kissat) + DRAT-certified, and re-derived from McKay's raw r55_42some.g6 — see scripts/experiments/ramsey-r55/VERIFICATION.md
+- [x] Honest scope: 656/656 non-extension corroborates R(5,5)=43 but is NOT a proof — depends on (unproven) completeness of the 656 set; direct K₄₃ remains intractable. Published bounds: 43 ≤ R(5,5) ≤ 46 (Angeltveit–McKay 2024)
 - [ ] Mathematically-informed K₄₃ SAT encoding (degree bounds, Turán density, BreakID symmetry breaking)
 
 ### Class Numbers of Real Quadratic Fields (Complete through 10^11, 10^12 partial)
