@@ -1,0 +1,68 @@
+{
+  "finding_slug": "kronecker-s40-character-table",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer parsed analysis_n40.json directly and re-verified the headline statistics and the int64/int128 boundary argument.",
+  "verification_methods": [
+    "Parsed analysis_n40.json: num_partitions = 37,338; max |chi| = 58,965,081,685,061,803,130,880 (~5.90e22, log10 = 22.77); char_table_time_seconds = 34,283.4 (= 9.52 h)",
+    "Checked the int64 boundary: 5.90e22 > 2^63 ~ 9.22e18 by a factor of ~6,400, so the stated need for int128 (or exact) accumulation in a full S_40 triple-sum is arithmetically correct",
+    "Verified p(40) = 37,338 against the standard partition function and the JSON's internal trends block (p(20) = 627, p(30) = 5,604 consistent)",
+    "Confirmed C(37340,3) = 8,676,344,691,980 for the unique-triple count quoted for a hypothetical full S_40 run"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Complete S_40 character table computed: 37,338 partitions, ~9.5 h; max |chi| = 5.9e22.",
+      "verdict": "VERIFIED",
+      "evidence": "All three headline numbers match the committed analysis JSON exactly (37,338; 34,283.4 s; 58,965,081,685,061,803,130,880). p(40) = 37,338 is independently correct.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/kronecker-coefficients/results/analysis_n40.json",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "The full character table itself lives on Hugging Face and was not re-downloaded for this audit; the committed analysis artifact is the verification basis."
+    },
+    {
+      "claim": "A full S_40 Kronecker triple-sum requires int128 (or exact) GPU accumulation because max |chi| exceeds int64; therefore only targeted slices (hooks, near-rectangular, random samples) were computed.",
+      "verdict": "VERIFIED",
+      "evidence": "The overflow analysis is correct: 5.9e22 / 2^63 ~ 6.4e3, so even a single product chi^3/z_rho can overflow signed 64-bit. Declining to publish a full table rather than shipping overflow-corrupted numbers is precisely the right call \u2014 and worth noting as the counterpoint to the S_30 max-g defect flagged in the sibling review: here the boundary was respected.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer arithmetic; analysis_n40.json hook/near-rectangular/random-sample sections with timings",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "S_45 is infeasible at this architecture: 89,134 partitions imply a ~63 TB character table.",
+      "verdict": "VERIFIED",
+      "evidence": "p(45) = 89,134 is correct; 89,134^2 entries x 8 bytes = 63.6 TB confirms the estimate. Honest scoping of the frontier.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer arithmetic: 89134^2 * 8 bytes = 6.36e13",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Every checkable statistic on this page matches the committed analysis artifact exactly, and the two boundary arguments (int64 overflow at 5.9e22; 63 TB at S_45) are arithmetically correct. The page's defining virtue is restraint: it explicitly refuses to publish a full triple-sum that its own overflow analysis shows would be unsound at int64. That is the discipline computational mathematics requires.",
+  "recommendations": [
+    "When the int128 kernel lands, seed it with the S_30 dimension-bound invariant recommended in the S_30 review"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Headline numbers verified against committed artifacts; boundary arithmetic independently confirmed; scope honestly limited by a correct overflow analysis."
+}

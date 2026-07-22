@@ -1,0 +1,84 @@
+{
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer recomputed the regression from the raw committed logs, verified all five SHA-256 digests, and recomputed the secondary tables from the all-subsets CSV.",
+  "verification_methods": [
+    "Parsed the five density logs (10^6, 10^9, 10^10, 10^11, 10^12): 57.982, 72.0615327, 76.54868191, 80.754334638, 84.5791333633 \u2014 all match",
+    "Re-ran the 5-point OLS: 31.5 + 4.47*log10(N), R^2 = 0.9984, residuals [-0.32, +0.36, +0.38, +0.12, -0.53] \u2014 every statistic matches the frontmatter exactly, including all five residuals",
+    "Verified all five claimed SHA-256 prefixes (14c69b3c0885, ecc0c96d5817, 68a9512d8147, bd5e57d5ef20, 5115d64d8c6b) against the committed log files \u2014 all match",
+    "Recomputed the digit-1 sigmoid table (avg density with/without digit 1 at each cardinality) from density_all_subsets_n10_1e6.csv \u2014 all 14 values match to the printed precision",
+    "Recomputed the {1,2,k} exception counts at 10^6 from the CSV (27, 64, 373, 1720, 5388, 11746, 21796, 33025 \u2014 exact) and re-fit the log-log exponent: 6.42, R^2 = 0.986 (my 95% CI [5.65, 7.19] vs the published [5.80, 7.04] \u2014 same point estimate, slightly different CI convention)",
+    "Confirmed uncovered counts are arithmetic-consistent (10^10 - 7,654,868,191 = 2,345,131,809; 10^12 - 845,791,333,633 = 154,208,666,367)",
+    "Confirmed gpu_A12_1e13.log and gpu_A12_1e14.log exist, consistent with the page's disclosure that they record out-of-memory failures, not results"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "The five densities are empirical GPU measurements: 57.98 / 72.06 / 76.55 / 80.75 / 84.58 (%) at N = 10^6..10^12.",
+      "verdict": "VERIFIED",
+      "evidence": "All five parsed from the committed logs with matching SHA-256 digests. Nothing extrapolated is presented as measured.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "density_A12_1000000.log; gpu_A12_1e9/1e10/1e11/1e12.log (SHA-256 verified)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "5-point fit: density = 31.5 + 4.47*log10(N), R^2 = 0.9984, residuals [-0.32, 0.36, 0.38, 0.12, -0.53]; the -0.53 residual at 10^12 may signal sub-logarithmic curvature.",
+      "verdict": "VERIFIED",
+      "evidence": "Reviewer's own OLS reproduces every quoted statistic exactly, including all five residuals to two decimals. The interpretation \u2014 largest residual at the newest point, treated as possible curvature onset rather than confirmation of the model \u2014 is statistically honest.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer OLS on the five log-parsed densities",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Predictions (89.6% at 10^13, 98.5% at 10^15, 100% near 10^15.3) are extrapolations; 10^13/10^14 attempts OOM-failed; five points make a fit, not a proof.",
+      "verdict": "VERIFIED",
+      "evidence": "Every prediction is explicitly labeled an extrapolation, the OOM failures are disclosed rather than hidden, and the closing caveat is unambiguous. The distinction drawn between R(d) growth (exponent 2*delta-1 = 0.062) and density convergence \u2014 with the explicit statement that no rigorous bridge is established \u2014 is exactly the right epistemic posture.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A12_1e13.log, gpu_A12_1e14.log (present in repo)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Digit-1 sigmoid (advantage peaks at cardinality 4: 92.1% vs 12.7%) and {1,2,k} exception scaling ~ 0.02*k^6.4 (R^2 = 0.986).",
+      "verdict": "VERIFIED",
+      "evidence": "Both tables recompute exactly from the committed all-subsets CSV; the reviewer's independent OLS gives slope 6.42 and R^2 0.986. Minor: my 95% CI is [5.65, 7.19], slightly wider than the published [5.80, 7.04] \u2014 likely a different SE convention; the point estimate and fit quality are identical.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "density_all_subsets_n10_1e6.csv; reviewer OLS",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "State the CI convention (t-quantile and df) for the 6.42 exponent."
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "This finding is fully reproducible from committed artifacts down to the second decimal of each regression residual, with correct SHA-256 digests for all five inputs, honest labeling of every extrapolation, and disclosure of the failed 10^13/10^14 attempts. The R(d)-vs-density distinction in the summary preempts the most tempting overclaim. Together with the digit-pair page, this is the project's evidentiary gold standard even though certification policy caps it lower.",
+  "recommendations": [
+    "Document the CI convention for the k^6.42 exponent"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Every measured number, both regressions, all hashes, and both secondary tables verified independently; predictions cleanly separated from measurements. Silver is fully earned."
+}

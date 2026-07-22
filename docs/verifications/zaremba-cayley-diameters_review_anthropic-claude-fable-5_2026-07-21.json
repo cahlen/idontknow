@@ -1,0 +1,97 @@
+{
+  "finding_slug": "zaremba-cayley-diameters",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit including line-level inspection of both BFS kernels; the signing reviewer additionally recomputed every group order printed on the page.",
+  "verification_methods": [
+    "Recomputed |SL2(F_p)| = p(p^2-1) for every row of the sample table: correct for p = 2, 5, 13, 101; WRONG for p = 211 (true 9,393,720 vs printed 9,393,480), p = 509 (true 131,871,720 vs printed 131,906,220), and p = 1021 (true 1,064,331,240 vs printed 1,064,296,620) \u2014 while the frontmatter prints the correct 1,064,331,240 for p=1021",
+    "Inspected cayley_gpu.cu: encoding index = a*p^3 + b*p^2 + c*p + d stored in uint32, with the header comment itself stating 'For p <= 200: index fits in uint32 (200^4 = 1.6B < 2^32)' \u2014 yet published data extend to p = 1021 where p^4 ~ 1.09e12 overflows uint32 ~270-fold",
+    "Inspected cayley_diameter.cu (CPU): uint64 encoding but a hard group_size > 5e8 bail-out, which excludes p >= 794, so the committed CPU path also cannot have produced the large-p rows",
+    "Listed scripts/experiments/zaremba-cayley-diameter/: only the two .cu sources are committed; the page's 'Full BFS logs and per-prime diameter data available in the GitHub repository' has no corresponding artifacts"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Audit caveat (already on page): the kernel uses det -1 generators with an SL2 group-size stopping target, so the numbers are exploratory short-word expansion data, not certified Cayley diameters.",
+      "verdict": "VERIFIED",
+      "evidence": "Correct and commendable self-demotion; the code confirms both the det -1 generators and the total_visited >= group_size stopping rule.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "cayley_gpu.cu BFS loop and stopping condition",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Diameter data to p = 1021 (max diameter 10, ratio -> ~1.44) produced by the committed GPU BFS kernel.",
+      "verdict": "DISPUTED",
+      "evidence": "The committed GPU kernel cannot validly compute p > ~200: it packs a*p^3+b*p^2+c*p+d into uint32, and its own header comment documents the p <= 200 limit, yet the dataset runs to p = 1021 where codes exceed 2^32 by two orders of magnitude \u2014 wraparound would silently alias distinct group elements in the visited bitset. The committed CPU variant separately refuses p >= 794 (5e8 group-size guard). So no committed code path can have produced the p = 509 or p = 1021 rows as described. Either a fixed kernel existed and was not committed, or the large-p numbers are unreliable.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "cayley_gpu.cu lines ~11-13 (comment), ~62-67 (uint32 code arithmetic); cayley_diameter.cu group_size guard",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "This overflow issue is distinct from, and additional to, the det -1 / stopping-rule caveats already on the page."
+    },
+    {
+      "claim": "Sample table group orders |SL2(F_p)|.",
+      "verdict": "DISPUTED",
+      "evidence": "Three of seven printed group orders are arithmetically wrong: p=211 off by 240, p=509 off by 34,500, p=1021 off by 34,620 (the frontmatter has the correct p=1021 value, so the page disagrees with itself). |SL2(F_p)| = p(p^2-1) is a one-line formula; wrong values in a computational-mathematics table are corrosive even when incidental.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer arithmetic: 211*44520 = 9,393,720; 509*259080 = 131,871,720; 1021*1042440 = 1,064,331,240",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Full BFS logs and per-prime diameter data are available in the repository.",
+      "verdict": "DISPUTED",
+      "evidence": "The experiment directory contains only the two kernel sources. No logs, no per-prime data files.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "ls scripts/experiments/zaremba-cayley-diameter/ -> cayley_diameter.cu, cayley_gpu.cu only",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Contextual claims: Helfgott/Bourgain-Gamburd give O(log p) diameter without explicit constants; diameter-vs-spectral-gap relation via Chung (1989); mod-p diameter only upper-bounds CF length mod p, lifting needs more.",
+      "verdict": "VERIFIED",
+      "evidence": "Literature framing is accurate and the mod-p-lifting caveat is exactly the subtlety many treatments omit.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Helfgott, Annals 167 (2008); Bourgain-Gamburd, Annals 167 (2008); Chung, JAMS 2 (1989)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The page already did the hard honest work of demoting itself from 'Cayley diameters' to 'exploratory BFS depths', and its literature framing is solid. But this audit found two problems beyond the existing caveats: the committed GPU kernel's uint32 encoding provably cannot handle p > ~200 (per its own header comment), undermining the large-p half of the dataset at a level deeper than the disclosed stopping-rule issue; and three group orders in the sample table are arithmetically wrong, with the p=1021 value contradicting the page's own frontmatter. Combined with the absence of the promised BFS logs, the large-p numbers currently have no valid provenance.",
+  "recommendations": [
+    "Fix the three wrong |SL2| values (p = 211, 509, 1021)",
+    "Rerun with a uint64 (or perfect-index) encoding, popcount validation, and no-clipping assertion, as the page itself prescribes; commit per-prime results",
+    "Until then, restrict quoted data to p <= 200 or mark large-p rows as invalid provenance",
+    "Remove or fulfill the 'full BFS logs available' statement"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "The exploratory reframing is honest, but the committed code cannot have produced the headline large-p data (uint32 overflow), the promised artifacts are absent, and the page contains internal arithmetic contradictions. Uncertified until the corrected run lands; the small-p regime (p <= 200) could be re-certified quickly."
+}

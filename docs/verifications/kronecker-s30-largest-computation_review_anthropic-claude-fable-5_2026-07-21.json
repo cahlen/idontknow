@@ -1,0 +1,85 @@
+{
+  "finding_slug": "kronecker-s30-largest-computation",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. Beyond cross-referencing artifacts, the signing reviewer performed an independent mathematical feasibility check: computing the maximum irreducible dimension of S_30 over all 5,604 partitions via exact hook-length arithmetic.",
+  "verification_methods": [
+    "Exact hook-length computation over all 5,604 partitions of 30: max dim(S_30 irrep) = 1,865,134,921,890,240 (~1.87e15), attained at lambda = (8,6,5,4,3,2,1,1)",
+    "Applied the bound g(lambda,mu,nu) <= min(dim lambda, dim mu, dim nu) \u2014 which the finding itself invokes to justify its int64 accumulator \u2014 to test the headline max g = 51,798,395,983,223,240 (~5.18e16)",
+    "Grepped the repository's own cross-tables: analysis_n40.json and analyze_n40.py both record S_30 max_g = 24,233,221,539,853 (~2.42e13), contradicting the page's 5.18e16",
+    "Recomputed unordered-triple counts: C(5606,3) = 29,347,802,420 (S_30 count correct); C(37340,3) = 8,676,344,691,980 (S_40 correct); C(629,3) = 41,278,754 vs the page's S_20 claim of 41,081,980 (wrong)",
+    "Noted the page's summary text itself contains 'the largest |chi| for S_30 observed was 24,233,221,539,853' while its data block says s30_max: 51798395983223240"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Maximum Kronecker coefficient for S_30: max g = 51,798,395,983,223,240 (~5.18e16).",
+      "verdict": "DISPUTED",
+      "evidence": "This value is mathematically impossible. By exact hook-length computation, the largest irreducible dimension of S_30 is 1,865,134,921,890,240 ~ 1.87e15, and g(lambda,mu,nu) <= min of the three dimensions (a bound the finding itself states in its Method section as the justification that int64 accumulation suffices). The claimed maximum exceeds the theoretical ceiling for ANY S_30 Kronecker coefficient by a factor of ~27.8. The repository's own analysis_n40.json cross-table instead records S_30 max_g = 24,233,221,539,853, which IS feasible (< 1.87e15). The 5.18e16 number is therefore either a raw unnormalized accumulator value, an overflow/mis-summation artifact of the recompute, or a transcription of max|chi|-like data \u2014 but it cannot be a Kronecker coefficient.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer hook-length computation over all 5,604 partitions; g <= min(dim) (page's own Method section); scripts/experiments/kronecker-coefficients/results/analysis_n40.json ('30': max_g = 24233221539853)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Headline statistic is provably wrong as stated; the internal contradiction (2.42e13 in the same page's summary prose) went unnoticed by prior reviews."
+    },
+    {
+      "claim": "S_30 scale: 5,604 partitions; 29,347,802,420 unique triples; 26,391,236,124 nonzero (89.9%); 4.9 min on one B200; S_20: 627 partitions, 41,081,980 unique triples, 32,672,202 nonzero, max 6,408,361.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "p(30) = 5,604 and p(20) = 627 are correct, and C(5606,3) = 29,347,802,420 confirms the S_30 triple count exactly. But the S_20 triple count is wrong: the same multiset formula gives C(629,3) = 41,278,754, not 41,081,980 (a 0.5% discrepancy that no choice of convention I tested reproduces). The nonzero counts and timings are not verifiable locally (data on Hugging Face; no local dump logs committed \u2014 the referenced logs/kronecker_n30_dump.log is absent).",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer combinatorics: C(629,3), C(5606,3); analysis_n40.json trends block (partitions counts confirmed)",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Fix or explain the S_20 unique-triple count; commit the dump log referenced in the text."
+    },
+    {
+      "claim": "Character-table validation: MN rule; exact orthogonality for S_5..S_12; dimension sum = n! confirmed exactly through n = 30 (30! stated in full); S_5 cross-check against Sage.",
+      "verdict": "VERIFIED",
+      "evidence": "The printed 30! = 265,252,859,812,191,058,636,308,480,000,000 is correct (reviewer-checked), the validation methodology (arbitrary-precision characters, orthogonality sampling, dimension-sum identity) is sound and clearly described, and the max |chi| for S_30 fitting int64 is consistent with the 2.42e13 figure. This layer of the work appears solid.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer factorial check; analysis pipeline description; analyze_n40.py cross-table",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Largest complete Kronecker table published, to our knowledge; previous systematic frontier ~ n <= 25.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Properly hedged ('to our knowledge', 'cannot rule out unpublished computations') and consistent with the cited literature landscape (Burgisser-Ikenmeyer 2008 etc.). The scale claim is plausible; the priority claim is appropriately soft. However, until the max-g defect is resolved, the completeness/correctness of the published table itself is in question, which weakens what 'largest complete table' certifies.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Burgisser & Ikenmeyer, FPSAC 2008; Pak & Panova, Comput. Complexity 26 (2017)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The computational program here (MN-rule character tables with exact-arithmetic validation, GPU triple-sum at genuinely unprecedented scale) is credible and the S_30 combinatorial frame checks out exactly. But the headline statistic \u2014 max g ~ 5.18e16 \u2014 is not merely uncorroborated, it is provably impossible: it exceeds the maximum irreducible dimension of S_30 (1.87e15, computed exactly by this reviewer) and hence the g <= min(dim) bound that the page itself relies on. The repository's own cross-table carries a feasible alternative (2.42e13), and the page's own summary prose quotes that same number for max |chi|, so the fix may be as simple as identifying which quantity the Kahan-recompute actually maximized. Until then, the flagship number of the flagship table is wrong, and the S_20 triple count is also off by 196,774.",
+  "recommendations": [
+    "Recompute (or re-extract) the true S_30 max g with exact arithmetic on the winning triple; reconcile with analysis_n40.json's 2.42e13",
+    "Explain or fix the S_20 unique-triple count (expected C(629,3) = 41,278,754)",
+    "Commit the referenced kronecker_n30_dump.log partial-sum log",
+    "Add the dimension-bound sanity check (max g <= max dim = 1,865,134,921,890,240) to the pipeline as a permanent invariant"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "A headline value that violates a theorem-level upper bound cannot be certified at any level, notwithstanding the quality of the surrounding infrastructure. Uncertified pending the max-g reconciliation; the underlying computation may well re-earn silver once the correct statistic is published."
+}

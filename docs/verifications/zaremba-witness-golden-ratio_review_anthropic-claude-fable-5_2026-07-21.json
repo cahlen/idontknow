@@ -1,0 +1,80 @@
+{
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; claims cross-checked against the committed analysis document and elementary CF arithmetic.",
+  "verification_methods": [
+    "Cross-checked all headline statistics against docs/witness-distribution.md (mean 0.1712, prefix [0;5,1,...] dominance, the 1/(5+phi) ~ 0.1511 discussion, and the convergent bracket [0;5,1] = 1/6 vs [0;5,1,1] = 2/11) \u2014 the finding and the committed analysis document agree",
+    "Verified the CF arithmetic: 1/(5+phi) = 0.15115...; [0;5,1] = 1/6 = 0.16667; [0;5,1,1] = 2/11 = 0.18182; the observed mean 0.1712 indeed lies in the bracket",
+    "Searched for the raw witness CSV: not committed (the page says 'published alongside verification logs where available')"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "The smallest witness ratio alpha(d)/d concentrates at mean 0.1712 (99% interval [0.1708, 0.1745]) with CF prefix [0;5,1,...] for 99.7% of d > 1000, over d <= 100,000.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Consistent with the committed analysis document (docs/witness-distribution.md carries the same statistics and a structural explanation via the Stern-Brocot tree), but the raw per-d witness table backing the statistics is not committed, so the numbers rest on a secondary artifact rather than primary data.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "docs/witness-distribution.md (mean 0.1712, prefix analysis)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Commit the raw witness CSV for d <= 100,000 (small file, cheap to regenerate)."
+    },
+    {
+      "claim": "Golden-ratio connection: [0;5,1,1,1,...] = 1/(5+phi) ~ 0.1511, which is 13% below the observed mean; the observed concentration sits between convergents 1/6 and 2/11; the connection is heuristic, not structural.",
+      "verdict": "VERIFIED",
+      "evidence": "All the arithmetic checks exactly (1/(5+phi) = 0.15115, 1/6 = 0.1667, 2/11 = 0.1818, and 0.1712 is inside the bracket). Crucially, the page includes an explicit caveat paragraph stating the golden-ratio limit does NOT match the observed mean and labeling the connection heuristic with the rigorous explanation open. This is the right way to publish a suggestive numerical observation.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer CF arithmetic; finding's own caveat paragraph",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "99.91% of d <= 100,000 have minimal witness requiring a partial quotient of exactly 5 \u2014 measuring minimal-witness tightness, not tightness of Zaremba at A=4.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The logical disclaimer is exactly right (a minimal witness using 5 does not preclude a larger witness with quotients <= 4 \u2014 indeed the density findings show {1,2,3,4} covers all but 2 integers to 10^10). The statistic itself is uncheckable without the raw witness data.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Cross-consistency with gpu_A124/A1234 density results",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Same missing-artifact issue."
+    },
+    {
+      "claim": "The observation enabled a 13x kernel speedup (v2 over v1) by starting the search at a = floor(0.170*d), with the caveat that other v2 optimizations contributed.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No v1-vs-v2 benchmark log is committed; the page itself already dilutes the attribution. Plausible engineering claim, honestly hedged, not certifiable.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "No committed benchmark artifact",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A modest observational finding published with unusually careful epistemics: the golden-ratio hook is explicitly labeled heuristic with the 13% discrepancy stated up front, the tightness statistic carries the correct logical disclaimer, and the speedup attribution is self-diluted. Its weakness is evidentiary rather than intellectual \u2014 the raw witness table behind every statistic is not committed, so verification stops at a secondary analysis document.",
+  "recommendations": [
+    "Commit the raw witness CSV (d, alpha(d), CF) for d <= 100,000 and reference its hash"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Internally consistent, honestly hedged, corroborated by a committed analysis document, but primary data absent. Bronze; a committed CSV would make silver straightforward."
+}

@@ -1,0 +1,83 @@
+{
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer recomputed every dimension value on the page directly from the committed spectrum CSVs, and independently recomputed the rank correlations over all 1,013 subsets.",
+  "verification_methods": [
+    "Looked up all headline dimensions in spectrum_n20.csv: dim({1..5}) = 0.836829; dim({2..15}) = 0.746789; dim({1..15}) = 0.952626; dim({2..20}) = 0.768314; dim({1..20}) = 0.965393",
+    "Recomputed removal costs at n=15: remove-1 = 0.2058 (page: 0.206 correct); remove-15 -> 0.948891, cost 0.0037 (page: 0.949/0.004 correct); and at n=20: remove-1 cost = 0.1971 (page: 0.197 correct), remove-20 cost = 0.0020 (page: 0.002 correct)",
+    "Recomputed the FULL mid-table: remove-2 -> 0.856353 (page: 0.907), remove-3 -> 0.897003 (page: 0.932), remove-4 -> 0.916614 (page: 0.941), remove-5 -> 0.927435 (page: 0.945), remove-10 -> 0.944914 (page: 0.951)",
+    "Independently recomputed Spearman rho = 0.9513 and Kendall tau ~ 0.836 (100k-pair sample) between dim and S(A) = sum 1/a^2 over the 1,013 nondegenerate subsets of {1..10} \u2014 matching the page's 0.951 / 0.834",
+    "Confirmed the 2026-04-01 correction (0.826 -> 0.768 for dim({2..20})) matches the CSV"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Headline asymmetry: dim(E_{1..5}) = 0.837 > dim(E_{2..15}) = 0.747; at n=20, 0.837 > dim(E_{2..20}) = 0.768; removing digit 1 costs 0.206 (n=15) / 0.197 (n=20) vs 0.004 / 0.002 for the largest digit (~50:1 and ~100:1).",
+      "verdict": "VERIFIED",
+      "evidence": "Every one of these values recomputes exactly from spectrum_n20.csv, including both cost ratios and the corrected 0.768 (the correction note accurately says the fix strengthened the result). The central claim of the page is solid.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/hausdorff-spectrum/results/spectrum_n20.csv (reviewer lookups)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Removal-cost table, middle rows: remove-2 -> 0.907 (cost 0.046), remove-3 -> 0.932 (0.021), remove-4 -> 0.941 (0.012), remove-5 -> 0.945 (0.008), remove-10 -> 0.951 (0.002).",
+      "verdict": "DISPUTED",
+      "evidence": "All five middle rows contradict the committed spectrum: true values are 0.856 (cost 0.096), 0.897 (0.056), 0.917 (0.036), 0.927 (0.025), 0.945 (0.008). The printed table also inverts the remove-10 vs remove-15 ordering (it shows removing 10 cheaper than removing 15, which is impossible for this operator and false in the data: true costs 0.0077 vs 0.0037). Only the first and last rows (digits 1 and 15) are correct. The qualitative monotone-decay story survives \u2014 the true costs decay even more steeply \u2014 but five of seven table rows are wrong against the project's own dataset.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer recomputation from spectrum_n20.csv for {1..15} minus each digit",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "The wrong values look like remnants of a different (possibly lower-precision or different-base-set) run; the 2026-04-01 correction fixed one cell but the audit evidently never re-checked this table."
+    },
+    {
+      "claim": "Gauss-measure predictor: Spearman rho = 0.951 and Kendall tau = 0.834 between dim_H(E_A) and S(A) = sum 1/a^2 across 1,013 nondegenerate subsets of {1..10}; strong but imperfect, with mixing-structure outliers.",
+      "verdict": "VERIFIED",
+      "evidence": "Independently recomputed by the signing reviewer from spectrum_n10.csv: rho = 0.9513, tau ~ 0.836 (sampled). The interpretive caveat (S(A) captures first-order weighting, misses spectral structure) is well-grounded in the literature cited.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer rank-correlation computation over 1,013 subsets",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Empirical growth law dim(E_{1..n}) ~ 1 - 0.58/n^0.88, explicitly hedged as a rough fit with no goodness-of-fit statistics and non-unique functional form.",
+      "verdict": "VERIFIED",
+      "evidence": "The hedging paragraph says everything a skeptical reader needs (competing 1 - c/log n form acknowledged, residuals uncomputed). As a labeled rough guide this is unobjectionable.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Finding's own caveat paragraph",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The headline result is genuine and I verified it exhaustively: five digits with 1 beat nineteen without, the 50:1 and 100:1 cost ratios are exact, the rank correlations reproduce to three decimals, and the documented correction checks out. But the removal-cost table \u2014 the page's most-quoted exhibit after the headline \u2014 has five of seven rows contradicting the committed spectrum data, including a physically impossible ordering inversion (remove-10 shown cheaper than remove-15). The true numbers make the finding STRONGER (costs decay more steeply), which makes the stale table doubly unfortunate.",
+  "recommendations": [
+    "Regenerate the removal-cost table from spectrum_n20.csv (correct values: 0.856/0.897/0.917/0.927/0.945 for digits 2/3/4/5/10, costs 0.096/0.056/0.036/0.025/0.008)",
+    "Add a CI check that recomputes published tables from the committed CSVs"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Headline claims fully verified against primary data, but a central published table is five-sevenths wrong against that same data. Bronze until the table is regenerated; correction restores an easy silver."
+}

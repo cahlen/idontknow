@@ -1,0 +1,129 @@
+{
+  "finding_slug": "zaremba-density-phase-transition",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit with independent recomputation. The signing reviewer re-derived the headline exception set from scratch (pure-Python DFS over the CF tree, algorithmically independent of the CUDA kernel), re-parsed every cited log, recomputed the all-subsets statistics from the committed CSV, and recomputed SHA-256 digests.",
+  "verification_methods": [
+    "Independent replication: a from-scratch Python DFS over CF words with digits {1,2,3} to 10^4 reproduces exactly the published 27 uncovered denominators (all <= 6,234), and the same DFS with digits {1,2,4} to 10^5 reproduces exactly the 64-element exception list in gpu_A124_1e10.log (max 51,270)",
+    "Parsed gpu_A123_1e9.log: Uncovered=27 and the 27-element list matches the published list element-for-element",
+    "Verified gpu_A123_1e10.log is a 225-byte partial file with no RESULTS block; its SHA-256 (9b0a369a8f26...) matches the frontmatter's sha256_A123_1e10_log \u2014 i.e., the cited artifact for the headline 10^10 run is the partial log",
+    "Recomputed density_all_subsets_n10_1e6.csv statistics: 1,023 rows; 366 subsets >= 99.99% density (361 with digit 1, 5 without); 141 subsets at 100%; minimum cardinality for 100% = 5; {1,2,3} = 99.9973% / 27 uncovered; CSV SHA-256 matches frontmatter exactly",
+    "Cross-checked table densities against committed logs: A12 1e9 = 72.0615327% (uncovered 279,384,673), A135 1e9 uncovered = 75,547, A135 1e10 = 80,431, A12 1e10 = 76.54868191%",
+    "Recomputed delta({1,3,5}) from spectrum_n10.csv = 0.581366821182972 against the finding's claimed 0.6240"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "A={1,2,3} has exactly 27 uncovered denominators, all <= 6,234, stable from 10^6 through 10^9 (and claimed through 10^10).",
+      "verdict": "VERIFIED",
+      "evidence": "Independently replicated by the signing reviewer with a from-scratch DFS: exactly {6,20,28,38,42,54,96,150,156,164,216,228,318,350,384,558,770,876,1014,1155,1170,1410,1870,2052,2370,5052,6234} uncovered to 10^4 (coverage of d is N-independent once N >= d, so this is decisive for the list membership). gpu_A123_1e9.log confirms the same 27 at 10^9; density_all_subsets_n10_1e6.csv confirms 27 at 10^6. The 10^10 extension itself rests on a partial log (see below) but the exception list is genuine.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Independent Python DFS by reviewer; scripts/experiments/zaremba-density/results/gpu_A123_1e9.log; density_all_subsets_n10_1e6.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The 10^10 run for A={1,2,3} is complete ('Complete: 27 uncovered, all <= 6234', density 99.9999997%, 12 hours GPU time).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The only committed artifact for this run, gpu_A123_1e10.log, is 225 bytes with no RESULTS block \u2014 a partial header. Its SHA-256 matches the frontmatter's sha256_A123_1e10_log, so the page is (transparently but problematically) citing a partial log as the artifact of record for its headline claim. Given the mathematical structure (coverage of d is independent of the search cutoff N once N >= d), the 27-list cannot shrink or change below 6,234; what the missing artifact leaves unproven is only that no NEW exceptions exist in (6234, 10^10]. The finding's own text elsewhere honestly notes the 10^11 log is partial, but does not flag that the committed 10^10 log is also partial.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-density/results/gpu_A123_1e10.log (225 bytes, no RESULTS block, sha256 9b0a369a...)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Headline '10^10 complete' claim lacks a completed committed log. Either commit the completed log or re-run and mark the claim as 10^9-certified in the interim."
+    },
+    {
+      "claim": "Summary table: '{1,2} 72.06% / 279,384,673 uncovered', '{1,3,5} 99.99% / 75,547', '{1,2,4} 99.9999936% / 64' presented under the header 'Density at d <= 10^10'.",
+      "verdict": "DISPUTED",
+      "evidence": "These three rows are 10^9 values placed under a 10^10 column header. gpu_A12_1e9.log gives exactly 72.0615327% / 279,384,673 uncovered (the 10^10 value is 76.549%); the {1,3,5} uncovered count 75,547 is the 10^9 value (10^10 is 80,431, correctly reported elsewhere on the same page); the {1,2,4} density 99.9999936% is the 10^9 figure. The numbers themselves are all genuine \u2014 they are just filed under the wrong N.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A12_1e9.log, gpu_A12_1e10.log, gpu_A135_1e9.log, gpu_A135_1e10.log, gpu_A124_1e9.log",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Mislabeled table header mixes scales; trivial to fix and does not change any conclusion, but in a density study the cutoff N is not a detail."
+    },
+    {
+      "claim": "dim_H(E_{1,3,5}) = 0.6240 (summary table column).",
+      "verdict": "DISPUTED",
+      "evidence": "The repository's own spectrum_n10.csv gives delta({1,3,5}) = 0.581366821182972. The 0.6240 value matches no committed artifact I could locate. The qualitative point (delta > 1/2) survives, but the printed dimension is wrong by 0.043.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/hausdorff-spectrum/results/spectrum_n10.csv, row for mask of {1,3,5}",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Replace 0.6240 with 0.5814 (or recompute and cite)."
+    },
+    {
+      "claim": "All-1,023-subset density sweep: 366 subsets >= 99.99% (361 with digit 1, 5 without, all requiring |A| >= 8); 141 subsets at 100%; minimum cardinality 5 for full density; {2,3,4} at 24.6% vs {1,2,3} at 99.997%.",
+      "verdict": "VERIFIED",
+      "evidence": "All recomputed by the signing reviewer directly from density_all_subsets_n10_1e6.csv (SHA-256 matches the frontmatter digest 4b052ecb...): 366 / 361 / 5 / 141 / min-cardinality 5, {1,2,3} = 99.9973% with 27 uncovered. Every number in this section checks out exactly.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-density/results/density_all_subsets_n10_1e6.csv (1,023 rows)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "10^11 status: {1,2,6}=1,834 and {1,2,7}=7,178 stable at 10^11; {1,2,8}/{1,2,9}/{1,2,10} growing; {1,3,5} = 80,945 at 10^11 (+514 from 10^10); {1,2,3}/{1,2,4}/{1,2,5} 10^11 logs partial.",
+      "verdict": "VERIFIED",
+      "evidence": "Consistent with the committed 10^11 logs and the finding's own honest partial-log disclosures; the {1,3,5} progression 75,547 -> 80,431 -> 80,945 matches the logs I parsed. The page's framing ('stable candidate', 'observational, not proof') is exemplary hedging.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-density/results/gpu_A126_1e11.log, gpu_A127_1e11.log, gpu_A135_1e10.log, gpu_A135_1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Hausdorff dimension alone does not control full density; A={2,3,4,5} (delta ~ 0.5596 > 1/2, density 97-99%) is a counterexample to a simple delta > 1/2 sufficiency rule; digit 1 / congruence mixing is the operative mechanism.",
+      "verdict": "VERIFIED",
+      "evidence": "delta({2,3,4,5}) = 0.559636450164777 recomputed from spectrum_n10.csv, matching the page. The counterexample logic is sound: a set with delta > 1/2 and sub-full density defeats bare-dimension sufficiency, in line with the known failure of Hensley's conjecture (Bourgain-Kontorovich 2014 discussion). The 361-vs-5 digit-1 split from the sweep independently supports the mechanism claim.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "spectrum_n10.csv; density_all_subsets_n10_1e6.csv",
+          "relationship": "supports"
+        },
+        {
+          "type": "paper",
+          "reference": "Bourgain & Kontorovich, Annals of Math 180 (2014), discussion of Hensley's conjecture",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The scientific core of this page is real and I could replicate its central object from scratch: an independent DFS reproduces the exact 27-element exception set, and every all-subsets statistic recomputes exactly from the committed CSV with a matching SHA-256. The honest hedging about 10^11 partial logs is exactly right. Three defects need fixing: the headline table files 10^9 numbers under a 10^10 header; delta({1,3,5}) is printed as 0.6240 against the repo's own 0.5814; and the committed 10^10 A123 log is a 225-byte partial file whose hash the page cites as the artifact of record \u2014 the '10^10 complete' claim currently has the same evidentiary status the page itself assigns to the 10^11 runs.",
+  "recommendations": [
+    "Fix the summary table: label the {1,2}, {1,3,5}, {1,2,4} rows with their true cutoffs or update to 10^10 values from the committed logs",
+    "Correct dim_H(E_{1,3,5}) to 0.5814 per spectrum_n10.csv",
+    "Commit a completed A123 10^10 log (or re-run) and stop citing the 225-byte partial log's SHA as the result artifact; until then, downgrade the completion claim to 10^9-certified plus DFS-certified list membership"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The exception set and sweep statistics are independently replicated \u2014 that part is silver-quality. But the headline range claim (10^10 complete) is backed by a partial log, and two table values contradict the repository's own data. Bronze until the artifact and table fixes land; this page is one committed log away from silver."
+}

@@ -1,0 +1,90 @@
+{
+  "finding_slug": "class-number-convergence",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer re-parsed both committed range logs histogram-line-by-histogram-line against every table on the page.",
+  "verification_methods": [
+    "Parsed data/class-numbers/run_1e9_1e10.log: 2,735,671,820 fundamental discriminants; h=1 16.7047%; h=2 22.167%; h=4 19.766%; h=8 10.904%; h=16 4.518%; 3|h 15.2824%; 5|h 4.8915%; 7|h 2.3471%; 1,791.2 s at 1,527,243 disc/s",
+    "Parsed data/class-numbers/run_1e10_1e11_v2.log: 27,356,719,769 discriminants; h=1 15.353%; h=2 21.270%; h=4 19.915%; h=8 11.671%; h=16 5.150%; 3|h 15.4845%; 90,666.0 s at 301,731 disc/s",
+    "Also parsed run_1e10_1e11.log (59,527 s at 459,568 disc/s) and run_1e10_1e11_v3.log (incomplete, ends ~10.4% at 10,082 s)",
+    "Checked every value in the page's three statistical tables against these logs; checked the genus-theory shift table deltas",
+    "Verified the '30 minutes for the first 2.7 billion' and '1.5M disc/sec' claims against run_1e9_1e10.log (1,791 s = 29.9 min; 1.53M/s)"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "h(d)=1 rate decreases 42.1% (d < 10^4) -> 25.7% (10^6) -> 16.70% ([10^9,10^10)) -> 15.35% ([10^10,10^11)); asymptotically -> 0 by genus theory + Erdos-Kac; Cohen-Lenstra's 75.446% applies to Prob(h_odd = 1), not Prob(h = 1).",
+      "verdict": "VERIFIED",
+      "evidence": "The two large-range rates match the committed logs exactly (16.7047%, 15.3530%). The structural argument is correct mathematics: h = 1 forces trivial 2-part, genus theory ties the 2-rank to the number of prime factors of the discriminant, and omega(d) ~ log log d makes such discriminants density-zero \u2014 so Pr(h=1) -> 0 while C-L governs the odd part. The 2026-04-01 correction note (retracting the original 'non-monotone convergence to 75%') is a documented, transparent fix of a real conceptual error. The small-range values (42.1%, 25.7%) are spot-check claims without committed logs.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "data/class-numbers/run_1e9_1e10.log; run_1e10_1e11_v2.log",
+          "relationship": "supports"
+        },
+        {
+          "type": "paper",
+          "reference": "Cohen & Lenstra, LNM 1068 (1984); Erdos-Kac theorem",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Residual title/body artifact: the H1 heading still says 'Convergence Is Non-Monotone' while the corrected content says monotone decrease \u2014 an editing leftover from the correction."
+    },
+    {
+      "claim": "Class-number distribution tables (h = 1..16 shares at both ranges; 3|h, 5|h, 7|h vs C-L predictions; power-of-2 share 74.1% -> 73.4%).",
+      "verdict": "VERIFIED",
+      "evidence": "Every tabulated percentage matches the committed logs to the printed precision, in both ranges; the genus-theory shift deltas (h=8: +0.77 pp, h=16: +0.63 pp) recompute exactly. This is one of the cleanest artifact-to-page correspondences in the project.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Both range logs, histogram blocks (20 lines each, all checked)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Computational details for the 27B block: ~4.5 hours on 8x B200 at ~82% utilization, ~1.7M disc/sec; random 0.01% PARI/GP subsample with exact agreement.",
+      "verdict": "DISPUTED",
+      "evidence": "Neither committed log for the [10^10, 10^11) range matches this: run_1e10_1e11.log records 59,527 s (16.5 h) at 459,568 disc/s and v2 records 90,666 s (25.2 h) at 301,731 disc/s. No log matching 4.5 h / 1.7M disc/s exists in the repository, no utilization telemetry is committed, and no PARI/GP subsample validation artifact exists. The scientific results are unaffected (the histograms come from the committed logs), but this performance-and-validation paragraph is unsupported by, and in tension with, the repository record.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "run_1e10_1e11.log (59,527 s), run_1e10_1e11_v2.log (90,666 s); no matching 16,200 s log; no PARI validation artifact",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Either a faster cluster run existed and its log was never committed (violating the preservation rule) or the paragraph is inaccurate."
+    },
+    {
+      "claim": "First 2.7B block: 30 minutes, 1.5M disc/sec.",
+      "verdict": "VERIFIED",
+      "evidence": "run_1e9_1e10.log: 1,791.2 s = 29.9 min at 1,527,243 disc/s. Matches.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "data/class-numbers/run_1e9_1e10.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Scientifically this is among the project's best pages: a real conceptual error was caught, corrected, and documented; the corrected mathematics (genus theory forcing Pr(h=1) -> 0, C-L applying to the odd part) is right; and all forty-plus statistical values I checked match the committed logs exactly across 30 billion discriminants. Two blemishes: the 27B block's performance-and-validation paragraph (4.5 h / 1.7M per sec / PARI subsample) is contradicted by both committed logs and backed by no artifact, and the H1 heading still carries the pre-correction 'Non-Monotone' title.",
+  "recommendations": [
+    "Fix or evidence the 27B performance paragraph (commit the cluster log if one exists; otherwise report the committed 25.2 h run)",
+    "Run and commit the promised PARI/GP subsample validation",
+    "Update the H1 heading to match the corrected claim",
+    "Commit spot-check logs for the small-range (10^4, 10^6) values"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "The mathematical content and all distribution statistics are fully log-verified at 30-billion scale with an exemplary correction trail; the disputed items concern performance narrative, not results. Silver, with the performance paragraph flagged for repair."
+}

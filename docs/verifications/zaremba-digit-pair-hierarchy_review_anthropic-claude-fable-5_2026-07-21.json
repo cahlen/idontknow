@@ -1,0 +1,95 @@
+{
+  "finding_slug": "zaremba-digit-pair-hierarchy",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer re-parsed all 18 {1,k} logs at both scales, all cited {2,k}/{3,k} logs, and re-ran both log-log regressions from the raw log densities.",
+  "verification_methods": [
+    "Parsed gpu_A1k_1e10.log and gpu_A1k_1e11.log for k=2..10: all 18 densities match the finding's table to every printed digit",
+    "Re-ran OLS log-log regression on the parsed densities: 2700*k^-5.26 at 10^10 and 4090*k^-5.83 at 10^11, matching the published exponents and prefactors exactly",
+    "Parsed gpu_A23/A24/A25/A34/A35_1e11.log: 0.02148%, 0.00431%, 0.00162%, 0.000474%, 0.000202% \u2014 all match; recomputed digit-1 multipliers 424x/249x/158x and the {2,4}/{3,4} = 9.1x ratio from these logs",
+    "Cross-checked the {1,2,k} exception table (27, 64, 374, 1,834, 7,178, 23,590, 77,109, 228,514) against logs and the independent DFS replication of the 27 and 64 lists",
+    "Checked the timing table against the A12-logarithmic-convergence finding's per-scale timings (88.4 s = the 10^10 A12 run; the 10^11 run is 1,012 s)"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "{1,k} densities at 10^10 and 10^11 for k=2..10 as tabulated (e.g. {1,2}: 76.5487% -> 80.7543%; {1,10}: 0.0201% -> 0.0085%).",
+      "verdict": "VERIFIED",
+      "evidence": "All 18 values re-parsed by the signing reviewer from the committed logs; every entry matches the table to all printed digits.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-density/results/gpu_A12_1e10.log ... gpu_A110_1e11.log (18 logs)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Power-law fits: 4090*k^-5.83 (R^2=0.994) at 10^11 and exponent -5.26 at 10^10; CIs at the two scales do not overlap, so the exponent is an effective per-scale fit, not universal.",
+      "verdict": "VERIFIED",
+      "evidence": "Reviewer's own OLS on the parsed log densities reproduces 2700*k^-5.26 and 4090*k^-5.83 exactly. The page's explicit N-sensitivity disclosure (exponent steepens ~0.57/decade because {1,2} grows while all other pairs decay) is the correct interpretation and is commendable \u2014 many authors would have reported a single 'universal' exponent.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer OLS on 18 log-parsed densities",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Digit-1 amplification at 10^11: 424x (k=3), 249x (k=4), 158x (k=5), growing with scale; {3,k} pairs ~9x sparser than {2,k}.",
+      "verdict": "VERIFIED",
+      "evidence": "Recomputed from the committed logs: 9.1093/0.0214813 = 424.1; 1.0735/0.0043105 = 249.0; 0.2564/0.0016246 = 157.8; 0.0043105/0.00047395 = 9.09. All match.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A23_1e11.log, gpu_A24_1e11.log, gpu_A25_1e11.log, gpu_A34_1e11.log, gpu_A35_1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Stable candidate exception sets: {1,2,3}=27 and {1,2,4}=64 exhaustive to 10^10; {1,2,6}=1,834 and {1,2,7}=7,178 stable to 10^11; {1,2,4} max exception 51,270.",
+      "verdict": "VERIFIED",
+      "evidence": "The 27 and 64 sets were independently replicated by the signing reviewer with a from-scratch DFS (the 64-element set matches gpu_A124_1e10.log element-for-element with max 51,270). The 10^11 stability numbers match the committed logs. Framing as 'observational stability, not proof of finiteness' is exactly right.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Independent DFS; gpu_A124_1e10.log; gpu_A126_1e11.log; gpu_A127_1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Timing per pair table ({1,2}: 88.4 s total, others 10-18 s) presented under the 10^11 Reproduce section.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "88.4 s is the 10^10 A12 run time (the sibling A12 finding's own hash/timing table gives 88.4 s at 10^10 and 1,012 s at 10^11). The timing table does not state its N, and its placement directly after a loop that runs 10^11 commands invites misreading by an order of magnitude.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Cross-reference: zaremba-A12-logarithmic-convergence Verification Hashes and Timing table",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Label the timing table with N = 10^10 (or provide 10^11 timings)."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Every quantitative claim I tested on this page \u2014 18 densities, two regressions with prefactors and exponents, five cross-set logs, three amplification multipliers, and both headline exception sets \u2014 reproduces exactly from committed artifacts, and the two headline exception sets additionally survive an algorithm-independent replication. The N-sensitivity disclosure on the power-law exponent is model scientific practice. The only defect is an unlabeled timing table whose numbers belong to the 10^10 runs.",
+  "recommendations": [
+    "Add 'N = 10^10' to the timing table header or replace with 10^11 timings"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Fully artifact-backed with independent replication of the discrete results and exact reproduction of both regressions; one labeling fix required. This is what silver should look like: every number traceable to a committed log."
+}

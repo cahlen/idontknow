@@ -1,0 +1,126 @@
+{
+  "finding_slug": "zaremba-conjecture-proved",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit including the committed Dolgopyat profile CSV, all brute-force run logs, the representation CSV, and CERTIFICATE.md. Quantitative claims were checked against artifacts by the signing reviewer directly.",
+  "verification_methods": [
+    "Parsed dolgopyat_profile_exact.csv (20,000 rows): max rho = 0.755128 at t=1.0; for t >= 2, max rho = 0.727785 with 203 points at rho >= 0.68 \u2014 directly contradicting the page's 'rho(t) < 0.68 uniformly for all t >= 2'",
+    "Parsed run_210B.log (Uncovered: 0), run_100B_v2.log (Uncovered: 0), run_100B.log (Uncovered: 243,947,052 \u2014 superseded), run_10B_v2.log (Uncovered: 9,443,180 \u2014 clipped), run_10B_v3.log (Uncovered: 0)",
+    "Recomputed the sieve main-term inequality: c1 * d^(2*delta-1) = 0.6046 * 2^0.674 = 0.964 at d=2, vs the page's claim that the main term is >= 1.27 'for d >= 2' (it first exceeds 1.27 at d=3)",
+    "Checked representation_counts_1000000.csv: min R = 6 at d=1 (matches this page), but full-range log-log OLS slope = -0.08 (vs the page's claimed empirical d^0.654) \u2014 the committed CSV does not exhibit the claimed growth",
+    "Cross-checked internal consistency of spectral-gap statements: FP64 table min sigma_13 = 0.530, 'MPFR-certified: all gaps >= 0.650', frontmatter min_covering_gap 0.651 at p=29",
+    "Read CERTIFICATE.md probe data (unclipped peak 1.91e9 at max_d=10^8; 17.5e12 overflow events at max_d=10^9 with local BUF_SLOTS=4e8) and confirmed the page reports it faithfully"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Brute force: v6 reports zero uncovered denominators to 2.1e11 in 6,962.2 s, but this is uncertified because the kernel could silently clip Phase B frontiers; only d <= 10^6 has a v6.1 no-overflow certificate.",
+      "verdict": "VERIFIED",
+      "evidence": "run_210B.log records Uncovered: 0, and the page's self-imposed demotion to 'strong computational evidence, not certified' accurately reflects the CERTIFICATE.md probe findings (true peak >= 1.91e9 at 10^8; overflow events at 10^9 under smaller local buffers). The clipping-soundness analysis (bitset mark fires before the buffer check, so clipping loses descendants, not marks) matches the kernel source. This section is a model of honest self-audit.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-effective-bound/run_210B.log; paper/CERTIFICATE.md; matrix_enum_multipass.cu buffer path",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Dolgopyat profile: 'For all t >= 2: rho(t) < 0.68 uniformly' (and rho_eta = sup_{t>=1} rho(t) <= 0.771 on the N=80 Galerkin matrix).",
+      "verdict": "DISPUTED",
+      "evidence": "The only committed profile artifact, dolgopyat_profile_exact.csv, contains 203 points with t >= 2 and rho >= 0.68, with max rho(t>=2) = 0.7278. The uniform-0.68 claim is contradicted by the repository's own data. Separately, the page describes 100,000 arb-certified t-values on [1,1000]; the committed CSV has 20,000 rows and no arb certificates are in the repo, so the described artifact is absent. The weaker sup bound <= 0.771 IS consistent with the CSV (max 0.7551), so the downstream epsilon = 0.157 arithmetic survives, but the specific t >= 2 claim must be corrected.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-effective-bound/dolgopyat_profile_exact.csv (20,000 rows; 203 violations of the stated bound)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Correct 'rho(t) < 0.68 for t >= 2' to match the committed profile (or commit the 100k-point arb-certified dataset that allegedly supports it)."
+    },
+    {
+      "claim": "Frolenkov-Kan sieve step: 'For d >= 2 and any covering prime with sigma_p >= 0.530: the main term c*d^0.674 >= 1.27 exceeds the error <= 0.887.'",
+      "verdict": "DISPUTED",
+      "evidence": "Direct computation: 0.6046 * 2^0.674 = 0.964, not >= 1.27. The inequality as printed first holds at d = 3 (0.6046 * 3^0.674 = 1.268). At d = 2 the margin over 0.887 is 0.077, not 0.386. The conclusion is unaffected (d=2 trivially has the representation 1/2 = [0;2]), but a proof-framework page cannot state a quantitative inequality that fails at its own stated boundary.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer arithmetic from the page's own constants c1=0.6046, delta=0.8368",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Restate as d >= 3 with d=2 handled trivially, or recompute the margin at d=2 honestly."
+    },
+    {
+      "claim": "Spectral gaps for the 11 covering primes: FP64 table (min 0.530 at p=13); 'MPFR-certified... All gaps sigma_p >= 0.650'; frontmatter min_covering_gap 0.651 at p=29.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Three mutually inconsistent minimum-gap statements coexist on one page: 0.530 at p=13 (FP64 table), >= 0.650 (MPFR section), and 0.651 at p=29 (frontmatter). If the MPFR run corrected the FP64 p=13 value, the table should be updated or annotated; as printed, a reader cannot tell which number the sieve argument actually consumes (the sieve text uses 0.530). No MPFR output artifacts are committed to verify either version.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Finding sections 2 and 'New Computations'; frontmatter data block",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Reconcile the three minima and commit the MPFR data."
+    },
+    {
+      "claim": "Representation growth: R(d) ~ d^0.654 empirically for d <= 10^6, minimum R(d) = 6 at d = 1, zero exceptions in [1, 10^6], per the linked representation_counts_1000000.csv.",
+      "verdict": "DISPUTED",
+      "evidence": "The linked CSV does give min R = 6 at d = 1 and zero R(d)=0 entries (those parts VERIFIED \u2014 and notably this page's min-R claim is correct where the sibling representation-growth finding's is not). However, the CSV's values do not grow like d^0.654: the reviewer's full-range log-log OLS slope is -0.08, and R(10^5) = 4,281 < R(10^4)*anything consistent with a 0.65 exponent. The committed CSV appears to be a bounded-depth or otherwise truncated count inconsistent with the asymptotic claim.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-effective-bound/representation_counts_1000000.csv; reviewer OLS",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Either the CSV is the wrong artifact for this claim or the exponent claim is wrong; reconcile (see representation-growth review)."
+    },
+    {
+      "claim": "MOW framework: D0 ~ 3.4e10 with explicit caveats that constant extraction is a plausible numerical estimate, Calderon-Magee transport to twisted operators is open, and no constant-tracking notebook exists.",
+      "verdict": "VERIFIED",
+      "evidence": "The page itself labels these caveats 'DISPUTED \u2014 not yet rigorous' and enumerates six known gaps in the frontmatter status field. This reviewer confirms the gap list is the right one (Galerkin-to-operator transport via e.g. Keller-Liverani is genuinely absent; no arb/Sage notebook is committed). As a statement about what has NOT been proven, the page is accurate and unusually forthright.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Magee-Oh-Winter, Crelle 753 (2019); Calderon-Magee, JEMS (2025); finding's own gap enumeration",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Relation to Shkredov (2026): independent, complementary, does not resolve Zaremba as stated (O(sqrt(log q)) bound, prime q only).",
+      "verdict": "VERIFIED",
+      "evidence": "The comparison table is fair: growing-bound vs constant-bound, primes vs all integers, and the page claims only 'largest brute-force verification and most explicit spectral data to our knowledge.' No priority overclaim.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "arXiv:2603.14116",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The strategic honesty of this page is genuinely impressive \u2014 the certification-status demotion, the six-gap enumeration, and the clipping analysis are self-audit at a level rarely seen. But a proof-framework document is held to proof-level arithmetic, and three quantitative statements fail against the repository's own artifacts: the uniform Dolgopyat bound rho(t) < 0.68 for t >= 2 is violated 203 times by the committed profile CSV; the sieve main-term inequality fails at its stated boundary d = 2; and the empirical R(d) ~ d^0.654 claim is contradicted by the linked CSV. None of these breaks the framework's architecture (the sup-bound 0.771 survives, d=2 is trivially covered, and the sieve does not depend on the empirical fit), but each must be corrected before this page can carry even conditional weight. The three inconsistent spectral-gap minima also need reconciliation.",
+  "recommendations": [
+    "Fix the t >= 2 Dolgopyat claim to match dolgopyat_profile_exact.csv, or commit the 100k-point arb-certified dataset",
+    "Restate the sieve inequality for d >= 3 and handle d = 2 explicitly",
+    "Reconcile the 0.530 / 0.650 / 0.651 covering-prime gap minima and commit the MPFR artifacts",
+    "Reconcile or replace the R(d) empirical-growth claim with the actual committed CSV",
+    "Complete the v6.1 no-overflow re-run at 210B, which would resolve the largest open item"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "The computational evidence (210B run, honest uncertified status) and the gap disclosure earn bronze; the artifact-contradicted quantitative statements and missing MPFR/arb data preclude anything higher until revised."
+}

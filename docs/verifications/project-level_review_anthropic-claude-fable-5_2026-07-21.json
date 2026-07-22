@@ -1,0 +1,85 @@
+{
+  "finding_slug": "_project-level",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Project-level assessment signed after individually auditing all 19 findings, with independent recomputation wherever the artifacts permitted: from-scratch DFS replication of the Zaremba exception sets, exact-arithmetic recomputation of all 27 CF witnesses, full re-parsing of ~60 log/CSV artifacts, re-running six regressions, hook-length dimension bounds for S_30, and rank-correlation recomputation over 1,013 subsets. One prior fable-5 review (gpu-matrix-enumeration-175x, same day) covers the remaining finding.",
+  "verification_methods": [
+    "Independent algorithmic replication of the project's flagship discrete results (27-exception and 64-exception sets; witness convergents; 54/150 exhaustive non-representability)",
+    "Exact reproduction of six published regressions (A12 5-point fit with all residuals; two digit-pair power laws; amplification power law; exception-count power law; Spearman/Kendall correlations)",
+    "Systematic page-vs-artifact comparison for every quantitative table across the 19 findings",
+    "Mathematical feasibility analysis where artifacts were insufficient (S_30 Kronecker dimension bound via exact hook lengths; sieve main-term arithmetic; |SL2(F_p)| recomputation; pi(17,389) sieve)",
+    "Cross-review of the append-only verification ledger, manifest consensus, and remediation records"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Project epistemic architecture: append-only multi-model reviews, most-conservative-wins certification, hedged claims, disclosed AI collaboration, open code and data.",
+      "verdict": "VERIFIED",
+      "evidence": "The architecture works: earlier audits demonstrably forced real corrections (the v6 clipping demotion in CERTIFICATE.md, the Cohen-Lenstra h=1 correction, the inverse-square retraction, the Cayley/transitivity reframings), and the corrections are preserved rather than overwritten. Several pages (exception-hierarchy, A12-convergence, amplification, the three CFD pages) now meet a standard where every published number reproduces from a committed artifact.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "docs/verifications/ ledger; paper/CERTIFICATE.md; per-finding correction notes",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Data-preservation rule: every computation logs to a committed file (or HF dataset).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Compliance is uneven and it is the single root cause behind most disputes in this audit: the transitivity sweep has no log; the Cayley BFS has no logs; the N=40 prime spectral CSV is cited but absent; the A123 10^10 headline log is a 225-byte partial; the class-number 27B '4.5 h' cluster run has no log while two slower committed runs contradict it; the 100k-point arb Dolgopyat dataset is absent while the committed 20k-point CSV contradicts the page citing it. Where the rule WAS followed (density logs, CFD CSVs, class-number histograms, kronecker analysis JSONs), my audit verified the pages essentially perfectly \u2014 the correlation between artifact discipline and claim accuracy across these 19 pages is near-total.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Per-finding reviews of this date, missing-artifact inventories",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Enforce the rule mechanically: no published number without a committed (or HF-hashed) artifact reference."
+    },
+    {
+      "claim": "The published corpus is quantitatively accurate as it stands.",
+      "verdict": "DISPUTED",
+      "evidence": "This audit found, against the repository's own artifacts: (1) representation-growth \u2014 every sample value, the regression, and the hash contradict the cited CSV; (2) kronecker-s30 \u2014 the headline max g exceeds the exact S_30 dimension bound by ~28x and is mathematically impossible; (3) hausdorff \u2014 five of seven removal-cost rows wrong, one ordering physically impossible; (4) spectral-gaps \u2014 the 0.237 uniform floor is an N=15 Galerkin artifact that the repo's own N=40 logs move to 0.687; (5) framework page \u2014 the t>=2 Dolgopyat bound is violated 203 times by its committed profile, and the sieve inequality fails at its stated d=2 boundary; (6) cayley \u2014 three wrong group orders and a uint32 encoding that cannot address p > ~200; (7) phase-transition \u2014 10^9 values under a 10^10 header and a wrong delta({1,3,5}). Most of these errors are in the pages' secondary or headline-summary layers while the underlying computations, where committed, are genuine \u2014 but in a computational-mathematics project the tables ARE the product.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Individual fable-5 reviews of this date (each dispute is artifact-cited there)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The strongest results survive independent adversarial recomputation.",
+      "verdict": "VERIFIED",
+      "evidence": "The results the project should be proudest of are real: the 27-exception set for {1,2,3} (replicated from scratch, witness-by-witness, exhaustively at the hard cases); the full digit-pair density hierarchy with its scale-dependence honestly disclosed; the A12 logarithmic fit reproducible to the second decimal of every residual; 30 billion class numbers whose every published percentage matches the logs and whose central conceptual correction is right; the S_40 restraint in refusing an int64-overflowing computation; and three CFD pages with complete artifact chains including a committed out-of-memory failure certificate.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer replications enumerated in verification_methods",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Audited as a whole, this is a serious computational-mathematics project with a working self-correction machine and a real, replicable core \u2014 and a persistent gap between its computations and its prose. Where artifacts were committed, my independent recomputation verified the pages at a level few preprints would survive (six regressions to the last printed decimal; discrete sets element-for-element under an independent algorithm). Where artifacts were missing or stale, the pages accumulated errors up to and including a headline value that violates an exact theorem-level bound (S_30 max g) and a headline floor refuted by the project's own committed refinement logs (spectral 0.237). The pattern is diagnostic, not moral: numbers copied into prose decay; numbers regenerated from artifacts don't. The fix is mechanical \u2014 publish no number a script can't recompute from a committed artifact \u2014 and the project already owns every tool needed to enforce it.",
+  "recommendations": [
+    "Add a CI job that recomputes every quantitative table in bigcompute.science/src/content/findings from committed artifacts and fails on mismatch",
+    "Triage the two uncertified-recommendation pages first (representation-growth, kronecker-s30 max-g), then the spectral N>=40 re-sweep and the hausdorff table regeneration",
+    "Close the missing-artifact list: transitivity log, Cayley per-prime data, N=40 prime CSV, completed A123 10^10 log, class-number 27B cluster log, arb Dolgopyat dataset",
+    "Propagate the CERTIFICATE/CERTIFICATE_ERROR machine-readable exit-certificate pattern from the CFD kernels to all experiments"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "Project-level entries aggregate heterogeneous findings and should not carry a blanket certification; individual levels are recommended per finding. The project's process merits confidence; several of its published tables currently do not."
+}

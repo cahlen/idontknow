@@ -1,0 +1,71 @@
+{
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer re-parsed the run log and the full 2048-row Lyapunov CSV, checking each published value at its stated K.",
+  "verification_methods": [
+    "Parsed run_k2048_ic8192_iter50000.log: 2048 K-values on [0,5], 8192 ICs per K, 50,000 iterations, 16,777,216 trajectories, 116.59 s (~143,901 trajectories/s), 'NaN/Inf samples: 0 / 16777216', K=0 validation mean Lambda = 0.0 exactly",
+    "Parsed lyapunov_k2048_ic8192_iter50000.csv and checked the published table rows: K nearest 0.9716 -> mean 0.04456, fraction positive 0.9991; K=0.75 -> 0.01033; K=1.0 -> 0.05096; K=2.0 -> 0.33217 (fraction 1.0); K=5.0 -> mean 0.95697, max 0.99782",
+    "Verified the K=0 row is identically zero across all statistics (exact integrable-case sanity check)",
+    "Checked the empirical bulk-onset statement in the log ('K ~ 0.7499' under the mean>0.01 and >95%-positive criteria) against the literature K_crit ~ 0.9716 disclosure"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Full Lyapunov sweep: 2048 K-values x 8192 ICs x 50,000 iterations = 16.8M trajectories in 116.6 s on RTX 5090, zero NaN/Inf, K=0 gives exactly zero Lyapunov exponent.",
+      "verdict": "VERIFIED",
+      "evidence": "All parameters, the trajectory count, the wall time, the zero-NaN certificate, and the exact-zero K=0 validation line are in the committed log; the CSV's K=0 row is identically zero in all five statistics \u2014 the strongest kind of sanity check for the integrable limit.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/run_k2048_ic8192_iter50000.log; CSV row K=0",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Lyapunov values at reference points (mean ~ 0.045 near K_crit = 0.9716; 0.332 at K=2; 0.957 at K=5 approaching ln(K/2) asymptotics).",
+      "verdict": "VERIFIED",
+      "evidence": "Each value re-parsed from the CSV at the stated K: 0.04456 at K = 0.97215, 0.33217 at K = 2.0005, 0.95697 at K = 5.0. The K=5 mean vs the Chirikov estimate ln(K/2) = ln(2.5) = 0.916 is within the expected finite-time/ensemble deviation and the max (0.9978) brackets it.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "lyapunov_k2048_ic8192_iter50000.csv (reviewer lookups)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The empirical bulk-chaos onset under the stated criterion (mean > 0.01 and > 95% ICs positive) occurs near K ~ 0.75, below the literature K_crit ~ 0.9716, because the criteria measure different transitions (finite-time positive exponents in the chaotic sea vs global transport / last-KAM-torus destruction).",
+      "verdict": "VERIFIED",
+      "evidence": "The log itself prints both numbers side by side, and the explanation is dynamically correct: positive measure of chaotic orbits exists well below Greene's K_c (which marks the destruction of the last rotational invariant circle / onset of global transport, per Greene 1979 and Chirikov 1979). The page does not claim to have measured K_c = 0.9716; it discloses the criterion-dependence. This is the right handling of a subtle standard-map fact that a careless writeup would have botched.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Greene, J. Math. Phys. 20 (1979); Chirikov, Phys. Rep. 52 (1979)",
+          "relationship": "supports"
+        },
+        {
+          "type": "computation",
+          "reference": "Log lines: empirical onset K ~ 0.7499 vs literature 0.971635406",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "A tight, fully-verifiable computation: every published statistic reproduces from the committed CSV/log, the integrable limit is exactly zero as a built-in sanity check, the NaN certificate covers all 16.8M trajectories, and the onset-criterion subtlety (empirical 0.75 vs Greene's 0.9716) is disclosed and correctly explained rather than fudged. No corrections needed.",
+  "recommendations": [],
+  "certification_recommendation": "silver",
+  "certification_justification": "Complete artifact backing, correct dynamical interpretation, exact validation of the integrable limit. Earned silver without reservation."
+}

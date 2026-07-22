@@ -1,0 +1,83 @@
+{
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer parsed all three committed result CSVs row-by-row and inspected the dealiasing implementation in the kernel source.",
+  "verification_methods": [
+    "Parsed bkm_n256_nu1e-03_steps2000.csv (Taylor-Green): max|omega| 2.0000000000 at t=0 -> 0.1566456483 at t=20; cumulative BKM integral 12.8036; no NaN in 97 rows",
+    "Parsed bkm_n512_nu1e-04_steps5000.csv (random IC): BKM 1.7714 at t=25; no NaN in 100 rows",
+    "Parsed bkm_n256_nu1e-03_steps500.csv: terminal row contains enstrophy = -nan and BKM ~ 8.6e18 \u2014 a blown-up run sitting uncited in the same results directory",
+    "Inspected ns2d_bkm.cu init_dealias: mask keeps |k| <= (N/3)*dk \u2014 the standard Orszag 2/3 rule, correctly implemented",
+    "Checked the finding's prose: '2/3 Orszag dealiasing (zero modes with |k| > 2N/3)' \u2014 the parenthetical mislabels the cutoff (the code zeroes |k| > N/3 in index units; 2N/3 refers to the retained fraction of the full band, not a wavenumber threshold)"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Taylor-Green smoke test at 256^2, nu=1e-3: max|omega| decays 2.0 -> 0.16 by t=20, BKM ~ 12.8, zero NaN/Inf.",
+      "verdict": "VERIFIED",
+      "evidence": "Every number recomputes from the committed CSV (2.0 -> 0.15665; BKM 12.8036; 97 clean rows). The TG decay behavior is the correct analytic expectation for this viscosity and the solver reproduces it.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/cfd-ns-bkm/results/bkm_n256_nu1e-03_steps2000.csv (full parse)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Standard run at 512^2, nu=1e-4, random IC: BKM ~ 1.77, 532 steps/s, zero NaN/Inf.",
+      "verdict": "VERIFIED",
+      "evidence": "BKM 1.7714 confirmed from the committed CSV (100 clean rows). Throughput figures are not independently checkable from the CSV alone but are plausible for the hardware.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "bkm_n512_nu1e-04_steps5000.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Method: 2/3 Orszag dealiasing ('zero modes with |k| > 2N/3'), RK4, fp64, cuFFT C2C with 1/N^2 normalization.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The implementation is correct \u2014 the kernel zeroes modes with wavenumber index above N/3, which is exactly the Orszag 2/3 rule \u2014 but the prose parenthetical states the cutoff as |k| > 2N/3, which is wrong as written (for an N-point grid the retained band is |k| <= N/3 of the +-N/2 index range). The physics is right; the sentence describing it is not.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "ns2d_bkm.cu init_dealias (kmax = (N/3)*dk); finding Method section",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Fix the parenthetical to '|k| > N/3 (i.e., retaining 2/3 of the resolved band)'."
+    },
+    {
+      "claim": "Status: 'CONFIRMED \u2014 certifying runs, zero numerical failures'; 2D is globally regular, no blowup claim.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The two cited runs are indeed failure-free, and the page's insistence that 2D regularity precludes any blowup claim is exactly the right scientific framing. However, the same results directory contains an uncited third CSV (steps500) that terminates in -nan enstrophy and a ~8.6e18 BKM value \u2014 evidently an earlier unstable configuration. 'Zero numerical failures' is true of the certified runs but the failed artifact should be labeled as such (or moved), lest a reproducer conclude the pipeline silently ships NaNs.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "bkm_n256_nu1e-03_steps500.csv terminal row (-nan)",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Label or relocate the failed-run CSV; note the (presumably CFL-violating) configuration for reproducibility."
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "An honest infrastructure paper: it claims exactly what it should (a validated 2D pseudospectral BKM tracker, explicitly NOT blowup evidence since 2D is globally regular) and its two certified runs verify number-for-number against committed CSVs. Two clean-ups needed: the dealiasing parenthetical misstates the cutoff that the code implements correctly, and an uncited NaN-terminated CSV sits unlabeled beside the certified results.",
+  "recommendations": [
+    "Correct the dealias parenthetical to |k| > N/3",
+    "Label or archive the failed steps500 CSV with a note on its configuration"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "All published numbers verified against committed data; correct physical framing; defects are documentation-level. Silver."
+}

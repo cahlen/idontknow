@@ -1,0 +1,90 @@
+{
+  "finding_slug": "zaremba-representation-growth",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer parsed the entire cited CSV and recomputed every headline statistic from it, plus the SHA-256 digest.",
+  "verification_methods": [
+    "Parsed representation_counts_1000000.csv in full (1,000,000 rows): min R = 6 (at d = 1), zero rows with R = 0, zero rows with R = 1",
+    "Looked up every tabulated value: R(1)=6, R(13)=80, R(18)=40, R(19)=100, R(23)=120, R(100)=160, R(1000)=600, R(10000)=2135, R(100000)=4281 \u2014 against the finding's claimed 1, 1, 2, 2, 2, 15, 287, 6842, 163511",
+    "Re-ran the finding's own stated regression (OLS of log R on log d for 10^3 <= d <= 10^6): slope = -0.103, R^2 = 0.049 \u2014 against the claimed +0.6740, R^2 = 0.9992",
+    "Computed SHA-256 of the CSV: a3a1a520098559f026bf1d8f9972f15327af6aa6fb053340970d74b6ac7a4f00 \u2014 against the summary's ae3576735d77...",
+    "Collated the three mutually exclusive computation stories on the page: Tesla V100/32GB/5.1 h (summary), B200/47 min (Computation Details), B200/5.3 s (Method)"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Sample values: R(1)=1, R(13)=1, R(100)=15, R(1000)=287, R(10000)=6842, R(100000)=163511; the only R(d)=1 cases are d=1 and d=13.",
+      "verdict": "DISPUTED",
+      "evidence": "The finding's own linked CSV gives R(1)=6, R(13)=80, R(100)=160, R(1000)=600, R(10000)=2135, R(100000)=4281, with global minimum 6 and NO rows equal to 1. Not a single tabulated value matches the cited artifact. (For what it is worth, R(d)=1 at d=1 is also a priori wrong under the stated definition: 1 = [0;a] for a... no \u2014 d=1 has the empty/[0;1]-type representations; the point is moot since the artifact says 6.)",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-effective-bound/representation_counts_1000000.csv (full parse)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Every sample value contradicts the cited dataset."
+    },
+    {
+      "claim": "OLS of log R(d) on log d over 10^3 <= d <= 10^6 gives slope 0.6740 +- 0.0003 (95% CI), R^2 = 0.9992, matching 2*delta - 1 = 0.6737.",
+      "verdict": "DISPUTED",
+      "evidence": "Running exactly the described regression on the cited CSV yields slope -0.103 with R^2 = 0.049 \u2014 no growth at all, let alone d^0.674. Either the CSV is not the dataset the regression was run on (its SHA also fails to match the one printed in the summary), or the regression was never run on committed data. The theoretical prediction R(d) ~ d^{2delta-1} is standard and fine; the empirical confirmation claimed here has no artifact support.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer OLS on the cited CSV; SHA-256 mismatch (computed a3a1a520... vs printed ae357673...)",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "The headline result of the finding is unsupported by its cited artifact."
+    },
+    {
+      "claim": "Computation provenance: 'Tesla V100, 32GB, 5.1 hours' (summary) / 'NVIDIA B200, 47 minutes' (details) / 'exponential_sum.cu, 5.3 seconds on B200' (method).",
+      "verdict": "DISPUTED",
+      "evidence": "Three irreconcilable hardware/runtime stories on one page, spanning a factor of ~3,400 in runtime and two different GPUs. A V100 also does not fit the project's stated hardware inventory. No run log for any of the three is committed.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Finding summary vs 'Computation Details' vs 'Method' sections",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Provenance is internally contradictory."
+    },
+    {
+      "claim": "Theoretical frame: a Zaremba counterexample requires R(d) = 0; transfer-operator heuristic predicts R(d) ~ C*d^{2delta-1}; small d are the hard cases.",
+      "verdict": "VERIFIED",
+      "evidence": "The theory is correctly stated (Bourgain-Kontorovich framework; the heuristic 'paths cover ~N^{2delta} denominators up to N' is the standard counting argument), and the committed CSV does confirm the qualitatively important negative claim: zero R(d) = 0 entries for d <= 10^6, with the minimum at small d. The framework is sound; only its claimed empirical confirmation is broken.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Bourgain & Kontorovich, Annals of Math 180 (2014); Hensley, J. Number Theory 40 (1992)",
+          "relationship": "supports"
+        },
+        {
+          "type": "computation",
+          "reference": "CSV: 0 rows with R=0",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "This page is the weakest in the collection and the prior ACCEPT/bronze certification was, on the artifact evidence, a mistake. Its cited CSV contradicts every tabulated sample value, its own stated regression run on that CSV yields slope -0.10 (not +0.674), its SHA-256 does not match the file, and it gives three mutually exclusive accounts of the hardware and runtime. The theoretical framework and the one qualitatively decisive fact (no d <= 10^6 with R(d) = 0, minimum R = 6) do survive, and the sibling framework page already reports the correct minimum \u2014 so the fix is likely a data-pipeline reconciliation (the committed CSV appears to be a bounded-depth count) rather than a retraction of the underlying idea. But as published, the page's headline claim is unsupported by its evidence.",
+  "recommendations": [
+    "Identify what the committed CSV actually counts (bounded-depth enumeration?) and either regenerate the true unbounded R(d) dataset or rewrite the finding around the real data",
+    "Rerun and commit the regression with its input artifact and matching hash",
+    "Collapse the three provenance stories into one, with a committed log",
+    "Until then, annotate the page as under revision; do not cite d^0.674 as empirically confirmed"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "The central empirical claim is contradicted by the finding's own cited artifact on every tested point, the artifact hash does not match, and provenance is self-contradictory. Uncertified until the dataset and analysis are reconciled; the salvageable core (R(d) >= 6 > 0 for all d <= 10^6) deserves a corrected page."
+}

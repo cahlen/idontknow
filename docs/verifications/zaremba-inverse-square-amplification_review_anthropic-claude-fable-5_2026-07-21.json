@@ -1,0 +1,81 @@
+{
+  "finding_slug": "zaremba-inverse-square-amplification",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer recomputed all amplification ratios and the matched-N power-law fit directly from the committed {1,k} and {2,k} logs.",
+  "verification_methods": [
+    "Recomputed all eight matched-10^10 amplification ratios from gpu_A1k_1e10.log / gpu_A2k_1e10.log: 243.1, 151.8, 106.6, 73.8, 64.6, 54.6, 46.6, 42.5 \u2014 matching the table (243, 152, 107, ...)",
+    "Re-ran the matched-N power-law fit: 1143 * k^(-1.463), R^2 = 0.9905 \u2014 matches the published 1143 * k^(-1.463), R^2 = 0.990 exactly",
+    "Cross-checked the {1,2,k} exception table against committed logs and the independent DFS replication (27 and 64 verified element-wise; 374/1,834/7,178/23,590/77,109/228,514 match logs)",
+    "Verified the {1,3,5} progression 75,547 -> 80,431 -> 80,945 from the three committed logs"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "At matched N=10^10, amplification ratios for k=3..10 are 243x down to 42.5x, fit by 1143*k^(-1.463) with R^2=0.990 \u2014 not k^(-2).",
+      "verdict": "VERIFIED",
+      "evidence": "Reviewer's own recomputation from the 16 underlying logs reproduces every ratio and the fit's prefactor, exponent, and R^2 exactly. The page's central corrective statement \u2014 that the earlier inverse-square headline came from mixing 10^11 numerators with 10^10 denominators, and matched data give -1.46 \u2014 is confirmed by the artifacts.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A13..A110_1e10.log and gpu_A23..A210_1e10.log (16 logs); reviewer OLS",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "At 10^11, matched data exist only for k=3,4,5 (fit ~3562*k^-1.93), which is suggestive but insufficient to claim an inverse-square law.",
+      "verdict": "VERIFIED",
+      "evidence": "The three matched-10^11 ratios recompute as 424/249/158 from the committed logs (a 3-point fit is indeed exactly determined enough to be only suggestive; slope from k=3 to k=5 endpoints is log(158/424)/log(5/3) = -1.93). The page's refusal to extrapolate this to a law is the correct call.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A13/A14/A15_1e11.log, gpu_A23/A24/A25_1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "{1,2,k} exception counts and growth-ratio convergence toward ~3.2; {1,3,5} decelerating increments (+4,884 then +514) with geometric extrapolation to ~81,005.",
+      "verdict": "VERIFIED",
+      "evidence": "Exception counts match committed logs (and the 27/64 sets are independently DFS-replicated); the {1,3,5} increments match the three logs; the 81,005 limit is labeled as geometric extrapolation conditional on 10^12 confirmation. Ratios 1834/374=4.90, 7178/1834=3.91, 23590/7178=3.29, 77109/23590=3.27, 228514/77109=2.96 support the ~3.2 convergence statement.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A12k_1e10/1e11 logs; gpu_A135_1e9/1e10/1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "The quadratic-log model R^2=0.997 was not independently re-fit by this reviewer; it is consistent with the data but uncited to an artifact."
+    },
+    {
+      "claim": "Status: 'REVISED \u2014 strong amplification confirmed; inverse-square law remains a hypothesis.'",
+      "verdict": "VERIFIED",
+      "evidence": "The title itself carries the negative result ('Inverse-Square Law Still Unconfirmed'). A finding that demotes its own original headline after an audit and explains the mismatched-cutoff bias mechanism is scientific self-correction working as intended.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Finding frontmatter and body, revision note of 2026-04-14",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "A post-audit page whose every number I re-derived from raw logs: eight ratios, the full power-law fit (prefactor, exponent, R^2), the three 10^11 overlap ratios, and both exception tables. Equally important, the page's epistemics are exemplary \u2014 the original inverse-square claim is explicitly retired to hypothesis status with the bias mechanism identified. Nothing here overstates the data.",
+  "recommendations": [
+    "Attach or reference the script that produced the quadratic-log exception model (R^2 = 0.997) so it too is artifact-backed"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Complete artifact backing with exact independent recomputation of all headline quantities, plus model self-correction. Earned silver."
+}

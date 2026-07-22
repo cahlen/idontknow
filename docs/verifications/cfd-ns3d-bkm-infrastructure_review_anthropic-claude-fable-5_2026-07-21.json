@@ -1,0 +1,81 @@
+{
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer parsed the committed 3D result CSVs and logs, including the failure artifact, and inspected the 3D kernel's dealiasing and vortex-stretching terms.",
+  "verification_methods": [
+    "Parsed the committed 3D CSVs: Kerr-type/TG run terminal BKM = 9.9895275659; random-IC 2000-step run BKM = 1.7619040326",
+    "Parsed run logs: 128^3 smoke run (BKM 1.243721, ~22.9 steps/s); 512^3 attempt terminates with 'CERTIFICATE_ERROR: cudaMalloc(...): out of memory' \u2014 a disclosed, machine-readable failure certificate rather than a silent absence",
+    "Inspected ns3d_bkm.cu: 2/3 dealiasing implemented as kmax = (N/3)*dk on all three axes, applied to all three RHS components; vorticity-form RHS includes the vortex-stretching term (the 3D-specific term absent in 2D)",
+    "Checked the finding's prose dealiasing description ('2/3 Orszag dealiasing') \u2014 stated correctly here, without the 2D page's mislabeled parenthetical"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "3D vorticity-form pseudospectral solver with vortex stretching, cuFFT C2C, RK4, fp64, 2/3 dealiasing; BKM integral tracked.",
+      "verdict": "VERIFIED",
+      "evidence": "The kernel implements exactly this: three-component vorticity update with the stretching term, velocity recovered via u_hat = i(k x omega_hat)/|k|^2, correct N/3 dealias mask on all axes, RK4 stepping. The 3D methodological description matches the code.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/cfd-ns3d-bkm/ns3d_bkm.cu (init_dealias3d, stretching term, velocity solve)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Validation runs: TG/Kerr-type IC with BKM ~ 9.99; random IC with BKM ~ 1.76; 128^3 smoke run ~ 22.9 steps/s.",
+      "verdict": "VERIFIED",
+      "evidence": "All three recompute from committed artifacts (9.9895, 1.7619, 1.2437/22.9 steps/s). No NaN/Inf in the certified runs.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Committed 3D result CSVs and run logs",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "512^3 is currently out of reach on the available single GPU (out-of-memory), disclosed as a limitation.",
+      "verdict": "VERIFIED",
+      "evidence": "The committed log shows the cudaMalloc failure emitted as a CERTIFICATE_ERROR line \u2014 the failure is preserved as an artifact, exactly per the project's data-preservation ethos. Committing failed runs with machine-readable error certificates is a practice worth propagating to the other experiments.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/run_n512_nu0.001_steps50_random.log (CERTIFICATE_ERROR: out of memory)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Infrastructure framing: no blowup claim; the BKM criterion is the diagnostic for future 3D singularity searches.",
+      "verdict": "VERIFIED",
+      "evidence": "The page makes no regularity or singularity claim, which is correct: nothing in these short, viscous, moderate-resolution runs could support one. The Beale-Kato-Majda framing is standard and correctly cited.",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Beale, Kato & Majda, Comm. Math. Phys. 94 (1984); Orszag (1971)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Clean infrastructure work, correctly framed and fully artifact-backed: the kernel does what the page says (including the 3D-specific stretching term and a correctly-stated 2/3 dealias rule), all published diagnostics reproduce from committed CSVs/logs, and \u2014 notably \u2014 the 512^3 failure is committed as a machine-readable error certificate rather than omitted. That failure-preservation practice is the best evidentiary habit in the project.",
+  "recommendations": [
+    "Adopt the CERTIFICATE_ERROR failure-artifact pattern project-wide (it would have prevented several disputes in the Zaremba cluster)"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "All claims verified against code and committed artifacts; honest scope; exemplary failure disclosure."
+}

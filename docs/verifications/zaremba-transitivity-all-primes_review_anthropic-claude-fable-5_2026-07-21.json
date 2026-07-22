@@ -1,0 +1,69 @@
+{
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit; the signing reviewer verified the arithmetic underpinnings (prime counts, breakdown table) and the source code's existence, and checked for run artifacts.",
+  "verification_methods": [
+    "Sieve computation: pi(17,389) = 2,000 exactly and 17,389 is prime \u2014 the '2,000 primes up to p=17,389' framing is arithmetically exact",
+    "Checked the per-range breakdown table (25 + 143 + 535 + 526 + 771 = 2,000)",
+    "Confirmed scripts/experiments/zaremba-transitivity/check_transitivity.cu exists and is the only artifact in that directory \u2014 no run log is committed",
+    "Reviewed the revised Dickson argument for internal soundness (Borel/Cartan eigenline exclusions, the resultant-based exceptional exclusion with prime set {2,3,5,11,19,29,31,41,59} all < 61) and the page's determinant caveat"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Computational check: the semigroup acts transitively on (Z/pZ)^2 \\ {0} for each of the first 2,000 primes (p <= 17,389), 133 s wall time, zero non-transitive cases.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The arithmetic frame is exact (pi(17,389) = 2,000, verified by sieve; breakdown table sums correctly) and the source code exists with the described CUDA/CPU split, but no run log or output artifact is committed. The claim is cheap to reproduce (O(p^2) per prime) and highly plausible; it is simply not evidenced in-repo.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-transitivity/check_transitivity.cu (source only; no results file); reviewer sieve check",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Commit the run output (per-prime orbit sizes or at least the summary block) \u2014 this is the project's own data-preservation rule."
+    },
+    {
+      "claim": "The all-prime Dickson-classification argument is provisional: the generators have determinant -1, so SL2 framing is imprecise, and the exclusions must be reformulated in GL2/PGL2 or the even-word subgroup.",
+      "verdict": "VERIFIED",
+      "evidence": "The determinant observation is correct (det g_a = -1 for all a), and the page's self-demotion of its own algebraic argument \u2014 including a bulleted audit note asking for independent group-theoretic verification \u2014 is exactly the right posture. The revised argument's components are individually plausible (the resultant-based exceptional exclusion is a clean finite computation; the eigenline non-coincidence reductions are elementary), but this reviewer, like the page itself, does not certify the argument as a theorem: the Borel/Cartan steps as written still reason inside SL2 with det -1 generators, and step 2's nonsplit-Cartan case ends with 'reduces to the algebraic constraints above' without displaying the reduction.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "det[[a,1],[1,0]] = -1; finding's own audit-status block",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "The o3-pro-revised argument has not been human-verified; the page says so plainly."
+    },
+    {
+      "claim": "A local obstruction at any prime would yield infinitely many Zaremba counterexamples; no obstruction found through p = 17,389.",
+      "verdict": "VERIFIED",
+      "evidence": "The logical structure is standard (a missed residue class mod p blocks all d in that class), and the finite computation \u2014 modulo the missing log \u2014 is consistent with every other artifact in the project (e.g., zero uncovered denominators to 2.1e11 in the brute-force runs would be impossible under a small-prime obstruction).",
+      "sources": [
+        {
+          "type": "paper",
+          "reference": "Bourgain & Kontorovich (2014), local-global framework",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A well-hedged page whose framing survived its own audits: the certified content is the finite computation, the algebraic argument is explicitly provisional, and the determinant subtlety is disclosed rather than papered over. The arithmetic frame is exact (pi(17,389) = 2,000). The single real defect is that the finite computation \u2014 the page's one certified claim \u2014 has no committed run artifact, violating the project's own data-preservation convention.",
+  "recommendations": [
+    "Commit the check_transitivity run output for the 2,000-prime sweep",
+    "Seek an independent group-theoretic review of the revised Dickson argument in the correct ambient group (GL2/PGL2 or even-word SL2)"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Sound framing and exact arithmetic, but the sole certified claim lacks its artifact. Bronze; committing the run log would justify silver."
+}

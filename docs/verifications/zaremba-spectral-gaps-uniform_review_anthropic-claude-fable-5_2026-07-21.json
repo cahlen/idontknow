@@ -1,0 +1,84 @@
+{
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit. The signing reviewer parsed every committed gaps_N*.log refinement log and cross-checked the finding's N=15 table against them.",
+  "verification_methods": [
+    "Parsed all 14 committed gaps_N{15,20,25,30,35,40}_m{34,638,1469}.log files and extracted |lambda_non| and gap for each",
+    "Confirmed the finding's N=15 values match the N=15 logs exactly (m=34: 0.271342; m=638: 0.257808; m=1469: 0.236973)",
+    "Traced the N-refinement of the claimed global minimum m=1469: gap = 0.237 (N=15) -> 0.425 (N=20) -> 0.280 (N=25) -> 0.325 (N=30) -> 0.662 (N=35) -> 0.687 (N=40); and m=638: 0.258 -> 0.671 -> 0.599 -> 0.601; m=34 is stable at 0.271342 across N=15..30",
+    "Searched the repository for the cited data/spectral_gaps_n40_primes.csv (claimed raw data for 168 primes at N=40): the file does not exist anywhere in the repo"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "At N=15 Chebyshev collocation, all 1,214 square-free m <= 1999 have positive gaps with minimum 0.237 at m=1469, second minimum 0.258 at m=638, third 0.271 at the m=34 family; mean 0.482.",
+      "verdict": "VERIFIED",
+      "evidence": "The three committed N=15 logs match the finding's table to six decimals (0.236973, 0.257808, 0.271342). The N=15 computation as computation appears sound and the table faithfully reports it.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-transfer-operator/results/gaps_N15_m1469.log, gaps_N15_m638.log, gaps_N15_m34.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Only 3 of 1,214 moduli have committed logs; the full N=15 dataset ('1,214 rows available') is not in the repo."
+    },
+    {
+      "claim": "'With N = 15 ... the stated lower bound of 0.237 may shift by ~0.02 under refinement.'",
+      "verdict": "DISPUTED",
+      "evidence": "The repository's own refinement logs show the m=1469 gap shifting from 0.237 at N=15 to 0.687 at N=40 \u2014 a shift of 0.45, twenty-two times the advertised +-0.02, and non-monotonically (0.237, 0.425, 0.280, 0.325, 0.662, 0.687). m=638 similarly moves 0.258 -> 0.601. The N=15 discretization is nowhere near converged at the tight-gap moduli, and the page's own planned 'convergence study' was in fact run, committed, and contradicts the sentence \u2014 yet the page was not updated. The identified 'three tight-gap families' are, on the repo's own evidence, Galerkin artifacts rather than arithmetic phenomena (m=34, stable at 0.2713 across N=15..30, may be the one real outlier).",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gaps_N20/N25/N30/N35/N40_m1469.log; gaps_N20/N25/N30_m638.log; gaps_N15..N30_m34.log",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "The headline uniform floor 0.237, the m=1469 'arithmetic structure' discussion, and the 'may shift by ~0.02' error model are all invalidated by committed refinement data."
+    },
+    {
+      "claim": "FP64/N=40: all 168 primes to p=1000 have sigma_p >= 0.344, minima at p=491 (0.344), p=877 (0.358), p=71 (0.362); raw data in data/spectral_gaps_n40_primes.csv.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "The cited artifact data/spectral_gaps_n40_primes.csv does not exist in the repository (searched the full tree). No committed log substantiates the 168-prime N=40 sweep. The claim is plausible but currently evidence-free.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Repository-wide file search: no spectral_gaps_n40_primes.csv, no N=40 prime sweep logs",
+          "relationship": "disputes"
+        }
+      ],
+      "concerns": "Commit the cited CSV or remove the citation."
+    },
+    {
+      "claim": "No systematic decay: fitting sigma_m = C*m^-beta gives beta ~ 0; gaps at m ~ 1000-2000 comparable to small m; computational evidence consistent with property (tau), which remains unproven.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "The qualitative no-decay conclusion is likely robust \u2014 refinement RAISES the tight gaps (0.237 -> 0.687), so the true gap profile is plausibly even flatter and larger than the N=15 data suggest; the property-(tau) hedging is correct. But beta ~ 0 was fit on N=15 values now known to carry O(0.4) discretization error at some moduli, so the quantitative fit needs redoing at converged N.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "N-refinement logs (all shifts are upward or neutral at the three logged moduli)",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The N=15 computation is faithfully reported (the three committed logs match the table to six decimals) and the property-(tau) hedging is appropriate. The problem is that the repository already contains the refinement study this page says is 'planned', and it demolishes the page's quantitative layer: the global-minimum modulus m=1469 moves from 0.237 to 0.687 between N=15 and N=40, so the advertised uniform floor, the +-0.02 error model, and the 'tight-gap arithmetic families' narrative are all artifacts of an unconverged discretization. Ironically the true story is BETTER for the conjecture (gaps are larger than claimed); the page just needs to tell it. The cited N=40 prime CSV also does not exist in the repo.",
+  "recommendations": [
+    "Rerun the m <= 1999 sweep at N >= 40 (or at minimum re-report the three logged moduli) and replace the 0.237 floor",
+    "Delete or rewrite the m=1469/638 'arithmetic structure' speculation pending converged data",
+    "Commit data/spectral_gaps_n40_primes.csv or remove the reference",
+    "Update the error-model sentence: committed data show shifts up to 0.45 at N=15"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Real, faithfully-reported computation with sound hedging on (tau), but the central quantitative claims are superseded by the repository's own committed refinement data and a cited artifact is missing. Bronze, pending the N>=40 re-sweep."
+}

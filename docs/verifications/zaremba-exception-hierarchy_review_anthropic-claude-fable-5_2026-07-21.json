@@ -1,0 +1,81 @@
+{
+  "finding_slug": "zaremba-exception-hierarchy",
+  "review_id": "anthropic-claude-fable-5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "claude-fable-5",
+    "model_provider": "anthropic",
+    "model_version": "claude-fable-5"
+  },
+  "reviewed_at": "2026-07-22T05:55:00Z",
+  "prompt_version": "fable-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-repository audit with complete independent recomputation of every witness in the finding, plus an algorithm-independent replication of the 27-exception set and exhaustive verification of the two digit-5-requiring cases.",
+  "verification_methods": [
+    "Recomputed all 27 witness convergents by exact integer arithmetic: for every row (d, a, CF) in both tables, the continuant recurrence reproduces a/d exactly, gcd(a,d)=1, and all partial quotients lie in the stated digit set (25 witnesses in {1,..,4}; the d=54 and d=150 witnesses in {1,..,5})",
+    "Independent DFS replication: from-scratch enumeration of CF words with digits {1,2,3} reproduces exactly the 27 uncovered denominators; digits {1,2,3,4} to bound 200 confirms 54 and 150 remain uncovered; adding digit 5 covers both",
+    "Parsed gpu_A123_1e9.log: Uncovered=27 with the identical list",
+    "Checked the claimed 27-at-10^6 reproduction against density_all_subsets_n10_1e6.csv ({1,2,3}: 27 uncovered)"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "The 27 uncovered denominators for A={1,2,3} through the completed range are exactly 6,20,...,6234.",
+      "verdict": "VERIFIED",
+      "evidence": "Replicated from scratch by the signing reviewer (pure-Python DFS, independent of the CUDA code path): the uncovered set to 10^4 is exactly the published 27 (coverage of d is cutoff-independent once the cutoff exceeds d, so this determines list membership decisively). gpu_A123_1e9.log independently confirms at 10^9.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Independent Python DFS; scripts/experiments/zaremba-density/results/gpu_A123_1e9.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Adding digit 4 covers 25 of the 27; each listed witness (d, a, CF) is valid.",
+      "verdict": "VERIFIED",
+      "evidence": "All 25 witnesses recompute exactly: the continuant recurrence on each listed CF yields precisely a/d in lowest terms with all partial quotients <= 4. Example: [0;1,1,1,1,1,1,3,1,1,1,2,4,2,1] = 3845/6234 with gcd(3845,6234)=1. Zero errors in 25 rows \u2014 this table is fully machine-checkable and checks out.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer exact-arithmetic recomputation of all 25 convergents",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "d=54 and d=150 admit no representation with all partial quotients in {1,2,3,4} (exhaustive), and both are covered once digit 5 is allowed (witnesses 35/54 and 91/150).",
+      "verdict": "VERIFIED",
+      "evidence": "Exhaustively confirmed by the reviewer's own enumeration: the complete CF tree over digits {1,2,3,4} never produces denominators 54 or 150, while the {1,...,5} tree produces both. The two digit-5 witnesses also recompute exactly ([0;1,1,1,5,2,1] = 35/54; [0;1,1,1,1,5,2,1,1] = 91/150).",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "Reviewer exhaustive CF-tree enumeration (digits {1,2,3,4} and {1,...,5}, denominators <= 200)",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The hierarchy 27 -> 2 -> 0 is a finite-range computational decomposition, not an analytic finiteness proof.",
+      "verdict": "VERIFIED",
+      "evidence": "This is precisely the correct epistemic framing, stated in the summary, the body, and the closing note. The 2026-04-23 audit correction note documents the earlier stale-list error transparently. Note one residual dependency: 'through the completed 10^10 run' inherits the partial-log issue flagged in the phase-transition review (the committed A123 10^10 log has no RESULTS block); the 27-list itself is unconditionally correct, and 10^9 completeness is log-certified.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gpu_A123_1e10.log (partial, 225 bytes) \u2014 see phase-transition review",
+          "relationship": "neutral"
+        }
+      ],
+      "concerns": "Consider stating that the committed 10^10 log is partial and the exhaustiveness certificate is at 10^9."
+    }
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "This is the strongest page in the collection from a verifiability standpoint: every single number on it is machine-checkable, and all of them check. 27/27 witnesses recompute exactly by integer arithmetic; the exception set replicates under an independent algorithm; the two hard cases are confirmed exhaustively; and the prose repeatedly and correctly disclaims analytic finiteness. The post-audit rewrite turned this into a model finding.",
+  "recommendations": [
+    "Note that the committed A123 10^10 log is partial (exhaustiveness is log-certified at 10^9; list membership is certified independently of range)"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Every claim independently verified, including a full witness-by-witness recomputation and an exhaustive check of the two negative claims. Withholding gold only because the project reserves it for independently reproduced-by-humans results and because the 10^10 completeness certificate inherits a partial-log caveat."
+}
