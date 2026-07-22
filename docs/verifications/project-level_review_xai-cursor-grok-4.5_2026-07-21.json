@@ -1,0 +1,67 @@
+{
+  "finding_slug": "_project-level",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Full-workspace audit of the idontknow \u2194 bigcompute.science system: producer compute repo, publisher Astro site, review ledger, HF data flow, and all 19 published findings.",
+  "verification_methods": [
+    "Read CLAUDE.md / AGENTS.md in both repos and traced producer\u2192publisher pipeline",
+    "Deep-audited all 19 findings against kernels, logs, CSVs, CERTIFICATE.md, and remediations",
+    "Validated new review JSONs and regenerated consensus implications"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "idontknow produces GPU computational mathematics; bigcompute.science publishes findings; certifications.json is generated from the append-only review ledger.",
+      "verdict": "VERIFIED",
+      "evidence": "Pipeline scripts aggregate.py + sync_website.py exist; certifications.json is a generated artifact; reviews are append-only under docs/verifications/.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/reviews/{aggregate,sync_website,validate}.py",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The project is safe to cite as authority for major new proofs (e.g. Zaremba proved).",
+      "verdict": "DISPUTED",
+      "evidence": "Framework remap is correct; 210B coverage lacks no-overflow certificate; Dolgopyat t\u22652 claim contradicts CSV; representation-growth page contradicts its CSV; GPU-matrix 43s headline contradicts its cited log. Cite for datasets, kernels, and finite computations \u2014 not theorem closure.",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "paper/CERTIFICATE.md; deep audits 2026-07-21",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "AI peer review without artifact access previously over-certified several pages."
+    },
+    {
+      "claim": "The project's epistemic culture (hedges, remediations, framework remap, CERTIFICATE.md honesty) is scientifically healthy even when individual pages err.",
+      "verdict": "VERIFIED",
+      "evidence": "Inverse-square demotion, exception-hierarchy witness table, CFD non-blowup hedges, and CERTIFICATE.md's refusal to call 210B certified are exemplary. The failures are mostly stale numbers surviving remediation, not fabricated runs.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Propagate CERTIFICATE.md / clean-log corrections into finding pages that still cite failed runs",
+    "Require primary-artifact checks in the review runner prompt (not finding text alone)"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "bigcompute is a real Guerrilla Mathematics lab: open kernels, huge finite computations, and an unusually serious multi-model review ledger. It is citeable for computational evidence and datasets. It is not yet citeable as proof authority. The deepest problems found in this audit are evidentiary mismatches between published numbers and archived logs/CSVs \u2014 fixable, and fatal to certification until fixed.",
+  "recommendations": [
+    "Treat CERTIFICATE.md and clean run logs as canonical over finding headlines when they conflict",
+    "Re-run aggregate+sync after every deep audit; fix pages that drop consensus below prior badges",
+    "Add a CI check that frontmatter data-block numbers appear in a RESULTS/CSV artifact"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "Project-level certification is not meaningful as gold/silver; leave uncertified and judge per finding. The site remains valuable with explicit scope limits."
+}

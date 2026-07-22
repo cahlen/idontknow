@@ -1,0 +1,81 @@
+{
+  "finding_slug": "zaremba-cayley-diameters",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read cayley_gpu.cu for ambient group, stopping criterion, frontier clipping, encoding width",
+    "Verified \u03c0(1021)=172",
+    "Checked for per-prime diameter logs / popcount certificates"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "\u03c0(1021)=172 primes were targeted.",
+      "verdict": "VERIFIED",
+      "evidence": "Standard prime count; page corrected.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Kernel uses det=-1 generators, stops when total_visited reaches |SL2(p)|, and can clip frontiers without popcount validation.",
+      "verdict": "VERIFIED",
+      "evidence": "Code inspection confirms these limitations; the finding's audit caveats are accurate and necessary.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "zaremba-cayley-diameter/cayley_gpu.cu",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "uint32 element codes remain valid through p=1021.",
+      "verdict": "DISPUTED",
+      "evidence": "p^4 exceeds 2^32 for p\u2273251 (1021^4 ~ 1.09e12). Encoding width is insufficient for the claimed range.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "cayley_gpu.cu encoding",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Published numbers are certified Cayley diameters of SL2(F_p).",
+      "verdict": "DISPUTED",
+      "evidence": "Ambient-group mismatch + missing unique-visit certificates + possible clipping + encoding issue. Treat as exploratory short-word BFS depths only \u2014 which is what the revised title says.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Empirical diam(p) \u2264 2 log p style bound as a conjecture from the data.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Reasonable as an empirical hypothesis if the BFS depths are recomputed under a corrected certificate; not presently a theorem.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Corrected kernel in GL2/PGL2 or even-word SL2 with popcount certificates and wider codes",
+    "Per-prime logs with no-clip proofs"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The revised exploratory framing is the right scientific move. Manifest silver/gold recommendations for certified SL2 diameters were inflated. As exploratory BFS depth data with explicit caveats, bronze is fair; as certified diameters, the result is not ready.",
+  "recommendations": [
+    "Keep \"exploratory\" in the title",
+    "Fix encoding and ambient group before any Q0 pipeline use",
+    "Do not feed these diameters into effective-bound arguments until certified"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Honest exploratory computation with serious methodological caveats already on the page. Silver would require a corrected certificate."
+}

@@ -1,0 +1,97 @@
+{
+  "finding_slug": "kronecker-s40-character-table",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Validated analysis_n40.json against finding frontmatter for partitions, entries, nonzero counts, max|\u03c7|, time",
+    "Verified dim_sum_check against 40! and hooks/near-rect/sample blocks",
+    "Recomputed binom(37340,3) unique triples; verified near-rect SHA protocol mention",
+    "Noted int64 overflow on full GPU triple-sum attempt in HF log narrative"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Complete S40 character table: 37,338 partitions, 1,394,126,244 entries, 9.5h; max|\u03c7|=58965081685061803130880.",
+      "verdict": "VERIFIED",
+      "evidence": "analysis_n40.json matches all figures; max_abs_log10=22.77; char_table_time_seconds=34283.4.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/analysis_n40.json",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Nonzero character entries 891,693,627 (64.0%); sign balance ~50.1%/49.9%.",
+      "verdict": "VERIFIED",
+      "evidence": "JSON nonzero_count and pos/neg counts match.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "\u03a3 dim\u00b2 = 40! exactly (dim_sum_check true).",
+      "verdict": "VERIFIED",
+      "evidence": "Matching factorial strings in JSON \u2014 strong algebraic sanity check.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Hooks multiplicity-free: 3969/11480 nonzero, max g=1.",
+      "verdict": "VERIFIED",
+      "evidence": "hook_kronecker block in JSON/log.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Near-rectangular GCT triples: 10.1% nonzero, max g=105,927,325.",
+      "verdict": "VERIFIED",
+      "evidence": "JSON all_values / stats match finding.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Random sample 949/1000 \u21d2 94.9% nonzero, CI [93.4%,96.1%].",
+      "verdict": "VERIFIED",
+      "evidence": "JSON+log; sampling protocol in analyze_n40.py. This estimates the full 8.68T triples \u2014 not an exact census.",
+      "sources": [],
+      "concerns": "Keep \"sampled\" in every headline mention."
+    },
+    {
+      "claim": "Trend 79.5% (S20) \u2192 89.9% (S30) \u2192 94.9% (S40).",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "94.9% is locally verified as a sample; 79.5/89.9 inherit S20/S30 provenance issues (including the S30 max-g conflict).",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Full S40 Kronecker triple-sum needs int128; values exceed int64.",
+      "verdict": "VERIFIED",
+      "evidence": "Engineering claim supported by max|\u03c7|>>2^63 and HF overflow narrative.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Reconcile inherited S20/S30 percentages against primary dumps",
+    "Hedge \"first publicly archived explicit S40 table\" against GAP on-demand computation"
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "The strongest locally auditable Kronecker result: character-table stats, dimension check, hooks, near-rectangulares, and the 1000-triple sample all cohere in analysis_n40.json. This is real representation-theory computation at a scale worth citing, provided sampled nonzero rates are never mistaken for exact censuses and the S30 cross-talk is cleaned up.",
+  "recommendations": [
+    "Keep \"sampled\" attached to 94.9% everywhere",
+    "Do not let the S30 max-g contradiction contaminate this page's cross-table",
+    "When int128 full triple-sum exists, publish it as a new finding rather than silently upgrading this one"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Methods are classical (character theory / Kronecker coefficients); local artifacts validate the core table and targeted analyses. Gold would require independent external replication of the full table."
+}

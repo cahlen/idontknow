@@ -1,0 +1,141 @@
+{
+  "finding_slug": "zaremba-density-phase-transition",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read finding fully; compared every density/exception claim to scripts/experiments/zaremba-density/results/*.log and harvest_all.json / analysis_1e11.json",
+    "sha256sum of gpu_A123_1e10.log (225 bytes, no RESULTS) and cross-check against frontmatter checksum",
+    "Verified A12/A123/A124/A135/A2345 densities from RESULTS blocks; checked spectrum_n10.csv for Hausdorff values",
+    "Reviewed remediations and prior silver consensus against artifact gaps"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "A={1,2,3} has exactly 27 uncovered denominators at N=1e9, all <=6234.",
+      "verdict": "VERIFIED",
+      "evidence": "gpu_A123_1e9.log: Uncovered: 27, Covered: 999999973/1000000000; list matches page.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A123_1e9.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The same 27 exceptions persist through a completed N=1e10 run (density 99.9999997%).",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "gpu_A123_1e10.log is 225 bytes with only a header and \"Launching 531441 GPU threads...\" \u2014 no RESULTS block. Its SHA-256 9b0a369a... matches the frontmatter checksum, so the finding cites a checksum of an incomplete log. harvest_all.json and HF_README list A123 only through 1e9.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A123_1e10.log",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Do not claim completed 1e10 coverage until a RESULTS artifact exists."
+    },
+    {
+      "claim": "A={1,2} density at 1e9 is 72.0615% (uncovered 279384673).",
+      "verdict": "VERIFIED",
+      "evidence": "gpu_A12_1e9.log: Density 72.0615327000%, Uncovered 279384673.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A12_1e9.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Comparison table listing A={1,2} density 72.06% under a \"d <= 1e10\" header.",
+      "verdict": "DISPUTED",
+      "evidence": "72.06% is the 1e9 value; at 1e10 the log shows 76.5486819100%. The table mixes scales.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A12_1e10.log",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "A={2,3,4,5} densities ~97.29% (1e9), 97.14% (1e10), 98.78% (1e11) show non-monotone approach and refute \u03b4>1/2 as a sharp sufficient density threshold.",
+      "verdict": "VERIFIED",
+      "evidence": "Matching RESULTS in A2345 logs; spectrum \u03b4\u22480.5596>1/2 while density remains below 100%. Framing is empirically sound and appropriately hedged.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A2345_*.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Hausdorff dimension \u03b4({1,3,5})=0.6240 in the finding table.",
+      "verdict": "DISPUTED",
+      "evidence": "spectrum data give {1,3,5} \u2248 0.581366821182972, not 0.6240.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "hausdorff-spectrum/results/spectrum_*.csv",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "All 1023 nonempty subsets of {1..10} computed at 1e6; digit-1 dominance among near-100% sets.",
+      "verdict": "VERIFIED",
+      "evidence": "density_all_subsets_n10_1e6.csv has 1023 data rows; recomputed counts of high-density sets match the finding.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/density_all_subsets_n10_1e6.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "{1,2,6}=1834 and {1,2,7}=7178 are stable from 1e10 to 1e11; {1,2,8/9/10} still growing at 1e11.",
+      "verdict": "VERIFIED",
+      "evidence": "Confirmed in corresponding gpu_A126/127/128/129/1210_1e11 logs and analysis_1e11.json.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/analysis_1e11.json",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Stability is observational within completed ranges, not a finiteness proof \u2014 page hedges this correctly for these sets."
+    }
+  ],
+  "missing_references": [
+    "Completed RESULTS for A={1,2,3} at >=1e10 (or remove the completed-1e10 claim)",
+    "Correct \u03b4({1,3,5}) citation from spectrum CSV (~0.58137)",
+    "Pin sha256_gpu_source to the current kernel or the commit that matched b07cd368\u2026"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "This remains one of the project's most valuable computational surveys: the 1023-subset sweep, the A2345 counterexample to naive \u03b4>1/2 sufficiency, and the stable/open exception hierarchy at 1e11 are real and important. The silver consensus is too high while the flagship \"27 exceptions through completed 1e10\" claim is backed by a checksum of a partial log with no RESULTS block, and while the first density table mixes N-scales and misstates \u03b4({1,3,5}).",
+  "recommendations": [
+    "Either publish a completed A123@1e10 RESULTS block or rewrite claims to \"verified through 1e9; 1e10 incomplete\"",
+    "Relabel every density table cell with its N; fix \u03b4({1,3,5})",
+    "Refresh HF_README and kernel SHA pinning",
+    "Keep the \u03b4>1/2 counterexample framing \u2014 it is the scientific core"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Core empirical patterns are strongly supported by logs, but a headline completion claim fails machine-check against its own cited artifact. Most-conservative certification should be bronze until the 1e10 A123 gap is closed."
+}

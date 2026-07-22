@@ -1,0 +1,97 @@
+{
+  "finding_slug": "hausdorff-digit-one-dominance",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Parsed all 1,048,575 rows of spectrum_n20.csv (brace-aware) and looked up key subsets",
+    "Recomputed Spearman/Kendall on n=10 subsets with dim>0",
+    "Compared run_n20.log (4342.8s) vs metadata/recompute (8654.9s)",
+    "Checked body removal-cost table against CSV"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "dim_H(E_{1..5})=0.837; dim_H(E_{2..20})=0.768; dim_H(E_{1..20})=0.965.",
+      "verdict": "VERIFIED",
+      "evidence": "CSV: 0.836829443681209, 0.768313628447352, 0.965393263525216. The 0.768 correction (was 0.826) is real and strengthens the finding.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "hausdorff-spectrum/results/spectrum_n20.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Removing digit 1 from {1..20} costs ~0.197; removing 20 costs ~0.002 (~100:1).",
+      "verdict": "VERIFIED",
+      "evidence": "CSV costs 0.197080 and 0.001982.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "dim_H(E_{2..15})=0.747; remove-1 cost 0.206 from {1..15}; remove-15 cost ~0.004 (~50:1).",
+      "verdict": "VERIFIED",
+      "evidence": "CSV: 0.746789, cost1=0.205837, cost15=0.003736.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Body table of dimensions after removing digits 2/3/4/5/10 from {1..15}: 0.907/0.932/0.941/0.945/0.951.",
+      "verdict": "DISPUTED",
+      "evidence": "Actual CSV values: 0.856353 / 0.897003 / 0.916614 / 0.927435 / 0.944914. Headline numbers are right; this mid-table is wrong.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "spectrum_n20.csv",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "All 2^20-1 subsets computed; Spearman \u03c1\u22480.951, Kendall \u03c4\u22480.834 vs \u03a31/a\u00b2 on 1013 positive subsets of {1..10}.",
+      "verdict": "VERIFIED",
+      "evidence": "1,048,575 rows present; recomputed \u03c1\u22480.95131, \u03c4\u22480.83448.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Runtime 4,343s on RTX 5090.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "run_n20.log \u22484342.8s; metadata_n20.json / recompute log report 8654.9s for a second run with agreeing dimensions. Say which run is canonical.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "N=40 Chebyshev / ~15 digits / truncation ~1e-12 without N-convergence study.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Parameters match metadata; error bars are not demonstrated. Differences \u22720.003 are already hedged in the summary \u2014 good.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Fix mid-table removal costs",
+    "N-convergence study; Jenkinson\u2013Pollicott / Hensley references for validation anchors",
+    "Correct code URL (hausdorff-spectrum, not zaremba-transfer-operator)"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A beautiful computational geometry-of-numbers observation: five digits containing 1 beat fourteen without it, and the 0.768 correction was the right scientific move. Correlations reproduce. The erroneous mid-table removal costs must be fixed; precision claims need a convergence study. Silver remains appropriate for the headline result.",
+  "recommendations": [
+    "Replace the removal-cost mid-table with CSV values",
+    "Clarify 4343s vs 8655s canonical runtime",
+    "Add N-convergence appendix before claiming 15-digit precision uniformly"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Complete novel spectrum with validated anchors (Zaremba \u03b4, Jenkinson\u2013Pollicott E_{1,2}) and reproducible headline inequalities. Mid-table errors are fixable without touching the core claim."
+}

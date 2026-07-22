@@ -1,0 +1,81 @@
+{
+  "finding_slug": "zaremba-transitivity-all-primes",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read check_transitivity.cu and finding frontmatter hedges",
+    "Searched for archived run log of the 2000-prime BFS",
+    "Cross-checked det(g_a)=-1 ambient-group issue against prior remediations"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Kernel checks orbit size p^2-1 under generators g_a and inverses.",
+      "verdict": "VERIFIED",
+      "evidence": "Method in scripts/experiments/zaremba-transitivity/check_transitivity.cu matches the described BFS.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "zaremba-transitivity/check_transitivity.cu",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "0 non-transitive primes among the first 2000 primes (p\u226417389).",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No saved run log/hash is present in the checkout to machine-check the finite claim.",
+      "sources": [],
+      "concerns": "The computation is plausible and the code exists; publish the log."
+    },
+    {
+      "claim": "Generators lie in SL2(F_p) / the action is an SL2 theorem for all primes.",
+      "verdict": "DISPUTED",
+      "evidence": "det g_a = -1, so full generator set is in GL2, not SL2. Frontmatter now warns about GL/PGL / even-word SL2; residual SL2 theorem language should stay out.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "generator matrices in kernel",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Dickson-classification argument gives a complete all-prime proof.",
+      "verdict": "DISPUTED",
+      "evidence": "Page correctly calls this provisional. Cartan/exceptional exclusions and ambient-group formulation still need independent group-theoretic verification. Treat as a proof strategy, not a theorem.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Finite claim: no local obstruction found through p=17389.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "This is the right claim shape, but needs a reproducible log/checksum before VERIFIED.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Archived BFS log for first 2000 primes with checksum",
+    "Dickson classification primary sources; ambient-group-correct writeup"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "The page's current provisional posture is scientifically appropriate. The finite computational claim is unreproducible without a log, and any all-prime theorem claim remains out of reach until the det=-1 ambient-group issue is cleaned up and independently checked.",
+  "recommendations": [
+    "Publish the 2000-prime run log",
+    "Purge residual SL2-only theorem wording",
+    "Solicit independent group-theory review of the Dickson argument"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Finite computational strategy plus a provisional algebraic sketch \u2014 bronze. Not silver while the finite run is unpublished and the all-prime argument is provisional."
+}

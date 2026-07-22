@@ -1,0 +1,62 @@
+{
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read docs/witness-distribution.md and finding remediations",
+    "Searched for raw (d,\u03b1(d)) CSV/hash for d\u22641e5",
+    "Checked arithmetic 1/(5+\u03c6)\u22480.1511 vs reported mean 0.171"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "For d\u22641e5, least Zaremba witnesses concentrate near a/d\u22480.171 with ~99.7% sharing CF prefix [0;5,1,\u2026].",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Documented in docs/witness-distribution.md, but no raw (d,\u03b1) table/checksum is published for independent recomputation.",
+      "sources": [],
+      "concerns": "Qualitative concentration between 1/6 and 2/11 is plausible; exact percentiles need an artifact."
+    },
+    {
+      "claim": "Connection to 1/(5+\u03c6)\u22480.1511 explains the concentration.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "0.1511 is ~13% below the reported mean 0.171. Page correctly labels this heuristic; it is not a derived identity from the data.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "For 99.9% of d, the minimal witness uses max quotient 5 (global tightness of A=5).",
+      "verdict": "DISPUTED",
+      "evidence": "Minimal-witness digit is not an exhaustive search over all A=4 representatives. The claim may hold for minimal witnesses and still say little about existence of some (possibly larger) A=4 witness. Page hedges help but the global-tightness reading remains too strong.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Starting search near 0.170\u00b7d yields large practical speedups.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Engineering claim confounded with other v2 optimizations; needs an ablation log.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Publish (d, \u03b1(d), CF prefix) table for d=1..100000 with checksum",
+    "Ablation isolating the start-offset speedup"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A genuine empirical observation about witness location, interesting for search heuristics. The golden-ratio link is heuristic (and numerically imperfect), and A=5 \"tightness\" must stay scoped to minimal witnesses. Bronze is correct.",
+  "recommendations": [
+    "Release the raw witness table",
+    "Keep golden-ratio language explicitly heuristic",
+    "Never convert minimal-witness statistics into a proof that A=4 fails"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Novel observational finding without a published raw table for full recomputation; heuristic number-theory framing. Bronze."
+}

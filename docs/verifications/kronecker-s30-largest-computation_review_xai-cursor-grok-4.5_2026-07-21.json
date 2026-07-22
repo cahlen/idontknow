@@ -1,0 +1,84 @@
+{
+  "finding_slug": "kronecker-s30-largest-computation",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Verified p(30)=5604 and binom(5606,3)=29347802420 triple count",
+    "Checked local experiment tree (no S30 dump); noted HF archive dependence",
+    "Cross-checked max-g claims against analysis_n40.json / S40 finding cross-table",
+    "Compared timing strings (296.3s vs 7/7.4 min) across finding/experiment pages"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "p(30)=5604; unique unordered triples = 29,347,802,420.",
+      "verdict": "VERIFIED",
+      "evidence": "binom(5606,3)=29347802420 exact; matches finding arithmetic.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "S20 unique triples = 41,081,980.",
+      "verdict": "DISPUTED",
+      "evidence": "Unordered i\u2264j\u2264k count is binom(629,3)=41,278,754 (with p(20)=627 \u21d2 629 with conjugacy? standard p(20)=627; binom(627+2,3) depends on multiplicity convention). The stated 41,081,980 does not match the natural binom(629,3)=41,278,754.",
+      "sources": [],
+      "concerns": "Clarify triple-indexing convention and regenerate the count."
+    },
+    {
+      "claim": "S30 complete Kronecker table: 89.9% nonzero; max g = 5.18e16.",
+      "verdict": "DISPUTED",
+      "evidence": "analysis_n40.json and the S40 finding cross-table report max g(S30)=24,233,221,539,853 (~2.42e13), not 5.18e16. The same 5.18e16 figure is also used as max|\u03c7| in places \u2014 a unit/meaning collision. Nonzero count vs HF archive byte size also disagrees at the ~22M-record level under a 14-byte record assumption.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "kronecker-coefficients/results/analysis_n40.json",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Highest-severity numeric conflict in the Kronecker program."
+    },
+    {
+      "claim": "Runtime ~296.3s / \"7 minutes\" / \"7.4 min\" on the GPU cluster.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Frontmatter 296.3s \u22484.9 min; titles say 7 or 7.4 min. Pick one archived log timing.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Reproduce path .../kronecker-coefficients-gpu/.",
+      "verdict": "DISPUTED",
+      "evidence": "Actual directory is scripts/experiments/kronecker-coefficients/.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "To our knowledge, largest complete Kronecker table publicly archived.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Reasonable hedge if HF archive is intact; literature exhaustiveness is not repo-decidable. Local dump/checksum artifacts are missing.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Local or HF checksum for the S30 dump; reconcile max-g with analysis_n40.json",
+    "Single canonical runtime from the production log",
+    "Fix reproduce path"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A major computational archive almost certainly exists on Hugging Face, and the triple-count arithmetic for S30 is exact. But the public finding currently carries an internal contradiction on max g (5.18e16 vs 2.42e13) and inconsistent timings/paths. Silver remains plausible only after the max-g collision is resolved against primary artifacts.",
+  "recommendations": [
+    "Reconcile max g across S30 finding, HF card, and analysis_n40.json \u2014 one number must win",
+    "Publish dump checksum and orthogonality validation log",
+    "Normalize timing and directory path"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Downgrade pending resolution of the max-g contradiction and missing local checksums. The computation may still deserve silver once numbers agree."
+}

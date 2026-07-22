@@ -1,0 +1,96 @@
+{
+  "finding_slug": "class-number-convergence",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Checked data/class-numbers run logs for [1e9,1e10) and [1e10,1e11) histograms",
+    "Recomputed power-of-2 class-number shares",
+    "Compared claimed 27B wall-clock to run_1e10_1e11_v2.log",
+    "Reviewed genus-theory correction of the 75.4% misreading"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "[1e9,1e10): 2,735,671,820 discriminants; h=1 at 16.70%; power-of-2 share ~74%.",
+      "verdict": "VERIFIED",
+      "evidence": "run_1e9_1e10.log / _v2.log match the stated histogram bins.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "data/class-numbers/run_1e9_1e10.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "[1e10,1e11): 27,356,719,769 discriminants; h=1 at 15.353%; power-of-2 share ~73.4%.",
+      "verdict": "VERIFIED",
+      "evidence": "run_1e10_1e11 logs; 15.353+21.270+19.915+11.671+5.150=73.359%.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "data/class-numbers/run_1e10_1e11.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Cohen\u2013Lenstra: Pr(h=1)\u21920 for real quadratics; 75.4% is Pr(h_odd=1), not Pr(h=1).",
+      "verdict": "VERIFIED",
+      "evidence": "Genus theory forces 2-part structure; the corrected interpretation is the scientifically important part of this finding.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "27B range completed in ~4.5h on 8\u00d7B200 at ~1.7M disc/s.",
+      "verdict": "DISPUTED",
+      "evidence": "run_1e10_1e11_v2.log reports ~90666s (~25.2h) at ~301731 disc/sec on 5 GPU shards \u2014 not 4.5h/8-GPU/1.7M/s.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "run_1e10_1e11_v2.log",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "PARI subsample exact match / small-d historical rates.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Stated but no validation artifact in the checkout.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "HF README / older text implying upturn to 75.4% as Pr(h=1).",
+      "verdict": "DISPUTED",
+      "evidence": "Conflicts with the corrected finding; stale cards should be fixed.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "PARI/GP subsample validation log",
+    "Corrected HF dataset card",
+    "Runtime claim aligned to the actual completion log"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Billion-scale class-number histograms with a correct genus-theory interpretation of Cohen\u2013Lenstra are a genuine contribution. The runtime claim does not match the completion log, and validation/HF-card hygiene remain weak. Silver is still earned by the histogram evidence and the conceptual correction.",
+  "recommendations": [
+    "Replace 4.5h/1.7M/s with the log's 25.2h / 0.30M/s (or publish a different run that matches 4.5h)",
+    "Add PARI subsample artifact",
+    "Fix HF README 75.4% language"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Large-scale computation grounded in classical Cohen\u2013Lenstra / genus theory, with log-backed histograms. Runtime and card nits do not destroy the core result."
+}

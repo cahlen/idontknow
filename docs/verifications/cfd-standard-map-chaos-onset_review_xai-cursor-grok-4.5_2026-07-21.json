@@ -1,0 +1,74 @@
+{
+  "finding_slug": "cfd-standard-map-chaos-onset",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read run_k2048_ic8192_iter50000.log and lyapunov CSV near K_crit",
+    "Checked K=0 mean \u039b=0, K=5 mean\u22480.957 vs ln(5/2), convergence_k5_gpu.json",
+    "Ran conceptual cross-check against validate_claims.py protocol",
+    "Confirmed finding does not claim a new K_crit"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "16,777,216 trajectories (2048\u00d78192\u00d750000) in 116.59s on RTX 5090; NaN/Inf=0.",
+      "verdict": "VERIFIED",
+      "evidence": "run_k2048_ic8192_iter50000.log exact match.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "cfd-chaotic-advection/results/run_k2048_ic8192_iter50000.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "\u039b\u0304(0)=0; at literature K_crit\u22480.9716, \u039b\u0304\u22480.0446 with >99.9% positive ICs.",
+      "verdict": "VERIFIED",
+      "evidence": "Nearest grid point K=0.9721543723: mean=0.0445638827, frac=0.999146. Data-block 0.999 is rounded.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "\u039b\u0304(5)\u22480.957 vs ln(5/2)\u22480.916 (~+4.4%); stable under iteration count.",
+      "verdict": "VERIFIED",
+      "evidence": "CSV mean=0.9569698155; convergence_k5_gpu.json stable at ~1e-4 across 5k\u2013100k iters.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Does not claim a new K_crit or world-record scale.",
+      "verdict": "VERIFIED",
+      "evidence": "Correct scientific posture; reproduces Greene/Chirikov literature range.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Example max_\u039b\u22480.998 at K=5.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "CSV max at K=5 is 0.9978206358 \u2014 cosmetic.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Greene (1979); Chirikov (1979); Benettin et al. Lyapunov algorithms"
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "Highest artifact fidelity among the CFD findings: log, CSV, convergence JSON, and literature hedges all agree. A clean certifying reproduction of standard-map chaos onset on RTX 5090 \u2014 precisely what an infrastructure/validation paper should be.",
+  "recommendations": [
+    "Use the exact nearest-grid K in the data block",
+    "Keep the non-claim of new K_crit forever"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Methods and K_crit are literature-standard; computation is fully archived and internally consistent. Gold would need broader external benchmark tables beyond \u039b(K) spot checks."
+}

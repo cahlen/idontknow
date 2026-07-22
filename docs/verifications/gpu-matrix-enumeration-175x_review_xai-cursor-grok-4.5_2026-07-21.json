@@ -1,0 +1,156 @@
+{
+  "finding_slug": "gpu-matrix-enumeration-175x",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Independently re-read run_10B_v2.log, run_10B_v3.log, run_100B.log, run_100B_v2.log, run_210B.log tails",
+    "Confirmed silent clipping path and mark-before-drop order in matrix_enum_multipass.cu",
+    "Confirmed zaremba_verify_v4.c is single-threaded with no OpenMP",
+    "Cross-checked paper/CERTIFICATE.md clipping audit and frontier probes",
+    "Compared finding text against the 2026-07-21 claude-fable-5 deep audit and re-verified its decisive claims"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Every bounded CF path corresponds to a product of matrices g_a=[[a,1],[1,0]]; enumerating Zaremba denominators is equivalent to batched 2x2 matrix products.",
+      "verdict": "VERIFIED",
+      "evidence": "Classical continuant/SL(2) correspondence; kernels initialize exactly these generators and use the convergent recurrence n10 = m10*a + m11.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/experiments/zaremba-effective-bound/matrix_enum.cu",
+          "relationship": "supports"
+        },
+        {
+          "type": "textbook",
+          "reference": "Continuant theory; Bourgain-Kontorovich 2014",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The fused expand+mark+compact CUDA kernel exists as described.",
+      "verdict": "VERIFIED",
+      "evidence": "matrix_enum.cu (v5) and matrix_enum_multipass.cu (v6) implement fused expansion, atomicOr bitset marking, atomicAdd compaction, and double buffering.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "matrix_enum_multipass.cu expand_mark_compact_safe",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": "Silent drop when pos >= max_out is omitted from the finding; marks fire before the drop, so Uncovered:0 remains one-sidedly sound but clipped runs do less work."
+    },
+    {
+      "claim": "175x speedup at 1e7: v4 CPU tree-walk 157s on 2x Xeon (224 threads, OpenMP) vs 0.9s for v5 on one B200.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "157/0.9=174.4 is arithmetically consistent, but neither timing is archived. Committed zaremba_verify_v4.c is a single-threaded recursive walk with no OpenMP anywhere under scripts/.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "scripts/zaremba_verify_v4.c",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "If the 157s baseline was single-threaded, the headline conflates thread-count with algorithmic/GPU gain."
+    },
+    {
+      "claim": "v5 verifies 1e8 in 7.5s on a single B200.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No archived log. CERTIFICATE.md probe: unclipped peak frontier at max_d=1e8 is 1.91e9 (95.5% of 2e9 BUF_SLOTS), so a single-buffer run sits near the silent-failure threshold.",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "paper/CERTIFICATE.md \u00a76",
+          "relationship": "qualifies"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "1e9 verified in 14.4s (scaling table).",
+      "verdict": "DISPUTED",
+      "evidence": "v6 header and CERTIFICATE.md state that num_rounds=1 runs at d<=1e9 clipped heavily; a clipped run is not a valid verification timing.",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "paper/CERTIFICATE.md clipping paragraph",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "An 8-GPU system verifies all denominators <= 1e10 in 43 seconds (cites run_10B_v2.log).",
+      "verdict": "DISPUTED",
+      "evidence": "Independently confirmed: run_10B_v2.log ends Uncovered: 9443180 / Time: 43.4s. The clean verification is run_10B_v3.log: Uncovered: 0 / Time: 178.7s (~4.2x slower). Same pattern at 1e11 (243.9M uncovered in 375.9s vs 0 in 1746.3s).",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "run_10B_v2.log",
+          "relationship": "contradicts"
+        },
+        {
+          "type": "computation",
+          "reference": "run_10B_v3.log",
+          "relationship": "qualifies"
+        }
+      ],
+      "concerns": "A headline data-block figure is refuted by the artifact the finding links as evidence."
+    },
+    {
+      "claim": "Live matrix count peaks around depth 12-13 (~244M matrices).",
+      "verdict": "DISPUTED",
+      "evidence": "244140625 = 5^12 is the unpruned depth-12 count, not a peak. CERTIFICATE probes show true peaks >>244M (1.91e9 at 1e8; >25e9 for num_rounds=1 at larger ranges).",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "paper/CERTIFICATE.md",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Wrong frontier model caused undersized single-round configurations."
+    },
+    {
+      "claim": "Clean large-d coverage runs exist and are trustworthy as one-sided certificates when Uncovered:0.",
+      "verdict": "VERIFIED",
+      "evidence": "run_10B_v3 (0/178.7s), run_100B_v2 (0/1746.3s), run_210B (0/6962.2s). Mark-before-drop implies clipping can only create false alarms, never fake a successful verification \u2014 but without v6.1 overflow certificates these remain strong evidence, not certified no-overflow proofs.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "run_210B.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "remediation_check": "Prior remediations added hardware detail and hedges, but the finding still cites the failed 43s run as a successful verification; the duplicate certification block remains; CUDA/memory figures conflict with CERTIFICATE.md (12.8/192 vs 13.0/183).",
+  "missing_references": [
+    "run_10B_v3.log \u2014 the actual clean 1e10 verification",
+    "paper/CERTIFICATE.md (2026-04-22) \u2014 clipping audit",
+    "Archived logs for 1e7/1e8/1e9 v5 timings and the v4 baseline",
+    "Merrill-Garland-Grimshaw (2012) GPU graph traversal / stream compaction",
+    "Hensley bounded-CF counting for frontier growth"
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The fused matrix-enumeration kernel is a genuine architectural advance, and the clean multipass logs legitimately reach Uncovered:0 at 1e10 (~179s), 1e11 (~1746s), and 2.1e11 (~6962s). But the published headline numbers do not survive contact with cited artifacts: the 43s \"verification\" left 9.44M denominators uncovered, the 14.4s/1e9 row is invalidated by clipping, and the OpenMP/224-thread baseline is contradicted by the committed single-threaded v4.c. Independent re-verification agrees with the 2026-07-21 fable deep audit on every decisive claim.",
+  "recommendations": [
+    "Change verified_10B_time to 178.7s and cite run_10B_v3.log; label 43s as an invalid clipped run if retained",
+    "Strike or qualify the 1e9=14.4s row using CERTIFICATE.md",
+    "Archive 1e7/1e8 timings and correct the v4 baseline description (no OpenMP in committed code)",
+    "Remove the duplicate certification block; reconcile CUDA/HBM with CERTIFICATE.md",
+    "Document mark-before-drop one-sided soundness and re-run under v6.1 with no-overflow certificates"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "A headline data-block claim is directly refuted by the log it cites. This is an evidentiary failure, not fabricated engineering: after correcting to certified clean runs, bronze would be appropriate. Certification should be withdrawn until revision."
+}

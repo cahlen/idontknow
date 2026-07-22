@@ -1,0 +1,111 @@
+{
+  "finding_slug": "zaremba-conjecture-proved",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read finding (framework remap), paper/CERTIFICATE.md, verification-manifest.txt, run_210B.log",
+    "Checked silent clipping in matrix_enum_multipass.cu and v6.1 hardening",
+    "Recomputed Dolgopyat profile stats from dolgopyat_profile_exact.csv",
+    "Checked representation_counts_1000000.csv min R(d)",
+    "Reviewed multi-model prior reviews and revision-response"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "v6 reports Uncovered:0 for all d <= 2.1e11 in 6962.2s on 8xB200.",
+      "verdict": "VERIFIED",
+      "evidence": "run_210B.log ends Uncovered:0 / Time:6962.2s; manifest records hashes/hardware.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "run_210B.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The 210B run is a certified no-overflow computational proof of coverage.",
+      "verdict": "DISPUTED",
+      "evidence": "v6 silently drops children when pos>=max_out and clamps frontiers to BUF_SLOTS. CERTIFICATE.md \u00a74 is explicit that Uncovered:0 is conditional on no overflow, which the published log does not prove. v6.1 adds overflow abort + certificate, but certified suite logs are absent from this checkout.",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "paper/CERTIFICATE.md \u00a74",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Strong computational evidence \u2260 certified computational result."
+    },
+    {
+      "claim": "\u03c1_\u03b7 \u2264 0.771 and \u03c1(t)<0.68 for all t\u22652 from the Dolgopyat profile.",
+      "verdict": "DISPUTED",
+      "evidence": "dolgopyat_profile_exact.csv: max \u03c1=0.75513 at t=1; among 19899 points with t\u22652, max \u03c1=0.7278 and 203 points have \u03c1\u22650.68. The second half of the claim is false against the project's own CSV.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "dolgopyat_profile_exact.csv",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Path-count representation CSV on [1,1e6] has no zeros; min R(1)=6.",
+      "verdict": "VERIFIED",
+      "evidence": "representation_counts_1000000.csv: 1e6 rows, zero zeros, R(1)=6. SHA a3a1a520\u2026",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "representation_counts_1000000.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Effective D0 \u2248 3.4e10 closes Zaremba with margin using MOW constants.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Depends on non-effective/heuristic constant extraction and unfinished layers (property \u03c4 for all moduli, Galerkin transport, full Dolgopyat theorem). Prior o3/o3-pro reviews correctly refuse theorem-level acceptance.",
+      "sources": [],
+      "concerns": "The remap from \"proved\" to framework is the correct public posture."
+    },
+    {
+      "claim": "All-prime transitivity via Dickson classification completes a local-obstruction-free proof.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Generators have det=-1, so SL2 wording is imprecise; the algebraic argument remains provisional AI-assisted writing, not an independent peer-reviewed theorem.",
+      "sources": [
+        {
+          "type": "other",
+          "reference": "finding frontmatter / sibling transitivity page",
+          "relationship": "qualifies"
+        }
+      ],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "v6.1 210B re-run with printed NO-OVERFLOW CERTIFICATE",
+    "Corrected Dolgopyat statement matching dolgopyat_profile_exact.csv",
+    "MOW constant notebook with theorem-matching hypotheses",
+    "Independent group-theory writeup of ambient-group-correct transitivity"
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "The project's honesty in remapping \"proved\"\u2192framework is commendable and necessary. The 210B Uncovered:0 log is a spectacular computational artifact, but CERTIFICATE.md correctly refuses to call it certified while silent clipping remains. Independently, the Dolgopyat claim \"\u03c1(t)<0.68 for all t\u22652\" is contradicted by 203 points in the project's own CSV. This is a computational framework with real partial results and real gaps \u2014 not a completed proof of Zaremba's conjecture.",
+  "recommendations": [
+    "Fix or delete the \u03c1(t)<0.68 for t\u22652 claim using the CSV",
+    "Keep framework language everywhere (title/slug already partially remapped)",
+    "Re-run 210B under v6.1 and publish the no-overflow certificate",
+    "List the four remaining proof gaps as first-class open problems, not footnotes"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Finite computational evidence and a partial analytic scaffolding deserve bronze as a framework. Gold/silver theorem certification is impossible while overflow, Dolgopyat wording, MOW constants, and property \u03c4 remain open."
+}

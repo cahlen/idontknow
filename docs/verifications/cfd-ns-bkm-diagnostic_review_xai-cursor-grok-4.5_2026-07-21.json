@@ -1,0 +1,90 @@
+{
+  "finding_slug": "cfd-ns-bkm-diagnostic",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Read ns2d_bkm.cu dealias/RK4/cuFFT paths",
+    "Checked TG CSV (max \u03c9 2\u21920.1566, BKM 12.8036) and random 512\u00b2 log (BKM 1.771399, 531.9 steps/s, NaN=0)",
+    "Identified failed bkm_n256_nu1e-03_steps500.csv with NaNs",
+    "Compared dealias wording to code threshold N/3"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Pseudospectral 2D vorticity-form NS with BKM integral, cuFFT C2C, RK4, fp64.",
+      "verdict": "VERIFIED",
+      "evidence": "ns2d_bkm.cu implements this stack.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "cfd-ns-bkm/ns2d_bkm.cu",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Dealiasing zeros modes with |k| > 2N/3.",
+      "verdict": "DISPUTED",
+      "evidence": "Code uses kmax=(N/3)*dk \u2014 the Orszag 2/3 rule threshold is N/3 in frequency index, not 2N/3. Wording is wrong even if intent is standard.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "ns2d_bkm.cu init_dealias",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Taylor\u2013Green 256\u00b2 \u03bd=1e-3: max|\u03c9| 2.0\u21920.16, BKM\u224812.8; enstrophy(0)=4\u03c0\u00b2.",
+      "verdict": "VERIFIED",
+      "evidence": "bkm_n256_nu1e-03_steps2000.csv: 2.000\u21920.1566456483, BKM=12.8035983155, enstrophy0=39.4784176044=4\u03c0\u00b2.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Random 512\u00b2 \u03bd=1e-4, 5000 steps: BKM\u22481.77, ~532 steps/s, NaN/Inf=0 on RTX 5090.",
+      "verdict": "VERIFIED",
+      "evidence": "run_n512_nu0.0001_steps5000_random.log: BKM=1.771399, 531.9 steps/s, NaN/Inf=0.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Throughput 256\u00b2 = 1108 steps/s; all archived runs NaN-free.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "No smoke-run log for 1108 steps/s. Separately, bkm_n256_nu1e-03_steps500.csv is a failed NaN run that should be quarantined/labeled.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "No blowup claimed; 2D globally regular; infrastructure certification only.",
+      "verdict": "VERIFIED",
+      "evidence": "Scope hedges are correct and important.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Archive TG smoke log; quarantine failed steps500 CSV",
+    "Fix dealias wording to N/3",
+    "BKM 1984; Orszag 1971; Canuto et al. spectral methods"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Sound certifying infrastructure for 2D pseudospectral NS+BKM with correct TG decay and a clean random-IC run. Dealias wording and a leftover NaN CSV are the main cleanliness issues. Silver is fair after those fixes.",
+  "recommendations": [
+    "Fix dealias documentation",
+    "Remove or clearly mark the failed steps500 CSV",
+    "Source or drop 1108 steps/s"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Standard methods with open code and matching primary CSVs/logs for the cited certifying runs. Not gold: no independent external DNS comparison beyond TG."
+}

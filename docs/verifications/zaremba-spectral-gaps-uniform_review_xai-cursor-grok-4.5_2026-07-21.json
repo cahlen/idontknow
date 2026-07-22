@@ -1,0 +1,96 @@
+{
+  "finding_slug": "zaremba-spectral-gaps-uniform",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Verified spot-check logs gaps_N15_m1469.log (gap 0.236973) and gaps_N40_m1469.log (gap 0.686713)",
+    "Searched for cited bulk artifacts spectral_gaps_n40_primes.csv and full m\u22641999 dataset",
+    "Reviewed property (\u03c4) scope language against finite square-free computations"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "N=15, m=1469 yields gap 0.236973; nearby tight moduli match the page.",
+      "verdict": "VERIFIED",
+      "evidence": "gaps_N15_m1469.log: gap=0.236973; sibling N15 logs for m=638/34 match stated values.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "zaremba-transfer-operator/results/gaps_N15_m1469.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "0.237 is a reliable uniform lower bound for the congruence spectral gap.",
+      "verdict": "DISPUTED",
+      "evidence": "Same modulus at N=40: gap=0.686713 (gaps_N40_m1469.log). The N=15 value is a Galerkin under-resolve, not a converged lower bound. Using it as a uniform floor is unsafe.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "gaps_N40_m1469.log",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "All 1214 square-free m\u22641999 have gaps in [0.237,0.998], mean 0.482.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No full 1214-row dataset is present in the repository checkout.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "168 primes p\u22641000 have min \u03c3=0.344 at p=491 (N=40 FP64).",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Cited data/spectral_gaps_n40_primes.csv is missing from the checkout.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Flat gap |\u03bb2|/\u221ap \u2264 2.18 for 9592 primes to 1e5.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Kernel source exists; published output artifact not found.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Computation proves property (\u03c4) for the Zaremba semigroup.",
+      "verdict": "DISPUTED",
+      "evidence": "At best this is finite-range computational support for square-free m\u22641999. It is not a proof for all moduli or non-square-free m. The page mostly hedges; any stronger reading should be rejected.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "BK convergence threshold \u03c3>0.277 is met with margin.",
+      "verdict": "NEEDS_CLARIFICATION",
+      "evidence": "Threshold is framework-dependent (\u03c1_\u03b7 bound). Even granting the arithmetic, the missing bulk tables and N-convergence issue undercut the margin claim.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Full release of 1214-moduli gap table + N=40 prime CSV",
+    "N-convergence / error-bar study before quoting uniform minima",
+    "Bourgain-Kontorovich (2014); Dolgopyat; Bourgain-Gamburd property (\u03c4) literature"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Spot-checkable positive gaps are real and interesting, but the uniform-minimum narrative collapses under N=15 vs N=40 comparison on the same modulus (0.237\u21920.687). Bulk datasets cited in the finding are not in the checkout. Manifest silver is too high for a result whose headline bound is a non-converged Galerkin artifact and whose large tables are unreproducible from published files.",
+  "recommendations": [
+    "Stop quoting 0.237 as a uniform lower bound; report N-dependent values with error bars",
+    "Publish the missing prime/moduli CSVs or remove the claims",
+    "Keep (\u03c4) language as computational support, never proof"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Downgrade from silver: methods are literature-grounded, but the key quantitative floor is not converged and bulk evidence is not machine-checkable from artifacts."
+}

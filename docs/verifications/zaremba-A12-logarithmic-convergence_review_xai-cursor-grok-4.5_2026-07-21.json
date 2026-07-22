@@ -1,0 +1,82 @@
+{
+  "finding_slug": "zaremba-A12-logarithmic-convergence",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Verified five empirical densities from logs at 1e6 and 1e9..1e12",
+    "Recomputed 5-point OLS fit, R\u00b2, and residuals",
+    "Checked log SHA prefixes against sha256sum",
+    "Confirmed 1e13/1e14 OOM logs"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "Empirical densities: 57.98% (1e6), 72.06% (1e9), 76.55% (1e10), 80.75% (1e11), 84.58% (1e12).",
+      "verdict": "VERIFIED",
+      "evidence": "Exact match to density_A12_1000000.log and gpu_A12_1e9..1e12.log (1e12: 84.5791333633%, uncovered 154208666367).",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A12_1e12.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "5-point fit density \u2248 31.5 + 4.47\u00b7log10(N), R\u00b2\u22480.9984, residuals \u2248[-0.32,0.36,0.38,0.12,-0.53].",
+      "verdict": "VERIFIED",
+      "evidence": "Recomputed OLS matches frontmatter.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Body residual table with predictions 57.96 / 71.97 / 76.62 / 80.64 / 85.10.",
+      "verdict": "DISPUTED",
+      "evidence": "Early rows track the older 3-point fit (~30.1+4.65 log10 N); the 1e12 row tracks the 5-point fit. The table mixes models.",
+      "sources": [],
+      "concerns": "Publish one consistent model column."
+    },
+    {
+      "claim": "Extrapolations to ~100% near 1e15.3 are speculative.",
+      "verdict": "VERIFIED",
+      "evidence": "Frontmatter/summary correctly mark predictions beyond 1e12 as extrapolations; largest residual is at the newest point (-0.53%), a healthy warning against overconfidence.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "BK exponent 0.062 governs R(d) asymptotics, not a proved density speedup.",
+      "verdict": "VERIFIED",
+      "evidence": "Post-remediation framing correctly separates representation-count asymptotics from unique-denominator density.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "1e13/1e14 bitset allocations OOM on available hardware.",
+      "verdict": "VERIFIED",
+      "evidence": "gpu_A12_1e13.log / 1e14.log: FATAL cudaMalloc bitset out of memory.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Single-model residual table; optional chunked >1e12 methodology if extrapolation remains central"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "A careful empirical convergence study with five hashed GPU points, honest OOM limits, and correct separation of R(d) theory from density. The mixed 3-pt/5-pt residual table is the main internal inconsistency; the 1e15 forecast is already properly hedged.",
+  "recommendations": [
+    "Rebuild the residual table from a single fit",
+    "Keep the largest-residual warning prominent",
+    "Do not upgrade certification based on extrapolation quality"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Solid computational observation with literature-grounded \u03b4({1,2}), but the log-density law is empirical/novel without a proved density theorem \u2014 bronze."
+}

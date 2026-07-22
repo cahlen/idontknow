@@ -1,0 +1,76 @@
+{
+  "finding_slug": "cfd-ns3d-bkm-infrastructure",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Verified 128\u00b3 random log (BKM 1.243721, 22.9 steps/s) and 64\u00b3 TG CSV (BKM 1.634)",
+    "Checked 256\u00b3 random/Kerr \u03bd sweeps against logs (incl. Kerr BKM\u22489.99 vs random\u22481.76)",
+    "Confirmed 512\u00b3 OOM certificate error",
+    "Reviewed vortex-stretching / dealias implementation in ns3d_bkm.cu"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "3D vorticity-form NS with vortex stretching, BKM tracking, cuFFT/RK4/2/3 dealias/fp64.",
+      "verdict": "VERIFIED",
+      "evidence": "ns3d_bkm.cu contains stretching terms and N/3 dealias.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Smoke 64\u00b3 TG: BKM\u22481.63; standard 128\u00b3 random: BKM\u22481.24, 22.9 steps/s, NaN=0.",
+      "verdict": "VERIFIED",
+      "evidence": "CSV/log match. Missing dedicated 64\u00b3 TG .log (CSV exists).",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "256\u00b3 random long runs: BKM\u22480.44 (500), 1.76 (2000), 4.45 (5000); no blowup signal.",
+      "verdict": "VERIFIED",
+      "evidence": "Matching logs/CSVs; \u2016\u03c9\u2016 remains O(1).",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Kerr IC at \u03bd=1e-4, 2000 steps: BKM\u22489.99 \u22485.7\u00d7 random.",
+      "verdict": "VERIFIED",
+      "evidence": "Logs: 9.989528 vs 1.761904 \u21d2 5.67\u00d7.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "512\u00b3 OOM on 32GB RTX 5090.",
+      "verdict": "VERIFIED",
+      "evidence": "run_n512_\u2026 log: CERTIFICATE_ERROR out of memory.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "\"First certifying\u2026\" novelty.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "Not decidable from repo artifacts; hedge.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "64\u00b3 TG log; note Kerr \u03bd=1e-5 uses dt=0.0005; Beale\u2013Kato\u2013Majda 1984"
+  ],
+  "overall_verdict": "ACCEPT",
+  "overall_assessment": "The best-documented CFD infrastructure finding: many CSV/log pairs agree to the reported digits, Kerr vs random contrast is real, and OOM limits are honest. This is certifying machinery toward a blowup search, not singularity evidence \u2014 and the page says so.",
+  "recommendations": [
+    "Add missing 64\u00b3 TG log",
+    "Keep \"infrastructure / no blowup evidence\" hedges in every abstract",
+    "Document dt changes across the \u03bd=1e-5 Kerr run"
+  ],
+  "certification_recommendation": "silver",
+  "certification_justification": "Standard 3D pseudospectral methods with unusually complete local artifacts for an early infrastructure paper."
+}

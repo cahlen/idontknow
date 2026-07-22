@@ -1,0 +1,92 @@
+{
+  "finding_slug": "zaremba-exception-hierarchy",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "Verified the 27-exception list against gpu_A123_1e9.log and density_A123_1000000.log",
+    "Checked A1234@1e9 RESULTS (Uncovered: 2 \u2192 54,150)",
+    "Independently recomputed convergents for the 25 claimed CF witnesses and the two digit-5 witnesses for 54 and 150"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "The observed A={1,2,3} exception set through 1e9 is the listed 27 denominators.",
+      "verdict": "VERIFIED",
+      "evidence": "gpu_A123_1e9.log and 1e6 CSV agree on Uncovered:27 and the listed values.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A123_1e9.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "That list is exhaustive through a completed 1e10 computation.",
+      "verdict": "UNVERIFIABLE",
+      "evidence": "No RESULTS in gpu_A123_1e10.log.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A123_1e10.log",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Page should say \"through 1e9; 1e10 incomplete\"."
+    },
+    {
+      "claim": "Adding digit 4 leaves only 54 and 150 among those 27 (A={1,2,3,4} at 1e9).",
+      "verdict": "VERIFIED",
+      "evidence": "gpu_A1234_1e9.log: Uncovered: 2, Uncovered d: 54 150.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "results/gpu_A1234_1e9.log",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "The 25 explicit CF witnesses with digits in {1,2,3,4} are correct convergents for the claimed (a,d).",
+      "verdict": "VERIFIED",
+      "evidence": "All 25 claimed continued fractions recompute to the stated (a,d) with digits \u2286 {1,2,3,4}.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Digit-5 witnesses exist for 54 and 150: [1,1,1,5,2,1]\u219235/54 and [1,1,1,1,5,2,1,1]\u219291/150.",
+      "verdict": "VERIFIED",
+      "evidence": "Convergent arithmetic confirmed.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "The hierarchy is a finite-range decomposition, not a proof that exception sets are finite.",
+      "verdict": "VERIFIED",
+      "evidence": "Current page tone after remediation is appropriately limited; this is the correct mathematical posture.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Completed A123@>=1e10 RESULTS if \"through 1e10\" language is retained"
+  ],
+  "overall_verdict": "ACCEPT_WITH_REVISION",
+  "overall_assessment": "Scientifically one of the nicest small findings: the witness table is checkable by hand, the A1234 reduction to {54,150} is hard evidence, and the page correctly refuses to claim a finiteness theorem. The remaining defect is inherited overclaim of completed 1e10 exhaustiveness for the 27-set.",
+  "recommendations": [
+    "Downgrade \"through 1e10\" to \"through 1e9\" until RESULTS exists",
+    "Keep the witness table prominent \u2014 it is the finding's strongest contribution"
+  ],
+  "certification_recommendation": "bronze",
+  "certification_justification": "Novel observational hierarchy with verified witnesses; bronze is correct until larger-N exhaustiveness is archived."
+}

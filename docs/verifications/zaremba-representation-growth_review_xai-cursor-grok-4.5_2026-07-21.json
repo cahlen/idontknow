@@ -1,0 +1,89 @@
+{
+  "finding_slug": "zaremba-representation-growth",
+  "review_id": "xai-cursor-grok-4.5-2026-07-21",
+  "reviewer": {
+    "type": "ai-model",
+    "model": "cursor-grok-4.5",
+    "model_provider": "xAI",
+    "model_version": "cursor-grok-4.5"
+  },
+  "reviewed_at": "2026-07-22T05:15:00Z",
+  "prompt_version": "grok-deep-audit-v1",
+  "mcp_tools_used": [],
+  "review_scope_note": "Unlike prior API-based reviews that saw only the finding text, this audit had full repository access: experiment kernels, archived run logs/CSVs, prior reviews, remediations, and paper/CERTIFICATE.md where applicable. Quantitative claims were checked against primary artifacts; arithmetic and hashes were recomputed where feasible. No computational result was invented.",
+  "verification_methods": [
+    "sha256 and full scan of representation_counts_1000000.csv",
+    "Compared sample R(d) values and OLS claims to CSV",
+    "Read count_reps.cu to identify definition (path-count vs coprime witnesses)",
+    "Compared against framework page claim R(1)=6"
+  ],
+  "claim_reviews": [
+    {
+      "claim": "CSV samples R(1)=1, R(13)=1, R(100)=15, R(1000)=287, \u2026 with OLS \u03b1\u0302=0.6740, R\u00b2=0.9992.",
+      "verdict": "DISPUTED",
+      "evidence": "Actual CSV: R(1)=6, R(13)=80, R(100)=160, R(1000)=600, R(1e4)=2135, R(1e5)=4281; min R=6; zero zeros. Recomputed log-log slope on 1e3..1e6 is \u2248-0.103 with R\u00b2\u22480.049 \u2014 nothing like the stated fit. File SHA is a3a1a520\u2026, not the cited ae357673\u2026.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "representation_counts_1000000.csv",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": "Nearly every fitted statistic on the page fails against the cited artifact."
+    },
+    {
+      "claim": "Hardest denominators are d=1,13 with R=1.",
+      "verdict": "DISPUTED",
+      "evidence": "CSV has no R=1 entries; minimum is R(1)=6, consistent with the framework page.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "representation_counts_1000000.csv",
+          "relationship": "contradicts"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Zero R(d)=0 on [1,1e6] for the path-count definition implemented by count_reps.cu.",
+      "verdict": "VERIFIED",
+      "evidence": "CSV scan: 0 zeros among 1e6 rows. This is real coverage evidence under the path-count definition.",
+      "sources": [
+        {
+          "type": "computation",
+          "reference": "representation_counts_1000000.csv",
+          "relationship": "supports"
+        }
+      ],
+      "concerns": ""
+    },
+    {
+      "claim": "Theoretical growth exponent 2\u03b4-1 \u2248 0.6737.",
+      "verdict": "VERIFIED",
+      "evidence": "Arithmetic from \u03b4\u22480.836829 is correct; this is the Hensley/BK-type exponent for representation counts.",
+      "sources": [],
+      "concerns": ""
+    },
+    {
+      "claim": "Reported runtimes (5.1h V100 / 47min B200 / 5.3s) are mutually consistent.",
+      "verdict": "DISPUTED",
+      "evidence": "Internal contradictions in the page's timing narrative; no single archived timing log reconciles them.",
+      "sources": [],
+      "concerns": ""
+    }
+  ],
+  "missing_references": [
+    "Freeze one definition of R(d) (coprime witnesses vs CF path-counts) and regenerate CSV+hash",
+    "Publish OLS script and the exact sample points used",
+    "Reconcile with framework page min R(1)=6"
+  ],
+  "overall_verdict": "REVISE_AND_RESUBMIT",
+  "overall_assessment": "This is the clearest integrity failure in the proof-adjacent cluster: the theoretical exponent is fine and the CSV shows no zeros, but the page's sample values, \"hardest d\" story, SHA, and OLS fit are incompatible with the CSV it points to. Definition clash (coprime a/d vs path-count words) likely explains the mess. Do not cite the fitted statistics until regenerated.",
+  "recommendations": [
+    "Rewrite all numerical claims from a freshly hashed CSV under an explicit R(d) definition",
+    "Delete the R=1 hardest-denominator narrative if using path-counts",
+    "Align with the framework page"
+  ],
+  "certification_recommendation": "uncertified",
+  "certification_justification": "When a finding's primary quantitative table is contradicted by its own CSV and hash, certification cannot stand. The underlying computation may be salvageable after a clean rewrite."
+}

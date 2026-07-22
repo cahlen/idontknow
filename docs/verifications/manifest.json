@@ -1,19 +1,21 @@
 {
-  "generated_at": "2026-05-31T08:24:27Z",
+  "generated_at": "2026-07-22T04:15:49Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 20,
-    "total_reviews": 62,
+    "total_reviews": 83,
     "total_remediations": 249,
     "remediations_resolved": 232,
-    "unique_models": 8,
+    "unique_models": 10,
     "unique_providers": 4,
     "models": [
       "ChatGPT",
       "Claude Opus 4.6",
       "GPT-5.2",
       "Grok",
+      "claude-fable-5",
+      "cursor-grok-4.5",
       "gemini-2.5-pro",
       "gpt-4.1",
       "o3",
@@ -31,7 +33,7 @@
       "title": "_project-level",
       "certification": {
         "level": "uncertified",
-        "review_count": 1,
+        "review_count": 2,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -54,18 +56,38 @@
             "unverifiable": 0
           },
           "key_finding": "The site is worth citing for large computations, datasets, kernels, and numerical experiments. It is not yet safe to cite as authority for major new proofs or theorem-level closure, especially around "
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "project-level_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 3,
+            "verified": 2,
+            "disputed": 1,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "bigcompute is a real Guerrilla Mathematics lab: open kernels, huge finite computations, and an unusually serious multi-model review ledger. It is citeable for computational evidence and datasets. It i"
         }
       ],
       "remediations": [],
       "issues_found": 0,
       "issues_resolved": 0,
-      "last_reviewed": "2026-04-03T21:30:00Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "cfd-ns-bkm-diagnostic": {
       "title": "2D NS BKM Diagnostic: Certifying Pseudospectral Vorticity Tracking on RTX 5090",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -128,6 +150,26 @@
             "unverifiable": 0
           },
           "key_finding": "The infrastructure appears sound and the numerical scheme is conventional, with open code and data supporting the core functionality. However, quantitative validation, performance evidence, and litera"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "cfd-ns-bkm-diagnostic_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 4,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Sound certifying infrastructure for 2D pseudospectral NS+BKM with correct TG decay and a clean random-IC run. Dealias wording and a leftover NaN CSV are the main cleanliness issues. Silver is fair aft"
         }
       ],
       "remediations": [
@@ -176,13 +218,13 @@
       ],
       "issues_found": 6,
       "issues_resolved": 6,
-      "last_reviewed": "2026-05-31T06:10:53Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "cfd-ns3d-bkm-infrastructure": {
       "title": "3D NS BKM Infrastructure: First Certifying Pseudospectral Blowup-Monitor Runs on RTX 5090",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -245,6 +287,26 @@
             "unverifiable": 1
           },
           "key_finding": "The infrastructure report is technically sound and the computational claims are plausible, but several reproducibility details (time-step, CFL, hardware evidence) and key literature citations are miss"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "cfd-ns3d-bkm-infrastructure_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 5,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 1
+          },
+          "key_finding": "The best-documented CFD infrastructure finding: many CSV/log pairs agree to the reported digits, Kerr vs random contrast is real, and OOM limits are honest. This is certifying machinery toward a blowu"
         }
       ],
       "remediations": [
@@ -307,13 +369,13 @@
       ],
       "issues_found": 8,
       "issues_resolved": 8,
-      "last_reviewed": "2026-05-31T07:15:00Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "cfd-standard-map-chaos-onset": {
       "title": "Standard Map Chaos Onset: \u039b(K) Crosses Literature K_crit on RTX 5090",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -376,6 +438,26 @@
             "unverifiable": 0
           },
           "key_finding": "Mathematically the results are consistent with established analyses of the standard map and the reported performance numbers are credible for modern GPUs. The main quantitative claims match published "
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "cfd-standard-map-chaos-onset_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Highest artifact fidelity among the CFD findings: log, CSV, convergence JSON, and literature hedges all agree. A clean certifying reproduction of standard-map chaos onset on RTX 5090 \u2014 precisely what "
         }
       ],
       "remediations": [
@@ -508,13 +590,13 @@
       ],
       "issues_found": 18,
       "issues_resolved": 18,
-      "last_reviewed": "2026-05-31T05:55:36Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "class-number-convergence": {
       "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -577,6 +659,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational results are sound and the genus theory explanation is strong. The main concern is the characterization: (1) 'non-monotone' is inferred not observed \u2014 the data is monotonically decrea"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "class-number-convergence_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 6,
+            "verified": 3,
+            "disputed": 2,
+            "needs_clarification": 0,
+            "unverifiable": 1
+          },
+          "key_finding": "Billion-scale class-number histograms with a correct genus-theory interpretation of Cohen\u2013Lenstra are a genuine contribution. The runtime claim does not match the completion log, and validation/HF-car"
         }
       ],
       "remediations": [
@@ -632,13 +734,13 @@
       ],
       "issues_found": 7,
       "issues_resolved": 7,
-      "last_reviewed": "2026-04-03T19:55:49Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "gpu-matrix-enumeration-175x": {
       "title": "GPU Matrix Enumeration: 175\u00d7 Faster Zaremba Verification via Batched 2\u00d72 Multiply",
       "certification": {
-        "level": "bronze",
-        "review_count": 2,
+        "level": "uncertified",
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -681,6 +783,46 @@
             "unverifiable": 0
           },
           "key_finding": "Engineering finding. 175x speedup is real. Matrix-CF equivalence is classical. Correctly scoped."
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "gpu-matrix-enumeration-175x_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-21T21:30:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 10,
+            "verified": 4,
+            "disputed": 3,
+            "needs_clarification": 3,
+            "unverifiable": 0
+          },
+          "key_finding": "The engineering substance is real: the fused expand+mark+compact kernel exists, is a genuine architectural leap over v1-v4, and its clean runs legitimately verified all d <= 10^10 in ~179s and all d <"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "gpu-matrix-enumeration-175x_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 8,
+            "verified": 3,
+            "disputed": 3,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The fused matrix-enumeration kernel is a genuine architectural advance, and the clean multipass logs legitimately reach Uncovered:0 at 1e10 (~179s), 1e11 (~1746s), and 2.1e11 (~6962s). But the publish"
         }
       ],
       "remediations": [
@@ -729,13 +871,13 @@
       ],
       "issues_found": 6,
       "issues_resolved": 6,
-      "last_reviewed": "2026-04-03T19:42:14Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "hausdorff-digit-one-dominance": {
       "title": "Digit 1 Dominance: Five Digits With 1 Beat Fourteen Digits Without",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -798,6 +940,26 @@
             "unverifiable": 0
           },
           "key_finding": "Excellent computation with strong theoretical grounding. The transfer operator method is peer-reviewed (Jenkinson-Pollicott, Hensley). The dim_H(E_2) benchmark validates accuracy. Digit 1 dominance is"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "hausdorff-digit-one-dominance_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 7,
+            "verified": 4,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "A beautiful computational geometry-of-numbers observation: five digits containing 1 beat fourteen without it, and the 0.768 correction was the right scientific move. Correlations reproduce. The errone"
         }
       ],
       "remediations": [
@@ -895,13 +1057,13 @@
       ],
       "issues_found": 13,
       "issues_resolved": 13,
-      "last_reviewed": "2026-04-03T19:49:03Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "kronecker-s30-largest-computation": {
       "title": "Kronecker Coefficients: Complete S_30 Table \u2014 26.4 Billion Nonzero Triples in 7 Minutes",
       "certification": {
-        "level": "silver",
-        "review_count": 2,
+        "level": "bronze",
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -944,6 +1106,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound computation, well-validated. Scale unprecedented for complete tables. zbMATH papers corroborate methods."
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "kronecker-s30-largest-computation_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 6,
+            "verified": 1,
+            "disputed": 3,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "A major computational archive almost certainly exists on Hugging Face, and the triple-count arithmetic for S30 is exact. But the public finding currently carries an internal contradiction on max g (5."
         }
       ],
       "remediations": [
@@ -1034,13 +1216,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 8,
-      "last_reviewed": "2026-04-03T19:58:04Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "kronecker-s40-character-table": {
       "title": "Kronecker S_40: Complete Character Table and Targeted Coefficients \u2014 94.9% Nonzero",
       "certification": {
         "level": "silver",
-        "review_count": 2,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1083,6 +1265,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound computation with rigorous validation. The character table is verified by multiple internal consistency checks. Targeted Kronecker coefficients confirm known theorems (hook multiplicity-freeness)"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "kronecker-s40-character-table_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 8,
+            "verified": 7,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The strongest locally auditable Kronecker result: character-table stats, dimension check, hooks, near-rectangulares, and the 1000-triple sample all cohere in analysis_n40.json. This is real representa"
         }
       ],
       "remediations": [
@@ -1159,13 +1361,13 @@
       ],
       "issues_found": 10,
       "issues_resolved": 10,
-      "last_reviewed": "2026-04-03T20:09:44Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-A12-logarithmic-convergence": {
       "title": "A={1,2} Density Fits Logarithmic Growth: 30 + 4.65\u00b7log\u2081\u2080(N), Testable at 10^12",
       "certification": {
         "level": "bronze",
-        "review_count": 2,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1208,6 +1410,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational data (three density values) is correct and reproducible. The logarithmic fit is real but under-determined \u2014 three points can fit many models. The key issue: the finding conflates the"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-A12-logarithmic-convergence_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 6,
+            "verified": 5,
+            "disputed": 1,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "A careful empirical convergence study with five hashed GPU points, honest OOM limits, and correct separation of R(d) theory from density. The mixed 3-pt/5-pt residual table is the main internal incons"
         }
       ],
       "remediations": [
@@ -1312,13 +1534,13 @@
       ],
       "issues_found": 14,
       "issues_resolved": 11,
-      "last_reviewed": "2026-04-03T20:04:56Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-cayley-diameters": {
       "title": "Exploratory BFS Depths for Zaremba Generators: Short-Word Expansion Data to p=1021",
       "certification": {
-        "level": "silver",
-        "review_count": 3,
+        "level": "bronze",
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1381,6 +1603,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computation is correct (GPU BFS is exact). The connection to CF length is valid. However, there is an apparent inconsistency: the MCP finding data says 'diam <= 2 log(p)' but the finding page repo"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-cayley-diameters_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 5,
+            "verified": 2,
+            "disputed": 2,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The revised exploratory framing is the right scientific move. Manifest silver/gold recommendations for certified SL2 diameters were inflated. As exploratory BFS depth data with explicit caveats, bronz"
         }
       ],
       "remediations": [
@@ -1464,13 +1706,13 @@
       ],
       "issues_found": 11,
       "issues_resolved": 9,
-      "last_reviewed": "2026-04-03T19:50:28Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-conjecture-framework": {
       "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
       "certification": {
         "level": "bronze",
-        "review_count": 8,
+        "review_count": 9,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1633,6 +1875,26 @@
             "unverifiable": 0
           },
           "key_finding": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a co"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-conjecture-proved_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 6,
+            "verified": 2,
+            "disputed": 2,
+            "needs_clarification": 1,
+            "unverifiable": 1
+          },
+          "key_finding": "The project's honesty in remapping \"proved\"\u2192framework is commendable and necessary. The 210B Uncovered:0 log is a spectacular computational artifact, but CERTIFICATE.md correctly refuses to call it ce"
         }
       ],
       "remediations": [
@@ -1870,13 +2132,13 @@
       ],
       "issues_found": 33,
       "issues_resolved": 31,
-      "last_reviewed": "2026-04-06T23:37:18Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-density-phase-transition": {
       "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
       "certification": {
-        "level": "silver",
-        "review_count": 6,
+        "level": "bronze",
+        "review_count": 7,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1999,6 +2261,26 @@
             "unverifiable": 1
           },
           "key_finding": "Most theoretical interpretations align with the literature and the low-range computational data (N\u226410^{6}) is sound. However, the headline claim that {1,2,3} is fully covered up to 10^{10} relies on a"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-density-phase-transition_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 8,
+            "verified": 5,
+            "disputed": 2,
+            "needs_clarification": 0,
+            "unverifiable": 1
+          },
+          "key_finding": "This remains one of the project's most valuable computational surveys: the 1023-subset sweep, the A2345 counterexample to naive \u03b4>1/2 sufficiency, and the stable/open exception hierarchy at 1e11 are r"
         }
       ],
       "remediations": [
@@ -2117,13 +2399,13 @@
       ],
       "issues_found": 16,
       "issues_resolved": 14,
-      "last_reviewed": "2026-04-06T17:38:52Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-digit-pair-hierarchy": {
       "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 9x More Than Digit 3",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2186,6 +2468,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational findings are consistent with the established mathematical understanding of Zaremba's conjecture, dimension theory, and Gauss measure heuristics. All quantitative claims are plausible"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-digit-pair-hierarchy_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 5,
+            "disputed": 1,
+            "needs_clarification": 0,
+            "unverifiable": 1
+          },
+          "key_finding": "The {1,k} density ladder and the collapse of {2,k}/{3,k} pairs are among the cleanest quantitative results in the density program. The power-law fit reproduces. The main defects are a mislabeled timin"
         }
       ],
       "remediations": [
@@ -2311,13 +2613,13 @@
       ],
       "issues_found": 17,
       "issues_resolved": 17,
-      "last_reviewed": "2026-04-06T17:36:30Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-exception-hierarchy": {
       "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2380,6 +2682,26 @@
             "unverifiable": 0
           },
           "key_finding": "The primary mathematical and computational claims are sound, well-supported by both the project\u2019s own cross-checks and the literature. The novel presentation of the 27\u21922\u21920 exception hierarchy is an in"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-exception-hierarchy_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 6,
+            "verified": 5,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 1
+          },
+          "key_finding": "Scientifically one of the nicest small findings: the witness table is checkable by hand, the A1234 reduction to {54,150} is hard evidence, and the page correctly refuses to claim a finiteness theorem."
         }
       ],
       "remediations": [
@@ -2547,13 +2869,13 @@
       ],
       "issues_found": 23,
       "issues_resolved": 23,
-      "last_reviewed": "2026-04-06T17:37:39Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-inverse-square-amplification": {
       "title": "Digit 1 Amplification in Zaremba Density: Strong Effect, Inverse-Square Law Still Unconfirmed",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2616,6 +2938,26 @@
             "unverifiable": 2
           },
           "key_finding": "The empirical observations are intriguing and the data appear internally consistent, but key claims rely on a small sample and on computations that have not been independently benchmarked.  The invers"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-inverse-square-amplification_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "This page is a model of scientific self-correction: after the mismatched-N critique, it kept the strong amplification phenomenon and demoted inverse-square to a hypothesis. That posture is correct. Ce"
         }
       ],
       "remediations": [
@@ -2657,13 +2999,13 @@
       ],
       "issues_found": 5,
       "issues_resolved": 1,
-      "last_reviewed": "2026-04-06T23:39:19Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-representation-growth": {
       "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",
       "certification": {
-        "level": "bronze",
-        "review_count": 3,
+        "level": "uncertified",
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2726,6 +3068,26 @@
             "unverifiable": 0
           },
           "key_finding": "Clean confirmation of the transfer operator growth prediction. The 0.04% match between predicted (0.6737) and observed (0.674) exponents is compelling. The caveat that this is partially a self-consist"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-representation-growth_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 5,
+            "verified": 2,
+            "disputed": 3,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This is the clearest integrity failure in the proof-adjacent cluster: the theoretical exponent is fine and the CSV shows no zeros, but the page's sample values, \"hardest d\" story, SHA, and OLS fit are"
         }
       ],
       "remediations": [
@@ -2837,13 +3199,13 @@
       ],
       "issues_found": 15,
       "issues_resolved": 15,
-      "last_reviewed": "2026-04-03T19:54:00Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
       "title": "Congruence Spectral Gaps for Zaremba's Semigroup Are Uniform",
       "certification": {
-        "level": "silver",
-        "review_count": 3,
+        "level": "bronze",
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2906,6 +3268,26 @@
             "unverifiable": 0
           },
           "key_finding": "The spectral gap computation is correct and the numerical confirmation of property (tau) at unprecedented scale is valuable. The main issue is the coupling to the proof framework's threshold \u2014 if the "
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-spectral-gaps-uniform_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 1,
+            "disputed": 2,
+            "needs_clarification": 1,
+            "unverifiable": 3
+          },
+          "key_finding": "Spot-checkable positive gaps are real and interesting, but the uniform-minimum narrative collapses under N=15 vs N=40 comparison on the same modulus (0.237\u21920.687). Bulk datasets cited in the finding a"
         }
       ],
       "remediations": [
@@ -2996,13 +3378,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 12,
-      "last_reviewed": "2026-04-03T19:44:30Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-transitivity-all-primes": {
       "title": "Zaremba Transitivity: Verified to p=17,389; All-Prime Algebraic Argument Still Provisional",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3065,6 +3447,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound application of Dickson's classical classification. The argument is short, verifiable, and correct. Small primes cross-checked computationally. The only reservation is that it hasn't been indepen"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-transitivity-all-primes_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 5,
+            "verified": 1,
+            "disputed": 2,
+            "needs_clarification": 1,
+            "unverifiable": 1
+          },
+          "key_finding": "The page's current provisional posture is scientifically appropriate. The finite computational claim is unreproducible without a log, and any all-prime theorem claim remains out of reach until the det"
         }
       ],
       "remediations": [
@@ -3155,13 +3557,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 12,
-      "last_reviewed": "2026-04-03T19:46:50Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     },
     "zaremba-witness-golden-ratio": {
       "title": "Zaremba Witnesses Concentrate at \u03b1(d)/d \u2248 0.171, Connected to the Golden Ratio",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3224,6 +3626,26 @@
             "unverifiable": 0
           },
           "key_finding": "The observation that witnesses concentrate near 0.171 is correct and reproducible. The CF prefix [0;5,1,...] is mathematically expected. The golden ratio connection is suggestive but the 13% discrepan"
+        },
+        {
+          "review_id": "xai-cursor-grok-4.5-2026-07-21",
+          "file": "zaremba-witness-golden-ratio_review_xai-cursor-grok-4.5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "cursor-grok-4.5",
+            "provider": "xAI"
+          },
+          "reviewed_at": "2026-07-22T05:15:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 4,
+            "verified": 0,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "A genuine empirical observation about witness location, interesting for search heuristics. The golden-ratio link is heuristic (and numerically imperfect), and A=5 \"tightness\" must stay scoped to minim"
         }
       ],
       "remediations": [
@@ -3307,7 +3729,7 @@
       ],
       "issues_found": 11,
       "issues_resolved": 11,
-      "last_reviewed": "2026-04-03T19:48:03Z"
+      "last_reviewed": "2026-07-22T05:15:00Z"
     }
   }
 }
