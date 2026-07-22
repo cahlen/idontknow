@@ -1,0 +1,25 @@
+Zaremba representation counter v2 (CPU reference, no clipping)
+Digit set {1..5}, denominators d <= 1000000
+
+========================================
+RESULTS
+max_d:            1000000
+DFS nodes:        11415955624
+Time:             24.7 s (461700979 nodes/s)
+Total words:      11415955624
+Total fractions:  5956450306
+Zero R_words:     0   (Zaremba A=5: expect 0)
+Min R_words:      1 at d=1
+Max R_words:      32622 at d=991391
+Spot values (d: R_words, R_fracs):
+         1: 1, 1
+         2: 2, 1
+         5: 8, 4
+        13: 16, 9
+       100: 32, 16
+      1000: 120, 64
+     10000: 532, 271
+    100000: 2718, 1424
+   1000000: 12992, 6761
+Output: representation_counts_v2_1000000.csv
+========================================

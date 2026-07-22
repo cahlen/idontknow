@@ -1,0 +1,13 @@
+{
+  "issue_id": "witness-csv-committed-2026-07-21",
+  "finding_slug": "zaremba-witness-golden-ratio",
+  "found_by_reviews": [
+    "anthropic-claude-fable-5-2026-07-21"
+  ],
+  "severity": "important",
+  "description": "The raw witness CSV backing the finding was never committed; all headline statistics (mean alpha(d)/d = 0.1712, 99% interval, prefix and max-quotient frequencies) were unverifiable from repository artifacts.",
+  "status": "resolved",
+  "action_taken": "Wrote witness_minimal.c (single DFS over admissible CF words tracking both convergent continuants; finds the minimal coprime numerator per denominator) and committed witnesses_100000.csv (d, alpha, ratio, first two CF digits, max digit; SHA-256 414dd177e6fe963a3d62fa3af4feafb9289ccad1a044058cfc333447612567a3) with run log run_witness_minimal_1e5.log. Regeneration REPRODUCES the finding's headline claims: mean alpha(d)/d = 0.171232 (claimed 0.1712), median 0.1709, p1 0.1708, prefix [0;5,1,...] for 99.72% of all d <= 10^5 and 99.93% of d > 1000 (claimed 99.7%), minimal witness max quotient = 5 for 99.934% (claimed 99.91%). Minimality verified by brute force on 45 sampled denominators (0 failures). Two corrections applied to the finding: p99 of alpha(d)/d is 0.1751, not 0.1745; the 99.7% prefix figure applies to all d <= 10^5 (for d > 1000 the correct figure is 99.93%). Tightness table recomputed with the stated convention (max digit minimized over expansions achieving the minimal witness): 5 -> 99.934%, 4 -> 0.049%, <=3 -> 0.017%.",
+  "resolved_at": "2026-07-22T05:30:00+00:00",
+  "commits": []
+}

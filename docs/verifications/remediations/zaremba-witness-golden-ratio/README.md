@@ -1,9 +1,10 @@
 # Remediations: zaremba-witness-golden-ratio
 
-7/7 resolved
+8/8 resolved
 
 | Issue | Severity | Found By | Status |
 |-------|----------|----------|--------|
+| Witness CSV committed; stats reproduced from scratch (p99 an | important | claude-fable-5-2026- | resolved |
 | Soften the golden ratio connection from a claimed structural | important | ? | resolved |
 | The claimed value 0.1514 vs observed 0.171 is a 13% discrepa | minor | claude-opus-4.6-2026 | resolved |
 | Provide the raw list of (d,α) pairs or a checksum so that ex | minor | o3-pro-openai-2026-0 | resolved |

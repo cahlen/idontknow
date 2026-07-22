@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-22T04:15:49Z",
+  "generated_at": "2026-07-22T05:24:24Z",
   "generator": "scripts/reviews/aggregate.py",
   "schema_version": 3,
   "stats": {
     "total_findings": 20,
-    "total_reviews": 83,
-    "total_remediations": 249,
-    "remediations_resolved": 232,
+    "total_reviews": 102,
+    "total_remediations": 252,
+    "remediations_resolved": 235,
     "unique_models": 10,
     "unique_providers": 4,
     "models": [
@@ -33,10 +33,30 @@
       "title": "_project-level",
       "certification": {
         "level": "uncertified",
-        "review_count": 2,
+        "review_count": 3,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "project-level_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 4,
+            "verified": 2,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Audited as a whole, this is a serious computational-mathematics project with a working self-correction machine and a real, replicable core \u2014 and a persistent gap between its computations and its prose"
+        },
         {
           "review_id": "chatgpt-project-review-2026-04-03",
           "file": "project-level_review_openai-chatgpt_2026-04-03.json",
@@ -81,16 +101,36 @@
       "remediations": [],
       "issues_found": 0,
       "issues_resolved": 0,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "cfd-ns-bkm-diagnostic": {
       "title": "2D NS BKM Diagnostic: Certifying Pseudospectral Vorticity Tracking on RTX 5090",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "cfd-ns-bkm-diagnostic_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "An honest infrastructure paper: it claims exactly what it should (a validated 2D pseudospectral BKM tracker, explicitly NOT blowup evidence since 2D is globally regular) and its two certified runs ver"
+        },
         {
           "review_id": "google-gemini-2.5-pro-2026-05-31",
           "file": "cfd-ns-bkm-diagnostic_review_google-gemini-2-5-pro_2026-05-31.json",
@@ -218,16 +258,36 @@
       ],
       "issues_found": 6,
       "issues_resolved": 6,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "cfd-ns3d-bkm-infrastructure": {
       "title": "3D NS BKM Infrastructure: First Certifying Pseudospectral Blowup-Monitor Runs on RTX 5090",
       "certification": {
         "level": "silver",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "cfd-ns3d-bkm-infrastructure_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Clean infrastructure work, correctly framed and fully artifact-backed: the kernel does what the page says (including the 3D-specific stretching term and a correctly-stated 2/3 dealias rule), all publi"
+        },
         {
           "review_id": "google-gemini-2.5-pro-2026-05-31",
           "file": "cfd-ns3d-bkm-infrastructure_review_google-gemini-2-5-pro_2026-05-31.json",
@@ -369,16 +429,36 @@
       ],
       "issues_found": 8,
       "issues_resolved": 8,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "cfd-standard-map-chaos-onset": {
       "title": "Standard Map Chaos Onset: \u039b(K) Crosses Literature K_crit on RTX 5090",
       "certification": {
         "level": "silver",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "cfd-standard-map-chaos-onset_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 3,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "A tight, fully-verifiable computation: every published statistic reproduces from the committed CSV/log, the integrable limit is exactly zero as a built-in sanity check, the NaN certificate covers all "
+        },
         {
           "review_id": "google-gemini-2.5-pro-2026-05-31",
           "file": "cfd-standard-map-chaos-onset_review_google-gemini-2-5-pro_2026-05-31.json",
@@ -590,13 +670,13 @@
       ],
       "issues_found": 18,
       "issues_resolved": 18,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "class-number-convergence": {
       "title": "Cohen-Lenstra at Scale: h=1 Rate Falls to 15% at 10^10, Genus Theory Dominates",
       "certification": {
         "level": "silver",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -659,6 +739,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational results are sound and the genus theory explanation is strong. The main concern is the characterization: (1) 'non-monotone' is inferred not observed \u2014 the data is monotonically decrea"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "class-number-convergence_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 3,
+            "disputed": 1,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Scientifically this is among the project's best pages: a real conceptual error was caught, corrected, and documented; the corrected mathematics (genus theory forcing Pr(h=1) -> 0, C-L applying to the "
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -734,7 +834,7 @@
       ],
       "issues_found": 7,
       "issues_resolved": 7,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "gpu-matrix-enumeration-175x": {
       "title": "GPU Matrix Enumeration: 175\u00d7 Faster Zaremba Verification via Batched 2\u00d72 Multiply",
@@ -876,8 +976,8 @@
     "hausdorff-digit-one-dominance": {
       "title": "Digit 1 Dominance: Five Digits With 1 Beat Fourteen Digits Without",
       "certification": {
-        "level": "silver",
-        "review_count": 4,
+        "level": "bronze",
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -940,6 +1040,26 @@
             "unverifiable": 0
           },
           "key_finding": "Excellent computation with strong theoretical grounding. The transfer operator method is peer-reviewed (Jenkinson-Pollicott, Hensley). The dim_H(E_2) benchmark validates accuracy. Digit 1 dominance is"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "hausdorff-digit-one-dominance_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 4,
+            "verified": 3,
+            "disputed": 1,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The headline result is genuine and I verified it exhaustively: five digits with 1 beat nineteen without, the 50:1 and 100:1 cost ratios are exact, the rank correlations reproduce to three decimals, an"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -1057,13 +1177,13 @@
       ],
       "issues_found": 13,
       "issues_resolved": 13,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "kronecker-s30-largest-computation": {
       "title": "Kronecker Coefficients: Complete S_30 Table \u2014 26.4 Billion Nonzero Triples in 7 Minutes",
       "certification": {
-        "level": "bronze",
-        "review_count": 3,
+        "level": "uncertified",
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1106,6 +1226,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound computation, well-validated. Scale unprecedented for complete tables. zbMATH papers corroborate methods."
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "kronecker-s30-largest-computation_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 4,
+            "verified": 1,
+            "disputed": 1,
+            "needs_clarification": 2,
+            "unverifiable": 0
+          },
+          "key_finding": "The computational program here (MN-rule character tables with exact-arithmetic validation, GPU triple-sum at genuinely unprecedented scale) is credible and the S_30 combinatorial frame checks out exac"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -1216,13 +1356,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 8,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "kronecker-s40-character-table": {
       "title": "Kronecker S_40: Complete Character Table and Targeted Coefficients \u2014 94.9% Nonzero",
       "certification": {
         "level": "silver",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1265,6 +1405,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound computation with rigorous validation. The character table is verified by multiple internal consistency checks. Targeted Kronecker coefficients confirm known theorems (hook multiplicity-freeness)"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "kronecker-s40-character-table_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 3,
+            "verified": 3,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "Every checkable statistic on this page matches the committed analysis artifact exactly, and the two boundary arguments (int64 overflow at 5.9e22; 63 TB at S_45) are arithmetically correct. The page's "
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -1361,13 +1521,13 @@
       ],
       "issues_found": 10,
       "issues_resolved": 10,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-A12-logarithmic-convergence": {
       "title": "A={1,2} Density Fits Logarithmic Growth: 30 + 4.65\u00b7log\u2081\u2080(N), Testable at 10^12",
       "certification": {
         "level": "bronze",
-        "review_count": 3,
+        "review_count": 4,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1410,6 +1570,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational data (three density values) is correct and reproducible. The logarithmic fit is real but under-determined \u2014 three points can fit many models. The key issue: the finding conflates the"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-A12-logarithmic-convergence_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This finding is fully reproducible from committed artifacts down to the second decimal of each regression residual, with correct SHA-256 digests for all five inputs, honest labeling of every extrapola"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -1534,13 +1714,13 @@
       ],
       "issues_found": 14,
       "issues_resolved": 11,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-cayley-diameters": {
       "title": "Exploratory BFS Depths for Zaremba Generators: Short-Word Expansion Data to p=1021",
       "certification": {
-        "level": "bronze",
-        "review_count": 4,
+        "level": "uncertified",
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1603,6 +1783,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computation is correct (GPU BFS is exact). The connection to CF length is valid. However, there is an apparent inconsistency: the MCP finding data says 'diam <= 2 log(p)' but the finding page repo"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-cayley-diameters_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 5,
+            "verified": 2,
+            "disputed": 3,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "The page already did the hard honest work of demoting itself from 'Cayley diameters' to 'exploratory BFS depths', and its literature framing is solid. But this audit found two problems beyond the exis"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -1706,13 +1906,13 @@
       ],
       "issues_found": 11,
       "issues_resolved": 9,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-conjecture-framework": {
       "title": "Zaremba's Conjecture (A=5): Proof Framework via GPU Verification + MOW Spectral Theory (Not Peer-Reviewed, Known Gaps Remain)",
       "certification": {
         "level": "bronze",
-        "review_count": 9,
+        "review_count": 10,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -1875,6 +2075,26 @@
             "unverifiable": 0
           },
           "key_finding": "The proof framework is mathematically sound and follows the MOW approach correctly. The D0 bound provides good margin over the brute-force frontier. However, 6 known gaps prevent certification as a co"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-conjecture-proved_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 3,
+            "disputed": 3,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The strategic honesty of this page is genuinely impressive \u2014 the certification-status demotion, the six-gap enumeration, and the clipping analysis are self-audit at a level rarely seen. But a proof-fr"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -2132,13 +2352,13 @@
       ],
       "issues_found": 33,
       "issues_resolved": 31,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-density-phase-transition": {
       "title": "Zaremba Density Phase Transition: A={1,2,3} Appears to Have Full Density",
       "certification": {
         "level": "bronze",
-        "review_count": 7,
+        "review_count": 8,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2201,6 +2421,26 @@
             "unverifiable": 0
           },
           "key_finding": "The computational results are correct and significant. The 27 exceptions are genuine, the density sweep is comprehensive, and digit 1 dominance is a real phenomenon. However, the 'phase transition at "
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-density-phase-transition_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 7,
+            "verified": 4,
+            "disputed": 2,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "The scientific core of this page is real and I could replicate its central object from scratch: an independent DFS reproduces the exact 27-element exception set, and every all-subsets statistic recomp"
         },
         {
           "review_id": "openai-gpt-4.1-2026-04-04",
@@ -2399,13 +2639,13 @@
       ],
       "issues_found": 16,
       "issues_resolved": 14,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-digit-pair-hierarchy": {
       "title": "The {1,k} Density Hierarchy: Digit 2 Is Worth 9x More Than Digit 3",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2448,6 +2688,26 @@
             "unverifiable": 0
           },
           "key_finding": "Comprehensive finding. Clean data, Gauss measure explanation grounded in classical theory. Closed exception sets verified."
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-digit-pair-hierarchy_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 5,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "Every quantitative claim I tested on this page \u2014 18 densities, two regressions with prefactors and exponents, five cross-set logs, three amplification multipliers, and both headline exception sets \u2014 r"
         },
         {
           "review_id": "openai-gpt-4.1-2026-04-06",
@@ -2613,13 +2873,13 @@
       ],
       "issues_found": 17,
       "issues_resolved": 17,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-exception-hierarchy": {
       "title": "Zaremba Exception Hierarchy: 27 \u2192 2 \u2192 0 as Digits Grow",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -2662,6 +2922,26 @@
             "unverifiable": 0
           },
           "key_finding": "Clean computational finding. 27->2->0 hierarchy is novel. CF splitting correctly applied."
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-exception-hierarchy_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This is the strongest page in the collection from a verifiability standpoint: every single number on it is machine-checkable, and all of them check. 27/27 witnesses recompute exactly by integer arithm"
         },
         {
           "review_id": "openai-gpt-4.1-2026-04-06",
@@ -2869,16 +3149,36 @@
       ],
       "issues_found": 23,
       "issues_resolved": 23,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-inverse-square-amplification": {
       "title": "Digit 1 Amplification in Zaremba Density: Strong Effect, Inverse-Square Law Still Unconfirmed",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-inverse-square-amplification_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT",
+          "certification_recommendation": "silver",
+          "claims": {
+            "total": 4,
+            "verified": 4,
+            "disputed": 0,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "A post-audit page whose every number I re-derived from raw logs: eight ratios, the full power-law fit (prefactor, exponent, R^2), the three 10^11 overlap ratios, and both exception tables. Equally imp"
+        },
         {
           "review_id": "openai-gpt-4.1-2026-04-06",
           "file": "zaremba-inverse-square-amplification_review_openai-gpt-4-1_2026-04-06.json",
@@ -2999,13 +3299,13 @@
       ],
       "issues_found": 5,
       "issues_resolved": 1,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-representation-growth": {
       "title": "Zaremba Representation Counts Grow as d^{0.674} \u2014 Hardest Cases Are Small d",
       "certification": {
         "level": "uncertified",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3070,6 +3370,26 @@
           "key_finding": "Clean confirmation of the transfer operator growth prediction. The 0.04% match between predicted (0.6737) and observed (0.674) exponents is compelling. The caveat that this is partially a self-consist"
         },
         {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-representation-growth_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "uncertified",
+          "claims": {
+            "total": 4,
+            "verified": 1,
+            "disputed": 3,
+            "needs_clarification": 0,
+            "unverifiable": 0
+          },
+          "key_finding": "This page is the weakest in the collection and the prior ACCEPT/bronze certification was, on the artifact evidence, a mistake. Its cited CSV contradicts every tabulated sample value, its own stated re"
+        },
+        {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
           "file": "zaremba-representation-growth_review_xai-cursor-grok-4.5_2026-07-21.json",
           "reviewer": {
@@ -3113,6 +3433,13 @@
           "resolved_commit": "9428528"
         },
         {
+          "issue_id": "provenance-contradictions-removed-2026-07-21",
+          "severity": "important",
+          "description": "The finding carried three mutually contradictory provenance claims for the same computation (Tesla V100, 5.1 hours; B200, 47 minutes; B200, 5.3 seconds), a SHA-256 hash for a file (data/zaremba-cf-rd-1e6.csv) that does not exist in the repository, and a footer code link pointing to an unrelated kernel (zaremba_density_gpu.cu).",
+          "status": "resolved",
+          "resolved_commit": ""
+        },
+        {
           "issue_id": "r(d)-is-monotonically-increasing-on-aver",
           "severity": "important",
           "description": "Replace overclaim about monotonic increase with precise statistical language. The DISPUTED verdict is correct \u2014 'monotonically increasing on average' is ill-defined.",
@@ -3132,6 +3459,13 @@
           "description": "Clarify the definition of \u2018on average\u2019 (e.g. Ces\u00e0ro mean, logarithmic density) and supply empirical variance plots.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "representation-csv-regenerated-2026-07-21",
+          "severity": "critical",
+          "description": "The committed representation_counts_1000000.csv contradicted the finding it was cited to support. Root cause in count_representations.cu: (1) the kernel counted the numerator continuant m10 = K(a2..ak) instead of the denominator K(a1..ak) \u2014 the confused comment block at lines 100-120 documents the author reasoning into the wrong matrix entry; (2) counts[1] was pre-seeded to 1, double-counting d=1 (hence R(1)=6 in the CSV); (3) each BFS level was silently clipped to 200M matrices while the true tree to 10^6 has 11,415,955,624 nodes, corrupting all counts. Separately, the finding's published sample values (R(100)=15, R(1000)=287, R(10^4)=6842, R(10^5)=163511) matched neither the CSV nor any correct convention, and internally imply a growth exponent of ~1.38, contradicting the finding's own 0.674 claim.",
+          "status": "resolved",
+          "resolved_commit": ""
         },
         {
           "issue_id": "the-growth-exponent-matches-theory-to-0-04",
@@ -3197,15 +3531,15 @@
           "resolved_commit": "95db7f2"
         }
       ],
-      "issues_found": 15,
-      "issues_resolved": 15,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "issues_found": 17,
+      "issues_resolved": 17,
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-spectral-gaps-uniform": {
       "title": "Congruence Spectral Gaps for Zaremba's Semigroup Are Uniform",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3268,6 +3602,26 @@
             "unverifiable": 0
           },
           "key_finding": "The spectral gap computation is correct and the numerical confirmation of property (tau) at unprecedented scale is valuable. The main issue is the coupling to the proof framework's threshold \u2014 if the "
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-spectral-gaps-uniform_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "REVISE_AND_RESUBMIT",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 4,
+            "verified": 1,
+            "disputed": 1,
+            "needs_clarification": 1,
+            "unverifiable": 1
+          },
+          "key_finding": "The N=15 computation is faithfully reported (the three committed logs match the table to six decimals) and the property-(tau) hedging is appropriate. The problem is that the repository already contain"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -3378,13 +3732,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 12,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-transitivity-all-primes": {
       "title": "Zaremba Transitivity: Verified to p=17,389; All-Prime Algebraic Argument Still Provisional",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3447,6 +3801,26 @@
             "unverifiable": 0
           },
           "key_finding": "Sound application of Dickson's classical classification. The argument is short, verifiable, and correct. Small primes cross-checked computationally. The only reservation is that it hasn't been indepen"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-transitivity-all-primes_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 3,
+            "verified": 2,
+            "disputed": 0,
+            "needs_clarification": 1,
+            "unverifiable": 0
+          },
+          "key_finding": "A well-hedged page whose framing survived its own audits: the certified content is the finite computation, the algebraic argument is explicitly provisional, and the determinant subtlety is disclosed r"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -3557,13 +3931,13 @@
       ],
       "issues_found": 12,
       "issues_resolved": 12,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "last_reviewed": "2026-07-22T05:55:00Z"
     },
     "zaremba-witness-golden-ratio": {
       "title": "Zaremba Witnesses Concentrate at \u03b1(d)/d \u2248 0.171, Connected to the Golden Ratio",
       "certification": {
         "level": "bronze",
-        "review_count": 4,
+        "review_count": 5,
         "consensus_method": "most_conservative"
       },
       "reviews": [
@@ -3626,6 +4000,26 @@
             "unverifiable": 0
           },
           "key_finding": "The observation that witnesses concentrate near 0.171 is correct and reproducible. The CF prefix [0;5,1,...] is mathematically expected. The golden ratio connection is suggestive but the 13% discrepan"
+        },
+        {
+          "review_id": "anthropic-claude-fable-5-2026-07-21",
+          "file": "zaremba-witness-golden-ratio_review_anthropic-claude-fable-5_2026-07-21.json",
+          "reviewer": {
+            "type": "ai-model",
+            "model": "claude-fable-5",
+            "provider": "Anthropic"
+          },
+          "reviewed_at": "2026-07-22T05:55:00Z",
+          "overall_verdict": "ACCEPT_WITH_REVISION",
+          "certification_recommendation": "bronze",
+          "claims": {
+            "total": 4,
+            "verified": 1,
+            "disputed": 0,
+            "needs_clarification": 2,
+            "unverifiable": 1
+          },
+          "key_finding": "A modest observational finding published with unusually careful epistemics: the golden-ratio hook is explicitly labeled heuristic with the 13% discrepancy stated up front, the tightness statistic carr"
         },
         {
           "review_id": "xai-cursor-grok-4.5-2026-07-21",
@@ -3725,11 +4119,18 @@
           "description": "Rephrase tightness claim: the stat is about the minimal witness, not about global non-existence of A=4 witnesses. The table shows that the *smallest* witness uses quotient 5 in 99.91% of cases, but other (larger) witnesses with max quotient \u2264 4 may exist for those d.",
           "status": "resolved",
           "resolved_commit": "9428528"
+        },
+        {
+          "issue_id": "witness-csv-committed-2026-07-21",
+          "severity": "important",
+          "description": "The raw witness CSV backing the finding was never committed; all headline statistics (mean alpha(d)/d = 0.1712, 99% interval, prefix and max-quotient frequencies) were unverifiable from repository artifacts.",
+          "status": "resolved",
+          "resolved_commit": ""
         }
       ],
-      "issues_found": 11,
-      "issues_resolved": 11,
-      "last_reviewed": "2026-07-22T05:15:00Z"
+      "issues_found": 12,
+      "issues_resolved": 12,
+      "last_reviewed": "2026-07-22T05:55:00Z"
     }
   }
 }

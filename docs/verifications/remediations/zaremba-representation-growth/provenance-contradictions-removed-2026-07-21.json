@@ -1,0 +1,13 @@
+{
+  "issue_id": "provenance-contradictions-removed-2026-07-21",
+  "finding_slug": "zaremba-representation-growth",
+  "found_by_reviews": [
+    "anthropic-claude-fable-5-2026-07-21"
+  ],
+  "severity": "important",
+  "description": "The finding carried three mutually contradictory provenance claims for the same computation (Tesla V100, 5.1 hours; B200, 47 minutes; B200, 5.3 seconds), a SHA-256 hash for a file (data/zaremba-cf-rd-1e6.csv) that does not exist in the repository, and a footer code link pointing to an unrelated kernel (zaremba_density_gpu.cu).",
+  "status": "resolved",
+  "action_taken": "All contradictory provenance removed and replaced with a single verifiable record: count_representations_v2.c, single CPU thread, 24.7 s for d <= 10^6 (11,415,955,624 DFS nodes), with committed run log and SHA-256 of the actual committed CSV. Code links now point to the actual generator and cross-validation is described in the finding.",
+  "resolved_at": "2026-07-22T05:30:00+00:00",
+  "commits": []
+}

@@ -1,0 +1,18 @@
+Minimal Zaremba witnesses, digit set {1..5}, d <= 100000
+
+========================================
+RESULTS
+DFS nodes:              242022155
+Time:                   0.7 s
+Denominators covered:   100000 / 100000 (missing: 0)
+Mean alpha(d)/d:        0.171232
+Prefix [0;5,1,...]:     99724 / 100000 = 99.7240% (all d)
+Prefix [0;5,1,...]:     98931 / 99000 = 99.9303% (d > 1000)
+Max digit of minimal witness:
+  max_digit = 1: 2 (0.0020%)
+  max_digit = 2: 3 (0.0030%)
+  max_digit = 3: 12 (0.0120%)
+  max_digit = 4: 49 (0.0490%)
+  max_digit = 5: 99934 (99.9340%)
+Output: witnesses_100000.csv
+========================================

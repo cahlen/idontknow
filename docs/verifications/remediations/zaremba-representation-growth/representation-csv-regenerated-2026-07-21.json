@@ -1,0 +1,13 @@
+{
+  "issue_id": "representation-csv-regenerated-2026-07-21",
+  "finding_slug": "zaremba-representation-growth",
+  "found_by_reviews": [
+    "anthropic-claude-fable-5-2026-07-21"
+  ],
+  "severity": "critical",
+  "description": "The committed representation_counts_1000000.csv contradicted the finding it was cited to support. Root cause in count_representations.cu: (1) the kernel counted the numerator continuant m10 = K(a2..ak) instead of the denominator K(a1..ak) — the confused comment block at lines 100-120 documents the author reasoning into the wrong matrix entry; (2) counts[1] was pre-seeded to 1, double-counting d=1 (hence R(1)=6 in the CSV); (3) each BFS level was silently clipped to 200M matrices while the true tree to 10^6 has 11,415,955,624 nodes, corrupting all counts. Separately, the finding's published sample values (R(100)=15, R(1000)=287, R(10^4)=6842, R(10^5)=163511) matched neither the CSV nor any correct convention, and internally imply a growth exponent of ~1.38, contradicting the finding's own 0.674 claim.",
+  "status": "resolved",
+  "action_taken": "Wrote a CPU reference implementation, count_representations_v2.c (recursive DFS on the denominator continuant recurrence q_new = a*q + q_prev from (1,0); no frontier buffers, so nothing can clip). Regenerated the dataset as representation_counts_v2_1000000.csv with two precisely defined columns: R_words(d) = number of CF words with digits in {1..5} and denominator continuant d, and R_fracs(d) = number of coprime numerators a with a/d admitting such an expansion (computed via the bijection with admissible words ending in digit 1). SHA-256: 67c2389e87a5e598c59bd179d726d31a0379b172239143ce38e7fc82fc0edafb. Cross-validated against an independent Python DFS for d <= 3000 (0 mismatches in both columns) and brute-force enumeration over all coprime rationals for d <= 300 (0 mismatches). Corrected OLS on log R vs log d for 10^3 <= d <= 10^6: slope 0.6741 +/- 0.0008 (95% CI), identical for both columns, vs theoretical 2*delta - 1 = 0.673659; raw-point R^2 = 0.7175 (fluctuation-dominated, CV ~ 0.54 per decade), tenth-decade binned geometric means give slope 0.6727 with R^2 = 0.99996. Verified R_words(d) > 0 for all d <= 10^6 (consistent with the verified A=5 Zaremba coverage). The defective CSV was renamed representation_counts_1000000_DEPRECATED.csv to prevent downstream use; run log committed as run_count_reps_v2_1e6.log. Finding rewritten with verified numbers and an explicit correction notice.",
+  "resolved_at": "2026-07-22T05:30:00+00:00",
+  "commits": []
+}
